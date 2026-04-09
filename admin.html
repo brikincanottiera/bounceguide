@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BounceGuide Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;--bg2:#181818;--bg3:#222;--bg4:#2a2a2a;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --t1:#efefef;--t2:#888;--t3:#444;
+  --acc:#E8C547;--acc-dim:rgba(232,197,71,0.12);
+  --success:#22c55e;--success-dim:rgba(34,197,94,0.1);
+  --warn:#ef4444;--warn-dim:rgba(239,68,68,0.08);
+  --radius:10px;--radius-sm:6px;
+}
+html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{min-height:100vh;display:flex;flex-direction:column}
+
+/* LOGIN */
+#loginWrap{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-box{width:100%;max-width:360px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);padding:32px}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.logo-mark{width:32px;height:32px;border-radius:7px;background:var(--acc);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:18px;height:18px}
+.login-title{font-size:18px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.login-sub{font-size:12px;color:var(--t2);margin-bottom:20px}
+.field-group{margin-bottom:14px}
+.field-label{display:block;font-size:11px;font-weight:600;color:var(--t2);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:5px}
+input[type=text],input[type=password],input[type=email],textarea,select{width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg3);color:var(--t1);font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s}
+input:focus,textarea:focus,select:focus{border-color:var(--acc)}
+textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monospace;font-size:12px;line-height:1.5}
+.btn{padding:9px 18px;border-radius:var(--radius-sm);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
+.btn-primary{background:var(--acc);color:#000}
+.btn-primary:hover{opacity:0.87}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed}
+.btn-secondary{background:transparent;border:0.5px solid var(--border2);color:var(--t2)}
+.btn-secondary:hover{color:var(--t1);border-color:var(--t1)}
+.btn-danger{background:transparent;border:0.5px solid rgba(239,68,68,0.3);color:var(--warn);font-size:11px;padding:5px 10px}
+.btn-danger:hover{background:var(--warn-dim)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-full{width:100%}
+.error-msg{font-size:12px;color:var(--warn);margin-top:8px;display:none}
+
+/* HEADER */
+#appHeader{display:none;align-items:center;justify-content:space-between;padding:12px 24px;border-bottom:0.5px solid var(--border);background:rgba(15,15,15,0.96);position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-badge{font-size:10px;font-weight:700;background:var(--acc-dim);border:0.5px solid var(--acc);color:var(--acc);padding:2px 8px;border-radius:20px;letter-spacing:0.4px;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:10px}
+.save-indicator{font-size:11px;color:var(--success);display:none;align-items:center;gap:5px}
+.save-dot{width:6px;height:6px;border-radius:50%;background:var(--success)}
+
+/* MAIN APP */
+#appWrap{display:none;flex:1}
+.app-layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px)}
+.sidebar{padding:16px;border-right:0.5px solid var(--border);background:var(--bg)}
+.sidebar-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;padding:0 4px}
+.nav-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--t2);font-size:13px;cursor:pointer;font-family:inherit;transition:all 0.15s;text-align:left;margin-bottom:2px}
+.nav-btn:hover{background:var(--bg3);color:var(--t1)}
+.nav-btn.active{background:var(--acc-dim);color:var(--acc);font-weight:600}
+.nav-icon{font-size:16px;flex-shrink:0}
+.content{padding:24px 32px;overflow-y:auto}
+
+/* SECTION */
+.section{display:none}
+.section.active{display:block}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-size:20px;font-weight:800;color:var(--t1);letter-spacing:-0.4px}
+.section-desc{font-size:13px;color:var(--t2);margin-top:3px}
+
+/* LANG TABS */
+.lang-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.lang-tab{padding:5px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-weight:600;font-family:inherit;transition:all 0.15s}
+.lang-tab:hover{border-color:var(--border2);color:var(--t1)}
+.lang-tab.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.lang-tab.has-content{color:var(--t1)}
+
+/* DAW SELECTOR */
+.daw-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.daw-tab{padding:6px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.daw-tab:hover{border-color:var(--border2);color:var(--t1)}
+.daw-tab.active{border-color:var(--acc);background:var(--acc-dim);color:var(--acc);font-weight:600}
+
+/* ITEMS LIST */
+.items-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.item-row{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm)}
+.item-row .fields{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.item-row input{background:var(--bg3)}
+.item-num{font-size:11px;font-weight:700;color:var(--acc);flex-shrink:0;padding-top:3px;min-width:20px}
+.step-textarea{min-height:60px}
+.add-btn{padding:8px 16px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.add-btn:hover{color:var(--acc);border-color:var(--acc);background:var(--acc-dim)}
+.wet-toggle{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2);cursor:pointer;user-select:none}
+.wet-cb{width:14px;height:14px;border-radius:3px;border:0.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.wet-cb.on{background:var(--acc);border-color:var(--acc)}
+
+/* SAVE BAR */
+.save-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 24px;background:var(--bg2);border-top:0.5px solid var(--border2);display:none;align-items:center;justify-content:space-between;z-index:200}
+#saveBar{display:none}
+.save-bar-msg{font-size:12px;color:var(--t2)}
+.save-bar-btns{display:flex;gap:8px}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;right:24px;padding:10px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;opacity:0;transition:opacity 0.3s;z-index:300;pointer-events:none}
+.toast.success{background:var(--success);color:#000}
+.toast.error{background:var(--warn);color:#fff}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span style="font-size:16px;font-weight:800;color:var(--t1)">BounceGuide</span>
+    </div>
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">Accesso riservato</div>
+    <div class="field-group">
+      <label class="field-label">Username</label>
+      <input type="text" id="loginUser" placeholder="username" autocomplete="username">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="error-msg" id="loginError">Credenziali non valide.</div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()" id="loginBtn" style="margin-top:4px">Accedi</button>
+  </div>
+</div>
+
+<!-- APP HEADER -->
+<header id="appHeader">
+  <div class="header-left">
+    <div class="logo-mark" style="width:28px;height:28px"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span style="font-size:14px;font-weight:700">BounceGuide</span>
+    <span class="header-badge">Admin</span>
+  </div>
+  <div class="header-right">
+    <div class="save-indicator" id="saveIndicator"><div class="save-dot"></div>Salvato</div>
+    <button class="btn btn-primary btn-sm" onclick="saveData()" id="globalSaveBtn">Salva tutto</button>
+    <button class="btn btn-secondary btn-sm" onclick="doLogout()">Esci</button>
+  </div>
+</header>
+
+<!-- APP -->
+<div id="appWrap">
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-title">Sezioni</div>
+      <button class="nav-btn active" onclick="showSection('daw')" id="nav-daw">
+        <span class="nav-icon">🎛️</span> DAW Guides
+      </button>
+      <button class="nav-btn" onclick="showSection('stems')" id="nav-stems">
+        <span class="nav-icon">🎚️</span> Stems
+      </button>
+      <button class="nav-btn" onclick="showSection('stupid')" id="nav-stupid">
+        <span class="nav-icon">⚠️</span> Stupidity Check
+      </button>
+      <button class="nav-btn" onclick="showSection('glossary')" id="nav-glossary">
+        <span class="nav-icon">📖</span> Glossario
+      </button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- DAW GUIDES -->
+      <div class="section active" id="section-daw">
+        <div class="section-header">
+          <div>
+            <div class="section-title">DAW Guides</div>
+            <div class="section-desc">Istruzioni step-by-step per ogni DAW, per ogni lingua.</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="dawLangTabs"></div>
+        <div class="daw-tabs" id="dawTabs"></div>
+        <div id="dawEditor"></div>
+      </div>
+
+      <!-- STEMS -->
+      <div class="section" id="section-stems">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Opzioni Stems</div>
+            <div class="section-desc">Opzioni per drums, strumenti, voci e premix.</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="stemsLangTabs"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px" id="stemCatTabs"></div>
+        <div id="stemsEditor"></div>
+      </div>
+
+      <!-- STUPIDITY CHECK -->
+      <div class="section" id="section-stupid">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Stupidity Check</div>
+            <div class="section-desc">Errori comuni dei clienti. Appaiono come avvisi nel PDF.</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="stupidLangTabs"></div>
+        <div id="stupidEditor"></div>
+      </div>
+
+      <!-- GLOSSARIO -->
+      <div class="section" id="section-glossary">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Glossario</div>
+            <div class="section-desc">Termini e definizioni in linguaggio semplice.</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="glossaryLangTabs"></div>
+        <div id="glossaryEditor"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SAVE BAR -->
+<div id="saveBar" style="position:fixed;bottom:0;left:0;right:0;padding:14px 24px;background:var(--bg2);border-top:0.5px solid var(--border2);display:none;align-items:center;justify-content:space-between;z-index:200">
+  <span style="font-size:12px;color:var(--t2)">Hai modifiche non salvate</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-primary" onclick="saveData()">Salva su GitHub</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const LANGS = ['en','it','es','fr','de','pt'];
+const LANG_NAMES = {en:'English',it:'Italiano',es:'Español',fr:'Français',de:'Deutsch',pt:'Português'};
+const DAWS = [
+  {id:'ableton',name:'Ableton'},
+  {id:'logic',name:'Logic Pro'},
+  {id:'flstudio',name:'FL Studio'},
+  {id:'protools',name:'Pro Tools'},
+  {id:'cubase',name:'Cubase'},
+  {id:'studioone',name:'Studio One'},
+  {id:'reaper',name:'REAPER'},
+  {id:'bitwig',name:'Bitwig'},
+  {id:'garageband',name:'GarageBand'},
+];
+const STEM_CATS = [
+  {id:'drumsOptions',name:'🥁 Drums'},
+  {id:'instrOptions',name:'🎹 Strumenti'},
+  {id:'vocalOptions',name:'🎤 Voci'},
+  {id:'premixOptions',name:'🎛️ Premix'},
+];
+
+let token = null;
+let data = null;
+let hasChanges = false;
+let currentSection = 'daw';
+let dawLang = 'en', dawId = 'ableton';
+let stemsLang = 'en', stemsCat = 'drumsOptions';
+let stupidLang = 'en';
+let glossaryLang = 'en';
+
+// ── AUTH ──────────────────────────────────────────────
+async function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Accesso...';
+  try {
+    const res = await fetch('/api/auth', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({user, password: pass})
+    });
+    if (!res.ok) throw new Error('invalid');
+    const d = await res.json();
+    token = d.token;
+    sessionStorage.setItem('bg_admin_token', token);
+    await loadData();
+    showApp();
+  } catch(e) {
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Accedi';
+  }
+}
+
+function doLogout() {
+  if (hasChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+  sessionStorage.removeItem('bg_admin_token');
+  token = null; data = null;
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('appHeader').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'none';
+  document.getElementById('saveBar').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('appHeader').style.display = 'flex';
+  document.getElementById('appWrap').style.display = 'block';
+  buildAllEditors();
+}
+
+// ── LOAD DATA ─────────────────────────────────────────
+async function loadData() {
+  const res = await fetch('/data.json?v=' + Date.now());
+  data = await res.json();
+}
+
+// ── SAVE DATA ─────────────────────────────────────────
+async function saveData() {
+  const btn = document.getElementById('globalSaveBtn');
+  btn.disabled = true;
+  btn.textContent = 'Salvataggio...';
+  try {
+    const res = await fetch('/api/save', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({token, data})
+    });
+    if (!res.ok) throw new Error('save failed');
+    hasChanges = false;
+    document.getElementById('saveBar').style.display = 'none';
+    showToast('Salvato su GitHub! Vercel rideploya in 30 secondi.', 'success');
+    const ind = document.getElementById('saveIndicator');
+    ind.style.display = 'flex';
+    setTimeout(() => ind.style.display = 'none', 3000);
+  } catch(e) {
+    showToast('Errore nel salvataggio. Riprova.', 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Salva tutto';
+}
+
+function markChanged() {
+  hasChanges = true;
+  document.getElementById('saveBar').style.display = 'flex';
+}
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── SECTIONS ──────────────────────────────────────────
+function showSection(id) {
+  currentSection = id;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-' + id).classList.add('active');
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+}
+
+// ── LANG TABS BUILDER ─────────────────────────────────
+function buildLangTabs(containerId, activeLang, onSelect) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = LANGS.map(l => `
+    <button class="lang-tab ${l===activeLang?'active':''}" onclick="${onSelect}('${l}')">${LANG_NAMES[l]}</button>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// DAW GUIDES EDITOR
+// ══════════════════════════════════════════════════════
+function buildDawEditor() {
+  buildLangTabs('dawLangTabs', dawLang, 'selectDawLang');
+  
+  const dawTabsEl = document.getElementById('dawTabs');
+  dawTabsEl.innerHTML = DAWS.map(d => `
+    <button class="daw-tab ${d.id===dawId?'active':''}" onclick="selectDaw('${d.id}')">${d.name}</button>
+  `).join('');
+
+  renderDawSteps();
+}
+
+function selectDawLang(l) { dawLang = l; buildDawEditor(); }
+function selectDaw(id) { dawId = id; buildDawEditor(); }
+
+function renderDawSteps() {
+  if (!data.dawSteps[dawLang]) data.dawSteps[dawLang] = {};
+  if (!data.dawSteps[dawLang][dawId]) data.dawSteps[dawLang][dawId] = [];
+  
+  const steps = data.dawSteps[dawLang][dawId];
+  const el = document.getElementById('dawEditor');
+  
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--t2)">${DAWS.find(d=>d.id===dawId)?.name} — ${LANG_NAMES[dawLang]}</div>
+      ${dawLang!=='en'&&dawLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyFromEn('daw')">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list" id="dawStepsList">
+      ${steps.map((s,i) => renderDawStep(s,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addDawStep()">+ Aggiungi step</button>
+  `;
+}
+
+function renderDawStep(text, i) {
+  return `<div class="item-row" id="dawStep_${i}">
+    <span class="item-num">${i+1}</span>
+    <div class="fields">
+      <textarea class="step-textarea" oninput="updateDawStep(${i},this.value)" placeholder="Descrivi questo step...">${escHtml(text)}</textarea>
+    </div>
+    <button class="btn btn-danger" onclick="removeDawStep(${i})">✕</button>
+  </div>`;
+}
+
+function updateDawStep(i, val) {
+  data.dawSteps[dawLang][dawId][i] = val;
+  markChanged();
+}
+
+function addDawStep() {
+  if (!data.dawSteps[dawLang][dawId]) data.dawSteps[dawLang][dawId] = [];
+  data.dawSteps[dawLang][dawId].push('');
+  renderDawSteps();
+  markChanged();
+}
+
+function removeDawStep(i) {
+  data.dawSteps[dawLang][dawId].splice(i, 1);
+  renderDawSteps();
+  markChanged();
+}
+
+function copyFromEn(section) {
+  if (section === 'daw') {
+    if (!data.dawSteps.en[dawId]) return;
+    data.dawSteps[dawLang][dawId] = [...data.dawSteps.en[dawId]];
+    renderDawSteps();
+    markChanged();
+    showToast('Copiato da EN — traducilo ora!', 'success');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// STEMS EDITOR
+// ══════════════════════════════════════════════════════
+function buildStemsEditor() {
+  buildLangTabs('stemsLangTabs', stemsLang, 'selectStemsLang');
+
+  const catEl = document.getElementById('stemCatTabs');
+  catEl.innerHTML = STEM_CATS.map(c => `
+    <button class="daw-tab ${c.id===stemsCat?'active':''}" onclick="selectStemCat('${c.id}')">${c.name}</button>
+  `).join('');
+
+  renderStemOptions();
+}
+
+function selectStemsLang(l) { stemsLang = l; buildStemsEditor(); }
+function selectStemCat(id) { stemsCat = id; buildStemsEditor(); }
+
+function renderStemOptions() {
+  if (!data[stemsCat]) data[stemsCat] = {};
+  if (!data[stemsCat][stemsLang]) data[stemsCat][stemsLang] = [];
+  const items = data[stemsCat][stemsLang];
+  const catName = STEM_CATS.find(c=>c.id===stemsCat)?.name || stemsCat;
+  const el = document.getElementById('stemsEditor');
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--t2)">${catName} — ${LANG_NAMES[stemsLang]}</div>
+      ${stemsLang!=='en'&&stemsLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyFromEnStems()">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list" id="stemsList">
+      ${items.map((item,i) => renderStemItem(item,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addStemItem()">+ Aggiungi opzione</button>
+  `;
+}
+
+function renderStemItem(item, i) {
+  const isWet = item.isWet ? true : false;
+  return `<div class="item-row">
+    <span class="item-num">${i+1}</span>
+    <div class="fields">
+      <input type="text" value="${escHtml(item.label||'')}" placeholder="Etichetta (es. Esporta tutti i drums WET)" oninput="updateStemItem(${i},'label',this.value)">
+      <input type="text" value="${escHtml(item.sub||'')}" placeholder="Descrizione (opzionale)" oninput="updateStemItem(${i},'sub',this.value)">
+      <label class="wet-toggle" onclick="toggleWetItem(${i})">
+        <div class="wet-cb ${isWet?'on':''}" id="wetCb_${i}"><svg width="8" height="8" viewBox="0 0 8 8" fill="none" style="opacity:${isWet?1:0}"><path d="M1 4L3 6L7 2" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        Opzione WET (usa indicazioni generali nel PDF se le direttive WET sono attive)
+      </label>
+    </div>
+    <button class="btn btn-danger" onclick="removeStemItem(${i})">✕</button>
+  </div>`;
+}
+
+function updateStemItem(i, field, val) {
+  data[stemsCat][stemsLang][i][field] = val;
+  markChanged();
+}
+
+function toggleWetItem(i) {
+  data[stemsCat][stemsLang][i].isWet = !data[stemsCat][stemsLang][i].isWet;
+  buildStemsEditor();
+  markChanged();
+}
+
+function addStemItem() {
+  if (!data[stemsCat][stemsLang]) data[stemsCat][stemsLang] = [];
+  data[stemsCat][stemsLang].push({label:'', sub:''});
+  renderStemOptions();
+  markChanged();
+}
+
+function removeStemItem(i) {
+  data[stemsCat][stemsLang].splice(i, 1);
+  renderStemOptions();
+  markChanged();
+}
+
+function copyFromEnStems() {
+  if (!data[stemsCat].en) return;
+  data[stemsCat][stemsLang] = JSON.parse(JSON.stringify(data[stemsCat].en));
+  renderStemOptions();
+  markChanged();
+  showToast('Copiato da EN — traducilo ora!', 'success');
+}
+
+// ══════════════════════════════════════════════════════
+// STUPIDITY CHECK EDITOR
+// ══════════════════════════════════════════════════════
+function buildStupidEditor() {
+  buildLangTabs('stupidLangTabs', stupidLang, 'selectStupidLang');
+  renderStupidItems();
+}
+
+function selectStupidLang(l) { stupidLang = l; buildStupidEditor(); }
+
+function renderStupidItems() {
+  if (!data.stupidItems) data.stupidItems = {};
+  if (!data.stupidItems[stupidLang]) data.stupidItems[stupidLang] = [];
+  const items = data.stupidItems[stupidLang];
+  const el = document.getElementById('stupidEditor');
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--t2)">Stupidity Check — ${LANG_NAMES[stupidLang]}</div>
+      ${stupidLang!=='en'&&stupidLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyFromEnStupid()">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list">
+      ${items.map((item,i) => `
+        <div class="item-row">
+          <span class="item-num">${i+1}</span>
+          <div class="fields">
+            <input type="text" value="${escHtml(item.label||'')}" placeholder="Errore (es. Esportare con Export All Tracks)" oninput="updateStupidItem(${i},'label',this.value)">
+            <input type="text" value="${escHtml(item.sub||'')}" placeholder="Spiegazione (opzionale)" oninput="updateStupidItem(${i},'sub',this.value)">
+          </div>
+          <button class="btn btn-danger" onclick="removeStupidItem(${i})">✕</button>
+        </div>`).join('')}
+    </div>
+    <button class="add-btn" onclick="addStupidItem()">+ Aggiungi errore</button>
+  `;
+}
+
+function updateStupidItem(i, field, val) {
+  data.stupidItems[stupidLang][i][field] = val;
+  markChanged();
+}
+
+function addStupidItem() {
+  if (!data.stupidItems[stupidLang]) data.stupidItems[stupidLang] = [];
+  data.stupidItems[stupidLang].push({label:'', sub:''});
+  renderStupidItems();
+  markChanged();
+}
+
+function removeStupidItem(i) {
+  data.stupidItems[stupidLang].splice(i, 1);
+  renderStupidItems();
+  markChanged();
+}
+
+function copyFromEnStupid() {
+  if (!data.stupidItems.en) return;
+  data.stupidItems[stupidLang] = JSON.parse(JSON.stringify(data.stupidItems.en));
+  renderStupidItems();
+  markChanged();
+  showToast('Copiato da EN — traducilo ora!', 'success');
+}
+
+// ══════════════════════════════════════════════════════
+// GLOSSARY EDITOR
+// ══════════════════════════════════════════════════════
+function buildGlossaryEditor() {
+  buildLangTabs('glossaryLangTabs', glossaryLang, 'selectGlossaryLang');
+  renderGlossaryItems();
+}
+
+function selectGlossaryLang(l) { glossaryLang = l; buildGlossaryEditor(); }
+
+function renderGlossaryItems() {
+  if (!data.glossaryTerms) data.glossaryTerms = {};
+  if (!data.glossaryTerms[glossaryLang]) data.glossaryTerms[glossaryLang] = [];
+  const items = data.glossaryTerms[glossaryLang];
+  const el = document.getElementById('glossaryEditor');
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--t2)">Glossario — ${LANG_NAMES[glossaryLang]}</div>
+      ${glossaryLang!=='en'&&glossaryLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyFromEnGlossary()">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list">
+      ${items.map((item,i) => `
+        <div class="item-row">
+          <span class="item-num">${i+1}</span>
+          <div class="fields">
+            <input type="text" value="${escHtml(item.term||'')}" placeholder="Termine (es. Stem)" oninput="updateGlossaryItem(${i},'term',this.value)">
+            <textarea style="min-height:50px" placeholder="Definizione in linguaggio semplice" oninput="updateGlossaryItem(${i},'def',this.value)">${escHtml(item.def||'')}</textarea>
+          </div>
+          <button class="btn btn-danger" onclick="removeGlossaryItem(${i})">✕</button>
+        </div>`).join('')}
+    </div>
+    <button class="add-btn" onclick="addGlossaryItem()">+ Aggiungi termine</button>
+  `;
+}
+
+function updateGlossaryItem(i, field, val) {
+  data.glossaryTerms[glossaryLang][i][field] = val;
+  markChanged();
+}
+
+function addGlossaryItem() {
+  if (!data.glossaryTerms[glossaryLang]) data.glossaryTerms[glossaryLang] = [];
+  data.glossaryTerms[glossaryLang].push({term:'', def:''});
+  renderGlossaryItems();
+  markChanged();
+}
+
+function removeGlossaryItem(i) {
+  data.glossaryTerms[glossaryLang].splice(i, 1);
+  renderGlossaryItems();
+  markChanged();
+}
+
+function copyFromEnGlossary() {
+  if (!data.glossaryTerms.en) return;
+  data.glossaryTerms[glossaryLang] = JSON.parse(JSON.stringify(data.glossaryTerms.en));
+  renderGlossaryItems();
+  markChanged();
+  showToast('Copiato da EN — traducilo ora!', 'success');
+}
+
+// ── UTILS ─────────────────────────────────────────────
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function buildAllEditors() {
+  buildDawEditor();
+  buildStemsEditor();
+  buildStupidEditor();
+  buildGlossaryEditor();
+}
+
+// ── INIT ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  // Check if already logged in
+  const savedToken = sessionStorage.getItem('bg_admin_token');
+  if (savedToken) {
+    token = savedToken;
+    try {
+      await loadData();
+      showApp();
+      return;
+    } catch(e) {
+      sessionStorage.removeItem('bg_admin_token');
+    }
+  }
+});
+
+// Warn before leaving with unsaved changes
+window.addEventListener('beforeunload', e => {
+  if (hasChanges) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+</script>
+</body>
+</html>
