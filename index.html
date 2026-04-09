@@ -1671,7 +1671,33 @@ function buildAll(){
 // ═══════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded',async ()=>{
+  // Load editable content from data.json
+  try {
+    const res = await fetch('/data.json?v=' + Date.now());
+    const d = await res.json();
+    // Override DAW_STEPS with data from data.json
+    if (d.dawSteps) {
+      Object.keys(d.dawSteps).forEach(lang => {
+        if (!DAW_STEPS[lang]) DAW_STEPS[lang] = {};
+        Object.assign(DAW_STEPS[lang], d.dawSteps[lang]);
+      });
+    }
+    // Override stem options per language
+    ['drumsOptions','instrOptions','vocalOptions','premixOptions','stupidItems','glossaryTerms'].forEach(key => {
+      if (d[key]) {
+        Object.keys(d[key]).forEach(lang => {
+          if (d[key][lang] && d[key][lang].length > 0) {
+            if (!T[lang]) T[lang] = {...T.en};
+            T[lang][key] = d[key][lang];
+          }
+        });
+      }
+    });
+  } catch(e) {
+    console.warn('data.json not loaded, using defaults', e);
+  }
+  {
   // Load saved lang
   try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl))lang=sl;}catch(e){}
   try{
@@ -1684,6 +1710,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;
   }catch(e){}
   applyT();buildAll();
+  }
 });
 </script>
 <footer style="padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)">
