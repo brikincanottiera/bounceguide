@@ -189,7 +189,23 @@ async function submitForm() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => setLang('en'));
+document.addEventListener('DOMContentLoaded', () => {
+  setLang('en');
+  // Auto-fill if coming from 404 bug report
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('bug') === '1') {
+    const url = params.get('url') || '';
+    const ref = params.get('ref') || '';
+    const inp = document.getElementById('inp-feature');
+    const desc = document.getElementById('inp-desc');
+    if (inp) inp.value = 'Bug: pagina 404 trovata';
+    if (desc) {
+      let info = 'URL non trovato: ' + decodeURIComponent(url);
+      if (ref) info += '\nProveniente da: ' + decodeURIComponent(ref);
+      desc.value = info;
+    }
+  }
+});
 </script>
 </body>
 </html>
