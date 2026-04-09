@@ -52,6 +52,15 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
   .big-number{font-size:100px}
   .title{font-size:20px}
 }
+
+@media(max-width:640px){
+  .header-nav-links{display:none !important}
+  .lang-switcher{display:none !important}
+  .lang-select-mobile{display:flex !important}
+}
+@media(min-width:641px){
+  .lang-select-mobile{display:none !important}
+}
 </style>
 </head>
 <body>
@@ -60,13 +69,23 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
     <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <span class="logo-text">BounceGuide</span>
   </a>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('it')">IT</button>
-    <button class="lang-btn" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('de')">DE</button>
-    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('it')">IT</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    </div>
+    <select class="lang-select-mobile" onchange="setLang(this.value)" style="display:none;padding:5px 8px;border-radius:6px;border:0.5px solid rgba(255,255,255,0.13);background:#181818;color:#efefef;font-size:12px;font-weight:600;cursor:pointer;outline:none">
+      <option value="en">EN</option>
+      <option value="it">IT</option>
+      <option value="es">ES</option>
+      <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="pt">PT</option>
+    </select>
   </div>
 </header>
 
@@ -110,6 +129,7 @@ function setLang(l) {
   lang = l;
   try{localStorage.setItem('bg_lang',l);}catch(e){}
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  const sel=document.querySelector('.lang-select-mobile');if(sel)sel.value=l;
   // Save lang choice to localStorage
   try { localStorage.setItem('bg_lang', l); } catch(e) {}
   const tr = T[l] || T.en;
