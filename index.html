@@ -1,9 +1,33 @@
+
+Copia
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BounceGuide</title>
+<title>BounceGuide — The foolproof file submission guide for mix engineers</title>
+<meta name="description" content="Generate a professional PDF guide for your clients in seconds. Tell them exactly how to export and send their files — no more wrong formats, no more mistakes. Free tool for mix and master engineers.">
+<meta name="keywords" content="mix engineer, stem export guide, audio files, mixing, mastering, PDF guide, bounce guide">
+<meta name="author" content="Francesco — Brik in Canottiera">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://bounceguide.vercel.app/">
+ 
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bounceguide.vercel.app/">
+<meta property="og:title" content="BounceGuide — The foolproof file submission guide for mix engineers">
+<meta property="og:description" content="Generate a professional PDF guide for your clients in seconds. Tell them exactly how to export and send their files — free tool for mix and master engineers.">
+<meta property="og:image" content="https://bounceguide.vercel.app/og-image.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="BounceGuide">
+ 
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://bounceguide.vercel.app/">
+<meta name="twitter:title" content="BounceGuide — The foolproof file submission guide for mix engineers">
+<meta name="twitter:description" content="Generate a professional PDF guide for your clients in seconds. Free tool for mix and master engineers.">
+<meta name="twitter:image" content="https://bounceguide.vercel.app/og-image.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -17,7 +41,7 @@
 }
 html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
 body{min-height:100vh;display:flex;flex-direction:column}
-
+ 
 header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.96);backdrop-filter:blur(16px)}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-mark{width:28px;height:28px;border-radius:6px;background:var(--acc);display:flex;align-items:center;justify-content:center;transition:background 0.3s}
@@ -30,7 +54,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .about-nav-link{font-size:12px;font-weight:600;color:var(--t2);text-decoration:none;letter-spacing:0.3px;transition:color 0.15s;padding:4px 0}
 .about-nav-link:hover{color:var(--t1)}
 .header-sep{width:0.5px;height:16px;background:var(--border2)}
-
+ 
 .hero{padding:32px 32px 24px;border-bottom:0.5px solid var(--border)}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--acc);margin-bottom:10px;font-weight:600}
 .hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc)}
@@ -40,16 +64,16 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .hero-features{display:flex;gap:14px;flex-wrap:wrap}
 .hero-feat{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)}
 .hero-feat::before{content:'✓';color:var(--acc);font-weight:700}
-
+ 
 .progress-wrap{padding:9px 32px;border-bottom:0.5px solid var(--border)}
 .progress-label{font-size:10px;color:var(--t2);margin-bottom:4px;display:flex;justify-content:space-between}
 .progress-bar-bg{height:3px;background:var(--border2);border-radius:2px;overflow:hidden}
 .progress-bar-fill{height:100%;background:var(--acc);border-radius:2px;transition:width 0.4s ease}
-
+ 
 main{flex:1;display:grid;grid-template-columns:256px 1fr;align-items:start}
 .sidebar{padding:14px;border-right:0.5px solid var(--border);position:sticky;top:57px;max-height:calc(100vh - 96px);overflow-y:auto}
 .form-area{padding:22px 30px 48px}
-
+ 
 .steps-nav{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}
 .step-btn{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;font-family:inherit}
 .step-btn:hover{background:var(--bg3);color:var(--t1)}
@@ -57,19 +81,19 @@ main{flex:1;display:grid;grid-template-columns:256px 1fr;align-items:start}
 .step-btn.done{color:var(--t1)}
 .step-num{width:18px;height:18px;border-radius:50%;border:0.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
 .step-btn.done .step-num{background:var(--acc);border-color:var(--acc);color:#000}
-
+ 
 .sidebar-sep{height:0.5px;background:var(--border);margin:10px 0}
 .tone-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px}
 .tone-btns{display:flex;gap:4px;margin-bottom:10px}
 .tone-btn{flex:1;padding:5px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s}
 .tone-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
-
+ 
 .gen-btn{width:100%;padding:10px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:6px;transition:opacity 0.15s}
 .gen-btn:hover{opacity:0.87}
 .gen-btn:disabled{opacity:0.3;cursor:not-allowed}
 .reset-btn{width:100%;padding:7px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t3);font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s}
 .reset-btn:hover{color:var(--warn-text);border-color:var(--warn-border)}
-
+ 
 .form-section{display:none}
 .form-section.active{display:block;animation:fadeIn 0.18s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -77,11 +101,11 @@ main{flex:1;display:grid;grid-template-columns:256px 1fr;align-items:start}
 .section-desc{font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.7}
 .sub-label{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;margin-top:4px}
 .divider{height:0.5px;background:var(--border);margin:16px 0}
-
+ 
 .info-box{padding:10px 13px;border-radius:var(--radius-sm);background:var(--info-bg);border:0.5px solid var(--info-border);margin-bottom:11px}
 .info-box-title{font-size:10px;font-weight:700;color:var(--info-text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px}
 .info-box p{font-size:12px;color:var(--info-text);line-height:1.6;opacity:0.9}
-
+ 
 .field-group{margin-bottom:12px}
 label.field-label{display:block;font-size:11px;font-weight:600;color:var(--t2);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:5px}
 input[type=text],input[type=email],input[type=url],textarea{width:100%;padding:8px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--t1);font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s;resize:vertical}
@@ -89,7 +113,7 @@ input:focus,textarea:focus{border-color:var(--acc)}
 textarea{min-height:68px}
 input::placeholder,textarea::placeholder{color:var(--t3)}
 input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2)}
-
+ 
 .radio-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .radio-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none}
 .radio-item:hover{border-color:var(--border2)}
@@ -100,7 +124,7 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .radio-item.selected .radio-dot::after{opacity:1}
 .radio-label{font-size:12px;color:var(--t1);font-weight:500;line-height:1.4}
 .radio-sub{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.4}
-
+ 
 .service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .service-card{padding:16px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none}
 .service-card:hover{border-color:var(--border2)}
@@ -108,7 +132,7 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .service-card-icon{font-size:24px;margin-bottom:7px}
 .service-card-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px}
 .service-card-desc{font-size:11px;color:var(--t2);line-height:1.5}
-
+ 
 .check-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
 .check-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
 .check-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none}
@@ -120,7 +144,7 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .check-item.checked .check-box svg{opacity:1}
 .check-label{font-size:12px;color:var(--t1);font-weight:500;line-height:1.4}
 .check-sub{font-size:11px;color:var(--t2);margin-top:3px;line-height:1.4}
-
+ 
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);margin-bottom:12px;cursor:pointer;user-select:none;transition:all 0.15s}
 .toggle-row:hover{border-color:var(--border2)}
 .toggle-row.on{border-color:var(--acc);background:var(--acc-dim)}
@@ -130,10 +154,10 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .toggle-row.on .toggle-switch{background:var(--acc)}
 .toggle-switch::after{content:'';position:absolute;width:11px;height:11px;border-radius:50%;background:white;top:3px;left:3px;transition:left 0.2s}
 .toggle-row.on .toggle-switch::after{left:18px}
-
+ 
 .other-reveal{display:none;margin-top:6px;padding:9px 11px;background:var(--bg3);border-radius:var(--radius-sm);border:0.5px solid var(--border2)}
 .other-reveal.visible{display:block}
-
+ 
 .multi-other-list{display:flex;flex-direction:column;gap:6px;margin-top:7px}
 .multi-other-item{padding:9px 11px;background:var(--bg3);border-radius:var(--radius-sm);border:0.5px solid var(--border);display:flex;gap:7px;align-items:flex-start}
 .multi-other-item .fields{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
@@ -143,7 +167,7 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .remove-btn:hover{color:var(--warn-text);border-color:var(--warn-border)}
 .add-other-btn{padding:6px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s;margin-top:6px;display:inline-block}
 .add-other-btn:hover{color:var(--t1);border-color:var(--acc);background:var(--acc-dim)}
-
+ 
 /* DAW GRID */
 .daw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}
 .daw-card{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 5px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none;text-align:center}
@@ -151,7 +175,7 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .daw-card.selected{border-color:var(--acc);background:var(--acc-dim)}
 .daw-icon{font-size:18px}
 .daw-name{font-size:10px;font-weight:600;color:var(--t1);line-height:1.2}
-
+ 
 /* DAW CONFIRM CARDS */
 .daw-confirm-section{display:flex;flex-direction:column;gap:14px;margin-top:14px}
 .daw-confirm-card{border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2);overflow:hidden}
@@ -174,31 +198,31 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .daw-edit-area{padding:10px 14px;border-top:0.5px solid var(--border)}
 .daw-edit-area textarea{min-height:120px;font-family:'SF Mono','Fira Mono',monospace;font-size:11px;line-height:1.6}
 .daw-edit-confirm-btn{margin-top:6px;padding:7px 14px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
-
+ 
 /* CONTINUE 8 LOCKED */
 .continue-locked-note{font-size:11px;color:var(--t2);margin-top:8px;opacity:0.7}
-
+ 
 .logo-upload{border:0.5px dashed var(--border2);border-radius:var(--radius-sm);padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;margin-bottom:9px}
 .logo-upload:hover{border-color:var(--acc);background:var(--acc-dim)}
 .logo-preview{max-height:44px;max-width:160px;margin:5px auto 0;display:block}
-
+ 
 .checklist-preview{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .checklist-preview-item{display:flex;align-items:center;gap:9px;padding:7px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2)}
 .cl-dot{width:15px;height:15px;border-radius:50%;border:0.5px solid var(--acc);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;color:var(--acc);font-weight:700}
 .cl-text{font-size:12px;color:var(--t1)}
-
+ 
 .stupidity-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;background:var(--acc-dim);border:0.5px solid var(--acc);color:var(--acc);font-size:10px;font-weight:700;margin-left:7px}
-
+ 
 .nav-btns{display:flex;gap:9px;margin-top:20px;padding-top:16px;border-top:0.5px solid var(--border)}
 .btn-back{padding:8px 16px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:13px;cursor:pointer;font-family:inherit;transition:all 0.15s}
 .btn-back:hover{color:var(--t1);border-color:var(--t1)}
 .btn-next{padding:8px 18px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
 .btn-next:hover{opacity:0.85}
 .btn-next:disabled{opacity:0.3;cursor:not-allowed}
-
+ 
 footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .footer-l,.footer-r{font-size:11px;color:var(--t3)}
-
+ 
 @media(max-width:800px){
   main{grid-template-columns:1fr;display:block}
   .sidebar{position:static;max-height:none;border-right:none;border-bottom:0.5px solid var(--border);padding:12px}
@@ -210,7 +234,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div class="logo">
     <div class="logo-mark" id="logoMark">
@@ -232,7 +256,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     </div>
   </div>
 </header>
-
+ 
 <div class="hero">
   <div class="hero-tag" data-t="heroTag"></div>
   <h1 data-t="heroTitle"></h1>
@@ -244,12 +268,12 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     <span class="hero-feat" data-t="hf4"></span>
   </div>
 </div>
-
+ 
 <div class="progress-wrap">
   <div class="progress-label"><span data-t="progressLabel"></span><span id="progressPct">0%</span></div>
   <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
 </div>
-
+ 
 <main>
 <div class="sidebar">
   <div class="tone-label" data-t="toneLabel"></div>
@@ -263,9 +287,9 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <button class="gen-btn" id="generateBtn" onclick="generatePDF()" disabled data-t="generateBtn"></button>
   <button class="reset-btn" onclick="resetAll()" data-t="resetBtn"></button>
 </div>
-
+ 
 <div class="form-area">
-
+ 
 <!-- S1: Branding -->
 <div class="form-section active" id="step-1">
   <div class="section-title" data-t="s1title"></div>
@@ -293,7 +317,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="field-group"><label class="field-label" data-t="s1contactNote"></label><textarea id="contactNote" rows="2" data-t-ph="s1contactNotePh" oninput="autoSave()"></textarea></div>
   <div class="nav-btns"><button class="btn-next" onclick="advance(1)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S2: Service -->
 <div class="form-section" id="step-2">
   <div class="section-title" data-t="s2title"></div>
@@ -311,7 +335,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   </div>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(1)" data-t="btnBack"></button><button class="btn-next" onclick="advance(2)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S3: Glossary -->
 <div class="form-section" id="step-3">
   <div class="section-title" data-t="s3title"></div>
@@ -328,7 +352,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   </div>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(2)" data-t="btnBack"></button><button class="btn-next" onclick="advance(3)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S4: Format -->
 <div class="form-section" id="step-4">
   <div class="section-title" data-t="s4title"></div>
@@ -357,7 +381,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   </div>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(3)" data-t="btnBack"></button><button class="btn-next" onclick="advance(4)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S5: Stems -->
 <div class="form-section" id="step-5">
   <div class="section-title" data-t="s5title"></div>
@@ -405,7 +429,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <button class="add-other-btn" onclick="addStemOther()" data-t="s5addOther"></button>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(4)" data-t="btnBack"></button><button class="btn-next" onclick="advance(5)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S6: Naming -->
 <div class="form-section" id="step-6">
   <div class="section-title" data-t="s6title"></div>
@@ -417,7 +441,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <button class="add-other-btn" onclick="addNamingOther()" data-t="s6addOther"></button>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(5)" data-t="btnBack"></button><button class="btn-next" onclick="advance(6)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S7: Delivery -->
 <div class="form-section" id="step-7">
   <div class="section-title" data-t="s7title"></div>
@@ -433,7 +457,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div id="sessionOtherReveal" class="other-reveal"><input type="text" id="sessionOtherText" data-t-ph="s7otherSessionPh" oninput="autoSave()"></div>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(6)" data-t="btnBack"></button><button class="btn-next" onclick="advance(7)" data-t="btnNext"></button></div>
 </div>
-
+ 
 <!-- S8: DAW Guides -->
 <div class="form-section" id="step-8">
   <div class="section-title" data-t="s8title"></div>
@@ -450,7 +474,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   </div>
   <div class="continue-locked-note" id="daw8LockedNote" style="display:none" data-t="s8confirmNote"></div>
 </div>
-
+ 
 <!-- S9: Checklist + Stupidity + Notes -->
 <div class="form-section" id="step-9">
   <div class="section-title" data-t="s9title"></div>
@@ -478,15 +502,15 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div id="tcField" style="display:none;margin-top:7px"><textarea id="tcText" rows="5" data-t-ph="s9tcPh" oninput="autoSave()"></textarea></div>
   <div class="nav-btns"><button class="btn-back" onclick="goStep(8)" data-t="btnBack"></button><button class="btn-next" onclick="finishForm()" data-t="btnFinish"></button></div>
 </div>
-
+ 
 </div>
 </main>
-
+ 
 <footer>
   <div class="footer-l">BounceGuide &mdash; <span data-t="footerMade"></span></div>
   <div class="footer-r" data-t="footerNote"></div>
 </footer>
-
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 // ═══════════════════════════════════════════
@@ -505,7 +529,7 @@ en:{
   s8title:'DAW export guides',s8desc:'Select the DAWs your clients use, review the instructions, and confirm before continuing.',s8otherDaw:'DAW not in the list?',s8addOtherDaw:'+ Add DAW / software',s8ytLabel:'YouTube tutorial link',s8confirmQ:'Are these instructions correct?',s8yesBtn:'Yes, correct',s8noBtn:'No, let me edit',s8editLabel:'Edit instructions (one step per line):',s8confirmEditsBtn:'Confirm edits',s8confirmedLabel:'Confirmed',s8confirmNote:'Please confirm the instructions for each selected DAW before continuing.',
   s9title:'Stupidity Check & notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Classic client mistakes. In the PDF they appear as a serious "Important — Errors to Avoid" section.',s9addStupid:'+ Add custom mistake',s9checkLabel:'Pre-send checklist',s9checkSub:'Auto-generated from your choices. The client ticks each box before sending.',s9notesLabel:'Additional notes',s9notesPh:'Any other specific instructions...',s9ytLabel:'General tutorial link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Include Terms & Conditions',s9tcSub:'Payment, delivery and revision policy',s9tcPh:'Write your terms here...',
   btnNext:'Continue',btnBack:'Back',btnFinish:'Done — unlock PDF button',footerMade:'Free tool for mix engineers',footerNote:'PDF generated in your browser. Nothing uploaded.',
-
+ 
   glossaryTerms:[
     {term:'Stem',def:'An individual audio file containing one element of the song (kick, bass, lead vocal, etc.). Exporting stems means creating one separate file per track.'},
     {term:'WAV / AIFF',def:'Lossless audio formats — full quality preserved. Always use these instead of MP3 for professional work.'},
@@ -586,7 +610,7 @@ it:{
   s8title:'Guide export per DAW',s8desc:'Seleziona le DAW usate dai tuoi clienti, controlla le istruzioni e confermale prima di continuare.',s8otherDaw:'DAW non in lista?',s8addOtherDaw:'+ Aggiungi DAW / software',s8ytLabel:'Link tutorial YouTube',s8confirmQ:'Le istruzioni sono corrette?',s8yesBtn:'Si, corrette',s8noBtn:'No, voglio modificarle',s8editLabel:'Modifica le istruzioni (un passaggio per riga):',s8confirmEditsBtn:'Conferma modifiche',s8confirmedLabel:'Confermato',s8confirmNote:'Conferma le istruzioni di ogni DAW selezionata prima di continuare.',
   s9title:'Stupidity Check e note finali',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Gli errori classici dei clienti. Nel PDF appaiono come sezione di avviso seria: "Importante — Errori da Evitare".',s9addStupid:'+ Aggiungi errore personalizzato',s9checkLabel:'Checklist pre-invio',s9checkSub:'Generata automaticamente. Il cliente la spunta prima di inviare.',s9notesLabel:'Note aggiuntive',s9notesPh:'Qualsiasi altra istruzione specifica...',s9ytLabel:'Link tutorial generale (opzionale)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Includi Termini e Condizioni',s9tcSub:'Politica su pagamento, consegna e revisioni',s9tcPh:'Scrivi qui i tuoi termini...',
   btnNext:'Continua',btnBack:'Indietro',btnFinish:'Fatto — sblocca il pulsante PDF',footerMade:'Strumento gratuito per mix engineer',footerNote:'Il PDF viene generato nel tuo browser. Nulla viene caricato online.',
-
+ 
   glossaryTerms:[
     {term:'Stem',def:'Un file audio individuale contenente un singolo elemento del brano (cassa, basso, voce principale, ecc.). Esportare gli stem significa creare un file separato per ogni traccia.'},
     {term:'WAV / AIFF',def:'Formati audio lossless — qualita\' totale preservata. Usa sempre questi invece dell\'MP3 per il lavoro professionale.'},
@@ -656,7 +680,7 @@ it:{
   checklistBase:['Tutti i file partono dallo stesso punto (battuta 1, tempo 1)','Catena master SPENTA o bypassata','Nessun file va in clip (nessun metro in rosso)','File nominati correttamente','Premix stereo incluso','Info sessione incluse (BPM, tonalita\', DAW)','Tutti i file sono definitivi — nessuna modifica dopo l\'invio'],
 },
 };
-
+ 
 // ── SPANISH ──────────────────────────────────────────────────
 T.es={
   heroTag:'Deja de recibir archivos incorrectos de tus clientes',heroTitle:'La guia <span>a prueba de errores</span> que tus clientes seguiran de verdad',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',generateBtn:'Generar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',
@@ -682,7 +706,7 @@ T.es={
   checklistBase:['Todos los archivos empiezan desde el mismo punto (compas 1, tiempo 1)','Master bus chain DESACTIVADA o en bypass','Ningun archivo clippea','Archivos correctamente nombrados','Premix estereo incluido','Info de sesion incluida (BPM, tonalidad, DAW)','Todos los archivos son definitivos — sin cambios despues del envio'],
   pdf_title:'Guia de envio de archivos',pdf_sub_formal:'Lee este documento con atencion antes de enviarme cualquier archivo.',pdf_sub_informal:'Hola! Antes de enviar los archivos, lee esto.',pdf_from:'Preparado por',pdf_contact:'Email',pdf_web:'Sitio web',pdf_phone:'Telefono',pdf_glossary:'GLOSARIO',pdf_sec_format:'REQUISITOS DE FORMATO',pdf_sec_philos:'IMPORTANTE — DIRECTRICES SOBRE EFECTOS Y EXPORTACION',pdf_sec_stems:'QUE EXPORTAR',pdf_sec_naming:'NOMENCLATURA DE ARCHIVOS',pdf_sec_example:'Ejemplo',pdf_sec_delivery:'COMO ENVIAR LOS ARCHIVOS',pdf_sec_session:'INFORMACION A INCLUIR',pdf_sec_daw:'GUIA DE EXPORTACION',pdf_sec_stupid:'IMPORTANTE — ERRORES COMUNES A EVITAR',pdf_sec_checklist:'CHECKLIST PRE-ENVIO',pdf_sec_notes:'NOTAS ADICIONALES',pdf_sec_yt:'TUTORIAL EN VIDEO',pdf_sec_tc:'TERMINOS Y CONDICIONES',pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'ANTES DE EXPORTAR: Apaga la cadena del master bus (limitador, maximizador, compresor)',pdf_wetdry_note:'WET = exportado con efectos activos | DRY = sonido crudo sin efectos',pdf_stem_sub_generic:'Exportar como se indica en las directrices anteriores. En caso de duda, preguntar antes de enviar.',pdf_deliv_email_label:'Enviar enlace a',pdf_checklist_intro:'Marca cada punto antes de enviar:',pdf_footer:'Generado con BounceGuide — bounceguide.app',pdf_daw_yt:'Ver tutorial en YouTube',pdf_service_mix:'Servicio: Mezcla',pdf_service_master:'Servicio: Mastering',pdf_typebeat:'Formato: Type beat — solo stems vocales necesarios',
 };
-
+ 
 // ── FRENCH ───────────────────────────────────────────────────
 T.fr={
   heroTag:'Arrete de recevoir des fichiers incorrects de tes clients',heroTitle:'Le guide <span>infaillible</span> que tes clients suivront vraiment',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',generateBtn:'Generer le PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',
@@ -708,7 +732,7 @@ T.fr={
   checklistBase:['Tous les fichiers commencent au meme point (mesure 1, temps 1)','Master bus chain DESACTIVEE ou en bypass','Aucun fichier n\'ecrete','Fichiers correctement nommes','Premix stereo inclus','Infos de session incluses (BPM, tonalite, DAW)','Tous les fichiers sont definitifs — aucune modification apres l\'envoi'],
   pdf_title:'Guide d\'envoi des fichiers',pdf_sub_formal:'Lisez ce document attentivement avant de m\'envoyer quoi que ce soit.',pdf_sub_informal:'Salut! Avant d\'envoyer tes fichiers, lis ceci.',pdf_from:'Prepare par',pdf_contact:'Email',pdf_web:'Site web',pdf_phone:'Telephone',pdf_glossary:'GLOSSAIRE',pdf_sec_format:'EXIGENCES DE FORMAT DE FICHIER',pdf_sec_philos:'IMPORTANT — DIRECTIVES SUR LES EFFETS ET L\'EXPORTATION',pdf_sec_stems:'QUOI EXPORTER',pdf_sec_naming:'NOMMAGE DES FICHIERS',pdf_sec_example:'Exemple',pdf_sec_delivery:'COMMENT ENVOYER LES FICHIERS',pdf_sec_session:'INFORMATIONS A INCLURE',pdf_sec_daw:'GUIDE D\'EXPORTATION',pdf_sec_stupid:'IMPORTANT — ERREURS COURANTES A EVITER',pdf_sec_checklist:'CHECKLIST PRE-ENVOI',pdf_sec_notes:'NOTES SUPPLEMENTAIRES',pdf_sec_yt:'TUTORIEL VIDEO',pdf_sec_tc:'CONDITIONS GENERALES',pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'AVANT D\'EXPORTER: Desactiver la chaine du master bus (limiteur, maximiseur, compresseur)',pdf_wetdry_note:'WET = exporte avec effets actifs | DRY = son brut sans effets',pdf_stem_sub_generic:'Exporter comme indique dans les directives ci-dessus. En cas de doute, demander avant d\'envoyer.',pdf_deliv_email_label:'Envoyer le lien a',pdf_checklist_intro:'Cocher chaque point avant d\'envoyer:',pdf_footer:'Genere avec BounceGuide — bounceguide.app',pdf_daw_yt:'Voir le tutoriel sur YouTube',pdf_service_mix:'Service: Mixage',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type beat — seuls les stems vocaux sont necessaires',
 };
-
+ 
 // ── GERMAN ───────────────────────────────────────────────────
 T.de={
   heroTag:'Hore auf falsche Dateien von Kunden zu erhalten',heroTitle:'Die <span>narrensichere</span> Anleitung der deine Kunden wirklich folgen werden',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',generateBtn:'PDF erstellen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',
@@ -734,7 +758,7 @@ T.de={
   checklistBase:['Alle Dateien beginnen am gleichen Punkt (Takt 1)','Master Bus Chain DEAKTIVIERT oder im Bypass','Keine Datei clippt','Dateien korrekt benannt','Stereo-Premix enthalten','Session-Infos enthalten (BPM, Tonart, DAW)','Alle Dateien sind endgultig — keine Anderungen nach dem Senden'],
   pdf_title:'Datei-Einreichungsanleitung',pdf_sub_formal:'Bitte lesen Sie dieses Dokument sorgfaltig bevor Sie mir etwas senden.',pdf_sub_informal:'Hallo! Bevor du Dateien sendest bitte lies das.',pdf_from:'Erstellt von',pdf_contact:'Email',pdf_web:'Website',pdf_phone:'Telefon',pdf_glossary:'GLOSSAR',pdf_sec_format:'DATEIFORMAT-ANFORDERUNGEN',pdf_sec_philos:'WICHTIG — RICHTLINIEN ZU EFFEKTEN UND EXPORT',pdf_sec_stems:'WAS EXPORTIEREN',pdf_sec_naming:'DATEINAMEN-KONVENTION',pdf_sec_example:'Beispiel',pdf_sec_delivery:'WIE DATEIEN GESENDET WERDEN',pdf_sec_session:'ZU SENDENDE INFORMATIONEN',pdf_sec_daw:'EXPORTANLEITUNG',pdf_sec_stupid:'WICHTIG — HAUFIGE FEHLER ZU VERMEIDEN',pdf_sec_checklist:'CHECKLISTE VOR DEM SENDEN',pdf_sec_notes:'WEITERE NOTIZEN',pdf_sec_yt:'VIDEO-TUTORIAL',pdf_sec_tc:'ALLGEMEINE GESCHAFTSBEDINGUNGEN',pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'VOR DEM EXPORT: Master Bus Chain deaktivieren (Limiter, Maximizer, Kompressor)',pdf_wetdry_note:'WET = mit aktiven Effekten exportiert | DRY = roher Sound ohne Effekte',pdf_stem_sub_generic:'Wie in den obigen Richtlinien angegeben exportieren. Im Zweifel vor dem Senden fragen.',pdf_deliv_email_label:'Link senden an',pdf_checklist_intro:'Jeden Punkt vor dem Senden abhaken:',pdf_footer:'Erstellt mit BounceGuide — bounceguide.app',pdf_daw_yt:'YouTube-Tutorial ansehen',pdf_service_mix:'Service: Mixing',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type Beat — nur Vocal-Stems erforderlich',
 };
-
+ 
 // ── PORTUGUESE ───────────────────────────────────────────────
 T.pt={
   heroTag:'Para de receber arquivos errados dos seus clientes',heroTitle:'O guia <span>a prova de erros</span> que seus clientes seguirao de verdade',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',generateBtn:'Gerar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',
@@ -760,7 +784,7 @@ T.pt={
   checklistBase:['Todos os arquivos comecam no mesmo ponto (compasso 1, tempo 1)','Master bus chain DESATIVADA ou em bypass','Nenhum arquivo clippando','Arquivos corretamente nomeados','Premix estereo incluido','Infos de sessao incluidas (BPM, tonalidade, DAW)','Todos os arquivos sao definitivos — sem alteracoes apos o envio'],
   pdf_title:'Guia de envio de arquivos',pdf_sub_formal:'Por favor leia este documento com atencao antes de me enviar qualquer coisa.',pdf_sub_informal:'Oi! Antes de enviar os arquivos leia isso.',pdf_from:'Preparado por',pdf_contact:'Email',pdf_web:'Site',pdf_phone:'Telefone',pdf_glossary:'GLOSSARIO',pdf_sec_format:'REQUISITOS DE FORMATO DE ARQUIVO',pdf_sec_philos:'IMPORTANTE — DIRETRIZES SOBRE EFEITOS E EXPORTACAO',pdf_sec_stems:'O QUE EXPORTAR',pdf_sec_naming:'NOMENCLATURA DE ARQUIVOS',pdf_sec_example:'Exemplo',pdf_sec_delivery:'COMO ENVIAR OS ARQUIVOS',pdf_sec_session:'INFORMACOES A INCLUIR',pdf_sec_daw:'GUIA DE EXPORTACAO',pdf_sec_stupid:'IMPORTANTE — ERROS COMUNS A EVITAR',pdf_sec_checklist:'CHECKLIST PRE-ENVIO',pdf_sec_notes:'NOTAS ADICIONAIS',pdf_sec_yt:'TUTORIAL EM VIDEO',pdf_sec_tc:'TERMOS E CONDICOES',pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'ANTES DE EXPORTAR: Desativar a cadeia do master bus (limitador, maximizador, compressor)',pdf_wetdry_note:'WET = exportado com efeitos ativos | DRY = som bruto sem efeitos',pdf_stem_sub_generic:'Exportar conforme indicado nas diretrizes acima. Em caso de duvida perguntar antes de enviar.',pdf_deliv_email_label:'Enviar link para',pdf_checklist_intro:'Marcar cada item antes de enviar:',pdf_footer:'Gerado com BounceGuide — bounceguide.app',pdf_daw_yt:'Assistir tutorial no YouTube',pdf_service_mix:'Servico: Mixagem',pdf_service_master:'Servico: Mastering',pdf_typebeat:'Formato: Type beat — apenas stems vocais necessarios',
 };
-
+ 
 // ═══════════════════════════════════════════
 //  DAW STEPS
 // ═══════════════════════════════════════════
@@ -788,7 +812,7 @@ it:{
   garageband:['Apri il progetto in GarageBand (Mac o iOS).','Nota: GarageBand non supporta l\'export diretto degli stem. Esporta una traccia alla volta.','Metti in solo la prima traccia (clicca l\'icona delle cuffie).','Vai su Share > Export Song to Disk (Mac) o Share > Song (iOS).','Imposta Formato: AIFF o WAV | Qualita: Lossless.','Clicca Export, salva con un nome chiaro e ripeti per ogni traccia.'],
 },
 };
-
+ 
 const DAWS=[
   {id:'ableton',name:'Ableton Live',icon:'🎛️'},{id:'logic',name:'Logic Pro',icon:'🍎'},
   {id:'flstudio',name:'FL Studio',icon:'🎹'},{id:'protools',name:'Pro Tools',icon:'🔊'},
@@ -796,14 +820,14 @@ const DAWS=[
   {id:'reaper',name:'REAPER',icon:'🔧'},{id:'bitwig',name:'Bitwig Studio',icon:'⚡'},
   {id:'garageband',name:'GarageBand',icon:'🎸'},
 ];
-
+ 
 // ═══════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════
 let lang='en', currentStep=1, tone='formal';
 const TOTAL=9;
 const completedSteps=new Set();
-
+ 
 const fd={
   format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,
   serviceType:'mix',trackType:'stems',
@@ -817,31 +841,31 @@ const fd={
   stupid:[],stupidOthers:[],
   tc:false,logoBase64:null,accentColor:'#E8C547',
 };
-
+ 
 // ═══════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════
 function t(k){return T[lang]?.[k]??T.en?.[k]??k;}
 function tArr(k){return T[lang]?.[k]??T.en?.[k]??[];}
 function checkSVG(){return`<svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
-
+ 
 // Luminance helper for PDF text color
 function luminance(r,g,b){return 0.299*r+0.587*g+0.114*b;}
 function textOnBg(r,g,b){return luminance(r,g,b)<128?[255,255,255]:[15,15,15];}
-
+ 
 function setLang(l){
   lang=l;
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
   document.documentElement.lang=l;
   applyT();buildAll();
 }
-
+ 
 function applyT(){
   document.querySelectorAll('[data-t]').forEach(el=>el.innerHTML=t(el.getAttribute('data-t')));
   document.querySelectorAll('[data-t-ph]').forEach(el=>el.placeholder=t(el.getAttribute('data-t-ph')));
   buildStepsNav();
 }
-
+ 
 function updateAccent(v){
   fd.accentColor=v;
   document.querySelector(':root').style.setProperty('--acc',v);
@@ -849,43 +873,43 @@ function updateAccent(v){
   const r=parseInt(v.slice(1,3),16),g=parseInt(v.slice(3,5),16),b=parseInt(v.slice(5,7),16);
   document.querySelector(':root').style.setProperty('--acc-dim',`rgba(${r},${g},${b},0.12)`);
 }
-
+ 
 function setTone(t2){
   tone=t2;
   document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));
   document.querySelector(`.tone-btn[onclick="setTone('${t2}')"]`)?.classList.add('active');
 }
-
+ 
 function handleLogo(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=e=>{fd.logoBase64=e.target.result;const p=document.getElementById('logoPreview');p.src=e.target.result;p.style.display='block';};
   reader.readAsDataURL(file);
 }
-
+ 
 function autoSave(){
   updateProgress();
   try{localStorage.setItem('bg_v5',JSON.stringify({accentColor:fd.accentColor,mixerName:document.getElementById('mixerName')?.value||''}));}catch(e){}
 }
-
+ 
 function updateProgress(){
   const pct=Math.round((completedSteps.size/TOTAL)*100);
   document.getElementById('progressFill').style.width=pct+'%';
   document.getElementById('progressPct').textContent=pct+'%';
 }
-
+ 
 function resetAll(){
   const msg=lang==='it'?'Ricominciare da capo? Tutti i dati verranno cancellati.':'Start over? All data will be lost.';
   if(!confirm(msg))return;
   try{localStorage.removeItem('bg_v5');}catch(e){}
   location.reload();
 }
-
+ 
 // ═══════════════════════════════════════════
 //  NAV
 // ═══════════════════════════════════════════
 const stepLabels={en:['Details','Service','Glossary','Format','Stems','Naming','Delivery','DAW Guides','Checklist'],it:['Dati','Servizio','Glossario','Formato','Stem','Nomenclatura','Invio','Guide DAW','Checklist'],es:['Datos','Servicio','Glosario','Formato','Stems','Nomenclatura','Envio','DAW','Checklist'],fr:['Donnees','Service','Glossaire','Format','Stems','Nommage','Envoi','DAW','Checklist'],de:['Daten','Service','Glossar','Format','Stems','Benennung','Senden','DAW','Checkliste'],pt:['Dados','Servico','Glossario','Formato','Stems','Nomenclatura','Envio','DAW','Checklist']};
-
+ 
 function buildStepsNav(){
   const nav=document.getElementById('stepsNav');
   const labels=stepLabels[lang]||stepLabels.en;
@@ -894,7 +918,7 @@ function buildStepsNav(){
     return`<button class="step-btn${done?' done':''}${active?' active':''}" onclick="goStep(${n})"><span class="step-num">${done?'v':n}</span>${lb}</button>`;
   }).join('');
 }
-
+ 
 function goStep(n){
   if(n<1||n>TOTAL)return;
   document.querySelectorAll('.form-section').forEach(s=>s.classList.remove('active'));
@@ -902,17 +926,17 @@ function goStep(n){
   currentStep=n;buildStepsNav();
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
+ 
 function advance(fromStep){
   completedSteps.add(fromStep);updateProgress();goStep(fromStep+1);
 }
-
+ 
 function finishForm(){
   completedSteps.add(9);updateProgress();
   document.getElementById('generateBtn').disabled=false;
   buildChecklist();
 }
-
+ 
 // ═══════════════════════════════════════════
 //  RADIO / SERVICE / TRACK TYPE
 // ═══════════════════════════════════════════
@@ -938,7 +962,7 @@ function toggleFmtOther(el){
   el.classList.add('selected');fd.format='other';
   document.getElementById('formatOtherField').classList.add('visible');
 }
-
+ 
 // ═══════════════════════════════════════════
 //  GLOSSARY
 // ═══════════════════════════════════════════
@@ -961,7 +985,7 @@ function toggleWetPhil(){
   });
   autoSave();
 }
-
+ 
 function buildGlossaryItems(){
   const el=document.getElementById('glossaryItems');if(!el)return;
   const terms=tArr('glossaryTerms');
@@ -983,7 +1007,7 @@ function buildGlossaryOtherList(){
       <button class="remove-btn" onclick="fd.glossaryOthers.splice(${i},1);buildGlossaryOtherList()">x</button>
     </div>`).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 //  GENERIC CHECK TOGGLE
 // ═══════════════════════════════════════════
@@ -994,14 +1018,14 @@ function toggleArr(key,idx,otherRevealId,isOther,rebuild){
   if(otherRevealId&&isOther){const rev=document.getElementById(otherRevealId);if(rev)rev.classList.toggle('visible',arr.includes(idx));}
   buildChecklist();autoSave();
 }
-
+ 
 function rebuildKey(key){
   const map={glossary:['glossaryItems','glossaryTerms','glossary',null,false],drums:['drumsChecks','drumsOptions','drums',null,false],instr:['instrChecks','instrOptions','instr',null,false],vocals:['vocalChecks','vocalOptions','vocals',null,false],premix:['premixChecks','premixOptions','premix',null,false],vocalsTB:['vocalChecksTB','vocalOptions','vocalsTB',null,false],premixTB:['premixChecksTB','premixOptions','premixTB',null,false],naming:['namingChecks','namingOptions','naming',null,false],delivery:['deliveryChecks','deliveryOptions','delivery','deliveryOtherReveal',true],session:['sessionChecks','sessionOptions','session','sessionOtherReveal',true],stupid:['stupidChecks','stupidItems','stupid',null,false]};
   const args=map[key];if(!args)return;
   if(key==='glossary'){buildGlossaryItems();return;}
   buildCheckListFromKey(...args);
 }
-
+ 
 function buildCheckListFromKey(containerId,optKey,stateKey,otherRevealId,hasOther){
   const el=document.getElementById(containerId);if(!el)return;
   const opts=tArr(optKey);
@@ -1011,7 +1035,7 @@ function buildCheckListFromKey(containerId,optKey,stateKey,otherRevealId,hasOthe
       <div><div class="check-label">${opt.label}</div>${opt.sub?`<div class="check-sub">${(fd.wetPhilEnabled&&opt.isWet)?t('s5wetUiGeneric'):opt.sub}</div>`:''}</div>
     </div>`).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 //  MULTI-OTHER
 // ═══════════════════════════════════════════
@@ -1052,7 +1076,7 @@ function buildStupidOtherList(){
       <input type="text" placeholder="${lang==='it'?'Spiegazione breve':'Brief explanation'}" value="${item.sub}" oninput="fd.stupidOthers[${i}].sub=this.value;autoSave()">
     </div><button class="remove-btn" onclick="fd.stupidOthers.splice(${i},1);buildStupidOtherList()">x</button></div>`).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 //  DAW GRID + CONFIRM
 // ═══════════════════════════════════════════
@@ -1064,7 +1088,7 @@ function buildDAWGrid(){
     </div>`).join('');
   buildDAWConfirmSection();
 }
-
+ 
 function toggleDAW(id){
   const pos=fd.daws.indexOf(id);
   if(pos>-1){
@@ -1076,12 +1100,12 @@ function toggleDAW(id){
   }
   buildDAWGrid();autoSave();
 }
-
+ 
 function buildDAWConfirmSection(){
   const wrap=document.getElementById('dawConfirmSection');
   if(!wrap)return;
   if(!fd.daws.length){wrap.innerHTML='';updateContinue8();return;}
-
+ 
   const steps=DAW_STEPS[lang]||DAW_STEPS.en;
   wrap.innerHTML=fd.daws.map(id=>{
     const d=DAWS.find(x=>x.id===id);
@@ -1089,9 +1113,9 @@ function buildDAWConfirmSection(){
     const confirmed=fd.dawConfirmed[id];
     const isNo=confirmed===false;
     const isYes=confirmed===true;
-
+ 
     const stepsHTML=dawSteps.map((s,i)=>`<div class="daw-step-row"><span class="daw-step-num">${i+1}</span>${s}</div>`).join('');
-
+ 
     return `<div class="daw-confirm-card">
       <div class="daw-confirm-header">
         <div class="daw-confirm-header-left">${d.icon} ${d.name}</div>
@@ -1116,10 +1140,10 @@ function buildDAWConfirmSection(){
       </div>`:''}
     </div>`;
   }).join('');
-
+ 
   updateContinue8();
 }
-
+ 
 function confirmDAW(id,yes){
   fd.dawConfirmed[id]=yes;
   if(!yes&&!fd.dawCustomSteps[id]){
@@ -1128,12 +1152,12 @@ function confirmDAW(id,yes){
   }
   buildDAWConfirmSection();autoSave();
 }
-
+ 
 function finalizeDAWEdit(id){
   fd.dawConfirmed[id]=true;
   buildDAWConfirmSection();autoSave();
 }
-
+ 
 function updateContinue8(){
   const btn=document.getElementById('advance8Btn');
   const note=document.getElementById('daw8LockedNote');
@@ -1142,7 +1166,7 @@ function updateContinue8(){
   btn.disabled=!allConfirmed;
   if(note)note.style.display=(!allConfirmed&&fd.daws.length>0)?'block':'none';
 }
-
+ 
 // ═══════════════════════════════════════════
 //  STUPIDITY CHECK
 // ═══════════════════════════════════════════
@@ -1155,7 +1179,7 @@ function buildStupidChecks(){
       <div><div class="check-label">${item.label}</div><div class="check-sub">${item.sub}</div></div>
     </div>`).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 //  CHECKLIST
 // ═══════════════════════════════════════════
@@ -1170,17 +1194,17 @@ function buildChecklist(){
       <div class="cl-text">${item}</div>
     </div>`).join('');
 }
-
+ 
 function toggleTC(){
   fd.tc=!fd.tc;
   document.getElementById('tcToggle').classList.toggle('checked',fd.tc);
   document.getElementById('tcField').style.display=fd.tc?'block':'none';
 }
-
+ 
 // ═══════════════════════════════════════════
 //  COPY AS TEXT
 // ═══════════════════════════════════════════
-
+ 
 // ═══════════════════════════════════════════
 //  PDF GENERATION
 // ═══════════════════════════════════════════
@@ -1198,14 +1222,14 @@ function generatePDF(){
   const MID=[90,90,90];
   const LIGHT=[242,242,242];
   const accTextColor=textOnBg(AR,AG,AB);
-
+ 
   const phil=document.getElementById('wetdryPhil')?.value?.trim()||'';
   const hasPhil=fd.wetPhilEnabled&&phil.length>0;
   const genericSub=tl.pdf_stem_sub_generic;
-
+ 
   function np(){doc.addPage();y=M;}
   function ck(need){if(y+need>H-16)np();}
-
+ 
   function secH(label,bgColor=ACC,minContent=28){
     if(y+12+minContent>H-16)np();
     else if(y>M+5)y+=4;
@@ -1216,14 +1240,14 @@ function generatePDF(){
     doc.text(label,M+4,y+5);
     y+=11;doc.setTextColor(40,40,40);
   }
-
+ 
   function bodyTxt(text,indent=0,color=[40,40,40],size=10){
     if(!text?.trim())return;
     doc.setFontSize(size);doc.setFont('helvetica','normal');doc.setTextColor(...color);
     const lines=doc.splitTextToSize(text,Math.max(CW-indent-4,60));
     lines.forEach(l=>{ck(6);doc.text(l,M+indent,y);y+=5.5;});
   }
-
+ 
   function bullet(text,n=null,indent=5){
     if(!text?.trim())return;
     ck(7);
@@ -1232,7 +1256,7 @@ function generatePDF(){
     const lines=doc.splitTextToSize(pre+text,Math.max(CW-indent-8,60));
     lines.forEach((l,i)=>{ck(6);doc.text(l,M+indent+(i>0?6:0),y);y+=5.5;});
   }
-
+ 
   function subBullet(text,indent=12){
     if(!text?.trim())return;
     ck(6);
@@ -1241,7 +1265,7 @@ function generatePDF(){
     lines.forEach(l=>{ck(5);doc.text(l,M+indent,y);y+=5;});
     doc.setTextColor(40,40,40);
   }
-
+ 
   function infoBox(label,value){
     ck(11);
     doc.setFillColor(...LIGHT);doc.rect(M,y,CW,9,'F');
@@ -1251,7 +1275,7 @@ function generatePDF(){
     doc.text(value,M+40,y+6);
     y+=13;
   }
-
+ 
   function warnBox(text){
     if(!text?.trim())return;
     ck(18);
@@ -1265,7 +1289,7 @@ function generatePDF(){
     lines.forEach(l=>{doc.text(l,M+7,iy);iy+=5;});
     y+=bh+2;
   }
-
+ 
   function infoExplain(text){
     if(!text?.trim())return;
     ck(14);
@@ -1278,7 +1302,7 @@ function generatePDF(){
     lines.forEach(l=>{doc.text(l,M+7,iy);iy+=5;});
     y+=bh+2;
   }
-
+ 
   // ── COVER ──
   doc.setFillColor(...DARK);doc.rect(0,0,W,36,'F');
   doc.setFillColor(...ACC);doc.rect(0,36,W,3,'F');
@@ -1291,7 +1315,7 @@ function generatePDF(){
   const subLines=doc.splitTextToSize(sub,CW-(fd.logoBase64?82:0));
   subLines.forEach((l,i)=>doc.text(l,titleX,28+i*5));
   y=48;
-
+ 
   const mixerName=document.getElementById('mixerName')?.value||'';
   const mixerEmail=document.getElementById('mixerEmail')?.value||'';
   const mixerWeb=document.getElementById('mixerWeb')?.value||'';
@@ -1301,12 +1325,12 @@ function generatePDF(){
   if(mixerEmail){doc.text(`${tl.pdf_contact}: ${mixerEmail}`,M,y);y+=5;}
   if(mixerWeb){doc.text(`${tl.pdf_web}: ${mixerWeb}`,M,y);y+=5;}
   if(mixerPhone){doc.text(`${tl.pdf_phone}: ${mixerPhone}`,M,y);y+=5;}
-
+ 
   const svcLabel=fd.serviceType==='mix'?tl.pdf_service_mix:tl.pdf_service_master;
   doc.setFillColor(...ACC);doc.roundedRect(M,y+4,55,8,2,2,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...textOnBg(AR,AG,AB));
   doc.text(svcLabel,M+3,y+9.5);y+=20;
-
+ 
   const msg=document.getElementById('mixerMsg')?.value||'';
   if(msg){
     ck(18);
@@ -1318,7 +1342,7 @@ function generatePDF(){
     let iy=y+7;mlines.forEach(l=>{doc.text(l,M+6,iy);iy+=5.5;});
     y+=bh+6;
   }
-
+ 
   // ── GLOSSARY ──
   if(fd.glossaryEnabled&&(fd.glossary.length||fd.glossaryOthers.length)){
     secH(tl.pdf_glossary,[60,60,60]);
@@ -1337,14 +1361,14 @@ function generatePDF(){
       if(g.def)bodyTxt(g.def,6,[70,70,70],9.5);y+=2;
     });
   }
-
+ 
   // ── FORMAT ──
   secH(tl.pdf_sec_format);
   const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
   if(fmtVal)infoBox(tl.pdf_format_label,fmtVal);
   if(fd.sr)infoBox(tl.pdf_sr_label,fd.sr);
   if(fd.bd)infoBox(tl.pdf_bd_label,fd.bd);
-
+ 
   // ── WET/DRY PHILOSOPHY ──
   warnBox(tl.pdf_master_warn);
   infoExplain(tl.pdf_wetdry_note);
@@ -1352,7 +1376,7 @@ function generatePDF(){
     secH(tl.pdf_sec_philos);
     bodyTxt(phil,0,[40,40,40]);y+=4;
   }
-
+ 
   // ── STEMS ──
   const renderStemGroup=(optKey,stateKey,groupTitle)=>{
     const opts=tArr(optKey);
@@ -1373,7 +1397,7 @@ function generatePDF(){
     });
     y+=2;
   };
-
+ 
   secH(tl.pdf_sec_stems);
   if(fd.serviceType==='mix'&&fd.trackType==='stems'){
     renderStemGroup('drumsOptions','drums',t('s5drumsLabel'));
@@ -1392,7 +1416,7 @@ function generatePDF(){
     doc.text('-- '+s.title+' --',M+3,y);y+=7;doc.setTextColor(40,40,40);
     if(s.desc)bodyTxt(s.desc,4,[60,60,60]);y+=2;
   });
-
+ 
   // ── NAMING ──
   const namOpts=tArr('namingOptions');
   const selNam=fd.naming.filter(i=>!namOpts[i]?.isOther).map(i=>namOpts[i]).filter(Boolean);
@@ -1419,7 +1443,7 @@ function generatePDF(){
     });
     y+=2;
   }
-
+ 
   // ── DELIVERY ──
   const delOpts=tArr('deliveryOptions');
   const selDel=fd.delivery.filter(i=>!delOpts[i]?.isOther).map(i=>delOpts[i]).filter(Boolean);
@@ -1439,7 +1463,7 @@ function generatePDF(){
     if(customLink){ck(12);y+=2;doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(`Link: ${customLink}`,M+4,y+6);y+=13;}
     if(delivEmail){ck(10);doc.setFillColor(...LIGHT);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...MID);doc.text(`${tl.pdf_deliv_email_label}: `,M+4,y+6);doc.setFont('helvetica','bold');doc.setTextColor(...DARK);doc.text(delivEmail,M+4+doc.getTextWidth(`${tl.pdf_deliv_email_label}: `),y+6);y+=13;}
   }
-
+ 
   // ── SESSION ──
   const sessOpts=tArr('sessionOptions');
   const selSess=fd.session.filter(i=>!sessOpts[i]?.isOther).map(i=>sessOpts[i]).filter(Boolean);
@@ -1449,7 +1473,7 @@ function generatePDF(){
     selSess.forEach(s=>bullet(s.label));
     if(sessOther)bullet(sessOther);y+=2;
   }
-
+ 
   // ── DAW GUIDES ──
   const selDAWs=DAWS.filter(d=>fd.daws.includes(d.id));
   selDAWs.forEach(daw=>{
@@ -1464,7 +1488,7 @@ function generatePDF(){
     const ytUrl=fd.dawYT[daw.id]||'';
     if(ytUrl){ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(`${tl.pdf_daw_yt}: ${ytUrl}`,M+4,y+6);y+=13;}
   });
-
+ 
   fd.dawOthers.filter(d=>d.name).forEach(d=>{
     if(y+40>H-16)np();
     secH(`${tl.pdf_sec_daw} -- ${d.name}`,DARK);
@@ -1472,7 +1496,7 @@ function generatePDF(){
     if(d.yt){ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(`${tl.pdf_daw_yt}: ${d.yt}`,M+4,y+6);y+=13;}
     y+=3;
   });
-
+ 
   // ── STUPIDITY CHECK ──
   const stupidItems=tArr('stupidItems');
   const allStupid=[...fd.stupid.map(i=>stupidItems[i]).filter(Boolean),...fd.stupidOthers.filter(s=>s.label)];
@@ -1493,7 +1517,7 @@ function generatePDF(){
       y+=bh+3;
     });
   }
-
+ 
   // ── CHECKLIST ──
   const base=tArr('checklistBase');
   const fmtItem=fmtVal?`${tl.pdf_format_label}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`:null;
@@ -1514,13 +1538,13 @@ function generatePDF(){
     clLines.forEach((l,i)=>{doc.text(l,M+12,textY+i*5.5);});
     y+=rowH+3;
   });
-
+ 
   // ── NOTES ──
   const notes=document.getElementById('extraNotes')?.value||'';
   const refYT=document.getElementById('refYT')?.value||'';
   if(notes){secH(tl.pdf_sec_notes);bodyTxt(notes);y+=3;}
   if(refYT){secH(tl.pdf_sec_yt);ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(refYT,M+4,y+6);y+=13;}
-
+ 
   // ── CONTACT BOX ──
   const contactNote=document.getElementById('contactNote')?.value||'';
   if(contactNote){
@@ -1534,10 +1558,10 @@ function generatePDF(){
     cnLines.forEach(l=>{doc.text(l,M+6,iy);iy+=5.5;});
     y+=bh+4;
   }
-
+ 
   // ── T&C ──
   if(fd.tc){const tc=document.getElementById('tcText')?.value||'';if(tc){secH(tl.pdf_sec_tc);bodyTxt(tc);}}
-
+ 
   // ── FOOTER ──
   const pages=doc.getNumberOfPages();
   for(let p=1;p<=pages;p++){
@@ -1547,11 +1571,11 @@ function generatePDF(){
     doc.text(tl.pdf_footer,M,H-4);
     doc.text(`${p} / ${pages}`,W-M,H-4,{align:'right'});
   }
-
+ 
   const name=(document.getElementById('mixerName')?.value||'guide').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_-]/g,'');
   doc.save(`BounceGuide_${name||'guide'}.pdf`);
 }
-
+ 
 // ═══════════════════════════════════════════
 //  BUILD ALL
 // ═══════════════════════════════════════════
@@ -1571,7 +1595,7 @@ function buildAll(){
   buildStemOtherList();buildNamingOtherList();buildDAWOtherList();
   buildChecklist();updateContinue8();
 }
-
+ 
 // ═══════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════
