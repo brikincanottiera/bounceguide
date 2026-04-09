@@ -1,39 +1,40 @@
-const { feature, descrizione, email, lingua } = req.body;
+const DATABASE_ID = '33da307e5d4a8022bddbe1d815ecb4e7';
+ 
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+ 
+  const { feature, descrizione, email, lingua } = req.body;
  
   if (!feature || !feature.trim()) {
     return res.status(400).json({ error: 'Feature title is required' });
   }
  
   const NOTION_TOKEN = process.env.NOTION_TOKEN;
-  const DATABASE_ID = '33da307e5d4a8022bddbe1d815ecb4e7';
  
-  // Build properties — only fields that exist in the database
+  let descContent = (descrizione || '').trim();
+  if (email && email.trim()) {
+    descContent += (descContent ? '\n\n' : '') + 'Email: ' + email.trim();
+  }
+ 
   const properties = {
     Feature: {
       title: [{ text: { content: feature.trim() } }]
     },
     Descrizione: {
-      rich_text: [{ text: { content: (descrizione || '').trim() } }]
+      rich_text: [{ text: { content: descContent } }]
     },
     Lingua: {
       select: { name: (lingua || 'EN').toUpperCase() }
     }
   };
  
-  // Add email as rich_text in Descrizione if provided, or append to description
-  if (email && email.trim()) {
-    const existingDesc = (descrizione || '').trim();
-    const emailNote = `\n\nEmail: ${email.trim()}`;
-    properties.Descrizione = {
-      rich_text: [{ text: { content: existingDesc + emailNote } }]
-    };
-  }
- 
   try {
     const response = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${NOTION_TOKEN}`,
+        'Authorization': 'Bearer ' + NOTION_TOKEN,
         'Content-Type': 'application/json',
         'Notion-Version': '2022-06-28',
       },
@@ -52,8 +53,8 @@ const { feature, descrizione, email, lingua } = req.body;
  
     return res.status(200).json({ success: true });
   } catch (e) {
-    console.error('Server error:', e);
+    console.error('Server error:', e.message);
     return res.status(500).json({ error: 'Server error', detail: e.message });
   }
-}
+};
  
