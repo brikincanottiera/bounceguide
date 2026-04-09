@@ -13,22 +13,28 @@ module.exports = async function handler(req, res) {
  
   const NOTION_TOKEN = process.env.NOTION_TOKEN;
  
-  let descContent = (descrizione || '').trim();
-  if (email && email.trim()) {
-    descContent += (descContent ? '\n\n' : '') + 'Email: ' + email.trim();
+  // Page body for description and email
+  const children = [];
+ 
+  if (descrizione && descrizione.trim()) {
+    children.push({
+      object: 'block',
+      type: 'paragraph',
+      paragraph: {
+        rich_text: [{ type: 'text', text: { content: descrizione.trim() } }]
+      }
+    });
   }
  
-  const properties = {
-    Feature: {
-      title: [{ text: { content: feature.trim() } }]
-    },
-    Descrizione: {
-      rich_text: [{ text: { content: descContent } }]
-    },
-    Lingua: {
-      select: { name: (lingua || 'EN').toUpperCase() }
-    }
-  };
+  if (email && email.trim()) {
+    children.push({
+      object: 'block',
+      type: 'paragraph',
+      paragraph: {
+        rich_text: [{ type: 'text', text: { content: 'Email: ' + email.trim() } }]
+      }
+    });
+  }
  
   try {
     const response = await fetch('https://api.notion.com/v1/pages', {
@@ -40,7 +46,15 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         parent: { database_id: DATABASE_ID },
-        properties
+        properties: {
+          Feature: {
+            title: [{ text: { content: feature.trim() } }]
+          },
+          Lingua: {
+            select: { name: (lingua || 'EN').toUpperCase() }
+          }
+        },
+        children: children
       })
     });
  
@@ -57,4 +71,3 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Server error', detail: e.message });
   }
 };
- 
