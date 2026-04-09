@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — BounceGuide</title>
+<meta name="robots" content="noindex">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f0f;--bg2:#181818;--bg3:#222;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--t1:#efefef;--t2:#888;--t3:#444;--acc:#E8C547;--acc-dim:rgba(232,197,71,0.12);--radius:10px;--radius-sm:6px}
+html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--border);background:rgba(15,15,15,0.96)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--acc);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-0.4px}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{padding:4px 9px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;font-weight:500;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--border2);color:var(--t1)}
+.lang-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 24px}
+.container{max-width:580px;width:100%;text-align:center}
+
+.big-number{font-size:140px;font-weight:900;color:var(--bg2);letter-spacing:-8px;line-height:1;margin-bottom:0;position:relative;user-select:none}
+.big-number span{color:var(--acc)}
+
+.tag{font-size:11px;font-weight:700;color:var(--acc);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+.tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc)}
+
+.title{font-size:26px;font-weight:800;color:var(--t1);letter-spacing:-0.5px;margin-bottom:8px;line-height:1.3}
+.subtitle{font-size:14px;color:var(--t2);margin-bottom:36px;line-height:1.7}
+
+.story{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;text-align:left}
+.story-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm)}
+.story-num{font-size:10px;font-weight:700;color:var(--acc);flex-shrink:0;margin-top:2px;width:14px}
+.story-text{font-size:13px;color:var(--t1);line-height:1.5}
+
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-primary{padding:11px 24px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;transition:opacity 0.15s}
+.btn-primary:hover{opacity:0.87}
+.btn-secondary{padding:11px 24px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:all 0.15s}
+.btn-secondary:hover{color:var(--t1);border-color:var(--t1)}
+
+footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;font-size:11px;color:var(--t3)}
+@media(max-width:600px){
+  header{padding:12px 16px}
+  .big-number{font-size:100px}
+  .title{font-size:20px}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="logo-text">BounceGuide</span>
+  </a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="big-number"><span>4</span>0<span>4</span></div>
+    <div class="tag" id="tag"></div>
+    <div class="title" id="title"></div>
+    <div class="subtitle" id="subtitle"></div>
+
+    <div class="story">
+      <div class="story-item"><span class="story-num">1</span><span class="story-text" id="step1"></span></div>
+      <div class="story-item"><span class="story-num">2</span><span class="story-text" id="step2"></span></div>
+      <div class="story-item"><span class="story-num">3</span><span class="story-text" id="step3"></span></div>
+    </div>
+
+    <div class="btns">
+      <a href="/" class="btn-primary" id="btnHome"></a>
+      <a href="/feature-requests" class="btn-secondary" id="btnFeature"></a>
+    </div>
+  </div>
+</main>
+
+<footer id="footer"></footer>
+
+<script>
+const T = {"en": {"tag": "404 — Page not found", "title": "This page doesn't exist.", "subtitle": "Much like a session where every file is called \"Audio 01\".", "step1": "You followed a broken link.", "step2": "Or you typed something wrong in the URL.", "step3": "Or someone sent you here and that someone needs BounceGuide.", "btnHome": "Back to BounceGuide", "btnFeature": "Report this as a bug", "footer": "Made by Francesco — Brik in Canottiera"}, "it": {"tag": "404 — Pagina non trovata", "title": "Questa pagina non esiste.", "subtitle": "Un po' come una sessione in cui ogni file si chiama \"Audio 01\".", "step1": "Hai seguito un link rotto.", "step2": "Oppure hai scritto qualcosa di sbagliato nell'URL.", "step3": "Oppure qualcuno ti ha mandato qui — e quel qualcuno ha bisogno di BounceGuide.", "btnHome": "Torna a BounceGuide", "btnFeature": "Segnala come bug", "footer": "Fatto da Francesco — Brik in Canottiera"}, "es": {"tag": "404 — Pagina no encontrada", "title": "Esta pagina no existe.", "subtitle": "Como una sesion donde cada archivo se llama \"Audio 01\".", "step1": "Seguiste un enlace roto.", "step2": "O escribiste algo mal en la URL.", "step3": "O alguien te mando aqui — y esa persona necesita BounceGuide.", "btnHome": "Volver a BounceGuide", "btnFeature": "Reportar como error", "footer": "Hecho por Francesco — Brik in Canottiera"}, "fr": {"tag": "404 — Page introuvable", "title": "Cette page n'existe pas.", "subtitle": "Un peu comme une session ou chaque fichier s'appelle \"Audio 01\".", "step1": "Tu as suivi un lien casse.", "step2": "Ou tu as mal tape l'URL.", "step3": "Ou quelqu'un t'a envoye ici — et cette personne a besoin de BounceGuide.", "btnHome": "Retour a BounceGuide", "btnFeature": "Signaler comme bug", "footer": "Fait par Francesco — Brik in Canottiera"}, "de": {"tag": "404 — Seite nicht gefunden", "title": "Diese Seite existiert nicht.", "subtitle": "Ahnlich wie eine Session wo jede Datei \"Audio 01\" heisst.", "step1": "Du hast einem kaputten Link gefolgt.", "step2": "Oder du hast etwas Falsches in die URL getippt.", "step3": "Oder jemand hat dich hierher geschickt — und diese Person braucht BounceGuide.", "btnHome": "Zuruck zu BounceGuide", "btnFeature": "Als Bug melden", "footer": "Gemacht von Francesco — Brik in Canottiera"}, "pt": {"tag": "404 — Pagina nao encontrada", "title": "Esta pagina nao existe.", "subtitle": "Assim como uma sessao onde cada arquivo se chama \"Audio 01\".", "step1": "Voce seguiu um link quebrado.", "step2": "Ou digitou algo errado na URL.", "step3": "Ou alguem te mandou aqui — e essa pessoa precisa do BounceGuide.", "btnHome": "Voltar ao BounceGuide", "btnFeature": "Reportar como bug", "footer": "Feito por Francesco — Brik in Canottiera"}};
+let lang = 'en';
+const IDS = ['tag','title','subtitle','step1','step2','step3','btnHome','btnFeature','footer'];
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  const tr = T[l] || T.en;
+  IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = tr[id] || '';
+  });
+}
+document.addEventListener('DOMContentLoaded', () => setLang('en'));
+</script>
+</body>
+</html>
