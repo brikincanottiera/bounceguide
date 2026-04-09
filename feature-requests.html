@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Requests — BounceGuide</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f0f;--bg2:#181818;--bg3:#222;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--t1:#efefef;--t2:#888;--t3:#444;--acc:#E8C547;--acc-dim:rgba(232,197,71,0.12);--radius:10px;--radius-sm:6px;--success:#22c55e;--success-dim:rgba(34,197,94,0.1)}
+html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.96);backdrop-filter:blur(16px)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--acc);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-0.4px}
+.header-right{display:flex;align-items:center;gap:20px}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{padding:4px 9px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;font-weight:500;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--border2);color:var(--t1)}
+.lang-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.about-nav-link{font-size:12px;font-weight:600;color:var(--t2);text-decoration:none;letter-spacing:0.3px;transition:color 0.15s}
+.about-nav-link:hover{color:var(--t1)}
+.header-sep{width:0.5px;height:16px;background:var(--border2)}
+main{flex:1;max-width:640px;margin:0 auto;padding:48px 24px 80px;width:100%}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);text-decoration:none;margin-bottom:32px;transition:color 0.15s}
+.back-link:hover{color:var(--acc)}
+.hero-tag{font-size:11px;font-weight:700;color:var(--acc);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.hero-title{font-size:28px;font-weight:800;color:var(--t1);letter-spacing:-0.6px;margin-bottom:8px}
+.hero-desc{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:36px}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:11px;font-weight:600;color:var(--t2);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:6px}
+.form-label span{color:var(--acc);margin-left:3px}
+input[type=text],input[type=email],textarea,select{width:100%;padding:10px 13px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--t1);font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--acc)}
+textarea{min-height:90px}
+input::placeholder,textarea::placeholder{color:var(--t3)}
+select option{background:var(--bg2)}
+.submit-btn{width:100%;padding:13px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s;margin-top:8px}
+.submit-btn:hover{opacity:0.87}
+.submit-btn:disabled{opacity:0.4;cursor:not-allowed}
+.error-msg{font-size:12px;color:#f87171;margin-top:8px;display:none}
+.success-box{display:none;background:var(--success-dim);border:0.5px solid rgba(34,197,94,0.3);border-radius:var(--radius);padding:28px 24px;text-align:center;margin-top:8px}
+.success-icon{font-size:36px;margin-bottom:12px}
+.success-title{font-size:18px;font-weight:800;color:var(--t1);margin-bottom:6px}
+.success-desc{font-size:13px;color:var(--t2);line-height:1.6}
+footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;font-size:11px;color:var(--t3)}
+@media(max-width:600px){header{padding:12px 16px}main{padding:28px 16px 60px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="logo-text">BounceGuide</span>
+  </a>
+  <div class="header-right">
+    <a href="/about" class="about-nav-link">About</a>
+    <div class="header-sep"></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('it')">IT</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    </div>
+  </div>
+</header>
+<main>
+  <a href="/" class="back-link">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="backLink"></span>
+  </a>
+  <div class="hero-tag" id="heroTag"></div>
+  <div class="hero-title" id="heroTitle"></div>
+  <div class="hero-desc" id="heroDesc"></div>
+
+  <div id="formWrap">
+    <div class="form-group">
+      <label class="form-label" for="inp-feature"><span id="labelFeature"></span><span id="requiredLabel"></span></label>
+      <input type="text" id="inp-feature" maxlength="200">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="inp-desc" id="labelDesc"></label>
+      <textarea id="inp-desc" rows="4" maxlength="1000"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="inp-email" id="labelEmail"></label>
+      <input type="email" id="inp-email">
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()"><span id="submitLabel"></span></button>
+  </div>
+
+  <div class="success-box" id="successBox">
+    <div class="success-icon">🎉</div>
+    <div class="success-title" id="successTitle"></div>
+    <div class="success-desc" id="successDesc"></div>
+  </div>
+</main>
+<footer>BounceGuide &mdash; Made by Francesco — Brik in Canottiera</footer>
+
+<script>
+const T = {"en": {"pageTitle": "Feature Requests", "heroTag": "Help us improve", "heroTitle": "Got an idea?", "heroDesc": "Tell us what you would like to see in BounceGuide. Every request is read and evaluated.", "labelFeature": "What would you like?", "phFeature": "e.g. Export the guide as a Word document", "labelDesc": "Tell us more (optional)", "phDesc": "Why would this be useful? How would you use it?", "labelEmail": "Your email (optional)", "phEmail": "you@email.com — we will notify you if we implement it", "labelLang": "Your language", "submit": "Send request", "sending": "Sending...", "successTitle": "Request sent!", "successDesc": "Thank you. We read every suggestion and use them to improve BounceGuide.", "errorEmpty": "Please write at least a title for your request.", "errorGeneric": "Something went wrong. Please try again.", "backToApp": "Back to BounceGuide", "required": "Required"}, "it": {"pageTitle": "Feature Requests", "heroTag": "Aiutaci a migliorare", "heroTitle": "Hai un'idea?", "heroDesc": "Dicci cosa vorresti vedere in BounceGuide. Ogni richiesta viene letta e valutata.", "labelFeature": "Cosa vorresti?", "phFeature": "es. Esportare la guida come documento Word", "labelDesc": "Raccontaci di piu (opzionale)", "phDesc": "Perche sarebbe utile? Come la useresti?", "labelEmail": "La tua email (opzionale)", "phEmail": "tu@email.com — ti avvisiamo se la implementiamo", "labelLang": "La tua lingua", "submit": "Invia richiesta", "sending": "Invio in corso...", "successTitle": "Richiesta inviata!", "successDesc": "Grazie. Leggiamo ogni suggerimento e lo usiamo per migliorare BounceGuide.", "errorEmpty": "Scrivi almeno un titolo per la tua richiesta.", "errorGeneric": "Qualcosa e andato storto. Riprova.", "backToApp": "Torna a BounceGuide", "required": "Obbligatorio"}, "es": {"pageTitle": "Feature Requests", "heroTag": "Ayudanos a mejorar", "heroTitle": "Tienes una idea?", "heroDesc": "Cuentanos que te gustaria ver en BounceGuide. Cada solicitud es leida y evaluada.", "labelFeature": "Que te gustaria?", "phFeature": "ej. Exportar la guia como documento Word", "labelDesc": "Cuentanos mas (opcional)", "phDesc": "Por que seria util? Como lo usarias?", "labelEmail": "Tu email (opcional)", "phEmail": "tu@email.com — te avisamos si lo implementamos", "labelLang": "Tu idioma", "submit": "Enviar solicitud", "sending": "Enviando...", "successTitle": "Solicitud enviada!", "successDesc": "Gracias. Leemos cada sugerencia y la usamos para mejorar BounceGuide.", "errorEmpty": "Escribe al menos un titulo para tu solicitud.", "errorGeneric": "Algo salio mal. Intentalo de nuevo.", "backToApp": "Volver a BounceGuide", "required": "Obligatorio"}, "fr": {"pageTitle": "Feature Requests", "heroTag": "Aide-nous a ameliorer", "heroTitle": "Tu as une idee?", "heroDesc": "Dis-nous ce que tu aimerais voir dans BounceGuide. Chaque demande est lue et evaluee.", "labelFeature": "Qu'est-ce que tu voudrais?", "phFeature": "ex. Exporter le guide en document Word", "labelDesc": "Dis-nous en plus (optionnel)", "phDesc": "Pourquoi ce serait utile? Comment tu l'utiliserais?", "labelEmail": "Ton email (optionnel)", "phEmail": "toi@email.com — on te previent si on l'implemente", "labelLang": "Ta langue", "submit": "Envoyer la demande", "sending": "Envoi en cours...", "successTitle": "Demande envoyee!", "successDesc": "Merci. Nous lisons chaque suggestion et l'utilisons pour ameliorer BounceGuide.", "errorEmpty": "Ecris au moins un titre pour ta demande.", "errorGeneric": "Quelque chose a mal tourne. Reessaie.", "backToApp": "Retour a BounceGuide", "required": "Obligatoire"}, "de": {"pageTitle": "Feature Requests", "heroTag": "Hilf uns zu verbessern", "heroTitle": "Hast du eine Idee?", "heroDesc": "Sag uns was du in BounceGuide sehen mochtest. Jede Anfrage wird gelesen und bewertet.", "labelFeature": "Was wurdest du dir wunschen?", "phFeature": "z.B. Den Leitfaden als Word-Dokument exportieren", "labelDesc": "Erzahl uns mehr (optional)", "phDesc": "Warum ware das nutzlich? Wie wurdest du es verwenden?", "labelEmail": "Deine Email (optional)", "phEmail": "du@email.com — wir benachrichtigen dich wenn wir es umsetzen", "labelLang": "Deine Sprache", "submit": "Anfrage senden", "sending": "Wird gesendet...", "successTitle": "Anfrage gesendet!", "successDesc": "Danke. Wir lesen jeden Vorschlag und nutzen ihn um BounceGuide zu verbessern.", "errorEmpty": "Bitte schreib mindestens einen Titel fur deine Anfrage.", "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.", "backToApp": "Zuruck zu BounceGuide", "required": "Pflichtfeld"}, "pt": {"pageTitle": "Feature Requests", "heroTag": "Ajude-nos a melhorar", "heroTitle": "Tem uma ideia?", "heroDesc": "Nos diga o que voce gostaria de ver no BounceGuide. Cada solicitacao e lida e avaliada.", "labelFeature": "O que voce gostaria?", "phFeature": "ex. Exportar o guia como documento Word", "labelDesc": "Conte-nos mais (opcional)", "phDesc": "Por que seria util? Como voce usaria?", "labelEmail": "Seu email (opcional)", "phEmail": "voce@email.com — avisamos se implementarmos", "labelLang": "Seu idioma", "submit": "Enviar solicitacao", "sending": "Enviando...", "successTitle": "Solicitacao enviada!", "successDesc": "Obrigado. Lemos cada sugestao e a usamos para melhorar o BounceGuide.", "errorEmpty": "Escreva pelo menos um titulo para sua solicitacao.", "errorGeneric": "Algo deu errado. Tente novamente.", "backToApp": "Voltar ao BounceGuide", "required": "Obrigatorio"}};
+let lang = 'en';
+const IDS = ['backLink','heroTag','heroTitle','heroDesc','labelFeature','labelDesc','labelEmail','submitLabel','successTitle','successDesc'];
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  const tr = T[l] || T.en;
+  IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = tr[id.replace('Label','').charAt(0).toLowerCase() + id.replace('Label','').slice(1)] || tr[id] || '';
+  });
+  document.getElementById('labelFeature').textContent = tr.labelFeature;
+  document.getElementById('labelDesc').textContent = tr.labelDesc;
+  document.getElementById('labelEmail').textContent = tr.labelEmail;
+  document.getElementById('submitLabel').textContent = tr.submit;
+  document.getElementById('successTitle').textContent = tr.successTitle;
+  document.getElementById('successDesc').textContent = tr.successDesc;
+  document.getElementById('backLink').textContent = tr.backToApp;
+  document.getElementById('heroTag').textContent = tr.heroTag;
+  document.getElementById('heroTitle').textContent = tr.heroTitle;
+  document.getElementById('heroDesc').textContent = tr.heroDesc;
+  document.getElementById('requiredLabel').textContent = ' *';
+  document.getElementById('inp-feature').placeholder = tr.phFeature;
+  document.getElementById('inp-desc').placeholder = tr.phDesc;
+  document.getElementById('inp-email').placeholder = tr.phEmail;
+}
+
+async function submitForm() {
+  const tr = T[lang] || T.en;
+  const feature = document.getElementById('inp-feature').value.trim();
+  const descrizione = document.getElementById('inp-desc').value.trim();
+  const email = document.getElementById('inp-email').value.trim();
+  const errEl = document.getElementById('errorMsg');
+
+  errEl.style.display = 'none';
+
+  if (!feature) {
+    errEl.textContent = tr.errorEmpty;
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('submitLabel').textContent = tr.sending;
+
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feature, descrizione, email, lingua: lang.toUpperCase() })
+    });
+
+    if (res.ok) {
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('successBox').style.display = 'block';
+    } else {
+      throw new Error('error');
+    }
+  } catch(e) {
+    errEl.textContent = tr.errorGeneric;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    document.getElementById('submitLabel').textContent = tr.submit;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => setLang('en'));
+</script>
+</body>
+</html>
