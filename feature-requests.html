@@ -68,6 +68,15 @@ select option{background:var(--bg2)}
 .success-desc{font-size:13px;color:var(--t2);line-height:1.6}
 footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;font-size:11px;color:var(--t3)}
 @media(max-width:600px){header{padding:12px 16px}main{padding:28px 16px 60px}}
+
+@media(max-width:640px){
+  .header-nav-links{display:none !important}
+  .lang-switcher{display:none !important}
+  .lang-select-mobile{display:flex !important}
+}
+@media(min-width:641px){
+  .lang-select-mobile{display:none !important}
+}
 </style>
 </head>
 <body>
@@ -76,9 +85,11 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
     <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <span class="logo-text">BounceGuide</span>
   </a>
-  <div class="header-right">
-    <a href="/about" class="about-nav-link">About</a>
-    <div class="header-sep"></div>
+  <div class="header-right" style="display:flex;align-items:center;gap:20px">
+    <div class="header-nav-links" style="display:flex;align-items:center;gap:16px">
+      <a href="/about" class="about-nav-link">About</a>
+      <div class="header-sep"></div>
+    </div>
     <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('it')">IT</button>
@@ -87,6 +98,14 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
       <button class="lang-btn" onclick="setLang('de')">DE</button>
       <button class="lang-btn" onclick="setLang('pt')">PT</button>
     </div>
+    <select class="lang-select-mobile" onchange="setLang(this.value)" style="display:none;padding:5px 8px;border-radius:6px;border:0.5px solid rgba(255,255,255,0.13);background:#181818;color:#efefef;font-size:12px;font-weight:600;cursor:pointer;outline:none">
+      <option value="en">EN</option>
+      <option value="it">IT</option>
+      <option value="es">ES</option>
+      <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="pt">PT</option>
+    </select>
   </div>
 </header>
 <main>
@@ -112,6 +131,12 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
       <input type="email" id="inp-email">
       <div id="emailNote" style="font-size:11px;color:var(--t3);margin-top:5px;line-height:1.5"></div>
     </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:4px;margin-bottom:4px;padding:12px 14px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-sm);cursor:pointer" onclick="toggleGdpr()">
+      <div id="gdprBox" style="width:15px;height:15px;border-radius:4px;border:0.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all 0.15s">
+        <svg id="gdprCheck" width="9" height="9" viewBox="0 0 9 9" fill="none" style="opacity:0;transition:opacity 0.15s"><path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.6" id="gdprLabel"></div>
+    </div>
     <div class="error-msg" id="errorMsg"></div>
     <button class="submit-btn" id="submitBtn" onclick="submitForm()"><span id="submitLabel"></span></button>
   </div>
@@ -135,7 +160,7 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
 </footer>
 
 <script>
-const T = {"en": {"pageTitle": "Feature Requests", "heroTag": "Help us improve", "heroTitle": "Got an idea?", "heroDesc": "Tell us what you would like to see in BounceGuide. Every request is read and evaluated.", "labelFeature": "What would you like?", "phFeature": "e.g. Export the guide as a Word document", "labelDesc": "Tell us more (optional)", "phDesc": "Why would this be useful? How would you use it?", "labelEmail": "Your email (optional)", "phEmail": "you@email.com — we will notify you if we implement it", "labelLang": "Your language", "submit": "Send request", "sending": "Sending...", "successTitle": "Request sent!", "successDesc": "Thank you. We read every suggestion and use them to improve BounceGuide.", "errorEmpty": "Please write at least a title for your request.", "errorGeneric": "Something went wrong. Please try again.", "backToApp": "Back to BounceGuide", "required": "Required", "emailNote": "Your email will only be used to notify you if your request is implemented. It will not be shared with third parties."}, "it": {"pageTitle": "Feature Requests", "heroTag": "Aiutaci a migliorare", "heroTitle": "Hai un'idea?", "heroDesc": "Dicci cosa vorresti vedere in BounceGuide. Ogni richiesta viene letta e valutata.", "labelFeature": "Cosa vorresti?", "phFeature": "es. Esportare la guida come documento Word", "labelDesc": "Raccontaci di piu (opzionale)", "phDesc": "Perche sarebbe utile? Come la useresti?", "labelEmail": "La tua email (opzionale)", "phEmail": "tu@email.com — ti avvisiamo se la implementiamo", "labelLang": "La tua lingua", "submit": "Invia richiesta", "sending": "Invio in corso...", "successTitle": "Richiesta inviata!", "successDesc": "Grazie. Leggiamo ogni suggerimento e lo usiamo per migliorare BounceGuide.", "errorEmpty": "Scrivi almeno un titolo per la tua richiesta.", "errorGeneric": "Qualcosa e andato storto. Riprova.", "backToApp": "Torna a BounceGuide", "required": "Obbligatorio", "emailNote": "La tua email verra usata solo per avvisarti se la tua richiesta viene implementata. Non verra condivisa con terze parti."}, "es": {"pageTitle": "Feature Requests", "heroTag": "Ayudanos a mejorar", "heroTitle": "Tienes una idea?", "heroDesc": "Cuentanos que te gustaria ver en BounceGuide. Cada solicitud es leida y evaluada.", "labelFeature": "Que te gustaria?", "phFeature": "ej. Exportar la guia como documento Word", "labelDesc": "Cuentanos mas (opcional)", "phDesc": "Por que seria util? Como lo usarias?", "labelEmail": "Tu email (opcional)", "phEmail": "tu@email.com — te avisamos si lo implementamos", "labelLang": "Tu idioma", "submit": "Enviar solicitud", "sending": "Enviando...", "successTitle": "Solicitud enviada!", "successDesc": "Gracias. Leemos cada sugerencia y la usamos para mejorar BounceGuide.", "errorEmpty": "Escribe al menos un titulo para tu solicitud.", "errorGeneric": "Algo salio mal. Intentalo de nuevo.", "backToApp": "Volver a BounceGuide", "required": "Obligatorio", "emailNote": "Tu email solo se usara para notificarte si tu solicitud es implementada. No sera compartido con terceros."}, "fr": {"pageTitle": "Feature Requests", "heroTag": "Aide-nous a ameliorer", "heroTitle": "Tu as une idee?", "heroDesc": "Dis-nous ce que tu aimerais voir dans BounceGuide. Chaque demande est lue et evaluee.", "labelFeature": "Qu'est-ce que tu voudrais?", "phFeature": "ex. Exporter le guide en document Word", "labelDesc": "Dis-nous en plus (optionnel)", "phDesc": "Pourquoi ce serait utile? Comment tu l'utiliserais?", "labelEmail": "Ton email (optionnel)", "phEmail": "toi@email.com — on te previent si on l'implemente", "labelLang": "Ta langue", "submit": "Envoyer la demande", "sending": "Envoi en cours...", "successTitle": "Demande envoyee!", "successDesc": "Merci. Nous lisons chaque suggestion et l'utilisons pour ameliorer BounceGuide.", "errorEmpty": "Ecris au moins un titre pour ta demande.", "errorGeneric": "Quelque chose a mal tourne. Reessaie.", "backToApp": "Retour a BounceGuide", "required": "Obligatoire", "emailNote": "Ton email sera utilise uniquement pour te notifier si ta demande est implementee. Il ne sera pas partage avec des tiers."}, "de": {"pageTitle": "Feature Requests", "heroTag": "Hilf uns zu verbessern", "heroTitle": "Hast du eine Idee?", "heroDesc": "Sag uns was du in BounceGuide sehen mochtest. Jede Anfrage wird gelesen und bewertet.", "labelFeature": "Was wurdest du dir wunschen?", "phFeature": "z.B. Den Leitfaden als Word-Dokument exportieren", "labelDesc": "Erzahl uns mehr (optional)", "phDesc": "Warum ware das nutzlich? Wie wurdest du es verwenden?", "labelEmail": "Deine Email (optional)", "phEmail": "du@email.com — wir benachrichtigen dich wenn wir es umsetzen", "labelLang": "Deine Sprache", "submit": "Anfrage senden", "sending": "Wird gesendet...", "successTitle": "Anfrage gesendet!", "successDesc": "Danke. Wir lesen jeden Vorschlag und nutzen ihn um BounceGuide zu verbessern.", "errorEmpty": "Bitte schreib mindestens einen Titel fur deine Anfrage.", "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.", "backToApp": "Zuruck zu BounceGuide", "required": "Pflichtfeld", "emailNote": "Deine Email wird nur verwendet um dich zu benachrichtigen wenn deine Anfrage umgesetzt wird. Sie wird nicht an Dritte weitergegeben."}, "pt": {"pageTitle": "Feature Requests", "heroTag": "Ajude-nos a melhorar", "heroTitle": "Tem uma ideia?", "heroDesc": "Nos diga o que voce gostaria de ver no BounceGuide. Cada solicitacao e lida e avaliada.", "labelFeature": "O que voce gostaria?", "phFeature": "ex. Exportar o guia como documento Word", "labelDesc": "Conte-nos mais (opcional)", "phDesc": "Por que seria util? Como voce usaria?", "labelEmail": "Seu email (opcional)", "phEmail": "voce@email.com — avisamos se implementarmos", "labelLang": "Seu idioma", "submit": "Enviar solicitacao", "sending": "Enviando...", "successTitle": "Solicitacao enviada!", "successDesc": "Obrigado. Lemos cada sugestao e a usamos para melhorar o BounceGuide.", "errorEmpty": "Escreva pelo menos um titulo para sua solicitacao.", "errorGeneric": "Algo deu errado. Tente novamente.", "backToApp": "Voltar ao BounceGuide", "required": "Obrigatorio", "emailNote": "Seu email sera usado apenas para notifica-lo se sua solicitacao for implementada. Nao sera compartilhado com terceiros."}};
+const T = {"en": {"pageTitle": "Feature Requests", "heroTag": "Help us improve", "heroTitle": "Got an idea?", "heroDesc": "Tell us what you would like to see in BounceGuide. Every request is read and evaluated.", "labelFeature": "What would you like?", "phFeature": "e.g. Export the guide as a Word document", "labelDesc": "Tell us more (optional)", "phDesc": "Why would this be useful? How would you use it?", "labelEmail": "Your email (optional)", "phEmail": "you@email.com — we will notify you if we implement it", "labelLang": "Your language", "submit": "Send request", "sending": "Sending...", "successTitle": "Request sent!", "successDesc": "Thank you. We read every suggestion and use them to improve BounceGuide.", "errorEmpty": "Please write at least a title for your request.", "errorGeneric": "Something went wrong. Please try again.", "backToApp": "Back to BounceGuide", "required": "Required", "emailNote": "Your email will only be used to notify you if your request is implemented. It will not be shared with third parties.", "gdprLabel": "I have read and accept the <a href=\"/privacy\" style=\"color:var(--acc);text-decoration:none\">Privacy Policy</a>. I understand my email will only be used to notify me about my request.", "gdprError": "Please accept the Privacy Policy to continue."}, "it": {"pageTitle": "Feature Requests", "heroTag": "Aiutaci a migliorare", "heroTitle": "Hai un'idea?", "heroDesc": "Dicci cosa vorresti vedere in BounceGuide. Ogni richiesta viene letta e valutata.", "labelFeature": "Cosa vorresti?", "phFeature": "es. Esportare la guida come documento Word", "labelDesc": "Raccontaci di piu (opzionale)", "phDesc": "Perche sarebbe utile? Come la useresti?", "labelEmail": "La tua email (opzionale)", "phEmail": "tu@email.com — ti avvisiamo se la implementiamo", "labelLang": "La tua lingua", "submit": "Invia richiesta", "sending": "Invio in corso...", "successTitle": "Richiesta inviata!", "successDesc": "Grazie. Leggiamo ogni suggerimento e lo usiamo per migliorare BounceGuide.", "errorEmpty": "Scrivi almeno un titolo per la tua richiesta.", "errorGeneric": "Qualcosa e andato storto. Riprova.", "backToApp": "Torna a BounceGuide", "required": "Obbligatorio", "emailNote": "La tua email verra usata solo per avvisarti se la tua richiesta viene implementata. Non verra condivisa con terze parti.", "gdprLabel": "Ho letto e accetto la <a href=\"/privacy\" style=\"color:var(--acc);text-decoration:none\">Privacy Policy</a>. Acconsento al trattamento della mia email per ricevere notifiche sulla mia richiesta.", "gdprError": "Devi accettare la Privacy Policy per continuare."}, "es": {"pageTitle": "Feature Requests", "heroTag": "Ayudanos a mejorar", "heroTitle": "Tienes una idea?", "heroDesc": "Cuentanos que te gustaria ver en BounceGuide. Cada solicitud es leida y evaluada.", "labelFeature": "Que te gustaria?", "phFeature": "ej. Exportar la guia como documento Word", "labelDesc": "Cuentanos mas (opcional)", "phDesc": "Por que seria util? Como lo usarias?", "labelEmail": "Tu email (opcional)", "phEmail": "tu@email.com — te avisamos si lo implementamos", "labelLang": "Tu idioma", "submit": "Enviar solicitud", "sending": "Enviando...", "successTitle": "Solicitud enviada!", "successDesc": "Gracias. Leemos cada sugerencia y la usamos para mejorar BounceGuide.", "errorEmpty": "Escribe al menos un titulo para tu solicitud.", "errorGeneric": "Algo salio mal. Intentalo de nuevo.", "backToApp": "Volver a BounceGuide", "required": "Obligatorio", "emailNote": "Tu email solo se usara para notificarte si tu solicitud es implementada. No sera compartido con terceros.", "gdprLabel": "He leido y acepto la <a href=\"/privacy\" style=\"color:var(--acc);text-decoration:none\">Politica de Privacidad</a>. Entiendo que mi email solo se usara para notificarme sobre mi solicitud.", "gdprError": "Debes aceptar la Politica de Privacidad para continuar."}, "fr": {"pageTitle": "Feature Requests", "heroTag": "Aide-nous a ameliorer", "heroTitle": "Tu as une idee?", "heroDesc": "Dis-nous ce que tu aimerais voir dans BounceGuide. Chaque demande est lue et evaluee.", "labelFeature": "Qu'est-ce que tu voudrais?", "phFeature": "ex. Exporter le guide en document Word", "labelDesc": "Dis-nous en plus (optionnel)", "phDesc": "Pourquoi ce serait utile? Comment tu l'utiliserais?", "labelEmail": "Ton email (optionnel)", "phEmail": "toi@email.com — on te previent si on l'implemente", "labelLang": "Ta langue", "submit": "Envoyer la demande", "sending": "Envoi en cours...", "successTitle": "Demande envoyee!", "successDesc": "Merci. Nous lisons chaque suggestion et l'utilisons pour ameliorer BounceGuide.", "errorEmpty": "Ecris au moins un titre pour ta demande.", "errorGeneric": "Quelque chose a mal tourne. Reessaie.", "backToApp": "Retour a BounceGuide", "required": "Obligatoire", "emailNote": "Ton email sera utilise uniquement pour te notifier si ta demande est implementee. Il ne sera pas partage avec des tiers.", "gdprLabel": "J'ai lu et j'accepte la <a href=\"/privacy\" style=\"color:var(--acc);text-decoration:none\">Politique de Confidentialite</a>. Je comprends que mon email ne sera utilise que pour me notifier de ma demande.", "gdprError": "Tu dois accepter la Politique de Confidentialite pour continuer."}, "de": {"pageTitle": "Feature Requests", "heroTag": "Hilf uns zu verbessern", "heroTitle": "Hast du eine Idee?", "heroDesc": "Sag uns was du in BounceGuide sehen mochtest. Jede Anfrage wird gelesen und bewertet.", "labelFeature": "Was wurdest du dir wunschen?", "phFeature": "z.B. Den Leitfaden als Word-Dokument exportieren", "labelDesc": "Erzahl uns mehr (optional)", "phDesc": "Warum ware das nutzlich? Wie wurdest du es verwenden?", "labelEmail": "Deine Email (optional)", "phEmail": "du@email.com — wir benachrichtigen dich wenn wir es umsetzen", "labelLang": "Deine Sprache", "submit": "Anfrage senden", "sending": "Wird gesendet...", "successTitle": "Anfrage gesendet!", "successDesc": "Danke. Wir lesen jeden Vorschlag und nutzen ihn um BounceGuide zu verbessern.", "errorEmpty": "Bitte schreib mindestens einen Titel fur deine Anfrage.", "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.", "backToApp": "Zuruck zu BounceGuide", "required": "Pflichtfeld", "emailNote": "Deine Email wird nur verwendet um dich zu benachrichtigen wenn deine Anfrage umgesetzt wird. Sie wird nicht an Dritte weitergegeben.", "gdprLabel": "Ich habe die <a href=\"/privacy\" style=\"color:var(--acc);text-decoration:none\">Datenschutzerklarung</a> gelesen und akzeptiere sie. Ich verstehe dass meine E-Mail nur zur Benachrichtigung uber meine Anfrage verwendet wird.", "gdprError": "Du musst die Datenschutzerklarung akzeptieren um fortzufahren."}, "pt": {"pageTitle": "Feature Requests", "heroTag": "Ajude-nos a melhorar", "heroTitle": "Tem uma ideia?", "heroDesc": "Nos diga o que voce gostaria de ver no BounceGuide. Cada solicitacao e lida e avaliada.", "labelFeature": "O que voce gostaria?", "phFeature": "ex. Exportar o guia como documento Word", "labelDesc": "Conte-nos mais (opcional)", "phDesc": "Por que seria util? Como voce usaria?", "labelEmail": "Seu email (opcional)", "phEmail": "voce@email.com — avisamos se implementarmos", "labelLang": "Seu idioma", "submit": "Enviar solicitacao", "sending": "Enviando...", "successTitle": "Solicitacao enviada!", "successDesc": "Obrigado. Lemos cada sugestao e a usamos para melhorar o BounceGuide.", "errorEmpty": "Escreva pelo menos um titulo para sua solicitacao.", "errorGeneric": "Algo deu errado. Tente novamente.", "backToApp": "Voltar ao BounceGuide", "required": "Obrigatorio", "emailNote": "Seu email sera usado apenas para notifica-lo se sua solicitacao for implementada. Nao sera compartilhado com terceiros.", "gdprLabel": "Li e aceito a <a href=\"/privacy\" style=\"color:var(--acc);text-decoration:none\">Politica de Privacidade</a>. Entendo que meu email sera usado apenas para notificacoes sobre minha solicitacao.", "gdprError": "Voce deve aceitar a Politica de Privacidade para continuar."}};
 let lang = 'en';
 const IDS = ['backLink','heroTag','heroTitle','heroDesc','labelFeature','labelDesc','labelEmail','submitLabel','successTitle','successDesc'];
 
@@ -143,6 +168,7 @@ function setLang(l) {
   lang = l;
   try{localStorage.setItem('bg_lang',l);}catch(e){}
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  const sel=document.querySelector('.lang-select-mobile');if(sel)sel.value=l;
   // Save lang choice to localStorage
   try { localStorage.setItem('bg_lang', l); } catch(e) {}
   const tr = T[l] || T.en;
@@ -166,6 +192,24 @@ function setLang(l) {
   document.getElementById('inp-email').placeholder = tr.phEmail;
   const noteEl = document.getElementById('emailNote');
   if (noteEl) noteEl.textContent = tr.emailNote || '';
+  const gdprEl = document.getElementById('gdprLabel');
+  if (gdprEl) gdprEl.innerHTML = tr.gdprLabel || '';
+}
+
+let gdprAccepted = false;
+function toggleGdpr() {
+  gdprAccepted = !gdprAccepted;
+  const box = document.getElementById('gdprBox');
+  const check = document.getElementById('gdprCheck');
+  if (gdprAccepted) {
+    box.style.background = 'var(--acc)';
+    box.style.borderColor = 'var(--acc)';
+    check.style.opacity = '1';
+  } else {
+    box.style.background = 'var(--bg3)';
+    box.style.borderColor = 'var(--border2)';
+    check.style.opacity = '0';
+  }
 }
 
 async function submitForm() {
@@ -176,6 +220,12 @@ async function submitForm() {
   const errEl = document.getElementById('errorMsg');
 
   errEl.style.display = 'none';
+
+  if (!gdprAccepted) {
+    errEl.innerHTML = tr.gdprError;
+    errEl.style.display = 'block';
+    return;
+  }
 
   if (!feature) {
     errEl.textContent = tr.errorEmpty;
