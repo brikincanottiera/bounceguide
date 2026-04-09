@@ -108,14 +108,20 @@ let lang = 'en';
 const IDS = ['tag','title','subtitle','step1','step2','step3','btnHome','btnFeature','footer'];
 function setLang(l) {
   lang = l;
+  try{localStorage.setItem('bg_lang',l);}catch(e){}
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  // Save lang choice to localStorage
+  try { localStorage.setItem('bg_lang', l); } catch(e) {}
   const tr = T[l] || T.en;
   IDS.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = tr[id] || '';
   });
 }
-document.addEventListener('DOMContentLoaded', () => setLang('en'));
+document.addEventListener('DOMContentLoaded', () => {
+  try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl)){setLang(sl);return;}}catch(e){}
+  setLang('en');
+});
 
 function reportBug() {
   const url = encodeURIComponent(window.location.href);
