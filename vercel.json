@@ -2,13 +2,8 @@
   "rewrites": [
     { "source": "/about", "destination": "/about.html" },
     { "source": "/feature-requests", "destination": "/feature-requests.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" },
     { "source": "/404", "destination": "/404.html" }
-  ],
-  "redirects": [],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }]
-    }
   ]
 }
