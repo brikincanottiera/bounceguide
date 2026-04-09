@@ -1,0 +1,502 @@
+{
+  "dawSteps": {
+    "en": {
+      "ableton": [
+        "Open your project in Arrangement View (press Tab if in Session View).",
+        "Make sure all clips are on the timeline and everything sounds correct.",
+        "Go to File > Export Audio/Video (Ctrl+Shift+E on Windows / Cmd+Shift+E on Mac).",
+        "Under Rendered Track, select the specific track you want to export.",
+        "Set: Format = WAV | Sample Rate as requested | Bit Depth as requested.",
+        "Disable Normalize and Create Analysis File.",
+        "Click Export, name the file correctly, and repeat for every stem. Do NOT use Export All Tracks."
+      ],
+      "logic": [
+        "Open your project in Logic Pro.",
+        "Go to File > Export > All Tracks as Audio Files.",
+        "Choose your destination folder.",
+        "Set Format: WAV | Resolution: 24-bit | Sample Rate as requested.",
+        "Enable Bypass Effect Plug-Ins ONLY if you need DRY stems.",
+        "Disable Include Audio Tail unless tails are needed.",
+        "Click Export. Logic exports one file per track automatically."
+      ],
+      "flstudio": [
+        "Open your project in FL Studio.",
+        "Make sure each instrument has its own dedicated Mixer channel.",
+        "Go to File > Export > Project bones (Stems).",
+        "Set Quality: 32-bit float or 24-bit | Sample Rate as requested.",
+        "Choose your destination folder and click Accept.",
+        "FL Studio exports each Mixer channel as a separate file.",
+        "Verify each exported file sounds correct when played alone."
+      ],
+      "protools": [
+        "Open your session in Pro Tools.",
+        "Select all regions: Ctrl+A (Windows) or Cmd+A (Mac).",
+        "Go to Track > Consolidate Clip to create one continuous file per track.",
+        "Select the track you want to export.",
+        "Go to Clip > Export Clips as Files.",
+        "Set Format: WAV | Bit Depth as requested | Sample Rate as requested.",
+        "Click Export. Repeat for each stem."
+      ],
+      "cubase": [
+        "Open your project in Cubase or Nuendo.",
+        "Go to File > Export > Audio Mixdown.",
+        "In the Channel Selection panel choose which channels to export.",
+        "Set the export range using the left and right locators on the timeline.",
+        "Set Format: Wave | Sample Rate and Bit Depth as requested.",
+        "Enable Channel Batch Export to export all channels at once.",
+        "Choose destination folder and click Export Audio."
+      ],
+      "studioone": [
+        "Open your Song in Studio One.",
+        "Go to Song > Export Stems.",
+        "Select which tracks to include.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Choose Dry or Wet depending on what is required.",
+        "Select destination folder and click OK.",
+        "Studio One exports each stem automatically."
+      ],
+      "reaper": [
+        "Open your project in REAPER.",
+        "Go to File > Render (or press Ctrl+Alt+R).",
+        "Set Render what to Stems (selected tracks).",
+        "Set bounds to Entire project.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Set output folder and filename pattern (use $track for track name).",
+        "Click Render X files."
+      ],
+      "bitwig": [
+        "Open your project in Bitwig Studio.",
+        "Go to File > Export Audio.",
+        "Select Export stems for individual track export.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Check that the export range covers the full song.",
+        "Disable Normalize if present.",
+        "Click Export and choose your destination folder."
+      ],
+      "garageband": [
+        "Open your project in GarageBand (Mac or iOS).",
+        "Note: GarageBand does not support direct stem export. Export one track at a time.",
+        "Solo the first track (click the headphones icon).",
+        "Go to Share > Export Song to Disk (Mac) or Share > Song (iOS).",
+        "Set Format: AIFF or WAV | Quality: Lossless.",
+        "Click Export, save with a clear name, and repeat for each track."
+      ]
+    },
+    "it": {
+      "ableton": [
+        "Apri il progetto in Arrangement View (premi Tab se sei in Session View).",
+        "Assicurati che tutti i clip siano sulla timeline e tutto suoni correttamente.",
+        "Vai su File > Export Audio/Video (Ctrl+Shift+E su Windows / Cmd+Shift+E su Mac).",
+        "In Rendered Track seleziona la traccia specifica che vuoi esportare.",
+        "Imposta: Formato = WAV | Sample Rate come richiesto | Bit Depth come richiesto.",
+        "Disabilita Normalize e Create Analysis File.",
+        "Clicca Export, nomina il file correttamente e ripeti per ogni stem. NON usare Export All Tracks."
+      ],
+      "logic": [
+        "Apri il progetto in Logic Pro.",
+        "Vai su File > Export > All Tracks as Audio Files.",
+        "Scegli la cartella di destinazione.",
+        "Imposta Formato: WAV | Risoluzione: 24-bit | Sample Rate come richiesto.",
+        "Attiva Bypass Effect Plug-Ins SOLO se hai bisogno di stem DRY.",
+        "Disattiva Include Audio Tail a meno che non siano necessarie le code.",
+        "Clicca Export. Logic esporta automaticamente un file per ogni traccia."
+      ],
+      "flstudio": [
+        "Apri il progetto in FL Studio.",
+        "Assicurati che ogni strumento abbia il proprio canale Mixer dedicato.",
+        "Vai su File > Export > Project bones (Stems).",
+        "Imposta Qualita: 32-bit float o 24-bit | Sample Rate come richiesto.",
+        "Scegli la cartella di destinazione e clicca Accept.",
+        "FL Studio esportera ogni canale Mixer come file separato.",
+        "Verifica che ogni file esportato suoni correttamente riprodotto da solo."
+      ],
+      "protools": [
+        "Apri la sessione in Pro Tools.",
+        "Seleziona tutte le regioni: Ctrl+A (Windows) o Cmd+A (Mac).",
+        "Vai su Track > Consolidate Clip per creare un file continuo per ogni traccia.",
+        "Seleziona la traccia che vuoi esportare.",
+        "Vai su Clip > Export Clips as Files.",
+        "Imposta Formato: WAV | Bit Depth come richiesto | Sample Rate come richiesto.",
+        "Clicca Export. Ripeti per ogni stem."
+      ],
+      "cubase": [
+        "Apri il progetto in Cubase o Nuendo.",
+        "Vai su File > Export > Audio Mixdown.",
+        "Nel pannello Channel Selection scegli quali canali esportare.",
+        "Imposta il range di export con i locatori sinistro e destro sulla timeline.",
+        "Imposta Formato: Wave | Sample Rate e Bit Depth come richiesto.",
+        "Attiva Channel Batch Export per esportare tutti i canali in una volta.",
+        "Scegli la cartella di destinazione e clicca Export Audio."
+      ],
+      "studioone": [
+        "Apri il brano in Studio One.",
+        "Vai su Song > Export Stems.",
+        "Seleziona le tracce da includere.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Scegli Dry o Wet in base a cio che e richiesto.",
+        "Seleziona la cartella di destinazione e clicca OK.",
+        "Studio One esporta ogni stem automaticamente."
+      ],
+      "reaper": [
+        "Apri il progetto in REAPER.",
+        "Vai su File > Render (o premi Ctrl+Alt+R).",
+        "Imposta Render what su Stems (selected tracks).",
+        "Imposta i bounds su Entire project.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Imposta cartella di output e pattern del nome file (usa $track per il nome).",
+        "Clicca Render X files."
+      ],
+      "bitwig": [
+        "Apri il progetto in Bitwig Studio.",
+        "Vai su File > Export Audio.",
+        "Seleziona Export stems per l'export individuale delle tracce.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Verifica che il range di export copra tutto il brano.",
+        "Disabilita Normalize se presente.",
+        "Clicca Export e scegli la cartella di destinazione."
+      ],
+      "garageband": [
+        "Apri il progetto in GarageBand (Mac o iOS).",
+        "Nota: GarageBand non supporta l'export diretto degli stem. Esporta una traccia alla volta.",
+        "Metti in solo la prima traccia (clicca l'icona delle cuffie).",
+        "Vai su Share > Export Song to Disk (Mac) o Share > Song (iOS).",
+        "Imposta Formato: AIFF o WAV | Qualita: Lossless.",
+        "Clicca Export, salva con un nome chiaro e ripeti per ogni traccia."
+      ]
+    },
+    "es": {},
+    "fr": {},
+    "de": {},
+    "pt": {}
+  },
+  "stupidItems": {
+    "en": [
+      {
+        "label": "Export with 'Export All Tracks' or equivalent",
+        "sub": "Often includes bus tracks or MIDI — always export each stem individually"
+      },
+      {
+        "label": "Leave the limiter or maximizer on the master bus active",
+        "sub": "The stems will be pre-compressed and I cannot fix that"
+      },
+      {
+        "label": "Normalize files before exporting",
+        "sub": "Normalization changes the relative levels"
+      },
+      {
+        "label": "Send MP3 when WAV or AIFF is available",
+        "sub": "MP3 permanently removes audio information"
+      },
+      {
+        "label": "Files that don't all start from the same point (bar 1, beat 1)",
+        "sub": "If stems start at different positions nothing aligns in the session"
+      },
+      {
+        "label": "Send the files and then say 'I changed the chorus'",
+        "sub": "Files sent must be final — no changes after sending"
+      },
+      {
+        "label": "Send a single stereo file with everything mixed together",
+        "sub": "That is a mix, not stems"
+      }
+    ],
+    "it": [
+      {
+        "label": "Esportare con 'Export All Tracks' o equivalente",
+        "sub": "Spesso include tracce bus o MIDI — esportare sempre ogni stem singolarmente"
+      },
+      {
+        "label": "Lasciare il limiter o maximizer sul master bus attivo",
+        "sub": "Gli stem saranno pre-compressi e non posso rimediare"
+      },
+      {
+        "label": "Normalizzare i file prima di esportare",
+        "sub": "La normalizzazione cambia i livelli relativi"
+      },
+      {
+        "label": "Inviare MP3 quando WAV o AIFF e disponibile",
+        "sub": "L'MP3 rimuove permanentemente informazioni audio"
+      },
+      {
+        "label": "File che non partono tutti dallo stesso punto (battuta 1, tempo 1)",
+        "sub": "Se gli stem partono da posizioni diverse, niente si allinea in sessione"
+      },
+      {
+        "label": "Inviare i file e poi dire 'ho cambiato il ritornello'",
+        "sub": "I file inviati devono essere definitivi — nessuna modifica dopo l'invio"
+      },
+      {
+        "label": "Inviare un unico file stereo con tutto mixato insieme",
+        "sub": "Quello e un mix, non degli stem"
+      }
+    ],
+    "es": [],
+    "fr": [],
+    "de": [],
+    "pt": []
+  },
+  "glossaryTerms": {
+    "en": [
+      {
+        "term": "Stem",
+        "def": "Individual audio file containing one element of the song. Exporting stems = one separate file per track."
+      },
+      {
+        "term": "WAV / AIFF",
+        "def": "Lossless formats — full quality preserved. Always preferred over MP3 for professional work."
+      },
+      {
+        "term": "MP3",
+        "def": "Compressed format. Permanently removes audio data. Not suitable for mixing."
+      },
+      {
+        "term": "Sample Rate (kHz)",
+        "def": "Audio samples per second. 44.1 kHz is the music standard."
+      },
+      {
+        "term": "Bit Depth",
+        "def": "Detail per sample. 24-bit is the professional standard."
+      },
+      {
+        "term": "WET Stem",
+        "def": "Stem exported with all creative effects active: reverb, delay, distortion, sidechain, autotune, etc."
+      },
+      {
+        "term": "DRY Stem",
+        "def": "Stem exported without effects — raw sound only."
+      },
+      {
+        "term": "Master bus",
+        "def": "Final output of the session. Must be bypassed before exporting stems."
+      },
+      {
+        "term": "Premix",
+        "def": "Stereo bounce of the full project as you hear it. Used as reference only."
+      },
+      {
+        "term": "Clipping",
+        "def": "When a signal exceeds the maximum level and distorts. No meter should be in the red."
+      },
+      {
+        "term": "Normalize",
+        "def": "Function that raises volume automatically. Must be disabled when exporting stems."
+      },
+      {
+        "term": "Sidechain",
+        "def": "Technique where one sound controls the volume of another, creating a pumping effect."
+      }
+    ],
+    "it": [
+      {
+        "term": "Stem",
+        "def": "File audio individuale contenente un elemento della canzone. Esportare gli stem = un file separato per ogni traccia."
+      },
+      {
+        "term": "WAV / AIFF",
+        "def": "Formati senza perdita — qualita totale preservata. Sempre preferibili all'MP3 per lavoro professionale."
+      },
+      {
+        "term": "MP3",
+        "def": "Formato compresso. Rimuove permanentemente dati audio. Non adatto al mixing."
+      },
+      {
+        "term": "Sample Rate (kHz)",
+        "def": "Campioni audio al secondo. 44.1 kHz e lo standard musicale."
+      },
+      {
+        "term": "Bit Depth",
+        "def": "Dettaglio per campione. 24-bit e lo standard professionale."
+      },
+      {
+        "term": "Stem WET",
+        "def": "Stem esportato con tutti gli effetti creativi attivi: reverb, delay, distorsione, sidechain, autotune, ecc."
+      },
+      {
+        "term": "Stem DRY",
+        "def": "Stem esportato senza effetti — solo suono grezzo."
+      },
+      {
+        "term": "Master bus",
+        "def": "Uscita finale della sessione. Deve essere bypassato prima di esportare gli stem."
+      },
+      {
+        "term": "Premix",
+        "def": "Bounce stereo del progetto completo come lo ascolti. Solo un riferimento."
+      },
+      {
+        "term": "Clipping",
+        "def": "Quando un segnale supera il livello massimo e si distorce. Nessun metro deve essere nel rosso."
+      },
+      {
+        "term": "Normalizzare",
+        "def": "Funzione che alza il volume automaticamente. Deve essere disabilitata nell'esportare gli stem."
+      },
+      {
+        "term": "Sidechain",
+        "def": "Tecnica in cui un suono controlla il volume di un altro, creando un effetto pumping."
+      }
+    ],
+    "es": [],
+    "fr": [],
+    "de": [],
+    "pt": []
+  },
+  "drumsOptions": {
+    "en": [
+      {
+        "label": "Export all drums WET — with all effects active",
+        "sub": "Sidechain, compression, saturation, reverb — everything that makes them sound as they do in the demo",
+        "isWet": true
+      },
+      {
+        "label": "Export all drums DRY — completely raw, no effects",
+        "sub": "No compression, no sidechain, no saturation — pure raw sounds from sampler or plugin"
+      },
+      {
+        "label": "Export each drum element as a separate file",
+        "sub": "Kick, snare, hi-hats, claps, percussion — one file each"
+      },
+      {
+        "label": "Grouping all drums in one file is acceptable if individual export is not possible",
+        "sub": "Let me know if this is the case"
+      }
+    ],
+    "it": [
+      {
+        "label": "Esporta tutti i drums WET — con tutti gli effetti attivi",
+        "sub": "Sidechain, compressione, saturazione, riverbero — tutto quello che li fa suonare come nel demo",
+        "isWet": true
+      },
+      {
+        "label": "Esporta tutti i drums DRY — completamente grezzi, senza effetti",
+        "sub": "Nessuna compressione, nessun sidechain, nessuna saturazione — suoni puri dal sampler o plugin"
+      },
+      {
+        "label": "Esporta ogni elemento dei drums come file separato",
+        "sub": "Cassa, rullante, hi-hat, clap, percussioni — un file ciascuno"
+      },
+      {
+        "label": "Raggruppare i drums in un unico file e accettabile se l'export individuale non e possibile",
+        "sub": "Comunicamelo se e questo il caso"
+      }
+    ],
+    "es": [],
+    "fr": [],
+    "de": [],
+    "pt": []
+  },
+  "instrOptions": {
+    "en": [
+      {
+        "label": "Export synths and instruments WET — with all sound design effects",
+        "sub": "Effects that define the sound: distortion, creative reverb, chorus, phaser, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Export synths DRY — no effects, raw sound only",
+        "sub": "No reverb, no delay, no saturation — pure output of the instrument"
+      },
+      {
+        "label": "Export 808/sub bass as a separate file",
+        "sub": "The low end needs individual treatment — never group it with other instruments"
+      }
+    ],
+    "it": [
+      {
+        "label": "Esporta synth e strumenti WET — con tutti gli effetti di sound design",
+        "sub": "Gli effetti che definiscono il suono: distorsione, riverbero creativo, chorus, phaser, ecc.",
+        "isWet": true
+      },
+      {
+        "label": "Esporta synth DRY — senza effetti, solo il suono grezzo",
+        "sub": "Nessun riverbero, nessun delay, nessuna saturazione — output puro dello strumento"
+      },
+      {
+        "label": "Esporta l'808/sub basso come file separato",
+        "sub": "Il low end ha bisogno di trattamento individuale — non raggrupparlo con altri strumenti"
+      }
+    ],
+    "es": [],
+    "fr": [],
+    "de": [],
+    "pt": []
+  },
+  "vocalOptions": {
+    "en": [
+      {
+        "label": "DRY — completely raw, no effects, no pitch correction",
+        "sub": "The voice exactly as recorded"
+      },
+      {
+        "label": "DRY + Pitch correction — clean voice with Melodyne or Autotune applied",
+        "sub": "No reverb, delay or distortion. The most common request."
+      },
+      {
+        "label": "WET — ONLY for artistic sound design parts",
+        "sub": "Send WET exclusively for parts where the effect IS the sound. Do NOT send the entire vocal WET.",
+        "isWet": true
+      },
+      {
+        "label": "Export each vocal part as a separate file",
+        "sub": "Lead vocal, harmonies, adlibs, doubles — one file for each"
+      },
+      {
+        "label": "Export only the final compiled version — delete unused takes before sending",
+        "sub": "I only need the final performance"
+      }
+    ],
+    "it": [
+      {
+        "label": "DRY — completamente grezzo, senza effetti, senza correzione intonazione",
+        "sub": "La voce esattamente come registrata"
+      },
+      {
+        "label": "DRY + Correzione intonazione — voce pulita con Melodyne o Autotune applicato",
+        "sub": "Senza riverbero, delay o distorsione. La richiesta piu comune."
+      },
+      {
+        "label": "WET — SOLO per parti usate come sound design artistico",
+        "sub": "Invia WET esclusivamente per le parti in cui l'effetto E' il suono. NON inviare tutta la voce WET.",
+        "isWet": true
+      },
+      {
+        "label": "Esporta ogni parte vocale come file separato",
+        "sub": "Voce principale, armonie, adlib, doppie — un file per ciascuna"
+      },
+      {
+        "label": "Esporta solo la versione finale compilata — elimina i take non utilizzati prima di inviare",
+        "sub": "Ho bisogno solo della performance finale"
+      }
+    ],
+    "es": [],
+    "fr": [],
+    "de": [],
+    "pt": []
+  },
+  "premixOptions": {
+    "en": [
+      {
+        "label": "Include a stereo premix of the full project",
+        "sub": "Bounce of the complete song exactly as you hear it, all effects active"
+      },
+      {
+        "label": "Include an instrumental premix (no vocals)",
+        "sub": "Same as above but without any vocal tracks"
+      }
+    ],
+    "it": [
+      {
+        "label": "Includi un premix stereo del progetto completo",
+        "sub": "Bounce della canzone completa esattamente come la ascolti, tutti gli effetti attivi"
+      },
+      {
+        "label": "Includi un premix strumentale (senza voci)",
+        "sub": "Come sopra ma senza nessuna traccia vocale"
+      }
+    ],
+    "es": [],
+    "fr": [],
+    "de": [],
+    "pt": []
+  }
+}
