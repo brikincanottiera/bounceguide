@@ -207,9 +207,20 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .logo-preview{max-height:44px;max-width:160px;margin:5px auto 0;display:block}
 
 .checklist-preview{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
-.checklist-preview-item{display:flex;align-items:center;gap:9px;padding:7px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2)}
+.checklist-preview-item{display:flex;align-items:center;gap:9px;padding:7px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:grab;transition:all 0.15s;user-select:none}
+.checklist-preview-item:hover{border-color:var(--border2)}
+.checklist-preview-item.dragging{opacity:0.4;border-color:var(--acc)}
+.checklist-preview-item.drag-over{border-color:var(--acc);background:var(--acc-dim)}
 .cl-dot{width:15px;height:15px;border-radius:50%;border:0.5px solid var(--acc);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;color:var(--acc);font-weight:700}
-.cl-text{font-size:12px;color:var(--t1)}
+.cl-text{font-size:12px;color:var(--t1);flex:1}
+.cl-drag{font-size:14px;color:var(--t3);cursor:grab;flex-shrink:0}
+.cl-remove{padding:2px 6px;border-radius:4px;border:none;background:transparent;color:var(--t3);cursor:pointer;font-size:11px;flex-shrink:0;transition:color 0.15s}
+.cl-remove:hover{color:var(--warn-text)}
+.cl-custom-row{display:flex;gap:7px;margin-top:6px;align-items:center}
+.cl-custom-input{flex:1;padding:7px 10px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--t1);font-size:12px;font-family:inherit;outline:none}
+.cl-custom-input:focus{border-color:var(--acc)}
+.cl-add-btn{padding:7px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all 0.15s}
+.cl-add-btn:hover{color:var(--acc);border-color:var(--acc);background:var(--acc-dim)}
 
 .stupidity-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;background:var(--acc-dim);border:0.5px solid var(--acc);color:var(--acc);font-size:10px;font-weight:700;margin-left:7px}
 
@@ -254,6 +265,19 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   .reset-btn{font-size:10px}
   .check-grid2{grid-template-columns:1fr}
 }
+/* PDF PREVIEW MODAL */
+.pdf-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:16px}
+.pdf-modal.open{display:flex}
+.pdf-modal-box{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.pdf-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border)}
+.pdf-modal-title{font-size:14px;font-weight:700;color:var(--t1)}
+.pdf-modal-actions{display:flex;gap:8px}
+.pdf-modal-close{padding:6px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.pdf-modal-close:hover{color:var(--t1)}
+.pdf-modal-download{padding:6px 14px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.pdf-modal-body{flex:1;overflow:hidden}
+.pdf-modal-body iframe{width:100%;height:100%;min-height:60vh;border:none}
+.pdf-modal-loading{display:flex;align-items:center;justify-content:center;height:300px;color:var(--t2);font-size:13px}
 @media(max-width:640px){
   .header-nav-links{display:none}
   .lang-switcher{display:none}
@@ -330,7 +354,8 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="sidebar-sep"></div>
   <div class="steps-nav" id="stepsNav"></div>
   <div class="sidebar-sep"></div>
-  <button class="gen-btn" id="generateBtn" onclick="generatePDF()" disabled data-t="generateBtn"></button>
+  <button class="gen-btn" id="previewBtn" onclick="previewPDF()" disabled style="margin-bottom:4px" data-t="previewBtn"></button>
+  <button class="gen-btn" id="generateBtn" onclick="generatePDF()" disabled style="opacity:0.7;font-size:11px" data-t="generateBtn"></button>
   <button class="reset-btn" onclick="resetAll()" data-t="resetBtn"></button>
   <div class="autosave-indicator" id="autosaveIndicator">
     <div class="autosave-dot"></div>
@@ -541,6 +566,10 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="sub-label" data-t="s9checkLabel"></div>
   <div style="font-size:11px;color:var(--t2);margin-bottom:9px" data-t="s9checkSub"></div>
   <div class="checklist-preview" id="checklistPreview"></div>
+  <div class="cl-custom-row">
+    <input class="cl-custom-input" id="clCustomInput" data-t-ph="s9clAddPh" onkeydown="if(event.key==='Enter')addCustomCl()">
+    <button class="cl-add-btn" onclick="addCustomCl()" data-t="s9clAddBtn"></button>
+  </div>
   <div class="divider"></div>
   <div class="field-group"><label class="field-label" data-t="s9notesLabel"></label><textarea id="extraNotes" rows="4" data-t-ph="s9notesPh" oninput="autoSave()"></textarea></div>
   <div class="field-group"><label class="field-label" data-t="s9ytLabel"></label><input type="url" id="refYT" data-t-ph="s9ytPh" oninput="autoSave()"></div>
@@ -568,7 +597,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
 // ═══════════════════════════════════════════
 const T={
 en:{
-  heroTag:'Stop receiving wrong files from your clients',heroTitle:'The <span>foolproof</span> guide your clients will actually follow',heroDesc:'Set your requirements once. BounceGuide generates a professional PDF in your language — no more back-and-forth, no more mistakes.',hf1:'6 languages',hf2:'DAW step-by-step guides',hf3:'Auto-saved',hf4:'PDF on demand',progressLabel:'Guide completion',toneLabel:'PDF tone',toneFormal:'Formal',toneInformal:'Friendly',generateBtn:'Generate PDF',copyBtn:'Copy for WhatsApp / Email',resetBtn:'Start over',savedLabel:'Saved',
+  heroTag:'Stop receiving wrong files from your clients',heroTitle:'The <span>foolproof</span> guide your clients will actually follow',heroDesc:'Set your requirements once. BounceGuide generates a professional PDF in your language — no more back-and-forth, no more mistakes.',hf1:'6 languages',hf2:'DAW step-by-step guides',hf3:'Auto-saved',hf4:'PDF on demand',progressLabel:'Guide completion',toneLabel:'PDF tone',toneFormal:'Formal',toneInformal:'Friendly',previewBtn:'Preview PDF',generateBtn:'Download PDF',copyBtn:'Copy for WhatsApp / Email',resetBtn:'Start over',savedLabel:'Saved',
   s1title:'Your details & branding',s1desc:'Appears at the top of the PDF your client receives.',s1name:'Name / Studio',s1namePh:'John Smith Mixing',s1email:'Email',s1emailPh:'john@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Phone / WhatsApp',s1phonePh:'+1 555 000 0000',s1logo:'Your logo (PNG, JPG)',s1logoHint:'Click to upload — appears in the PDF header',s1color:'PDF accent color',s1colorHint:'Used for section headers',s1msg:'Opening message',s1msgPh:'Thank you for trusting me with your music. Please read this carefully.',s1contactNote:'End-of-document contact note',s1contactNotePh:'Not sure about something? Message me before sending.',
   s2title:'Type of service',s2desc:'This determines which requirements to configure.',s2mix:'Mixing',s2mixDesc:'Client sends stems for you to mix.',s2master:'Mastering',s2masterDesc:'Client sends a finished stereo mix.',s2trackTypeLabel:'What is the client sending?',s2stems:'Full instrumental stems',s2stemsSub:'Separate files per instrument.',s2typebeat:'Type beat / single instrumental',s2typebeatSub:'One file for the beat — client only exports vocals.',
   s3title:'Glossary',s3desc:'Optional glossary of terms in plain language, included in the PDF for non-technical clients.',s3toggleTitle:'Include glossary in the PDF',s3toggleSub:'Recommended for non-technical clients',s3infoTitle:'How it works',s3infoText:'Select the terms you want explained. They appear at the start of the PDF.',s3addOther:'+ Add custom term',
@@ -577,7 +606,7 @@ en:{
   s6title:'File naming',s6desc:'Clear names make every stem instantly identifiable.',s6whyTitle:'Why naming matters',s6whyText:'A session with 40 files called "Audio 01" is a nightmare. Names like "SongName_LeadVocal_DRY.wav" communicate everything instantly.',s6exLabel:'Example file name',s6addOther:'+ Add naming rule',
   s7title:'How to send files',s7desc:'Where and how the client sends files, and what info to include.',s7delivLabel:'Accepted platforms',s7customLink:'Your personal upload link (optional)',s7customLinkPh:'https://your-link.com',s7delivEmail:'Email for file notifications',s7delivEmailPh:'client@email.com — you will receive the download link here',s7otherPh:'Other platform name',s7sessionLabel:'Session info to include',s7otherSessionPh:'Other required info',
   s8title:'DAW export guides',s8desc:'Select the DAWs your clients use, review the instructions, and confirm before continuing.',s8otherDaw:'DAW not in the list?',s8addOtherDaw:'+ Add DAW / software',s8ytLabel:'YouTube tutorial link',s8confirmQ:'Are these instructions correct?',s8yesBtn:'Yes, correct',s8noBtn:'No, let me edit',s8editLabel:'Edit instructions (one step per line):',s8confirmEditsBtn:'Confirm edits',s8confirmedLabel:'Confirmed',s8confirmNote:'Please confirm the instructions for each selected DAW before continuing.',
-  s9title:'Stupidity Check & notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Classic client mistakes. In the PDF they appear as a serious "Important — Errors to Avoid" section.',s9addStupid:'+ Add custom mistake',s9checkLabel:'Pre-send checklist',s9checkSub:'Auto-generated from your choices. The client ticks each box before sending.',s9notesLabel:'Additional notes',s9notesPh:'Any other specific instructions...',s9ytLabel:'General tutorial link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Include Terms & Conditions',s9tcSub:'Payment, delivery and revision policy',s9tcPh:'Write your terms here...',
+  s9title:'Stupidity Check & notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Classic client mistakes. In the PDF they appear as a serious "Important — Errors to Avoid" section.',s9addStupid:'+ Add custom mistake',s9clAddPh:'Add a custom checklist item...',s9clAddBtn:'+ Add',s9checkLabel:'Pre-send checklist',s9checkSub:'Auto-generated from your choices. The client ticks each box before sending.',s9notesLabel:'Additional notes',s9notesPh:'Any other specific instructions...',s9ytLabel:'General tutorial link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Include Terms & Conditions',s9tcSub:'Payment, delivery and revision policy',s9tcPh:'Write your terms here...',
   btnNext:'Continue',btnBack:'Back',btnFinish:'Done — unlock PDF button',footerMade:'Free tool for mix engineers',footerNote:'PDF generated in your browser. Nothing uploaded.',
 
   glossaryTerms:[
@@ -646,10 +675,10 @@ en:{
   pdf_wetdry_note:'WET = exported with effects active | DRY = raw sound without effects',
   pdf_stem_sub_generic:'Export as indicated in the guidelines above. If in doubt, ask before sending.',pdf_deliv_email_label:'Send link to',
   pdf_checklist_intro:'Tick every box before sending:',pdf_footer:'Generated with BounceGuide — bounceguide.app',pdf_daw_yt:'Watch tutorial on YouTube',pdf_service_mix:'Service: Mixing',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type beat — vocal stems only',
-  checklistBase:['All files start from the same point (bar 1, beat 1)','Master bus chain is OFF or bypassed','No file is clipping (no red meters)','Files are correctly named','A stereo premix is included','Session info included (BPM, key, DAW)','All files are final — no changes after sending'],
+  checklistBase:["The project is at its final version, you have not changed anything after deciding to send the files", "The master bus chain is deactivated or bypassed: limiter, maximizer, compressor, everything off", "You have exported each stem individually, you did not use 'Export All Tracks' or similar", "Every stem starts from zero (bar 1, beat 1), even if the song starts later the file starts from the beginning", "No file is clipping, play back each exported file and check that no meter goes into the red", "You have understood the WET/DRY logic I indicated and have separated the files into two folders if needed. If you have not understood do not hesitate to ask me before sending", "The files are in the correct format as requested", "The naming is correct, no file is called 'Audio 01' or similar", "The stereo premix is included, the bounce of the complete song with all effects active", "Session information is included: BPM, key and DAW used", "You have checked that all files open correctly before sending, no corrupted files", "You are sending the right version, check the modification date of the files"],
 },
 it:{
-  heroTag:'Smettila di ricevere file sbagliati',heroTitle:'La guida <span>a prova di stupido</span> che i tuoi clienti seguiranno davvero',heroDesc:'Imposti i requisiti una volta sola. BounceGuide genera un PDF professionale nella tua lingua — niente piu\' avanti e indietro, niente piu\' errori.',hf1:'6 lingue',hf2:'Guide step-by-step per DAW',hf3:'Salvataggio automatico',hf4:'PDF su richiesta',progressLabel:'Completamento guida',toneLabel:'Tono del PDF',toneFormal:'Formale',toneInformal:'Amichevole',generateBtn:'Genera PDF',copyBtn:'Copia per WhatsApp / Email',resetBtn:'Ricomincia da capo',savedLabel:'Salvato',
+  heroTag:'Smettila di ricevere file sbagliati',heroTitle:'La guida <span>a prova di stupido</span> che i tuoi clienti seguiranno davvero',heroDesc:'Imposti i requisiti una volta sola. BounceGuide genera un PDF professionale nella tua lingua — niente piu\' avanti e indietro, niente piu\' errori.',hf1:'6 lingue',hf2:'Guide step-by-step per DAW',hf3:'Salvataggio automatico',hf4:'PDF su richiesta',progressLabel:'Completamento guida',toneLabel:'Tono del PDF',toneFormal:'Formale',toneInformal:'Amichevole',previewBtn:'Anteprima PDF',generateBtn:'Scarica PDF',copyBtn:'Copia per WhatsApp / Email',resetBtn:'Ricomincia da capo',savedLabel:'Salvato',
   s1title:'I tuoi dati e il brand',s1desc:'Appaiono in cima al PDF che riceve il cliente.',s1name:'Nome / Studio',s1namePh:'Marco Rossi Mixing',s1email:'Email',s1emailPh:'marco@mixing.com',s1web:'Sito web (opzionale)',s1webPh:'https://mixing.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+39 340 000 0000',s1logo:'Il tuo logo (PNG, JPG)',s1logoHint:'Clicca per caricare — appare nell\'intestazione del PDF',s1color:'Colore accent del PDF',s1colorHint:'Usato per le intestazioni delle sezioni',s1msg:'Messaggio di apertura',s1msgPh:'Grazie per affidarmi la tua musica. Leggi attentamente prima di inviare.',s1contactNote:'Nota contatti a fine documento',s1contactNotePh:'Non sei sicuro? Scrivimi prima di inviare.',
   s2title:'Tipo di servizio',s2desc:'Determina quali requisiti configurare.',s2mix:'Mixing',s2mixDesc:'Il cliente ti invia gli stem per il mix.',s2master:'Mastering',s2masterDesc:'Il cliente ti invia un mix stereo finito.',s2trackTypeLabel:'Cosa ti sta inviando il cliente?',s2stems:'Stem completi della strumentale',s2stemsSub:'File separati per ogni strumento.',s2typebeat:'Type beat / file strumentale unico',s2typebeatSub:'Un file unico per la base — il cliente esporta solo le voci.',
   s3title:'Glossario',s3desc:'Glossario opzionale di termini in parole semplici, incluso nel PDF per clienti non tecnici.',s3toggleTitle:'Includi il glossario nel PDF',s3toggleSub:'Raccomandato per clienti non tecnici',s3infoTitle:'Come funziona',s3infoText:'Seleziona i termini da spiegare. Appariranno all\'inizio del PDF.',s3addOther:'+ Aggiungi termine personalizzato',
@@ -658,7 +687,7 @@ it:{
   s6title:'Nomenclatura file',s6desc:'Nomi chiari rendono ogni stem immediatamente identificabile.',s6whyTitle:'Perche\' i nomi sono importanti',s6whyText:'Una sessione con 40 file chiamati "Audio 01" e\' un incubo. Nomi come "NomeBrano_VoceMain_DRY.wav" comunicano tutto in un colpo d\'occhio.',s6exLabel:'Esempio nome file',s6addOther:'+ Aggiungi regola di nomenclatura',
   s7title:'Come inviare i file',s7desc:'Dove e come il cliente invia i file e quali informazioni deve includere.',s7delivLabel:'Piattaforme accettate',s7customLink:'Il tuo link personale di upload (opzionale)',s7customLinkPh:'https://il-tuo-link.com',s7delivEmail:'Email per le notifiche di ricezione file',s7delivEmailPh:'cliente@email.com — riceverai qui il link di download',s7otherPh:'Nome altra piattaforma',s7sessionLabel:'Informazioni sessione da includere',s7otherSessionPh:'Altra informazione richiesta',
   s8title:'Guide export per DAW',s8desc:'Seleziona le DAW usate dai tuoi clienti, controlla le istruzioni e confermale prima di continuare.',s8otherDaw:'DAW non in lista?',s8addOtherDaw:'+ Aggiungi DAW / software',s8ytLabel:'Link tutorial YouTube',s8confirmQ:'Le istruzioni sono corrette?',s8yesBtn:'Si, corrette',s8noBtn:'No, voglio modificarle',s8editLabel:'Modifica le istruzioni (un passaggio per riga):',s8confirmEditsBtn:'Conferma modifiche',s8confirmedLabel:'Confermato',s8confirmNote:'Conferma le istruzioni di ogni DAW selezionata prima di continuare.',
-  s9title:'Stupidity Check e note finali',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Gli errori classici dei clienti. Nel PDF appaiono come sezione di avviso seria: "Importante — Errori da Evitare".',s9addStupid:'+ Aggiungi errore personalizzato',s9checkLabel:'Checklist pre-invio',s9checkSub:'Generata automaticamente. Il cliente la spunta prima di inviare.',s9notesLabel:'Note aggiuntive',s9notesPh:'Qualsiasi altra istruzione specifica...',s9ytLabel:'Link tutorial generale (opzionale)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Includi Termini e Condizioni',s9tcSub:'Politica su pagamento, consegna e revisioni',s9tcPh:'Scrivi qui i tuoi termini...',
+  s9title:'Stupidity Check e note finali',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Gli errori classici dei clienti. Nel PDF appaiono come sezione di avviso seria: "Importante — Errori da Evitare".',s9addStupid:'+ Aggiungi errore personalizzato',s9clAddPh:'Aggiungi una voce personalizzata...',s9clAddBtn:'+ Aggiungi',s9checkLabel:'Checklist pre-invio',s9checkSub:'Generata automaticamente. Il cliente la spunta prima di inviare.',s9notesLabel:'Note aggiuntive',s9notesPh:'Qualsiasi altra istruzione specifica...',s9ytLabel:'Link tutorial generale (opzionale)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Includi Termini e Condizioni',s9tcSub:'Politica su pagamento, consegna e revisioni',s9tcPh:'Scrivi qui i tuoi termini...',
   btnNext:'Continua',btnBack:'Indietro',btnFinish:'Fatto — sblocca il pulsante PDF',footerMade:'Strumento gratuito per mix engineer',footerNote:'Il PDF viene generato nel tuo browser. Nulla viene caricato online.',
 
   glossaryTerms:[
@@ -727,13 +756,13 @@ it:{
   pdf_wetdry_note:'WET = esportato con effetti attivi | DRY = suono grezzo senza effetti',
   pdf_stem_sub_generic:'Esporta come indicato nelle linee guida sopra. In caso di dubbio, chiedi prima di inviare.',pdf_deliv_email_label:'Invia il link a',
   pdf_checklist_intro:'Spunta ogni punto prima di inviare:',pdf_footer:'Generato con BounceGuide — bounceguide.app',pdf_daw_yt:'Guarda il tutorial su YouTube',pdf_service_mix:'Servizio: Mixing',pdf_service_master:'Servizio: Mastering',pdf_typebeat:'Formato: Type beat — solo stem vocali necessari',
-  checklistBase:['Tutti i file partono dallo stesso punto (battuta 1, tempo 1)','Catena master SPENTA o bypassata','Nessun file va in clip (nessun metro in rosso)','File nominati correttamente','Premix stereo incluso','Info sessione incluse (BPM, tonalita\', DAW)','Tutti i file sono definitivi — nessuna modifica dopo l\'invio'],
+  checklistBase:["Il progetto è alla versione definitiva, non hai cambiato niente dopo aver deciso di mandare i file", "La catena del master bus è disattivata o in bypass: limiter, maximizer, compressor, tutto spento", "Hai esportato ogni stem singolarmente, non hai usato 'Export All Tracks' o simili", "Ogni stem parte dal punto zero (battuta 1, tempo 1), anche se la canzone inizia dopo il file parte dall'inizio", "Nessun file va in clip, riproduci ogni file esportato e controlla che nessun meter vada nel rosso", "Hai capito la logica WET/DRY che ti ho indicato e hai eventualmente separato i file in due cartelle diverse. Se non hai capito non esitare a chiedermelo prima di inviare", "I file sono nel formato corretto come richiesto", "La nomenclatura è corretta, nessun file si chiama 'Audio 01' o simili", "Il premix stereo è incluso, il bounce della canzone completa con tutti gli effetti attivi", "Le informazioni di sessione sono incluse: BPM, tonalità e DAW usata", "Hai controllato che tutti i file si aprano correttamente prima di inviare, niente file corrotti", "Stai inviando la versione giusta, controlla la data di modifica dei file"],
 },
 };
 
 // ── SPANISH ──────────────────────────────────────────────────
 T.es={
-  heroTag:'Deja de recibir archivos incorrectos de tus clientes',heroTitle:'La guia <span>a prueba de errores</span> que tus clientes seguiran de verdad',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',generateBtn:'Generar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',savedLabel:'Guardado',
+  heroTag:'Deja de recibir archivos incorrectos de tus clientes',heroTitle:'La guia <span>a prueba de errores</span> que tus clientes seguiran de verdad',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',previewBtn:'Vista previa PDF',generateBtn:'Descargar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',savedLabel:'Guardado',
   s1title:'Tus datos y marca',s1desc:'Aparece en la parte superior del PDF que recibe el cliente.',s1name:'Nombre / Estudio',s1namePh:'Carlos Lopez Mezcla',s1email:'Email',s1emailPh:'carlos@mezcla.com',s1web:'Sitio web (opcional)',s1webPh:'https://mezcla.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+34 600 000 000',s1logo:'Tu logo (PNG, JPG)',s1logoHint:'Haz clic para cargar — aparece en el encabezado del PDF',s1color:'Color de acento del PDF',s1colorHint:'Usado en los encabezados de seccion',s1msg:'Mensaje de apertura',s1msgPh:'Gracias por confiarme tu musica. Lee esto con atencion antes de enviar nada.',s1contactNote:'Nota de contacto al final del documento',s1contactNotePh:'Dudas? Escribeme antes de enviar.',
   s2title:'Tipo de servicio',s2desc:'Determina los requisitos a configurar.',s2mix:'Mezcla',s2mixDesc:'El cliente te envia stems para mezclar.',s2master:'Mastering',s2masterDesc:'El cliente te envia un mix estereo terminado.',s2trackTypeLabel:'Que envia el cliente?',s2stems:'Stems instrumentales completos',s2stemsSub:'Archivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Un solo archivo para la base — el cliente solo exporta las voces.',
   s3title:'Glosario',s3desc:'Glosario opcional de terminos en lenguaje sencillo, incluido en el PDF para clientes no tecnicos.',s3toggleTitle:'Incluir glosario en el PDF',s3toggleSub:'Recomendado para clientes sin conocimientos tecnicos',s3infoTitle:'Como funciona',s3infoText:'Selecciona los terminos que quieres explicar. Apareceran al inicio del PDF.',s3addOther:'+ Anadir termino personalizado',
@@ -742,7 +771,7 @@ T.es={
   s6title:'Nomenclatura de archivos',s6desc:'Nombres claros hacen que cada stem sea identificable al instante.',s6whyTitle:'Por que importan los nombres',s6whyText:'Una sesion con 40 archivos llamados "Audio 01" es una pesadilla. Nombres como "NombreCancion_VozPrincipal_DRY.wav" lo comunican todo.',s6exLabel:'Ejemplo de nombre de archivo',s6addOther:'+ Anadir regla de nomenclatura',
   s7title:'Como enviar los archivos',s7desc:'Donde y como envia el cliente los archivos y que informacion debe incluir.',s7delivLabel:'Plataformas aceptadas',s7customLink:'Tu enlace personal de carga (opcional)',s7customLinkPh:'https://tu-enlace.com',s7delivEmail:'Email para notificaciones de archivos',s7delivEmailPh:'cliente@email.com — recibiras el enlace de descarga aqui',s7otherPh:'Nombre de otra plataforma',s7sessionLabel:'Informacion de sesion a incluir',s7otherSessionPh:'Otra informacion requerida',
   s8title:'Guias de exportacion DAW',s8desc:'Selecciona las DAW que usan tus clientes, revisa las instrucciones y confirmalas antes de continuar.',s8otherDaw:'DAW no en la lista?',s8addOtherDaw:'+ Anadir DAW / software',s8ytLabel:'Enlace tutorial YouTube',s8confirmQ:'Son correctas las instrucciones?',s8yesBtn:'Si, correctas',s8noBtn:'No, quiero editarlas',s8editLabel:'Editar instrucciones (un paso por linea):',s8confirmEditsBtn:'Confirmar cambios',s8confirmedLabel:'Confirmado',s8confirmNote:'Confirma las instrucciones de cada DAW seleccionada antes de continuar.',
-  s9title:'Stupidity Check y notas',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Errores clasicos de los clientes. En el PDF aparecen como seccion de advertencia seria.',s9addStupid:'+ Anadir error personalizado',s9checkLabel:'Checklist pre-envio',s9checkSub:'Generada automaticamente. El cliente la marca antes de enviar.',s9notesLabel:'Notas adicionales',s9notesPh:'Cualquier otra instruccion especifica...',s9ytLabel:'Enlace tutorial general (opcional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Incluir Terminos y Condiciones',s9tcSub:'Politica de pago, entrega y revisiones',s9tcPh:'Escribe tus terminos aqui...',
+  s9title:'Stupidity Check y notas',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Errores clasicos de los clientes. En el PDF aparecen como seccion de advertencia seria.',s9addStupid:'+ Anadir error personalizado',s9clAddPh:'Agregar una voce personalizada...',s9clAddBtn:'+ Agregar',s9checkLabel:'Checklist pre-envio',s9checkSub:'Generada automaticamente. El cliente la marca antes de enviar.',s9notesLabel:'Notas adicionales',s9notesPh:'Cualquier otra instruccion especifica...',s9ytLabel:'Enlace tutorial general (opcional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Incluir Terminos y Condiciones',s9tcSub:'Politica de pago, entrega y revisiones',s9tcPh:'Escribe tus terminos aqui...',
   btnNext:'Continuar',btnBack:'Atras',btnFinish:'Hecho — desbloquear boton PDF',footerMade:'Herramienta gratuita para ingenieros de mezcla',footerNote:'PDF generado en tu navegador. No se sube nada.',
   glossaryTerms:[{term:'Stem',def:'Archivo de audio individual con un elemento de la cancion. Exportar stems = un archivo separado por pista.'},{term:'WAV / AIFF',def:'Formatos sin perdida — calidad total preservada. Siempre preferibles al MP3.'},{term:'MP3',def:'Formato comprimido. Elimina datos de audio permanentemente. No apto para mezcla.'},{term:'Sample Rate (kHz)',def:'Muestras de audio por segundo. 44.1 kHz es el estandar musical.'},{term:'Bit Depth',def:'Detalle por muestra. 24-bit es el estandar profesional.'},{term:'Stem WET',def:'Stem exportado con todos los efectos creativos activos: reverb, delay, distorsion, sidechain, autotune, etc.'},{term:'Stem DRY',def:'Stem exportado sin efectos — solo el sonido crudo.'},{term:'Master bus',def:'Salida final de la sesion. Debe desactivarse antes de exportar stems.'},{term:'Premix',def:'Bounce estereo del proyecto completo como lo escuchas. Solo referencia.'},{term:'Clipping',def:'Cuando una senal supera el nivel maximo y se distorsiona. Ningún medidor debe estar en rojo.'},{term:'Normalizar',def:'Funcion que sube el volumen automaticamente. Debe desactivarse al exportar stems.'},{term:'Sidechain',def:'Tecnica donde un sonido controla el volumen de otro, creando efecto de bombeo.'},],
   drumsOptions:[{label:'Exportar todos los drums WET — con todos los efectos activos',sub:'Sidechain, compresion, saturacion, reverb',isWet:true},{label:'Exportar todos los drums DRY — completamente crudos, sin efectos',sub:'Sin compresion, sin sidechain — sonidos puros del sampler o plugin'},{label:'Exportar cada elemento de bateria como archivo separado',sub:'Bombo, caja, hi-hats, claps — un archivo cada uno'},{label:'Agrupar drums en un archivo es aceptable si el export individual no es posible',sub:'Avisame si es el caso'},],
@@ -753,13 +782,13 @@ T.es={
   deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — gratis hasta 2GB'},{label:'Dropbox',sub:'Compartir enlace de carpeta'},{label:'Google Drive',sub:'Compartir enlace de carpeta'},{label:'Smash',sub:'fromsmash.com — gratis, archivos grandes'},{label:'Swisstransfer',sub:'swisstransfer.com — gratis hasta 50GB'},{label:'Otro (especificar)',sub:'',isOther:true},],
   sessionOptions:[{label:'BPM (tempo del proyecto)',sub:'Esencial para cualquier efecto basado en tiempo'},{label:'Tonalidad de la cancion',sub:'Ejemplo: Do menor, Fa mayor'},{label:'DAW utilizada y version',sub:'Ejemplo: Ableton Live 11'},{label:'Compas',sub:'Ejemplo: 4/4, 3/4'},{label:'Canciones de referencia',sub:'Canciones que representan el sonido que buscas'},{label:'Otro (especificar)',sub:'',isOther:true},],
   stupidItems:[{label:'Exportar con "Export All Tracks" o equivalente',sub:'A menudo incluye pistas de bus o MIDI — exportar siempre cada stem individualmente'},{label:'Dejar el limitador o maximizador del master bus activo',sub:'Los stems quedaran pre-comprimidos y no podre remediarlo'},{label:'Normalizar los archivos antes de exportar',sub:'La normalizacion cambia los niveles relativos'},{label:'Enviar MP3 cuando WAV o AIFF esta disponible',sub:'MP3 elimina informacion de audio permanentemente'},{label:'Archivos que no empiezan todos desde el mismo punto (compas 1, tiempo 1)',sub:'Si los stems empiezan en posiciones diferentes, nada se alinea'},{label:'Enviar los archivos y luego decir "cambie el estribillo"',sub:'Los archivos enviados deben ser definitivos — sin cambios despues del envio'},{label:'Enviar un solo archivo estereo con todo mezclado',sub:'Eso es una mezcla, no stems'},],
-  checklistBase:['Todos los archivos empiezan desde el mismo punto (compas 1, tiempo 1)','Master bus chain DESACTIVADA o en bypass','Ningun archivo clippea','Archivos correctamente nombrados','Premix estereo incluido','Info de sesion incluida (BPM, tonalidad, DAW)','Todos los archivos son definitivos — sin cambios despues del envio'],
+  checklistBase:["El proyecto está en su versión definitiva, no has cambiado nada después de decidir enviar los archivos", "La cadena del master bus está desactivada o en bypass: limitador, maximizador, compresor, todo apagado", "Has exportado cada stem individualmente, no has usado 'Export All Tracks' o similar", "Cada stem parte desde cero (compás 1, tiempo 1), aunque la canción empiece después el archivo empieza desde el principio", "Ningún archivo clipea, reproduce cada archivo exportado y comprueba que ningún medidor vaya al rojo", "Has entendido la lógica WET/DRY que te he indicado y has separado los archivos en dos carpetas si es necesario. Si no has entendido no dudes en preguntarme antes de enviar", "Los archivos están en el formato correcto como se ha pedido", "La nomenclatura es correcta, ningún archivo se llama 'Audio 01' o similar", "El premix estéreo está incluido, el bounce de la canción completa con todos los efectos activos", "La información de sesión está incluida: BPM, tonalidad y DAW utilizada", "Has comprobado que todos los archivos se abren correctamente antes de enviar, sin archivos corruptos", "Estás enviando la versión correcta, comprueba la fecha de modificación de los archivos"],
   pdf_title:'Guia de envio de archivos',pdf_sub_formal:'Lee este documento con atencion antes de enviarme cualquier archivo.',pdf_sub_informal:'Hola! Antes de enviar los archivos, lee esto.',pdf_from:'Preparado por',pdf_contact:'Email',pdf_web:'Sitio web',pdf_phone:'Telefono',pdf_glossary:'GLOSARIO',pdf_sec_format:'REQUISITOS DE FORMATO',pdf_sec_philos:'IMPORTANTE — DIRECTRICES SOBRE EFECTOS Y EXPORTACION',pdf_sec_stems:'QUE EXPORTAR',pdf_sec_naming:'NOMENCLATURA DE ARCHIVOS',pdf_sec_example:'Ejemplo',pdf_sec_delivery:'COMO ENVIAR LOS ARCHIVOS',pdf_sec_session:'INFORMACION A INCLUIR',pdf_sec_daw:'GUIA DE EXPORTACION',pdf_sec_stupid:'IMPORTANTE — ERRORES COMUNES A EVITAR',pdf_sec_checklist:'CHECKLIST PRE-ENVIO',pdf_sec_notes:'NOTAS ADICIONALES',pdf_sec_yt:'TUTORIAL EN VIDEO',pdf_sec_tc:'TERMINOS Y CONDICIONES',pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'ANTES DE EXPORTAR: Apaga la cadena del master bus (limitador, maximizador, compresor)',pdf_wetdry_note:'WET = exportado con efectos activos | DRY = sonido crudo sin efectos',pdf_stem_sub_generic:'Exportar como se indica en las directrices anteriores. En caso de duda, preguntar antes de enviar.',pdf_deliv_email_label:'Enviar enlace a',pdf_checklist_intro:'Marca cada punto antes de enviar:',pdf_footer:'Generado con BounceGuide — bounceguide.app',pdf_daw_yt:'Ver tutorial en YouTube',pdf_service_mix:'Servicio: Mezcla',pdf_service_master:'Servicio: Mastering',pdf_typebeat:'Formato: Type beat — solo stems vocales necesarios',
 };
 
 // ── FRENCH ───────────────────────────────────────────────────
 T.fr={
-  heroTag:'Arrete de recevoir des fichiers incorrects de tes clients',heroTitle:'Le guide <span>infaillible</span> que tes clients suivront vraiment',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',generateBtn:'Generer le PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',savedLabel:'Sauvegarde',
+  heroTag:'Arrete de recevoir des fichiers incorrects de tes clients',heroTitle:'Le guide <span>infaillible</span> que tes clients suivront vraiment',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',previewBtn:'Apercu PDF',generateBtn:'Telecharger PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',savedLabel:'Sauvegarde',
   s1title:'Tes coordonnees et marque',s1desc:'Apparait en haut du PDF que recoivent tes clients.',s1name:'Nom / Studio',s1namePh:'Jean Dupont Mixage',s1email:'Email',s1emailPh:'jean@mixage.com',s1web:'Site web (optionnel)',s1webPh:'https://mixage.com',s1phone:'Telephone / WhatsApp',s1phonePh:'+33 6 00 00 00 00',s1logo:'Ton logo (PNG, JPG)',s1logoHint:'Cliquer pour charger — apparait dans le PDF',s1color:'Couleur accent du PDF',s1colorHint:'Utilisee pour les en-tetes de section',s1msg:'Message d\'ouverture',s1msgPh:'Merci de me confier ta musique. Lis ceci attentivement avant d\'envoyer quoi que ce soit.',s1contactNote:'Note de contact en fin de document',s1contactNotePh:'Un doute? Ecris-moi avant d\'envoyer.',
   s2title:'Type de service',s2desc:'Determine les exigences a configurer.',s2mix:'Mixage',s2mixDesc:'Le client t\'envoie des stems pour mixer.',s2master:'Mastering',s2masterDesc:'Le client t\'envoie un mix stereo termine.',s2trackTypeLabel:'Que le client envoie-t-il?',s2stems:'Stems instrumentaux complets',s2stemsSub:'Fichiers separes par instrument.',s2typebeat:'Type beat / instrumental unique',s2typebeatSub:'Un seul fichier pour la base — le client exporte seulement les voix.',
   s3title:'Glossaire',s3desc:'Glossaire optionnel de termes en langage simple, inclus dans le PDF pour les clients non techniques.',s3toggleTitle:'Inclure le glossaire dans le PDF',s3toggleSub:'Recommande pour les clients non techniques',s3infoTitle:'Comment ca fonctionne',s3infoText:'Selectionne les termes a expliquer. Ils apparaissent au debut du PDF.',s3addOther:'+ Ajouter un terme personnalise',
@@ -768,7 +797,7 @@ T.fr={
   s6title:'Nommage des fichiers',s6desc:'Des noms clairs rendent chaque stem immediatement identifiable.',s6whyTitle:'Pourquoi les noms importent',s6whyText:'40 fichiers appeles "Audio 01" c\'est un cauchemar. Des noms comme "NomMorceau_VoixPrincipale_DRY.wav" communiquent tout d\'un coup d\'oeil.',s6exLabel:'Exemple de nom de fichier',s6addOther:'+ Ajouter une regle de nommage',
   s7title:'Comment envoyer les fichiers',s7desc:'Ou et comment le client envoie les fichiers et quelles infos inclure.',s7delivLabel:'Plateformes acceptees',s7customLink:'Ton lien personnel de telechargement (optionnel)',s7customLinkPh:'https://ton-lien.com',s7delivEmail:'Email pour les notifications de fichiers',s7delivEmailPh:'client@email.com — tu recevras le lien de telechargement ici',s7otherPh:'Nom d\'une autre plateforme',s7sessionLabel:'Informations de session a inclure',s7otherSessionPh:'Autre information requise',
   s8title:'Guides d\'exportation DAW',s8desc:'Selectionne les DAW utilisees par tes clients, verifie les instructions et confirme-les avant de continuer.',s8otherDaw:'DAW pas dans la liste?',s8addOtherDaw:'+ Ajouter DAW / logiciel',s8ytLabel:'Lien tutoriel YouTube',s8confirmQ:'Les instructions sont-elles correctes?',s8yesBtn:'Oui, correctes',s8noBtn:'Non, je veux les modifier',s8editLabel:'Modifier les instructions (une etape par ligne):',s8confirmEditsBtn:'Confirmer les modifications',s8confirmedLabel:'Confirme',s8confirmNote:'Confirme les instructions de chaque DAW selectionnee avant de continuer.',
-  s9title:'Stupidity Check et notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Erreurs classiques des clients. Dans le PDF, elles apparaissent comme avertissements serieux.',s9addStupid:'+ Ajouter une erreur personnalisee',s9checkLabel:'Checklist pre-envoi',s9checkSub:'Generee automatiquement. Le client la coche avant d\'envoyer.',s9notesLabel:'Notes supplementaires',s9notesPh:'Toute autre instruction specifique...',s9ytLabel:'Lien tutoriel general (optionnel)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Inclure les CGV',s9tcSub:'Politique de paiement, livraison et revisions',s9tcPh:'Ecris tes conditions ici...',
+  s9title:'Stupidity Check et notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Erreurs classiques des clients. Dans le PDF, elles apparaissent comme avertissements serieux.',s9addStupid:'+ Ajouter une erreur personnalisee',s9clAddPh:'Ajouter un element personnalise...',s9clAddBtn:'+ Ajouter',s9checkLabel:'Checklist pre-envoi',s9checkSub:'Generee automatiquement. Le client la coche avant d\'envoyer.',s9notesLabel:'Notes supplementaires',s9notesPh:'Toute autre instruction specifique...',s9ytLabel:'Lien tutoriel general (optionnel)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Inclure les CGV',s9tcSub:'Politique de paiement, livraison et revisions',s9tcPh:'Ecris tes conditions ici...',
   btnNext:'Continuer',btnBack:'Retour',btnFinish:'Termine — debloquer le bouton PDF',footerMade:'Outil gratuit pour les ingenieurs du son',footerNote:'PDF genere dans ton navigateur. Rien n\'est uploade.',
   glossaryTerms:[{term:'Stem',def:'Fichier audio individuel contenant un element de la chanson. Exporter des stems = un fichier separe par piste.'},{term:'WAV / AIFF',def:'Formats sans perte — qualite totale preservee. Toujours utiliser ces formats plutot que MP3.'},{term:'MP3',def:'Format compresse. Supprime definitivement des donnees audio. Ne convient pas au mixage.'},{term:'Sample Rate (kHz)',def:'Echantillons audio par seconde. 44.1 kHz est la norme musicale.'},{term:'Bit Depth',def:'Detail par echantillon. 24-bit est la norme professionnelle.'},{term:'Stem WET',def:'Stem exporte avec tous les effets creatifs actifs: reverb, delay, distorsion, sidechain, autotune, etc.'},{term:'Stem DRY',def:'Stem exporte sans effets — seulement le son brut.'},{term:'Master bus',def:'Sortie finale de la session. Doit etre bypasse avant d\'exporter des stems.'},{term:'Premix',def:'Bounce stereo du projet complet comme tu l\'entends. Utilise comme reference.'},{term:'Clipping',def:'Quand un signal depasse le niveau maximum et se distord. Aucun indicateur ne doit etre dans le rouge.'},{term:'Normaliser',def:'Fonction qui monte le volume automatiquement. Doit etre desactivee lors de l\'exportation.'},{term:'Sidechain',def:'Technique ou un son controle le volume d\'un autre, creant un effet de pompage.'},],
   drumsOptions:[{label:'Exporter tous les drums WET — avec tous les effets actifs',sub:'Sidechain, compression, saturation, reverb',isWet:true},{label:'Exporter tous les drums DRY — completement bruts, sans effets',sub:'Sans compression, sans sidechain — sons purs du sampler ou du plugin'},{label:'Exporter chaque element de batterie comme fichier separe',sub:'Grosse caisse, caisse claire, hi-hats, claps — un fichier chacun'},{label:'Regrouper les drums dans un fichier est acceptable si l\'export individuel n\'est pas possible',sub:'Fais-le moi savoir si c\'est le cas'},],
@@ -779,13 +808,13 @@ T.fr={
   deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — gratuit jusqu\'a 2Go'},{label:'Dropbox',sub:'Partager un lien de dossier'},{label:'Google Drive',sub:'Partager un lien de dossier'},{label:'Smash',sub:'fromsmash.com — gratuit, gros fichiers'},{label:'Swisstransfer',sub:'swisstransfer.com — gratuit jusqu\'a 50Go'},{label:'Autre (preciser)',sub:'',isOther:true},],
   sessionOptions:[{label:'BPM (tempo du projet)',sub:'Essentiel pour tout effet base sur le temps'},{label:'Tonalite de la chanson',sub:'Exemple: Do mineur, Fa majeur'},{label:'DAW utilisee et version',sub:'Exemple: Ableton Live 11'},{label:'Signature rythmique',sub:'Exemple: 4/4, 3/4'},{label:'Chansons de reference',sub:'Chansons qui representent le son recherche'},{label:'Autre (preciser)',sub:'',isOther:true},],
   stupidItems:[{label:'Exporter avec "Export All Tracks" ou equivalent',sub:'Inclut souvent des pistes de bus ou MIDI — toujours exporter chaque stem individuellement'},{label:'Laisser le limiteur ou maximiseur du master bus actif',sub:'Les stems seront pre-compresses et je ne pourrai pas y remedier'},{label:'Normaliser les fichiers avant l\'exportation',sub:'La normalisation change les niveaux relatifs'},{label:'Envoyer des MP3 quand WAV ou AIFF est disponible',sub:'MP3 supprime definitivement des informations audio'},{label:'Fichiers qui ne commencent pas tous au meme point (mesure 1, temps 1)',sub:'Si les stems commencent a des positions differentes, rien ne s\'aligne'},{label:'Envoyer les fichiers puis dire "j\'ai change le pont"',sub:'Les fichiers envoyes doivent etre definitifs — aucune modification apres l\'envoi'},{label:'Envoyer un seul fichier stereo avec tout ensemble',sub:'C\'est un mix, pas des stems'},],
-  checklistBase:['Tous les fichiers commencent au meme point (mesure 1, temps 1)','Master bus chain DESACTIVEE ou en bypass','Aucun fichier n\'ecrete','Fichiers correctement nommes','Premix stereo inclus','Infos de session incluses (BPM, tonalite, DAW)','Tous les fichiers sont definitifs — aucune modification apres l\'envoi'],
+  checklistBase:["Le projet est à sa version définitive, tu n'as rien changé après avoir décidé d'envoyer les fichiers", "La chaîne du master bus est désactivée ou en bypass: limiteur, maximiseur, compresseur, tout éteint", "Tu as exporté chaque stem individuellement, tu n'as pas utilisé 'Export All Tracks' ou similaire", "Chaque stem part de zéro (mesure 1, temps 1), même si la chanson commence plus tard le fichier part du début", "Aucun fichier n'écrête, reproduis chaque fichier exporté et vérifie qu'aucun meter ne monte dans le rouge", "Tu as compris la logique WET/DRY que je t'ai indiquée et tu as séparé les fichiers en deux dossiers si nécessaire. Si tu n'as pas compris n'hésite pas à me demander avant d'envoyer", "Les fichiers sont dans le bon format comme demandé", "La nomenclature est correcte, aucun fichier ne s'appelle 'Audio 01' ou similaire", "Le premix stéréo est inclus, le bounce de la chanson complète avec tous les effets actifs", "Les informations de session sont incluses: BPM, tonalité et DAW utilisée", "Tu as vérifié que tous les fichiers s'ouvrent correctement avant d'envoyer, pas de fichiers corrompus", "Tu envoies la bonne version, vérifie la date de modification des fichiers"],
   pdf_title:'Guide d\'envoi des fichiers',pdf_sub_formal:'Lisez ce document attentivement avant de m\'envoyer quoi que ce soit.',pdf_sub_informal:'Salut! Avant d\'envoyer tes fichiers, lis ceci.',pdf_from:'Prepare par',pdf_contact:'Email',pdf_web:'Site web',pdf_phone:'Telephone',pdf_glossary:'GLOSSAIRE',pdf_sec_format:'EXIGENCES DE FORMAT DE FICHIER',pdf_sec_philos:'IMPORTANT — DIRECTIVES SUR LES EFFETS ET L\'EXPORTATION',pdf_sec_stems:'QUOI EXPORTER',pdf_sec_naming:'NOMMAGE DES FICHIERS',pdf_sec_example:'Exemple',pdf_sec_delivery:'COMMENT ENVOYER LES FICHIERS',pdf_sec_session:'INFORMATIONS A INCLURE',pdf_sec_daw:'GUIDE D\'EXPORTATION',pdf_sec_stupid:'IMPORTANT — ERREURS COURANTES A EVITER',pdf_sec_checklist:'CHECKLIST PRE-ENVOI',pdf_sec_notes:'NOTES SUPPLEMENTAIRES',pdf_sec_yt:'TUTORIEL VIDEO',pdf_sec_tc:'CONDITIONS GENERALES',pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'AVANT D\'EXPORTER: Desactiver la chaine du master bus (limiteur, maximiseur, compresseur)',pdf_wetdry_note:'WET = exporte avec effets actifs | DRY = son brut sans effets',pdf_stem_sub_generic:'Exporter comme indique dans les directives ci-dessus. En cas de doute, demander avant d\'envoyer.',pdf_deliv_email_label:'Envoyer le lien a',pdf_checklist_intro:'Cocher chaque point avant d\'envoyer:',pdf_footer:'Genere avec BounceGuide — bounceguide.app',pdf_daw_yt:'Voir le tutoriel sur YouTube',pdf_service_mix:'Service: Mixage',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type beat — seuls les stems vocaux sont necessaires',
 };
 
 // ── GERMAN ───────────────────────────────────────────────────
 T.de={
-  heroTag:'Hore auf falsche Dateien von Kunden zu erhalten',heroTitle:'Die <span>narrensichere</span> Anleitung der deine Kunden wirklich folgen werden',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',generateBtn:'PDF erstellen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',savedLabel:'Gespeichert',
+  heroTag:'Hore auf falsche Dateien von Kunden zu erhalten',heroTitle:'Die <span>narrensichere</span> Anleitung der deine Kunden wirklich folgen werden',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',previewBtn:'PDF Vorschau',generateBtn:'PDF herunterladen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',savedLabel:'Gespeichert',
   s1title:'Deine Daten und Marke',s1desc:'Erscheint oben im PDF das der Kunde erhalt.',s1name:'Name / Studio',s1namePh:'Hans Muller Mixing',s1email:'Email',s1emailPh:'hans@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Telefon / WhatsApp',s1phonePh:'+49 160 000 0000',s1logo:'Dein Logo (PNG, JPG)',s1logoHint:'Klicken zum Hochladen — erscheint im PDF-Header',s1color:'PDF-Akzentfarbe',s1colorHint:'Wird fur Abschnitts-Header verwendet',s1msg:'Begrussung',s1msgPh:'Danke dass du mir deine Musik anvertraust. Bitte lies das sorgfaltig bevor du etwas sendest.',s1contactNote:'Kontakthinweis am Ende des Dokuments',s1contactNotePh:'Unsicher? Schreib mir vor dem Senden.',
   s2title:'Art des Services',s2desc:'Bestimmt welche Anforderungen konfiguriert werden.',s2mix:'Mixing',s2mixDesc:'Der Kunde schickt dir Stems zum Mixen.',s2master:'Mastering',s2masterDesc:'Der Kunde schickt dir einen fertigen Stereo-Mix.',s2trackTypeLabel:'Was schickt der Kunde?',s2stems:'Vollstandige instrumentale Stems',s2stemsSub:'Separate Dateien pro Instrument.',s2typebeat:'Type Beat / einzelne Instrumentaldatei',s2typebeatSub:'Eine Datei fur den Beat — der Kunde exportiert nur die Vocals.',
   s3title:'Glossar',s3desc:'Optionales Glossar mit Begriffen in einfacher Sprache, im PDF enthalten fur nicht-technische Kunden.',s3toggleTitle:'Glossar im PDF einschliessen',s3toggleSub:'Empfohlen fur technisch unerfahrene Kunden',s3infoTitle:'Wie es funktioniert',s3infoText:'Wahle die Begriffe aus die du erklaren mochtest. Sie erscheinen am Anfang des PDFs.',s3addOther:'+ Benutzerdefinierten Begriff hinzufugen',
@@ -794,7 +823,7 @@ T.de={
   s6title:'Dateinamen-Konvention',s6desc:'Klare Namen machen jeden Stem sofort identifizierbar.',s6whyTitle:'Warum Namen wichtig sind',s6whyText:'40 Dateien namens "Audio 01" sind ein Albtraum. Namen wie "SongName_HauptGesang_DRY.wav" kommunizieren alles auf einen Blick.',s6exLabel:'Beispiel-Dateiname',s6addOther:'+ Benennungsregel hinzufugen',
   s7title:'Wie Dateien gesendet werden',s7desc:'Wo und wie der Kunde Dateien sendet und welche Infos er beifugen soll.',s7delivLabel:'Akzeptierte Plattformen',s7customLink:'Dein personlicher Upload-Link (optional)',s7customLinkPh:'https://dein-link.com',s7delivEmail:'Email fur Dateibenachrichtigungen',s7delivEmailPh:'kunde@email.com — du erhaltst den Download-Link hier',s7otherPh:'Name einer anderen Plattform',s7sessionLabel:'Zu sendende Session-Informationen',s7otherSessionPh:'Weitere erforderliche Information',
   s8title:'DAW-Exportanleitungen',s8desc:'Wahle die DAWs deiner Kunden aus verifiziere die Anweisungen und bestatige sie vor dem Fortfahren.',s8otherDaw:'DAW nicht in der Liste?',s8addOtherDaw:'+ DAW / Software hinzufugen',s8ytLabel:'YouTube-Tutorial-Link',s8confirmQ:'Sind die Anweisungen korrekt?',s8yesBtn:'Ja, korrekt',s8noBtn:'Nein, ich mochte sie bearbeiten',s8editLabel:'Anweisungen bearbeiten (ein Schritt pro Zeile):',s8confirmEditsBtn:'Anderungen bestatigen',s8confirmedLabel:'Bestatigt',s8confirmNote:'Bestatige die Anweisungen fur jede ausgewahlte DAW bevor du fortfahrst.',
-  s9title:'Stupidity Check und Notizen',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Klassische Kundenfehler. Im PDF erscheinen sie als ernste Warnsektion.',s9addStupid:'+ Benutzerdefinierten Fehler hinzufugen',s9checkLabel:'Checkliste vor dem Senden',s9checkSub:'Automatisch generiert. Der Kunde hakt sie ab bevor er sendet.',s9notesLabel:'Weitere Notizen',s9notesPh:'Weitere spezifische Anweisungen...',s9ytLabel:'Allgemeiner Tutorial-Link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'AGB einschliessen',s9tcSub:'Zahlungs- Liefer- und Revisionsrichtlinie',s9tcPh:'Schreibe hier deine Bedingungen...',
+  s9title:'Stupidity Check und Notizen',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Klassische Kundenfehler. Im PDF erscheinen sie als ernste Warnsektion.',s9addStupid:'+ Benutzerdefinierten Fehler hinzufugen',s9clAddPh:'Benutzerdefinierten Punkt hinzufugen...',s9clAddBtn:'+ Hinzufugen',s9checkLabel:'Checkliste vor dem Senden',s9checkSub:'Automatisch generiert. Der Kunde hakt sie ab bevor er sendet.',s9notesLabel:'Weitere Notizen',s9notesPh:'Weitere spezifische Anweisungen...',s9ytLabel:'Allgemeiner Tutorial-Link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'AGB einschliessen',s9tcSub:'Zahlungs- Liefer- und Revisionsrichtlinie',s9tcPh:'Schreibe hier deine Bedingungen...',
   btnNext:'Weiter',btnBack:'Zuruck',btnFinish:'Fertig — PDF-Schaltflache freischalten',footerMade:'Kostenloses Tool fur Mix-Ingenieure',footerNote:'PDF wird in deinem Browser erstellt. Es wird nichts hochgeladen.',
   glossaryTerms:[{term:'Stem',def:'Einzelne Audiodatei die ein Element des Songs enthalt. Stems exportieren = eine separate Datei pro Spur.'},{term:'WAV / AIFF',def:'Verlustfreie Formate — volle Qualitat erhalten. Immer diese statt MP3 fur professionelle Arbeit.'},{term:'MP3',def:'Komprimiertes Format. Entfernt Audiodaten dauerhaft. Nicht geeignet fur Mixing.'},{term:'Sample Rate (kHz)',def:'Audiosamples pro Sekunde. 44.1 kHz ist der Musikstandard.'},{term:'Bit Depth',def:'Detail pro Sample. 24-bit ist der Profistandard.'},{term:'WET-Stem',def:'Stem der mit allen kreativen Effekten aktiv exportiert wird: Reverb, Delay, Verzerrung, Sidechain, Autotune, etc.'},{term:'DRY-Stem',def:'Stem der ohne Effekte exportiert wird — nur der rohe Sound.'},{term:'Master Bus',def:'Endausgang der Session. Muss deaktiviert werden bevor Stems exportiert werden.'},{term:'Premix',def:'Stereo-Bounce des gesamten Projekts genau wie du es horst. Als Referenz verwendet.'},{term:'Clipping',def:'Wenn ein Signal den maximalen Pegel uberschreitet und verzerrt. Kein Anzeiger darf im Roten sein.'},{term:'Normalisieren',def:'Funktion die die Lautstarke automatisch auf einen festen Pegel anhebt. Beim Exportieren deaktivieren.'},{term:'Sidechain',def:'Technik bei der ein Sound die Lautstarke eines anderen steuert und einen Pumping-Effekt erzeugt.'},],
   drumsOptions:[{label:'Alle Drums WET exportieren — mit allen aktiven Effekten',sub:'Sidechain, Kompression, Saturation, Reverb',isWet:true},{label:'Alle Drums DRY exportieren — komplett roh, ohne Effekte',sub:'Keine Kompression, kein Sidechain — reine Sounds aus Sampler oder Plugin'},{label:'Jedes Drum-Element als separate Datei exportieren',sub:'Kick, Snare, Hi-Hats, Claps — je eine Datei'},{label:'Alle Drums in einer Datei zusammenzufassen ist akzeptabel wenn Einzelexport nicht moglich ist',sub:'Informiere mich wenn das der Fall ist'},],
@@ -805,13 +834,13 @@ T.de={
   deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — kostenlos bis 2GB'},{label:'Dropbox',sub:'Ordner-Link teilen'},{label:'Google Drive',sub:'Ordner-Link teilen'},{label:'Smash',sub:'fromsmash.com — kostenlos, grosse Dateien'},{label:'Swisstransfer',sub:'swisstransfer.com — kostenlos bis 50GB'},{label:'Andere (angeben)',sub:'',isOther:true},],
   sessionOptions:[{label:'BPM (Projekttempo)',sub:'Essenziell fur jeden zeitbasierten Effekt'},{label:'Tonart des Songs',sub:'Beispiel: C-Moll, F-Dur'},{label:'Verwendete DAW und Version',sub:'Beispiel: Ableton Live 11'},{label:'Taktart',sub:'Beispiel: 4/4, 3/4'},{label:'Referenz-Tracks',sub:'Songs die den gewunschten Sound reprasentieren'},{label:'Andere (angeben)',sub:'',isOther:true},],
   stupidItems:[{label:'"Export All Tracks" oder Ahnliches verwenden',sub:'Enthalt oft Bus-Spuren oder MIDI-Spuren — immer jeden Stem einzeln exportieren'},{label:'Den Limiter oder Maximizer des Master Bus aktiv lassen',sub:'Die Stems werden vorkomprimiert und ich kann das nicht ruckgangig machen'},{label:'Dateien vor dem Export normalisieren',sub:'Normalisierung andert die relativen Pegel'},{label:'MP3 senden wenn WAV oder AIFF verfugbar ist',sub:'MP3 entfernt Audioinformationen dauerhaft'},{label:'Dateien die nicht alle am gleichen Punkt beginnen (Takt 1)',sub:'Wenn Stems an verschiedenen Positionen beginnen passt in der Session nichts zusammen'},{label:'Dateien senden und dann sagen "ich habe die Bridge geandert"',sub:'Gesendete Dateien mussen endgultig sein — keine Anderungen nach dem Senden'},{label:'Eine einzelne Stereo-Datei mit allem zusammen senden',sub:'Das ist ein Mix, keine Stems'},],
-  checklistBase:['Alle Dateien beginnen am gleichen Punkt (Takt 1)','Master Bus Chain DEAKTIVIERT oder im Bypass','Keine Datei clippt','Dateien korrekt benannt','Stereo-Premix enthalten','Session-Infos enthalten (BPM, Tonart, DAW)','Alle Dateien sind endgultig — keine Anderungen nach dem Senden'],
+  checklistBase:["Das Projekt ist in seiner endgültigen Version, du hast nach der Entscheidung zum Senden nichts mehr geändert", "Die Master-Bus-Kette ist deaktiviert oder im Bypass: Limiter, Maximizer, Kompressor, alles aus", "Du hast jeden Stem einzeln exportiert, du hast nicht 'Export All Tracks' oder Ähnliches verwendet", "Jeder Stem startet bei Null (Takt 1, Zählzeit 1), auch wenn der Song später beginnt startet die Datei am Anfang", "Keine Datei clippt, spiele jede exportierte Datei ab und prüfe dass kein Meter in den roten Bereich geht", "Du hast die WET/DRY-Logik die ich angegeben habe verstanden und die Dateien bei Bedarf in zwei Ordner getrennt. Wenn du es nicht verstanden hast zögere nicht mich vor dem Senden zu fragen", "Die Dateien sind im richtigen Format wie angefordert", "Die Benennung ist korrekt, keine Datei heißt 'Audio 01' oder ähnlich", "Der Stereo-Premix ist enthalten, der Bounce des vollständigen Songs mit allen aktiven Effekten", "Die Session-Informationen sind enthalten: BPM, Tonart und verwendete DAW", "Du hast überprüft dass alle Dateien vor dem Senden korrekt öffnen, keine beschädigten Dateien", "Du sendest die richtige Version, prüfe das Änderungsdatum der Dateien"],
   pdf_title:'Datei-Einreichungsanleitung',pdf_sub_formal:'Bitte lesen Sie dieses Dokument sorgfaltig bevor Sie mir etwas senden.',pdf_sub_informal:'Hallo! Bevor du Dateien sendest bitte lies das.',pdf_from:'Erstellt von',pdf_contact:'Email',pdf_web:'Website',pdf_phone:'Telefon',pdf_glossary:'GLOSSAR',pdf_sec_format:'DATEIFORMAT-ANFORDERUNGEN',pdf_sec_philos:'WICHTIG — RICHTLINIEN ZU EFFEKTEN UND EXPORT',pdf_sec_stems:'WAS EXPORTIEREN',pdf_sec_naming:'DATEINAMEN-KONVENTION',pdf_sec_example:'Beispiel',pdf_sec_delivery:'WIE DATEIEN GESENDET WERDEN',pdf_sec_session:'ZU SENDENDE INFORMATIONEN',pdf_sec_daw:'EXPORTANLEITUNG',pdf_sec_stupid:'WICHTIG — HAUFIGE FEHLER ZU VERMEIDEN',pdf_sec_checklist:'CHECKLISTE VOR DEM SENDEN',pdf_sec_notes:'WEITERE NOTIZEN',pdf_sec_yt:'VIDEO-TUTORIAL',pdf_sec_tc:'ALLGEMEINE GESCHAFTSBEDINGUNGEN',pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'VOR DEM EXPORT: Master Bus Chain deaktivieren (Limiter, Maximizer, Kompressor)',pdf_wetdry_note:'WET = mit aktiven Effekten exportiert | DRY = roher Sound ohne Effekte',pdf_stem_sub_generic:'Wie in den obigen Richtlinien angegeben exportieren. Im Zweifel vor dem Senden fragen.',pdf_deliv_email_label:'Link senden an',pdf_checklist_intro:'Jeden Punkt vor dem Senden abhaken:',pdf_footer:'Erstellt mit BounceGuide — bounceguide.app',pdf_daw_yt:'YouTube-Tutorial ansehen',pdf_service_mix:'Service: Mixing',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type Beat — nur Vocal-Stems erforderlich',
 };
 
 // ── PORTUGUESE ───────────────────────────────────────────────
 T.pt={
-  heroTag:'Para de receber arquivos errados dos seus clientes',heroTitle:'O guia <span>a prova de erros</span> que seus clientes seguirao de verdade',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',generateBtn:'Gerar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',savedLabel:'Salvo',
+  heroTag:'Para de receber arquivos errados dos seus clientes',heroTitle:'O guia <span>a prova de erros</span> que seus clientes seguirao de verdade',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',previewBtn:'Visualizar PDF',generateBtn:'Baixar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',savedLabel:'Salvo',
   s1title:'Seus dados e marca',s1desc:'Aparece no topo do PDF que o cliente recebe.',s1name:'Nome / Estudio',s1namePh:'Carlos Silva Mixagem',s1email:'Email',s1emailPh:'carlos@mixagem.com',s1web:'Site (opcional)',s1webPh:'https://mixagem.com',s1phone:'Telefone / WhatsApp',s1phonePh:'+55 11 90000 0000',s1logo:'Seu logo (PNG, JPG)',s1logoHint:'Clique para carregar — aparece no PDF',s1color:'Cor de destaque do PDF',s1colorHint:'Usada nos cabecalhos de secao',s1msg:'Mensagem de abertura',s1msgPh:'Obrigado por confiar sua musica a mim. Leia isso com atencao antes de enviar qualquer coisa.',s1contactNote:'Nota de contato no final do documento',s1contactNotePh:'Duvidas? Me escreva antes de enviar.',
   s2title:'Tipo de servico',s2desc:'Determina os requisitos a configurar.',s2mix:'Mixagem',s2mixDesc:'O cliente te envia stems para mixar.',s2master:'Mastering',s2masterDesc:'O cliente te envia um mix estereo pronto.',s2trackTypeLabel:'O que o cliente esta enviando?',s2stems:'Stems instrumentais completos',s2stemsSub:'Arquivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Um unico arquivo para a base — o cliente so exporta os vocais.',
   s3title:'Glossario',s3desc:'Glossario opcional de termos em linguagem simples, incluido no PDF para clientes nao tecnicos.',s3toggleTitle:'Incluir glossario no PDF',s3toggleSub:'Recomendado para clientes sem conhecimento tecnico',s3infoTitle:'Como funciona',s3infoText:'Selecione os termos que quer explicar. Aparecerao no inicio do PDF.',s3addOther:'+ Adicionar termo personalizado',
@@ -820,7 +849,7 @@ T.pt={
   s6title:'Nomenclatura de arquivos',s6desc:'Nomes claros tornam cada stem imediatamente identificavel.',s6whyTitle:'Por que os nomes importam',s6whyText:'40 arquivos chamados "Audio 01" e um pesadelo. Nomes como "NomeMusica_VocalPrincipal_DRY.wav" comunicam tudo de uma vez.',s6exLabel:'Exemplo de nome de arquivo',s6addOther:'+ Adicionar regra de nomenclatura',
   s7title:'Como enviar os arquivos',s7desc:'Onde e como o cliente envia os arquivos e que informacoes incluir.',s7delivLabel:'Plataformas aceitas',s7customLink:'Seu link pessoal de upload (opcional)',s7customLinkPh:'https://seu-link.com',s7delivEmail:'Email para notificacoes de arquivos',s7delivEmailPh:'cliente@email.com — voce recebera o link de download aqui',s7otherPh:'Nome de outra plataforma',s7sessionLabel:'Informacoes de sessao a incluir',s7otherSessionPh:'Outra informacao necessaria',
   s8title:'Guias de exportacao DAW',s8desc:'Selecione as DAWs que seus clientes usam revise as instrucoes e confirme-as antes de continuar.',s8otherDaw:'DAW nao na lista?',s8addOtherDaw:'+ Adicionar DAW / software',s8ytLabel:'Link tutorial YouTube',s8confirmQ:'As instrucoes estao corretas?',s8yesBtn:'Sim, corretas',s8noBtn:'Nao, quero edita-las',s8editLabel:'Editar instrucoes (um passo por linha):',s8confirmEditsBtn:'Confirmar alteracoes',s8confirmedLabel:'Confirmado',s8confirmNote:'Confirme as instrucoes de cada DAW selecionada antes de continuar.',
-  s9title:'Stupidity Check e notas',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Erros classicos dos clientes. No PDF aparecem como uma secao de aviso serio.',s9addStupid:'+ Adicionar erro personalizado',s9checkLabel:'Checklist pre-envio',s9checkSub:'Gerada automaticamente. O cliente marca cada item antes de enviar.',s9notesLabel:'Notas adicionais',s9notesPh:'Qualquer outra instrucao especifica...',s9ytLabel:'Link tutorial geral (opcional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Incluir Termos e Condicoes',s9tcSub:'Politica de pagamento entrega e revisoes',s9tcPh:'Escreva seus termos aqui...',
+  s9title:'Stupidity Check e notas',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Erros classicos dos clientes. No PDF aparecem como uma secao de aviso serio.',s9addStupid:'+ Adicionar erro personalizado',s9clAddPh:'Adicionar um item personalizado...',s9clAddBtn:'+ Adicionar',s9checkLabel:'Checklist pre-envio',s9checkSub:'Gerada automaticamente. O cliente marca cada item antes de enviar.',s9notesLabel:'Notas adicionais',s9notesPh:'Qualquer outra instrucao especifica...',s9ytLabel:'Link tutorial geral (opcional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Incluir Termos e Condicoes',s9tcSub:'Politica de pagamento entrega e revisoes',s9tcPh:'Escreva seus termos aqui...',
   btnNext:'Continuar',btnBack:'Voltar',btnFinish:'Feito — desbloquear botao PDF',footerMade:'Ferramenta gratuita para engenheiros de mixagem',footerNote:'PDF gerado no seu navegador. Nada e enviado.',
   glossaryTerms:[{term:'Stem',def:'Arquivo de audio individual contendo um elemento da musica. Exportar stems = um arquivo separado por faixa.'},{term:'WAV / AIFF',def:'Formatos sem perda — qualidade total preservada. Sempre usar estes em vez de MP3.'},{term:'MP3',def:'Formato comprimido. Remove dados de audio permanentemente. Nao adequado para mixagem.'},{term:'Sample Rate (kHz)',def:'Amostras de audio por segundo. 44.1 kHz e o padrao musical.'},{term:'Bit Depth',def:'Detalhe por amostra. 24-bit e o padrao profissional.'},{term:'Stem WET',def:'Stem exportado com todos os efeitos criativos ativos: reverb, delay, distorcao, sidechain, autotune, etc.'},{term:'Stem DRY',def:'Stem exportado sem efeitos — apenas o som bruto.'},{term:'Master bus',def:'Saida final da sessao. Deve ser desativado antes de exportar stems.'},{term:'Premix',def:'Bounce estereo do projeto completo como voce ouve. Usado como referencia.'},{term:'Clipping',def:'Quando um sinal ultrapassa o nivel maximo e distorce. Nenhum medidor deve estar no vermelho.'},{term:'Normalizar',def:'Funcao que sobe o volume automaticamente. Deve ser desativada ao exportar stems.'},{term:'Sidechain',def:'Tecnica onde um som controla o volume de outro criando um efeito de bombeamento.'},],
   drumsOptions:[{label:'Exportar todos os drums WET — com todos os efeitos ativos',sub:'Sidechain, compressao, saturacao, reverb',isWet:true},{label:'Exportar todos os drums DRY — completamente crus, sem efeitos',sub:'Sem compressao, sem sidechain — sons puros do sampler ou plugin'},{label:'Exportar cada elemento da bateria como arquivo separado',sub:'Bumbo, caixa, hi-hats, claps — um arquivo cada'},{label:'Agrupar drums em um arquivo e aceitavel se o export individual nao for possivel',sub:'Me avise se for o caso'},],
@@ -831,7 +860,7 @@ T.pt={
   deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — gratis ate 2GB'},{label:'Dropbox',sub:'Compartilhar link de pasta'},{label:'Google Drive',sub:'Compartilhar link de pasta'},{label:'Smash',sub:'fromsmash.com — gratis, arquivos grandes'},{label:'Swisstransfer',sub:'swisstransfer.com — gratis ate 50GB'},{label:'Outro (especificar)',sub:'',isOther:true},],
   sessionOptions:[{label:'BPM (tempo do projeto)',sub:'Essencial para qualquer efeito baseado em tempo'},{label:'Tonalidade da musica',sub:'Exemplo: Do menor, Fa maior'},{label:'DAW utilizada e versao',sub:'Exemplo: Ableton Live 11'},{label:'Compasso',sub:'Exemplo: 4/4, 3/4'},{label:'Musicas de referencia',sub:'Musicas que representam o som desejado'},{label:'Outro (especificar)',sub:'',isOther:true},],
   stupidItems:[{label:'Exportar com "Export All Tracks" ou equivalente',sub:'Frequentemente inclui faixas de bus ou MIDI — sempre exportar cada stem individualmente'},{label:'Deixar o limitador ou maximizador do master bus ativo',sub:'Os stems serao pre-comprimidos e nao poderei remediar isso'},{label:'Normalizar os arquivos antes de exportar',sub:'A normalizacao muda os niveis relativos'},{label:'Enviar MP3 quando WAV ou AIFF esta disponivel',sub:'MP3 remove informacoes de audio permanentemente'},{label:'Arquivos que nao comecam todos no mesmo ponto (compasso 1, tempo 1)',sub:'Se os stems comecam em posicoes diferentes nada se alinha'},{label:'Enviar os arquivos e depois dizer "mudei a ponte"',sub:'Os arquivos enviados devem ser definitivos — sem alteracoes apos o envio'},{label:'Enviar um unico arquivo estereo com tudo junto',sub:'Isso e um mix, nao stems'},],
-  checklistBase:['Todos os arquivos comecam no mesmo ponto (compasso 1, tempo 1)','Master bus chain DESATIVADA ou em bypass','Nenhum arquivo clippando','Arquivos corretamente nomeados','Premix estereo incluido','Infos de sessao incluidas (BPM, tonalidade, DAW)','Todos os arquivos sao definitivos — sem alteracoes apos o envio'],
+  checklistBase:["O projeto está na sua versão definitiva, você não mudou nada depois de decidir enviar os arquivos", "A cadeia do master bus está desativada ou em bypass: limitador, maximizador, compressor, tudo desligado", "Você exportou cada stem individualmente, não usou 'Export All Tracks' ou similar", "Cada stem começa do zero (compasso 1, tempo 1), mesmo que a música comece depois o arquivo começa do início", "Nenhum arquivo está clippando, reproduza cada arquivo exportado e verifique que nenhum meter vá ao vermelho", "Você entendeu a lógica WET/DRY que indiquei e separou os arquivos em duas pastas se necessário. Se não entendeu não hesite em me perguntar antes de enviar", "Os arquivos estão no formato correto como solicitado", "A nomenclatura está correta, nenhum arquivo se chama 'Audio 01' ou similar", "O premix estéreo está incluído, o bounce da música completa com todos os efeitos ativos", "As informações de sessão estão incluídas: BPM, tonalidade e DAW usada", "Você verificou que todos os arquivos abrem corretamente antes de enviar, sem arquivos corrompidos", "Você está enviando a versão correta, verifique a data de modificação dos arquivos"],
   pdf_title:'Guia de envio de arquivos',pdf_sub_formal:'Por favor leia este documento com atencao antes de me enviar qualquer coisa.',pdf_sub_informal:'Oi! Antes de enviar os arquivos leia isso.',pdf_from:'Preparado por',pdf_contact:'Email',pdf_web:'Site',pdf_phone:'Telefone',pdf_glossary:'GLOSSARIO',pdf_sec_format:'REQUISITOS DE FORMATO DE ARQUIVO',pdf_sec_philos:'IMPORTANTE — DIRETRIZES SOBRE EFEITOS E EXPORTACAO',pdf_sec_stems:'O QUE EXPORTAR',pdf_sec_naming:'NOMENCLATURA DE ARQUIVOS',pdf_sec_example:'Exemplo',pdf_sec_delivery:'COMO ENVIAR OS ARQUIVOS',pdf_sec_session:'INFORMACOES A INCLUIR',pdf_sec_daw:'GUIA DE EXPORTACAO',pdf_sec_stupid:'IMPORTANTE — ERROS COMUNS A EVITAR',pdf_sec_checklist:'CHECKLIST PRE-ENVIO',pdf_sec_notes:'NOTAS ADICIONAIS',pdf_sec_yt:'TUTORIAL EM VIDEO',pdf_sec_tc:'TERMOS E CONDICOES',pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'ANTES DE EXPORTAR: Desativar a cadeia do master bus (limitador, maximizador, compressor)',pdf_wetdry_note:'WET = exportado com efeitos ativos | DRY = som bruto sem efeitos',pdf_stem_sub_generic:'Exportar conforme indicado nas diretrizes acima. Em caso de duvida perguntar antes de enviar.',pdf_deliv_email_label:'Enviar link para',pdf_checklist_intro:'Marcar cada item antes de enviar:',pdf_footer:'Gerado com BounceGuide — bounceguide.app',pdf_daw_yt:'Assistir tutorial no YouTube',pdf_service_mix:'Servico: Mixagem',pdf_service_master:'Servico: Mastering',pdf_typebeat:'Formato: Type beat — apenas stems vocais necessarios',
 };
 
@@ -879,7 +908,7 @@ const TOTAL=9;
 const completedSteps=new Set();
 
 const fd={
-  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,
+  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,customChecklist:[],
   serviceType:'mix',trackType:'stems',
   glossaryEnabled:false,glossary:[],glossaryOthers:[],
   drums:[],instr:[],vocals:[],premix:[],vocalsTB:[],premixTB:[],
@@ -993,6 +1022,7 @@ function advance(fromStep){
 function finishForm(){
   completedSteps.add(9);updateProgress();
   document.getElementById('generateBtn').disabled=false;
+  if(document.getElementById('previewBtn'))document.getElementById('previewBtn').disabled=false;
   buildChecklist();
 }
 
@@ -1242,17 +1272,74 @@ function buildStupidChecks(){
 // ═══════════════════════════════════════════
 //  CHECKLIST
 // ═══════════════════════════════════════════
+// Checklist state: base items + custom items merged and orderable
+let clItems=[]; // {text, custom:bool}
+let dragSrcIdx=null;
+
 function buildChecklist(){
   const el=document.getElementById('checklistPreview');if(!el)return;
   const base=tArr('checklistBase');
   const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
-  const items=fmtVal?[`${t('pdf_format_label')}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`,...base]:base;
-  el.innerHTML=items.map(item=>`
-    <div class="checklist-preview-item">
+  const fmtItem=fmtVal?`${t('pdf_format_label')}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`:null;
+  const baseItems=(fmtItem?[fmtItem,...base]:base).map(t=>({text:t,custom:false}));
+  // Merge: keep base items, append custom ones
+  clItems=[...baseItems,...(fd.customChecklist||[]).map(t=>({text:t,custom:true}))];
+  renderChecklist();
+}
+
+function renderChecklist(){
+  const el=document.getElementById('checklistPreview');if(!el)return;
+  el.innerHTML=clItems.map((item,i)=>`
+    <div class="checklist-preview-item" draggable="true"
+      ondragstart="onClDragStart(${i})"
+      ondragover="onClDragOver(event,${i})"
+      ondrop="onClDrop(${i})"
+      ondragend="onClDragEnd()">
+      <span class="cl-drag">⠿</span>
       <div class="cl-dot">v</div>
-      <div class="cl-text">${item}</div>
+      <div class="cl-text">${item.text}</div>
+      <button class="cl-remove" onclick="removeClItem(${i})" title="Rimuovi">✕</button>
     </div>`).join('');
 }
+
+function addCustomCl(){
+  const inp=document.getElementById('clCustomInput');
+  const val=inp?.value?.trim();
+  if(!val)return;
+  if(!fd.customChecklist)fd.customChecklist=[];
+  fd.customChecklist.push(val);
+  inp.value='';
+  buildChecklist();
+  autoSave();
+}
+
+function removeClItem(i){
+  const item=clItems[i];
+  if(item.custom){
+    const ci=fd.customChecklist.indexOf(item.text);
+    if(ci>=0)fd.customChecklist.splice(ci,1);
+  } else {
+    // Remove from base: store removed indices
+    if(!fd.removedClItems)fd.removedClItems=[];
+    fd.removedClItems.push(item.text);
+  }
+  clItems.splice(i,1);
+  renderChecklist();
+  autoSave();
+}
+
+function onClDragStart(i){dragSrcIdx=i;setTimeout(()=>document.querySelectorAll('.checklist-preview-item')[i]?.classList.add('dragging'),0);}
+function onClDragOver(e,i){e.preventDefault();document.querySelectorAll('.checklist-preview-item').forEach((el,j)=>el.classList.toggle('drag-over',j===i&&i!==dragSrcIdx));}
+function onClDrop(i){
+  if(dragSrcIdx===null||dragSrcIdx===i)return;
+  const moved=clItems.splice(dragSrcIdx,1)[0];
+  clItems.splice(i,0,moved);
+  // Rebuild custom checklist from current order
+  fd.customChecklist=clItems.filter(x=>x.custom).map(x=>x.text);
+  renderChecklist();
+  autoSave();
+}
+function onClDragEnd(){dragSrcIdx=null;document.querySelectorAll('.checklist-preview-item').forEach(el=>{el.classList.remove('dragging','drag-over');});}
 
 function toggleTC(){
   fd.tc=!fd.tc;
@@ -1267,7 +1354,60 @@ function toggleTC(){
 // ═══════════════════════════════════════════
 //  PDF GENERATION
 // ═══════════════════════════════════════════
-function generatePDF(){
+let _pdfDocForDownload = null;
+
+function previewPDF(){
+  const modal = document.getElementById('pdfModal');
+  const body = document.getElementById('pdfModalBody');
+  modal.classList.add('open');
+  body.innerHTML = '<div class="pdf-modal-loading">Generazione in corso...</div>';
+  document.body.style.overflow = 'hidden';
+
+  // Small delay to let modal render
+  setTimeout(()=>{
+    try {
+      _pdfDocForDownload = buildPDFDoc();
+      const dataUri = _pdfDocForDownload.output('datauristring');
+      body.innerHTML = `<iframe src="${dataUri}" style="width:100%;height:70vh;border:none"></iframe>`;
+    } catch(e) {
+      body.innerHTML = `<div class="pdf-modal-loading" style="color:var(--warn-text)">Errore nella generazione: ${e.message}</div>`;
+    }
+  }, 50);
+}
+
+function closePdfModal(){
+  document.getElementById('pdfModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function downloadFromPreview(){
+  if(!_pdfDocForDownload){generatePDF();return;}
+  const name=(document.getElementById('mixerName')?.value||'guide').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_-]/g,'');
+  const filename=`BounceGuide_${name||'guide'}.pdf`;
+  const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+  if(isSafari||isIOS){
+    const blob=_pdfDocForDownload.output('blob');
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=filename;a.target='_blank';
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},200);
+  } else {
+    _pdfDocForDownload.save(filename);
+  }
+  closePdfModal();
+}
+
+// Close modal on backdrop click
+document.addEventListener('click', e=>{
+  const modal=document.getElementById('pdfModal');
+  if(e.target===modal)closePdfModal();
+});
+// Close on Escape
+document.addEventListener('keydown', e=>{if(e.key==='Escape')closePdfModal();});
+
+function buildPDFDoc(){
   if(!window.jspdf){setTimeout(generatePDF,500);return;}
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF('p','mm','a4');
@@ -1578,9 +1718,8 @@ function generatePDF(){
   }
 
   // ── CHECKLIST ──
-  const base=tArr('checklistBase');
-  const fmtItem=fmtVal?`${tl.pdf_format_label}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`:null;
-  const allCl=fmtItem?[fmtItem,...base]:base;
+  // Use the current clItems order (includes custom and reordered items)
+  const allCl=clItems.length>0?clItems.map(x=>x.text):(()=>{const base=tArr('checklistBase');return fmtVal?[`${tl.pdf_format_label}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`,...base]:base;})();
   if(y+40>H-16)np();
   secH(tl.pdf_sec_checklist);
   ck(7);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(60,60,60);
@@ -1631,9 +1770,13 @@ function generatePDF(){
     doc.text(`${p} / ${pages}`,W-M,H-4,{align:'right'});
   }
 
+  return doc;
+}
+
+function generatePDF(){
+  const doc=buildPDFDoc();
   const name=(document.getElementById('mixerName')?.value||'guide').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_-]/g,'');
   const filename=`BounceGuide_${name||'guide'}.pdf`;
-  // Safari iOS fix: open as blob URL instead of using doc.save directly
   const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
   if(isSafari||isIOS){
@@ -1728,5 +1871,20 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     </div>
   </div>
 </footer>
+<!-- PDF PREVIEW MODAL -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-modal-box">
+    <div class="pdf-modal-header">
+      <div class="pdf-modal-title" id="pdfModalTitle">Anteprima PDF</div>
+      <div class="pdf-modal-actions">
+        <button class="pdf-modal-download" id="pdfModalDownload" onclick="downloadFromPreview()">⬇ Scarica PDF</button>
+        <button class="pdf-modal-close" onclick="closePdfModal()">✕ Chiudi</button>
+      </div>
+    </div>
+    <div class="pdf-modal-body" id="pdfModalBody">
+      <div class="pdf-modal-loading">Generazione in corso...</div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
