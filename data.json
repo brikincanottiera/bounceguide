@@ -203,7 +203,7 @@
     "it": [
       {
         "label": "Esportare con 'Export All Tracks' o equivalente",
-        "sub": "Spesso include tracce bus o MIDI — esportare sempre ogni stem singolarmente"
+        "sub": "Spesso include tracce bus o MIDI, bisogna esportare sempre ogni stem singolarmente"
       },
       {
         "label": "Lasciare il limiter o maximizer sul master bus attivo",
@@ -211,23 +211,27 @@
       },
       {
         "label": "Normalizzare i file prima di esportare",
-        "sub": "La normalizzazione cambia i livelli relativi"
+        "sub": "La normalizzazione cambia i livelli relativi, io voglio il tuo balance"
       },
       {
         "label": "Inviare MP3 quando WAV o AIFF e disponibile",
         "sub": "L'MP3 rimuove permanentemente informazioni audio"
       },
       {
-        "label": "File che non partono tutti dallo stesso punto (battuta 1, tempo 1)",
+        "label": "I file devono tutti paritre dallo stesso punto (battuta 1, tempo 1)",
         "sub": "Se gli stem partono da posizioni diverse, niente si allinea in sessione"
       },
       {
         "label": "Inviare i file e poi dire 'ho cambiato il ritornello'",
-        "sub": "I file inviati devono essere definitivi — nessuna modifica dopo l'invio"
+        "sub": "I file inviati devono essere definitivi, nessuna modifica dopo l'invio"
       },
       {
         "label": "Inviare un unico file stereo con tutto mixato insieme",
-        "sub": "Quello e un mix, non degli stem"
+        "sub": "Quello è un mix, non degli stem"
+      },
+      {
+        "label": "Esporta MONO quello che è mono, STEREO quello che è stereo",
+        "sub": "Se la tua DAW te lo consente, ovviamente"
       }
     ],
     "es": [],
