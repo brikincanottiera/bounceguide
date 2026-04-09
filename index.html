@@ -855,6 +855,7 @@ function textOnBg(r,g,b){return luminance(r,g,b)<128?[255,255,255]:[15,15,15];}
 
 function setLang(l){
   lang=l;
+  try{localStorage.setItem('bg_lang',l);}catch(e){}
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
   document.documentElement.lang=l;
   applyT();buildAll();
@@ -1600,6 +1601,8 @@ function buildAll(){
 //  INIT
 // ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
+  // Load saved lang
+  try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl))lang=sl;}catch(e){}
   try{
     const saved=localStorage.getItem('bg_v5');
     if(saved){
@@ -1607,6 +1610,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(p.mixerName)document.getElementById('mixerName').value=p.mixerName;
       if(p.accentColor){fd.accentColor=p.accentColor;updateAccent(p.accentColor);document.getElementById('accentColor').value=p.accentColor;}
     }
+    const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;
   }catch(e){}
   applyT();buildAll();
 });
