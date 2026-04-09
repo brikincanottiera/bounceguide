@@ -1632,7 +1632,20 @@ function generatePDF(){
   }
 
   const name=(document.getElementById('mixerName')?.value||'guide').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_-]/g,'');
-  doc.save(`BounceGuide_${name||'guide'}.pdf`);
+  const filename=`BounceGuide_${name||'guide'}.pdf`;
+  // Safari iOS fix: open as blob URL instead of using doc.save directly
+  const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+  if(isSafari||isIOS){
+    const blob=doc.output('blob');
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=filename;a.target='_blank';
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},200);
+  } else {
+    doc.save(filename);
+  }
 }
 
 // ═══════════════════════════════════════════
