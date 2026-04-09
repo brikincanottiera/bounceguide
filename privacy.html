@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">BounceGuide</title>
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f0f;--bg2:#181818;--bg3:#222;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--t1:#efefef;--t2:#888;--t3:#444;--acc:#E8C547;--acc-dim:rgba(232,197,71,0.12);--radius:10px;--radius-sm:6px}
+html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.96);backdrop-filter:blur(16px)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--acc);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-0.4px}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{padding:4px 9px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;font-weight:500;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--border2);color:var(--t1)}
+.lang-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+main{flex:1;max-width:720px;margin:0 auto;padding:48px 24px 80px;width:100%}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);text-decoration:none;margin-bottom:32px;transition:color 0.15s}
+.back-link:hover{color:var(--acc)}
+.legal-title{font-size:28px;font-weight:800;color:var(--t1);letter-spacing:-0.6px;margin-bottom:6px}
+.legal-updated{font-size:12px;color:var(--t3);margin-bottom:8px}
+.legal-intro{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:32px;padding-bottom:24px;border-bottom:0.5px solid var(--border)}
+.legal-section{margin-bottom:28px}
+.legal-s-title{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.legal-s-text{font-size:13px;color:var(--t2);line-height:1.75}
+footer{padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)}
+.footer-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.footer-left{font-size:12px;color:var(--t2)}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.footer-links a{font-size:12px;font-weight:600;color:var(--t2);text-decoration:none;transition:color 0.15s}
+.footer-links a:hover{color:var(--acc)}
+.footer-links .legal-link{font-weight:400;color:var(--t3)}
+.footer-links .legal-link:hover{color:var(--t2)}
+@media(max-width:600px){header{padding:12px 16px}main{padding:28px 16px 60px}footer{padding:14px 16px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="logo-text">BounceGuide</span>
+  </a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  </div>
+</header>
+<main>
+  <a href="/" class="back-link">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="back"></span>
+  </a>
+  <h1 class="legal-title" id="title"></h1>
+  <div class="legal-updated" id="updated"></div>
+  <p class="legal-intro" id="intro"></p>
+  
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s1title"></h2>
+    <p class="legal-s-text" id="s1text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s2title"></h2>
+    <p class="legal-s-text" id="s2text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s3title"></h2>
+    <p class="legal-s-text" id="s3text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s4title"></h2>
+    <p class="legal-s-text" id="s4text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s5title"></h2>
+    <p class="legal-s-text" id="s5text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s6title"></h2>
+    <p class="legal-s-text" id="s6text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s7title"></h2>
+    <p class="legal-s-text" id="s7text"></p>
+  </div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">BounceGuide &mdash; Made by <a href="/about" style="color:var(--acc);font-weight:600;text-decoration:none">Brik in Canottiera</a></div>
+    <div class="footer-links">
+      <a href="/">App</a>
+      <a href="/about">About</a>
+      <a href="/feature-requests">Feature Requests</a>
+      <span style="color:var(--border2)">|</span>
+      <a href="/privacy" class="legal-link">Privacy Policy</a>
+      <a href="/terms" class="legal-link">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+<script>
+const T = {"en": {"title": "Privacy Policy", "updated": "Last updated: April 2026", "intro": "This Privacy Policy describes how BounceGuide (bounceguide.vercel.app) handles your personal data. BounceGuide is a free tool operated by Francesco (Brik in Canottiera).", "s1title": "What data we collect", "s1text": "BounceGuide does not collect any personal data during normal use of the app. The PDF guide is generated entirely in your browser — no data is sent to any server. The only personal data we collect is your email address, which you may optionally provide when submitting a feature request.", "s2title": "How we use your data", "s2text": "Your email address, if provided, is used exclusively to notify you if your feature request is implemented. It will never be used for marketing, shared with third parties, or used for any other purpose.", "s3title": "Where your data is stored", "s3text": "Feature requests and associated email addresses are stored in a private Notion database accessible only to the operator of BounceGuide. Notion is a third-party service with its own privacy policy available at notion.so/privacy.", "s4title": "How long we keep your data", "s4text": "Your data is kept for as long as necessary to evaluate your request. You can request deletion at any time by contacting us at the email below.", "s5title": "Your rights (GDPR)", "s5text": "If you are located in the European Economic Area, you have the right to access, correct, or delete your personal data at any time. To exercise these rights, contact us at francescobrik@gmail.com. We will respond within 30 days.", "s6title": "Cookies", "s6text": "BounceGuide does not use tracking cookies or any third-party analytics cookies. We use localStorage in your browser only to save your form progress and language preference — this data never leaves your device.", "s7title": "Contact", "s7text": "For any privacy-related questions or data deletion requests, contact: francescobrik@gmail.com", "back": "Back to BounceGuide"}, "it": {"title": "Privacy Policy", "updated": "Ultimo aggiornamento: Aprile 2026", "intro": "Questa Privacy Policy descrive come BounceGuide (bounceguide.vercel.app) gestisce i tuoi dati personali. BounceGuide e uno strumento gratuito gestito da Francesco (Brik in Canottiera).", "s1title": "Quali dati raccogliamo", "s1text": "BounceGuide non raccoglie alcun dato personale durante il normale utilizzo dell'app. La guida PDF viene generata interamente nel tuo browser — nessun dato viene inviato a nessun server. L'unico dato personale che raccogliamo e il tuo indirizzo email, che puoi facoltativamente fornire quando invii una richiesta di funzionalita.", "s2title": "Come utilizziamo i tuoi dati", "s2text": "Il tuo indirizzo email, se fornito, viene utilizzato esclusivamente per notificarti se la tua richiesta viene implementata. Non verra mai utilizzato per marketing, condiviso con terze parti o usato per qualsiasi altro scopo.", "s3title": "Dove vengono conservati i tuoi dati", "s3text": "Le richieste di funzionalita e gli indirizzi email associati sono conservati in un database Notion privato accessibile solo all'operatore di BounceGuide. Notion e un servizio di terze parti con la propria privacy policy disponibile su notion.so/privacy.", "s4title": "Per quanto tempo conserviamo i tuoi dati", "s4text": "I tuoi dati vengono conservati per il tempo necessario a valutare la tua richiesta. Puoi richiedere la cancellazione in qualsiasi momento contattandoci all'email indicata sotto.", "s5title": "I tuoi diritti (GDPR)", "s5text": "Se sei residente nello Spazio Economico Europeo, hai il diritto di accedere, correggere o cancellare i tuoi dati personali in qualsiasi momento. Per esercitare questi diritti, contatta francescobrik@gmail.com. Risponderemo entro 30 giorni.", "s6title": "Cookie", "s6text": "BounceGuide non utilizza cookie di tracciamento ne cookie di analytics di terze parti. Utilizziamo il localStorage del tuo browser solo per salvare i progressi del form e la preferenza di lingua — questi dati non lasciano mai il tuo dispositivo.", "s7title": "Contatti", "s7text": "Per qualsiasi domanda sulla privacy o richiesta di cancellazione dei dati, contatta: francescobrik@gmail.com", "back": "Torna a BounceGuide"}, "es": {"title": "Politica de Privacidad", "updated": "Ultima actualizacion: Abril 2026", "intro": "Esta Politica de Privacidad describe como BounceGuide (bounceguide.vercel.app) maneja tus datos personales. BounceGuide es una herramienta gratuita operada por Francesco (Brik in Canottiera).", "s1title": "Que datos recopilamos", "s1text": "BounceGuide no recopila ningun dato personal durante el uso normal de la aplicacion. La guia PDF se genera completamente en tu navegador — ningun dato se envia a ningun servidor. El unico dato personal que recopilamos es tu direccion de email, que puedes proporcionar opcionalmente al enviar una solicitud de funcion.", "s2title": "Como usamos tus datos", "s2text": "Tu direccion de email, si se proporciona, se usa exclusivamente para notificarte si tu solicitud es implementada. Nunca sera usada para marketing, compartida con terceros ni usada para ningun otro proposito.", "s3title": "Donde se almacenan tus datos", "s3text": "Las solicitudes de funciones y las direcciones de email asociadas se almacenan en una base de datos privada de Notion accesible solo al operador de BounceGuide. Notion es un servicio de terceros con su propia politica de privacidad disponible en notion.so/privacy.", "s4title": "Cuanto tiempo conservamos tus datos", "s4text": "Tus datos se conservan durante el tiempo necesario para evaluar tu solicitud. Puedes solicitar la eliminacion en cualquier momento contactandonos al email indicado.", "s5title": "Tus derechos (RGPD)", "s5text": "Si resides en el Espacio Economico Europeo, tienes derecho a acceder, corregir o eliminar tus datos personales en cualquier momento. Para ejercer estos derechos, contacta francescobrik@gmail.com. Responderemos en 30 dias.", "s6title": "Cookies", "s6text": "BounceGuide no usa cookies de seguimiento ni cookies de analitica de terceros. Usamos localStorage en tu navegador solo para guardar el progreso del formulario y la preferencia de idioma — estos datos nunca salen de tu dispositivo.", "s7title": "Contacto", "s7text": "Para cualquier pregunta sobre privacidad o solicitud de eliminacion de datos, contacta: francescobrik@gmail.com", "back": "Volver a BounceGuide"}, "fr": {"title": "Politique de Confidentialite", "updated": "Derniere mise a jour: Avril 2026", "intro": "Cette Politique de Confidentialite decrit comment BounceGuide (bounceguide.vercel.app) traite tes donnees personnelles. BounceGuide est un outil gratuit exploite par Francesco (Brik in Canottiera).", "s1title": "Quelles donnees nous collectons", "s1text": "BounceGuide ne collecte aucune donnee personnelle lors de l'utilisation normale de l'application. Le guide PDF est entierement genere dans ton navigateur — aucune donnee n'est envoyee a un serveur. La seule donnee personnelle que nous collectons est ton adresse email, que tu peux fournir optionnellement lors de l'envoi d'une demande de fonctionnalite.", "s2title": "Comment nous utilisons tes donnees", "s2text": "Ton adresse email, si fournie, est utilisee exclusivement pour te notifier si ta demande est implementee. Elle ne sera jamais utilisee a des fins marketing, partagee avec des tiers ou utilisee a d'autres fins.", "s3title": "Ou tes donnees sont stockees", "s3text": "Les demandes de fonctionnalites et les adresses email associees sont stockees dans une base de donnees Notion privee accessible uniquement a l'operateur de BounceGuide. Notion est un service tiers avec sa propre politique de confidentialite disponible sur notion.so/privacy.", "s4title": "Combien de temps nous conservons tes donnees", "s4text": "Tes donnees sont conservees le temps necessaire pour evaluer ta demande. Tu peux demander leur suppression a tout moment en nous contactant a l'email indique.", "s5title": "Tes droits (RGPD)", "s5text": "Si tu es dans l'Espace Economique Europeen, tu as le droit d'acceder, corriger ou supprimer tes donnees personnelles a tout moment. Pour exercer ces droits, contacte francescobrik@gmail.com. Nous repondrons dans les 30 jours.", "s6title": "Cookies", "s6text": "BounceGuide n'utilise pas de cookies de suivi ni de cookies d'analyse tiers. Nous utilisons le localStorage de ton navigateur uniquement pour sauvegarder ta progression et ta preference de langue — ces donnees ne quittent jamais ton appareil.", "s7title": "Contact", "s7text": "Pour toute question sur la confidentialite ou demande de suppression, contacte: francescobrik@gmail.com", "back": "Retour a BounceGuide"}, "de": {"title": "Datenschutzerklarung", "updated": "Letzte Aktualisierung: April 2026", "intro": "Diese Datenschutzerklarung beschreibt wie BounceGuide (bounceguide.vercel.app) deine personlichen Daten verarbeitet. BounceGuide ist ein kostenloses Tool betrieben von Francesco (Brik in Canottiera).", "s1title": "Welche Daten wir erheben", "s1text": "BounceGuide erhebt keine personlichen Daten bei der normalen Nutzung der App. Der PDF-Leitfaden wird vollstandig in deinem Browser generiert — keine Daten werden an einen Server gesendet. Die einzigen personlichen Daten die wir erheben sind deine E-Mail-Adresse, die du optional beim Einreichen einer Feature-Anfrage angeben kannst.", "s2title": "Wie wir deine Daten verwenden", "s2text": "Deine E-Mail-Adresse wird, falls angegeben, ausschliesslich dazu verwendet dich zu benachrichtigen wenn deine Anfrage umgesetzt wird. Sie wird niemals fur Marketing verwendet, an Dritte weitergegeben oder fur andere Zwecke genutzt.", "s3title": "Wo deine Daten gespeichert werden", "s3text": "Feature-Anfragen und zugehorige E-Mail-Adressen werden in einer privaten Notion-Datenbank gespeichert die nur dem Betreiber von BounceGuide zuganglich ist. Notion ist ein Drittanbieterdienst mit eigener Datenschutzerklarung auf notion.so/privacy.", "s4title": "Wie lange wir deine Daten aufbewahren", "s4text": "Deine Daten werden so lange aufbewahrt wie notig um deine Anfrage zu bewerten. Du kannst jederzeit die Loschung beantragen indem du uns an die unten angegebene E-Mail kontaktierst.", "s5title": "Deine Rechte (DSGVO)", "s5text": "Wenn du im Europaischen Wirtschaftsraum ansassig bist hast du das Recht jederzeit auf deine personlichen Daten zuzugreifen sie zu korrigieren oder zu loschen. Um diese Rechte auszuuben kontaktiere francescobrik@gmail.com. Wir antworten innerhalb von 30 Tagen.", "s6title": "Cookies", "s6text": "BounceGuide verwendet keine Tracking-Cookies oder Analyse-Cookies von Drittanbietern. Wir verwenden localStorage in deinem Browser nur um deinen Formularfortschritt und deine Spracheinstellung zu speichern — diese Daten verlassen niemals dein Gerat.", "s7title": "Kontakt", "s7text": "Fur Fragen zum Datenschutz oder Loschungsanfragen kontaktiere: francescobrik@gmail.com", "back": "Zuruck zu BounceGuide"}, "pt": {"title": "Politica de Privacidade", "updated": "Ultima atualizacao: Abril 2026", "intro": "Esta Politica de Privacidade descreve como o BounceGuide (bounceguide.vercel.app) trata seus dados pessoais. BounceGuide e uma ferramenta gratuita operada por Francesco (Brik in Canottiera).", "s1title": "Quais dados coletamos", "s1text": "O BounceGuide nao coleta nenhum dado pessoal durante o uso normal do aplicativo. O guia PDF e gerado inteiramente no seu navegador — nenhum dado e enviado a nenhum servidor. O unico dado pessoal que coletamos e seu endereco de email, que voce pode fornecer opcionalmente ao enviar uma solicitacao de funcionalidade.", "s2title": "Como usamos seus dados", "s2text": "Seu endereco de email, se fornecido, e usado exclusivamente para notifica-lo se sua solicitacao for implementada. Nunca sera usado para marketing, compartilhado com terceiros ou usado para qualquer outro fim.", "s3title": "Onde seus dados sao armazenados", "s3text": "As solicitacoes de funcionalidades e os enderecos de email associados sao armazenados em um banco de dados privado do Notion acessivel apenas ao operador do BounceGuide. O Notion e um servico de terceiros com sua propria politica de privacidade disponivel em notion.so/privacy.", "s4title": "Por quanto tempo guardamos seus dados", "s4text": "Seus dados sao mantidos pelo tempo necessario para avaliar sua solicitacao. Voce pode solicitar a exclusao a qualquer momento entrando em contato pelo email abaixo.", "s5title": "Seus direitos (LGPD/GDPR)", "s5text": "Voce tem o direito de acessar, corrigir ou excluir seus dados pessoais a qualquer momento. Para exercer esses direitos, entre em contato com francescobrik@gmail.com. Responderemos em 30 dias.", "s6title": "Cookies", "s6text": "O BounceGuide nao usa cookies de rastreamento nem cookies de analytics de terceiros. Usamos o localStorage do seu navegador apenas para salvar o progresso do formulario e a preferencia de idioma — esses dados nunca saem do seu dispositivo.", "s7title": "Contato", "s7text": "Para qualquer duvida sobre privacidade ou solicitacao de exclusao de dados, entre em contato: francescobrik@gmail.com", "back": "Voltar ao BounceGuide"}};
+let lang = 'en';
+const IDS = ["title", "updated", "intro", "s1title", "s2title", "s3title", "s4title", "s5title", "s6title", "s7title", "s1text", "s2text", "s3text", "s4text", "s5text", "s6text", "s7text", "back"];
+function setLang(l) {
+  lang = l;
+  try{localStorage.setItem('bg_lang',l);}catch(e){}
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  const tr = T[l] || T.en;
+  IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = tr[id] || '';
+  });
+  document.title = (tr.title || 'BounceGuide') + ' — BounceGuide';
+}
+document.addEventListener('DOMContentLoaded', () => {
+  try{const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;}catch(e){}
+  setLang(lang);
+});
+</script>
+</body>
+</html>

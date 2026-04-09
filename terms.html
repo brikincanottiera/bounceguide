@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">BounceGuide</title>
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f0f;--bg2:#181818;--bg3:#222;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--t1:#efefef;--t2:#888;--t3:#444;--acc:#E8C547;--acc-dim:rgba(232,197,71,0.12);--radius:10px;--radius-sm:6px}
+html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.96);backdrop-filter:blur(16px)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--acc);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-0.4px}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{padding:4px 9px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;font-weight:500;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--border2);color:var(--t1)}
+.lang-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+main{flex:1;max-width:720px;margin:0 auto;padding:48px 24px 80px;width:100%}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);text-decoration:none;margin-bottom:32px;transition:color 0.15s}
+.back-link:hover{color:var(--acc)}
+.legal-title{font-size:28px;font-weight:800;color:var(--t1);letter-spacing:-0.6px;margin-bottom:6px}
+.legal-updated{font-size:12px;color:var(--t3);margin-bottom:8px}
+.legal-intro{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:32px;padding-bottom:24px;border-bottom:0.5px solid var(--border)}
+.legal-section{margin-bottom:28px}
+.legal-s-title{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.legal-s-text{font-size:13px;color:var(--t2);line-height:1.75}
+footer{padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)}
+.footer-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.footer-left{font-size:12px;color:var(--t2)}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.footer-links a{font-size:12px;font-weight:600;color:var(--t2);text-decoration:none;transition:color 0.15s}
+.footer-links a:hover{color:var(--acc)}
+.footer-links .legal-link{font-weight:400;color:var(--t3)}
+.footer-links .legal-link:hover{color:var(--t2)}
+@media(max-width:600px){header{padding:12px 16px}main{padding:28px 16px 60px}footer{padding:14px 16px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="logo-text">BounceGuide</span>
+  </a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  </div>
+</header>
+<main>
+  <a href="/" class="back-link">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="back"></span>
+  </a>
+  <h1 class="legal-title" id="title"></h1>
+  <div class="legal-updated" id="updated"></div>
+  <p class="legal-intro" id="intro"></p>
+  
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s1title"></h2>
+    <p class="legal-s-text" id="s1text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s2title"></h2>
+    <p class="legal-s-text" id="s2text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s3title"></h2>
+    <p class="legal-s-text" id="s3text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s4title"></h2>
+    <p class="legal-s-text" id="s4text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s5title"></h2>
+    <p class="legal-s-text" id="s5text"></p>
+  </div>
+  <div class="legal-section">
+    <h2 class="legal-s-title" id="s6title"></h2>
+    <p class="legal-s-text" id="s6text"></p>
+  </div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">BounceGuide &mdash; Made by <a href="/about" style="color:var(--acc);font-weight:600;text-decoration:none">Brik in Canottiera</a></div>
+    <div class="footer-links">
+      <a href="/">App</a>
+      <a href="/about">About</a>
+      <a href="/feature-requests">Feature Requests</a>
+      <span style="color:var(--border2)">|</span>
+      <a href="/privacy" class="legal-link">Privacy Policy</a>
+      <a href="/terms" class="legal-link">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+<script>
+const T = {"en": {"title": "Terms of Use", "updated": "Last updated: April 2026", "intro": "By using BounceGuide (bounceguide.vercel.app), you agree to these Terms of Use. BounceGuide is a free tool operated by Francesco (Brik in Canottiera).", "s1title": "What BounceGuide is", "s1text": "BounceGuide is a free tool that helps mix and master engineers generate PDF guides for their clients. The tool is provided as-is, with no guarantees of accuracy, completeness, or fitness for any particular purpose.", "s2title": "Your responsibilities", "s2text": "You are responsible for the content of the PDF guides you generate. BounceGuide is not responsible for any misunderstandings, errors, or damages arising from the use of guides generated with this tool.", "s3title": "No warranty", "s3text": "BounceGuide is provided free of charge and without warranty of any kind. We do not guarantee that the service will be available at all times, error-free, or that it will meet your specific requirements.", "s4title": "Intellectual property", "s4text": "The content, design, and code of BounceGuide are the property of Francesco (Brik in Canottiera). The PDF guides you generate with your own content belong to you.", "s5title": "Changes to the service", "s5text": "We reserve the right to modify, suspend, or discontinue BounceGuide at any time without notice. We are not liable to you or any third party for any such changes.", "s6title": "Contact", "s6text": "For any questions about these Terms of Use, contact: francescobrik@gmail.com", "back": "Back to BounceGuide"}, "it": {"title": "Termini di Utilizzo", "updated": "Ultimo aggiornamento: Aprile 2026", "intro": "Utilizzando BounceGuide (bounceguide.vercel.app), accetti questi Termini di Utilizzo. BounceGuide e uno strumento gratuito gestito da Francesco (Brik in Canottiera).", "s1title": "Cos'e BounceGuide", "s1text": "BounceGuide e uno strumento gratuito che aiuta i mix e master engineer a generare guide PDF per i propri clienti. Lo strumento viene fornito cosi com'e, senza garanzie di accuratezza, completezza o idoneita per uno scopo specifico.", "s2title": "Le tue responsabilita", "s2text": "Sei responsabile del contenuto delle guide PDF che generi. BounceGuide non e responsabile per eventuali incomprensioni, errori o danni derivanti dall'uso delle guide generate con questo strumento.", "s3title": "Assenza di garanzia", "s3text": "BounceGuide e fornito gratuitamente e senza alcuna garanzia. Non garantiamo che il servizio sia sempre disponibile, privo di errori o che soddisfi le tue esigenze specifiche.", "s4title": "Proprieta intellettuale", "s4text": "Il contenuto, il design e il codice di BounceGuide sono di proprieta di Francesco (Brik in Canottiera). Le guide PDF che generi con i tuoi contenuti sono di tua proprieta.", "s5title": "Modifiche al servizio", "s5text": "Ci riserviamo il diritto di modificare, sospendere o interrompere BounceGuide in qualsiasi momento senza preavviso. Non siamo responsabili nei tuoi confronti o di terze parti per tali modifiche.", "s6title": "Contatti", "s6text": "Per qualsiasi domanda sui presenti Termini di Utilizzo, contatta: francescobrik@gmail.com", "back": "Torna a BounceGuide"}, "es": {"title": "Terminos de Uso", "updated": "Ultima actualizacion: Abril 2026", "intro": "Al usar BounceGuide (bounceguide.vercel.app), aceptas estos Terminos de Uso. BounceGuide es una herramienta gratuita operada por Francesco (Brik in Canottiera).", "s1title": "Que es BounceGuide", "s1text": "BounceGuide es una herramienta gratuita que ayuda a los ingenieros de mezcla y mastering a generar guias PDF para sus clientes. La herramienta se proporciona tal cual, sin garantias de precision, integridad o idoneidad para ningun proposito especifico.", "s2title": "Tus responsabilidades", "s2text": "Eres responsable del contenido de las guias PDF que generes. BounceGuide no es responsable de malentendidos, errores o danos derivados del uso de las guias generadas con esta herramienta.", "s3title": "Sin garantia", "s3text": "BounceGuide se proporciona gratuitamente y sin garantia de ningun tipo. No garantizamos que el servicio este disponible en todo momento, libre de errores o que cumpla con tus requisitos especificos.", "s4title": "Propiedad intelectual", "s4text": "El contenido, diseno y codigo de BounceGuide son propiedad de Francesco (Brik in Canottiera). Las guias PDF que generes con tu propio contenido son de tu propiedad.", "s5title": "Cambios en el servicio", "s5text": "Nos reservamos el derecho de modificar, suspender o interrumpir BounceGuide en cualquier momento sin previo aviso. No somos responsables ante ti ni ante terceros por dichos cambios.", "s6title": "Contacto", "s6text": "Para cualquier pregunta sobre estos Terminos de Uso, contacta: francescobrik@gmail.com", "back": "Volver a BounceGuide"}, "fr": {"title": "Conditions d'Utilisation", "updated": "Derniere mise a jour: Avril 2026", "intro": "En utilisant BounceGuide (bounceguide.vercel.app), tu acceptes ces Conditions d'Utilisation. BounceGuide est un outil gratuit exploite par Francesco (Brik in Canottiera).", "s1title": "Qu'est-ce que BounceGuide", "s1text": "BounceGuide est un outil gratuit qui aide les ingenieurs du son a generer des guides PDF pour leurs clients. L'outil est fourni tel quel, sans garanties d'exactitude, d'exhaustivite ou d'adequation a un usage particulier.", "s2title": "Tes responsabilites", "s2text": "Tu es responsable du contenu des guides PDF que tu generes. BounceGuide n'est pas responsable des malentendus, erreurs ou dommages resultant de l'utilisation des guides generes avec cet outil.", "s3title": "Absence de garantie", "s3text": "BounceGuide est fourni gratuitement et sans garantie d'aucune sorte. Nous ne garantissons pas que le service sera toujours disponible, sans erreur ou qu'il repondra a tes besoins specifiques.", "s4title": "Propriete intellectuelle", "s4text": "Le contenu, le design et le code de BounceGuide sont la propriete de Francesco (Brik in Canottiera). Les guides PDF que tu generes avec ton propre contenu t'appartiennent.", "s5title": "Modifications du service", "s5text": "Nous nous reservons le droit de modifier, suspendre ou interrompre BounceGuide a tout moment sans preavis. Nous ne sommes pas responsables envers toi ou des tiers pour de tels changements.", "s6title": "Contact", "s6text": "Pour toute question sur ces Conditions d'Utilisation, contacte: francescobrik@gmail.com", "back": "Retour a BounceGuide"}, "de": {"title": "Nutzungsbedingungen", "updated": "Letzte Aktualisierung: April 2026", "intro": "Durch die Nutzung von BounceGuide (bounceguide.vercel.app) stimmst du diesen Nutzungsbedingungen zu. BounceGuide ist ein kostenloses Tool betrieben von Francesco (Brik in Canottiera).", "s1title": "Was BounceGuide ist", "s1text": "BounceGuide ist ein kostenloses Tool das Mix- und Mastering-Ingenieuren hilft PDF-Leitfaden fur ihre Kunden zu erstellen. Das Tool wird ohne Gewahrleistung der Richtigkeit, Vollstandigkeit oder Eignung fur einen bestimmten Zweck bereitgestellt.", "s2title": "Deine Verantwortlichkeiten", "s2text": "Du bist fur den Inhalt der PDF-Leitfaden verantwortlich die du erstellst. BounceGuide ist nicht verantwortlich fur Missverstandnisse, Fehler oder Schaden die aus der Verwendung der mit diesem Tool erstellten Leitfaden entstehen.", "s3title": "Keine Gewahrleistung", "s3text": "BounceGuide wird kostenlos und ohne jegliche Gewahrleistung bereitgestellt. Wir garantieren nicht dass der Dienst jederzeit verfugbar, fehlerfrei oder fur deine spezifischen Anforderungen geeignet ist.", "s4title": "Geistiges Eigentum", "s4text": "Inhalt, Design und Code von BounceGuide sind Eigentum von Francesco (Brik in Canottiera). Die PDF-Leitfaden die du mit deinen eigenen Inhalten erstellst gehoren dir.", "s5title": "Anderungen am Dienst", "s5text": "Wir behalten uns das Recht vor BounceGuide jederzeit ohne Vorankondigung zu andern, auszusetzen oder einzustellen. Wir sind dir oder Dritten gegenuber nicht haftbar fur solche Anderungen.", "s6title": "Kontakt", "s6text": "Fur Fragen zu diesen Nutzungsbedingungen kontaktiere: francescobrik@gmail.com", "back": "Zuruck zu BounceGuide"}, "pt": {"title": "Termos de Uso", "updated": "Ultima atualizacao: Abril 2026", "intro": "Ao usar o BounceGuide (bounceguide.vercel.app), voce concorda com estes Termos de Uso. BounceGuide e uma ferramenta gratuita operada por Francesco (Brik in Canottiera).", "s1title": "O que e o BounceGuide", "s1text": "BounceGuide e uma ferramenta gratuita que ajuda engenheiros de mixagem e mastering a gerar guias PDF para seus clientes. A ferramenta e fornecida como esta, sem garantias de precisao, integridade ou adequacao a qualquer finalidade especifica.", "s2title": "Suas responsabilidades", "s2text": "Voce e responsavel pelo conteudo dos guias PDF que gerar. O BounceGuide nao e responsavel por mal-entendidos, erros ou danos decorrentes do uso de guias gerados com esta ferramenta.", "s3title": "Sem garantia", "s3text": "O BounceGuide e fornecido gratuitamente e sem garantia de qualquer tipo. Nao garantimos que o servico estara disponivel em todos os momentos, livre de erros ou que atenda aos seus requisitos especificos.", "s4title": "Propriedade intelectual", "s4text": "O conteudo, design e codigo do BounceGuide sao propriedade de Francesco (Brik in Canottiera). Os guias PDF que voce gerar com seu proprio conteudo sao de sua propriedade.", "s5title": "Alteracoes no servico", "s5text": "Reservamos o direito de modificar, suspender ou descontinuar o BounceGuide a qualquer momento sem aviso previo. Nao somos responsaveis perante voce ou terceiros por tais alteracoes.", "s6title": "Contato", "s6text": "Para qualquer duvida sobre estes Termos de Uso, entre em contato: francescobrik@gmail.com", "back": "Voltar ao BounceGuide"}};
+let lang = 'en';
+const IDS = ["title", "updated", "intro", "s1title", "s2title", "s3title", "s4title", "s5title", "s6title", "s1text", "s2text", "s3text", "s4text", "s5text", "s6text", "back"];
+function setLang(l) {
+  lang = l;
+  try{localStorage.setItem('bg_lang',l);}catch(e){}
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  const tr = T[l] || T.en;
+  IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = tr[id] || '';
+  });
+  document.title = (tr.title || 'BounceGuide') + ' — BounceGuide';
+}
+document.addEventListener('DOMContentLoaded', () => {
+  try{const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;}catch(e){}
+  setLang(lang);
+});
+</script>
+</body>
+</html>
