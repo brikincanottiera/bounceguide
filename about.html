@@ -143,13 +143,18 @@ const IDS = ['backLink','heroTag','bio','whyTitle','whySubtitle','step1label','s
 function setLang(l) {
   lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+  // Save lang choice to localStorage
+  try { localStorage.setItem('bg_lang', l); } catch(e) {}
   const tr = T[l] || T.en;
   IDS.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = tr[id] || '';
   });
 }
-document.addEventListener('DOMContentLoaded', () => setLang('en'));
+document.addEventListener('DOMContentLoaded', () => {
+  try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl)){setLang(sl);return;}}catch(e){}
+  setLang('en');
+});
 </script>
 </body>
 </html>
