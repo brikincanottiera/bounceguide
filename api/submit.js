@@ -1,9 +1,4 @@
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
- 
-  const { feature, descrizione, email, lingua } = req.body;
+const { feature, descrizione, email, lingua } = req.body;
  
   if (!feature || !feature.trim()) {
     return res.status(400).json({ error: 'Feature title is required' });
@@ -11,6 +6,28 @@ export default async function handler(req, res) {
  
   const NOTION_TOKEN = process.env.NOTION_TOKEN;
   const DATABASE_ID = '33da307e5d4a8022bddbe1d815ecb4e7';
+ 
+  // Build properties — only fields that exist in the database
+  const properties = {
+    Feature: {
+      title: [{ text: { content: feature.trim() } }]
+    },
+    Descrizione: {
+      rich_text: [{ text: { content: (descrizione || '').trim() } }]
+    },
+    Lingua: {
+      select: { name: (lingua || 'EN').toUpperCase() }
+    }
+  };
+ 
+  // Add email as rich_text in Descrizione if provided, or append to description
+  if (email && email.trim()) {
+    const existingDesc = (descrizione || '').trim();
+    const emailNote = `\n\nEmail: ${email.trim()}`;
+    properties.Descrizione = {
+      rich_text: [{ text: { content: existingDesc + emailNote } }]
+    };
+  }
  
   try {
     const response = await fetch('https://api.notion.com/v1/pages', {
@@ -22,38 +39,21 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         parent: { database_id: DATABASE_ID },
-        properties: {
-          Feature: {
-            title: [{ text: { content: feature.trim() } }]
-          },
-          Descrizione: {
-            rich_text: [{ text: { content: (descrizione || '').trim() } }]
-          },
-          Lingua: {
-            select: { name: lingua || 'EN' }
-          },
-          Status: {
-            status: { name: 'Da valutare' }
-          },
-          ...(email && email.trim() ? {
-            Email: {
-              email: email.trim()
-            }
-          } : {})
-        }
+        properties
       })
     });
  
+    const data = await response.json();
+ 
     if (!response.ok) {
-      const err = await response.json();
-      console.error('Notion error:', err);
-      return res.status(500).json({ error: 'Notion API error', detail: err });
+      console.error('Notion error:', JSON.stringify(data));
+      return res.status(500).json({ error: 'Notion API error', detail: data });
     }
  
     return res.status(200).json({ success: true });
   } catch (e) {
     console.error('Server error:', e);
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(500).json({ error: 'Server error', detail: e.message });
   }
 }
  
