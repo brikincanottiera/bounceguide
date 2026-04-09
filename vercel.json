@@ -1,32 +1,11 @@
 {
   "rewrites": [
-    {
-      "source": "/about",
-      "destination": "/about.html"
-    },
-    {
-      "source": "/feature-requests",
-      "destination": "/feature-requests.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/privacy.html"
-    },
-    {
-      "source": "/terms",
-      "destination": "/terms.html"
-    },
-    {
-      "source": "/admin",
-      "destination": "/admin.html"
-    },
-    {
-      "source": "/404",
-      "destination": "/404.html"
-    },
-    {
-      "source": "/data.json",
-      "destination": "/data.json"
-    }
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/feature-requests", "destination": "/feature-requests.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/404", "destination": "/404.html" },
+    { "source": "/data.json", "destination": "/api/getdata" }
   ]
 }
