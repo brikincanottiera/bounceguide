@@ -223,13 +223,41 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .footer-l,.footer-r{font-size:11px;color:var(--t3)}
 
+.autosave-indicator{
+  font-size:10px;color:var(--t3);display:flex;align-items:center;gap:5px;
+  opacity:0;transition:opacity 0.3s;margin-top:6px;justify-content:flex-end;
+}
+.autosave-indicator.show{opacity:1}
+.autosave-dot{width:6px;height:6px;border-radius:50%;background:var(--success,#22c55e)}
 @media(max-width:800px){
   main{grid-template-columns:1fr;display:block}
   .sidebar{position:static;max-height:none;border-right:none;border-bottom:0.5px solid var(--border);padding:12px}
   .steps-nav{flex-direction:row;flex-wrap:wrap;gap:3px}
+  .step-btn{padding:5px 7px;font-size:10px}
+  .step-num{width:16px;height:16px;font-size:8px}
   .form-area{padding:14px}
   .service-grid,.daw-grid,.check-grid2{grid-template-columns:1fr}
-  header,footer,.hero,.progress-wrap{padding-left:14px;padding-right:14px}
+  header,.hero,.progress-wrap{padding-left:14px;padding-right:14px}
+  .hero h1{font-size:18px}
+  .hero-desc{font-size:12px}
+  .hero-features{gap:10px}
+  .section-title{font-size:16px}
+  .daw-grid{grid-template-columns:repeat(3,1fr)}
+  .daw-confirm-question{flex-direction:column;align-items:flex-start}
+  .nav-btns{flex-wrap:wrap}
+  .btn-next,.btn-back{flex:1;text-align:center}
+  .lang-switcher{gap:2px}
+  .lang-btn{padding:3px 6px;font-size:10px}
+  .about-nav-link{font-size:11px}
+  .tone-btns{gap:3px}
+  .gen-btn{font-size:11px;padding:9px}
+  .reset-btn{font-size:10px}
+  .check-grid2{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .daw-grid{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:16px}
+  header{padding:10px 12px}
 }
 </style>
 </head>
@@ -286,6 +314,10 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="sidebar-sep"></div>
   <button class="gen-btn" id="generateBtn" onclick="generatePDF()" disabled data-t="generateBtn"></button>
   <button class="reset-btn" onclick="resetAll()" data-t="resetBtn"></button>
+  <div class="autosave-indicator" id="autosaveIndicator">
+    <div class="autosave-dot"></div>
+    <span data-t="savedLabel"></span>
+  </div>
 </div>
 
 <div class="form-area">
@@ -518,7 +550,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
 // ═══════════════════════════════════════════
 const T={
 en:{
-  heroTag:'Stop receiving wrong files from your clients',heroTitle:'The <span>foolproof</span> guide your clients will actually follow',heroDesc:'Set your requirements once. BounceGuide generates a professional PDF in your language — no more back-and-forth, no more mistakes.',hf1:'6 languages',hf2:'DAW step-by-step guides',hf3:'Auto-saved',hf4:'PDF on demand',progressLabel:'Guide completion',toneLabel:'PDF tone',toneFormal:'Formal',toneInformal:'Friendly',generateBtn:'Generate PDF',copyBtn:'Copy for WhatsApp / Email',resetBtn:'Start over',
+  heroTag:'Stop receiving wrong files from your clients',heroTitle:'The <span>foolproof</span> guide your clients will actually follow',heroDesc:'Set your requirements once. BounceGuide generates a professional PDF in your language — no more back-and-forth, no more mistakes.',hf1:'6 languages',hf2:'DAW step-by-step guides',hf3:'Auto-saved',hf4:'PDF on demand',progressLabel:'Guide completion',toneLabel:'PDF tone',toneFormal:'Formal',toneInformal:'Friendly',generateBtn:'Generate PDF',copyBtn:'Copy for WhatsApp / Email',resetBtn:'Start over',savedLabel:'Saved',
   s1title:'Your details & branding',s1desc:'Appears at the top of the PDF your client receives.',s1name:'Name / Studio',s1namePh:'John Smith Mixing',s1email:'Email',s1emailPh:'john@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Phone / WhatsApp',s1phonePh:'+1 555 000 0000',s1logo:'Your logo (PNG, JPG)',s1logoHint:'Click to upload — appears in the PDF header',s1color:'PDF accent color',s1colorHint:'Used for section headers',s1msg:'Opening message',s1msgPh:'Thank you for trusting me with your music. Please read this carefully.',s1contactNote:'End-of-document contact note',s1contactNotePh:'Not sure about something? Message me before sending.',
   s2title:'Type of service',s2desc:'This determines which requirements to configure.',s2mix:'Mixing',s2mixDesc:'Client sends stems for you to mix.',s2master:'Mastering',s2masterDesc:'Client sends a finished stereo mix.',s2trackTypeLabel:'What is the client sending?',s2stems:'Full instrumental stems',s2stemsSub:'Separate files per instrument.',s2typebeat:'Type beat / single instrumental',s2typebeatSub:'One file for the beat — client only exports vocals.',
   s3title:'Glossary',s3desc:'Optional glossary of terms in plain language, included in the PDF for non-technical clients.',s3toggleTitle:'Include glossary in the PDF',s3toggleSub:'Recommended for non-technical clients',s3infoTitle:'How it works',s3infoText:'Select the terms you want explained. They appear at the start of the PDF.',s3addOther:'+ Add custom term',
@@ -599,7 +631,7 @@ en:{
   checklistBase:['All files start from the same point (bar 1, beat 1)','Master bus chain is OFF or bypassed','No file is clipping (no red meters)','Files are correctly named','A stereo premix is included','Session info included (BPM, key, DAW)','All files are final — no changes after sending'],
 },
 it:{
-  heroTag:'Smettila di ricevere file sbagliati',heroTitle:'La guida <span>a prova di stupido</span> che i tuoi clienti seguiranno davvero',heroDesc:'Imposti i requisiti una volta sola. BounceGuide genera un PDF professionale nella tua lingua — niente piu\' avanti e indietro, niente piu\' errori.',hf1:'6 lingue',hf2:'Guide step-by-step per DAW',hf3:'Salvataggio automatico',hf4:'PDF su richiesta',progressLabel:'Completamento guida',toneLabel:'Tono del PDF',toneFormal:'Formale',toneInformal:'Amichevole',generateBtn:'Genera PDF',copyBtn:'Copia per WhatsApp / Email',resetBtn:'Ricomincia da capo',
+  heroTag:'Smettila di ricevere file sbagliati',heroTitle:'La guida <span>a prova di stupido</span> che i tuoi clienti seguiranno davvero',heroDesc:'Imposti i requisiti una volta sola. BounceGuide genera un PDF professionale nella tua lingua — niente piu\' avanti e indietro, niente piu\' errori.',hf1:'6 lingue',hf2:'Guide step-by-step per DAW',hf3:'Salvataggio automatico',hf4:'PDF su richiesta',progressLabel:'Completamento guida',toneLabel:'Tono del PDF',toneFormal:'Formale',toneInformal:'Amichevole',generateBtn:'Genera PDF',copyBtn:'Copia per WhatsApp / Email',resetBtn:'Ricomincia da capo',savedLabel:'Salvato',
   s1title:'I tuoi dati e il brand',s1desc:'Appaiono in cima al PDF che riceve il cliente.',s1name:'Nome / Studio',s1namePh:'Marco Rossi Mixing',s1email:'Email',s1emailPh:'marco@mixing.com',s1web:'Sito web (opzionale)',s1webPh:'https://mixing.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+39 340 000 0000',s1logo:'Il tuo logo (PNG, JPG)',s1logoHint:'Clicca per caricare — appare nell\'intestazione del PDF',s1color:'Colore accent del PDF',s1colorHint:'Usato per le intestazioni delle sezioni',s1msg:'Messaggio di apertura',s1msgPh:'Grazie per affidarmi la tua musica. Leggi attentamente prima di inviare.',s1contactNote:'Nota contatti a fine documento',s1contactNotePh:'Non sei sicuro? Scrivimi prima di inviare.',
   s2title:'Tipo di servizio',s2desc:'Determina quali requisiti configurare.',s2mix:'Mixing',s2mixDesc:'Il cliente ti invia gli stem per il mix.',s2master:'Mastering',s2masterDesc:'Il cliente ti invia un mix stereo finito.',s2trackTypeLabel:'Cosa ti sta inviando il cliente?',s2stems:'Stem completi della strumentale',s2stemsSub:'File separati per ogni strumento.',s2typebeat:'Type beat / file strumentale unico',s2typebeatSub:'Un file unico per la base — il cliente esporta solo le voci.',
   s3title:'Glossario',s3desc:'Glossario opzionale di termini in parole semplici, incluso nel PDF per clienti non tecnici.',s3toggleTitle:'Includi il glossario nel PDF',s3toggleSub:'Raccomandato per clienti non tecnici',s3infoTitle:'Come funziona',s3infoText:'Seleziona i termini da spiegare. Appariranno all\'inizio del PDF.',s3addOther:'+ Aggiungi termine personalizzato',
@@ -683,7 +715,7 @@ it:{
 
 // ── SPANISH ──────────────────────────────────────────────────
 T.es={
-  heroTag:'Deja de recibir archivos incorrectos de tus clientes',heroTitle:'La guia <span>a prueba de errores</span> que tus clientes seguiran de verdad',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',generateBtn:'Generar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',
+  heroTag:'Deja de recibir archivos incorrectos de tus clientes',heroTitle:'La guia <span>a prueba de errores</span> que tus clientes seguiran de verdad',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',generateBtn:'Generar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',savedLabel:'Guardado',
   s1title:'Tus datos y marca',s1desc:'Aparece en la parte superior del PDF que recibe el cliente.',s1name:'Nombre / Estudio',s1namePh:'Carlos Lopez Mezcla',s1email:'Email',s1emailPh:'carlos@mezcla.com',s1web:'Sitio web (opcional)',s1webPh:'https://mezcla.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+34 600 000 000',s1logo:'Tu logo (PNG, JPG)',s1logoHint:'Haz clic para cargar — aparece en el encabezado del PDF',s1color:'Color de acento del PDF',s1colorHint:'Usado en los encabezados de seccion',s1msg:'Mensaje de apertura',s1msgPh:'Gracias por confiarme tu musica. Lee esto con atencion antes de enviar nada.',s1contactNote:'Nota de contacto al final del documento',s1contactNotePh:'Dudas? Escribeme antes de enviar.',
   s2title:'Tipo de servicio',s2desc:'Determina los requisitos a configurar.',s2mix:'Mezcla',s2mixDesc:'El cliente te envia stems para mezclar.',s2master:'Mastering',s2masterDesc:'El cliente te envia un mix estereo terminado.',s2trackTypeLabel:'Que envia el cliente?',s2stems:'Stems instrumentales completos',s2stemsSub:'Archivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Un solo archivo para la base — el cliente solo exporta las voces.',
   s3title:'Glosario',s3desc:'Glosario opcional de terminos en lenguaje sencillo, incluido en el PDF para clientes no tecnicos.',s3toggleTitle:'Incluir glosario en el PDF',s3toggleSub:'Recomendado para clientes sin conocimientos tecnicos',s3infoTitle:'Como funciona',s3infoText:'Selecciona los terminos que quieres explicar. Apareceran al inicio del PDF.',s3addOther:'+ Anadir termino personalizado',
@@ -709,7 +741,7 @@ T.es={
 
 // ── FRENCH ───────────────────────────────────────────────────
 T.fr={
-  heroTag:'Arrete de recevoir des fichiers incorrects de tes clients',heroTitle:'Le guide <span>infaillible</span> que tes clients suivront vraiment',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',generateBtn:'Generer le PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',
+  heroTag:'Arrete de recevoir des fichiers incorrects de tes clients',heroTitle:'Le guide <span>infaillible</span> que tes clients suivront vraiment',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',generateBtn:'Generer le PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',savedLabel:'Sauvegarde',
   s1title:'Tes coordonnees et marque',s1desc:'Apparait en haut du PDF que recoivent tes clients.',s1name:'Nom / Studio',s1namePh:'Jean Dupont Mixage',s1email:'Email',s1emailPh:'jean@mixage.com',s1web:'Site web (optionnel)',s1webPh:'https://mixage.com',s1phone:'Telephone / WhatsApp',s1phonePh:'+33 6 00 00 00 00',s1logo:'Ton logo (PNG, JPG)',s1logoHint:'Cliquer pour charger — apparait dans le PDF',s1color:'Couleur accent du PDF',s1colorHint:'Utilisee pour les en-tetes de section',s1msg:'Message d\'ouverture',s1msgPh:'Merci de me confier ta musique. Lis ceci attentivement avant d\'envoyer quoi que ce soit.',s1contactNote:'Note de contact en fin de document',s1contactNotePh:'Un doute? Ecris-moi avant d\'envoyer.',
   s2title:'Type de service',s2desc:'Determine les exigences a configurer.',s2mix:'Mixage',s2mixDesc:'Le client t\'envoie des stems pour mixer.',s2master:'Mastering',s2masterDesc:'Le client t\'envoie un mix stereo termine.',s2trackTypeLabel:'Que le client envoie-t-il?',s2stems:'Stems instrumentaux complets',s2stemsSub:'Fichiers separes par instrument.',s2typebeat:'Type beat / instrumental unique',s2typebeatSub:'Un seul fichier pour la base — le client exporte seulement les voix.',
   s3title:'Glossaire',s3desc:'Glossaire optionnel de termes en langage simple, inclus dans le PDF pour les clients non techniques.',s3toggleTitle:'Inclure le glossaire dans le PDF',s3toggleSub:'Recommande pour les clients non techniques',s3infoTitle:'Comment ca fonctionne',s3infoText:'Selectionne les termes a expliquer. Ils apparaissent au debut du PDF.',s3addOther:'+ Ajouter un terme personnalise',
@@ -735,7 +767,7 @@ T.fr={
 
 // ── GERMAN ───────────────────────────────────────────────────
 T.de={
-  heroTag:'Hore auf falsche Dateien von Kunden zu erhalten',heroTitle:'Die <span>narrensichere</span> Anleitung der deine Kunden wirklich folgen werden',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',generateBtn:'PDF erstellen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',
+  heroTag:'Hore auf falsche Dateien von Kunden zu erhalten',heroTitle:'Die <span>narrensichere</span> Anleitung der deine Kunden wirklich folgen werden',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',generateBtn:'PDF erstellen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',savedLabel:'Gespeichert',
   s1title:'Deine Daten und Marke',s1desc:'Erscheint oben im PDF das der Kunde erhalt.',s1name:'Name / Studio',s1namePh:'Hans Muller Mixing',s1email:'Email',s1emailPh:'hans@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Telefon / WhatsApp',s1phonePh:'+49 160 000 0000',s1logo:'Dein Logo (PNG, JPG)',s1logoHint:'Klicken zum Hochladen — erscheint im PDF-Header',s1color:'PDF-Akzentfarbe',s1colorHint:'Wird fur Abschnitts-Header verwendet',s1msg:'Begrussung',s1msgPh:'Danke dass du mir deine Musik anvertraust. Bitte lies das sorgfaltig bevor du etwas sendest.',s1contactNote:'Kontakthinweis am Ende des Dokuments',s1contactNotePh:'Unsicher? Schreib mir vor dem Senden.',
   s2title:'Art des Services',s2desc:'Bestimmt welche Anforderungen konfiguriert werden.',s2mix:'Mixing',s2mixDesc:'Der Kunde schickt dir Stems zum Mixen.',s2master:'Mastering',s2masterDesc:'Der Kunde schickt dir einen fertigen Stereo-Mix.',s2trackTypeLabel:'Was schickt der Kunde?',s2stems:'Vollstandige instrumentale Stems',s2stemsSub:'Separate Dateien pro Instrument.',s2typebeat:'Type Beat / einzelne Instrumentaldatei',s2typebeatSub:'Eine Datei fur den Beat — der Kunde exportiert nur die Vocals.',
   s3title:'Glossar',s3desc:'Optionales Glossar mit Begriffen in einfacher Sprache, im PDF enthalten fur nicht-technische Kunden.',s3toggleTitle:'Glossar im PDF einschliessen',s3toggleSub:'Empfohlen fur technisch unerfahrene Kunden',s3infoTitle:'Wie es funktioniert',s3infoText:'Wahle die Begriffe aus die du erklaren mochtest. Sie erscheinen am Anfang des PDFs.',s3addOther:'+ Benutzerdefinierten Begriff hinzufugen',
@@ -761,7 +793,7 @@ T.de={
 
 // ── PORTUGUESE ───────────────────────────────────────────────
 T.pt={
-  heroTag:'Para de receber arquivos errados dos seus clientes',heroTitle:'O guia <span>a prova de erros</span> que seus clientes seguirao de verdade',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',generateBtn:'Gerar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',
+  heroTag:'Para de receber arquivos errados dos seus clientes',heroTitle:'O guia <span>a prova de erros</span> que seus clientes seguirao de verdade',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',generateBtn:'Gerar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',savedLabel:'Salvo',
   s1title:'Seus dados e marca',s1desc:'Aparece no topo do PDF que o cliente recebe.',s1name:'Nome / Estudio',s1namePh:'Carlos Silva Mixagem',s1email:'Email',s1emailPh:'carlos@mixagem.com',s1web:'Site (opcional)',s1webPh:'https://mixagem.com',s1phone:'Telefone / WhatsApp',s1phonePh:'+55 11 90000 0000',s1logo:'Seu logo (PNG, JPG)',s1logoHint:'Clique para carregar — aparece no PDF',s1color:'Cor de destaque do PDF',s1colorHint:'Usada nos cabecalhos de secao',s1msg:'Mensagem de abertura',s1msgPh:'Obrigado por confiar sua musica a mim. Leia isso com atencao antes de enviar qualquer coisa.',s1contactNote:'Nota de contato no final do documento',s1contactNotePh:'Duvidas? Me escreva antes de enviar.',
   s2title:'Tipo de servico',s2desc:'Determina os requisitos a configurar.',s2mix:'Mixagem',s2mixDesc:'O cliente te envia stems para mixar.',s2master:'Mastering',s2masterDesc:'O cliente te envia um mix estereo pronto.',s2trackTypeLabel:'O que o cliente esta enviando?',s2stems:'Stems instrumentais completos',s2stemsSub:'Arquivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Um unico arquivo para a base — o cliente so exporta os vocais.',
   s3title:'Glossario',s3desc:'Glossario opcional de termos em linguagem simples, incluido no PDF para clientes nao tecnicos.',s3toggleTitle:'Incluir glossario no PDF',s3toggleSub:'Recomendado para clientes sem conhecimento tecnico',s3infoTitle:'Como funciona',s3infoText:'Selecione os termos que quer explicar. Aparecerao no inicio do PDF.',s3addOther:'+ Adicionar termo personalizado',
@@ -888,9 +920,16 @@ function handleLogo(input){
   reader.readAsDataURL(file);
 }
 
+let _saveTimer=null;
 function autoSave(){
   updateProgress();
   try{localStorage.setItem('bg_v5',JSON.stringify({accentColor:fd.accentColor,mixerName:document.getElementById('mixerName')?.value||''}));}catch(e){}
+  const ind=document.getElementById('autosaveIndicator');
+  if(ind){
+    ind.classList.add('show');
+    clearTimeout(_saveTimer);
+    _saveTimer=setTimeout(()=>ind.classList.remove('show'),2000);
+  }
 }
 
 function updateProgress(){
