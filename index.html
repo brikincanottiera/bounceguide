@@ -27,6 +27,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .lang-btn{padding:4px 9px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;font-weight:500;text-transform:uppercase}
 .lang-btn:hover{border-color:var(--border2);color:var(--t1)}
 .lang-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.about-nav-link{font-size:12px;font-weight:600;color:var(--t2);text-decoration:none;letter-spacing:0.3px;transition:color 0.15s;padding:4px 0}
+.about-nav-link:hover{color:var(--t1)}
+.header-sep{width:0.5px;height:16px;background:var(--border2)}
 
 .hero{padding:32px 32px 24px;border-bottom:0.5px solid var(--border)}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--acc);margin-bottom:10px;font-weight:600}
@@ -215,13 +218,17 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     </div>
     <span class="logo-text">BounceGuide</span>
   </div>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('it')">IT</button>
-    <button class="lang-btn" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('de')">DE</button>
-    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  <div style="display:flex;align-items:center;gap:20px">
+    <a href="/about" class="about-nav-link">About</a>
+    <div class="header-sep"></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('it')">IT</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    </div>
   </div>
 </header>
 
