@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BounceGuide</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;--bg2:#181818;--bg3:#222;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --t1:#efefef;--t2:#888;--t3:#444;
+  --acc:#E8C547;--acc-dim:rgba(232,197,71,0.12);
+  --info-bg:rgba(59,130,246,0.08);--info-border:rgba(59,130,246,0.2);--info-text:#93c5fd;
+  --warn-bg:rgba(239,68,68,0.08);--warn-border:rgba(239,68,68,0.25);--warn-text:#fca5a5;
+  --radius:10px;--radius-sm:6px;
+}
+html{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{min-height:100vh;display:flex;flex-direction:column}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.96);backdrop-filter:blur(16px)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--acc);display:flex;align-items:center;justify-content:center;transition:background 0.3s}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-0.4px}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{padding:4px 9px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;font-weight:500;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--border2);color:var(--t1)}
+.lang-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+
+.hero{padding:32px 32px 24px;border-bottom:0.5px solid var(--border)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--acc);margin-bottom:10px;font-weight:600}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.hero h1{font-size:22px;font-weight:800;color:var(--t1);letter-spacing:-0.5px;line-height:1.25;margin-bottom:7px}
+.hero h1 span{color:var(--acc)}
+.hero-desc{font-size:13px;color:var(--t2);max-width:500px;line-height:1.7;margin-bottom:12px}
+.hero-features{display:flex;gap:14px;flex-wrap:wrap}
+.hero-feat{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)}
+.hero-feat::before{content:'✓';color:var(--acc);font-weight:700}
+
+.progress-wrap{padding:9px 32px;border-bottom:0.5px solid var(--border)}
+.progress-label{font-size:10px;color:var(--t2);margin-bottom:4px;display:flex;justify-content:space-between}
+.progress-bar-bg{height:3px;background:var(--border2);border-radius:2px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--acc);border-radius:2px;transition:width 0.4s ease}
+
+main{flex:1;display:grid;grid-template-columns:256px 1fr;align-items:start}
+.sidebar{padding:14px;border-right:0.5px solid var(--border);position:sticky;top:57px;max-height:calc(100vh - 96px);overflow-y:auto}
+.form-area{padding:22px 30px 48px}
+
+.steps-nav{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}
+.step-btn{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;font-family:inherit}
+.step-btn:hover{background:var(--bg3);color:var(--t1)}
+.step-btn.active{background:var(--acc-dim);color:var(--acc)}
+.step-btn.done{color:var(--t1)}
+.step-num{width:18px;height:18px;border-radius:50%;border:0.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.step-btn.done .step-num{background:var(--acc);border-color:var(--acc);color:#000}
+
+.sidebar-sep{height:0.5px;background:var(--border);margin:10px 0}
+.tone-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px}
+.tone-btns{display:flex;gap:4px;margin-bottom:10px}
+.tone-btn{flex:1;padding:5px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.tone-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+
+.gen-btn{width:100%;padding:10px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:6px;transition:opacity 0.15s}
+.gen-btn:hover{opacity:0.87}
+.gen-btn:disabled{opacity:0.3;cursor:not-allowed}
+.reset-btn{width:100%;padding:7px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;color:var(--t3);font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.reset-btn:hover{color:var(--warn-text);border-color:var(--warn-border)}
+
+.form-section{display:none}
+.form-section.active{display:block;animation:fadeIn 0.18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.section-title{font-size:18px;font-weight:800;color:var(--t1);margin-bottom:4px;letter-spacing:-0.4px}
+.section-desc{font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.7}
+.sub-label{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;margin-top:4px}
+.divider{height:0.5px;background:var(--border);margin:16px 0}
+
+.info-box{padding:10px 13px;border-radius:var(--radius-sm);background:var(--info-bg);border:0.5px solid var(--info-border);margin-bottom:11px}
+.info-box-title{font-size:10px;font-weight:700;color:var(--info-text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px}
+.info-box p{font-size:12px;color:var(--info-text);line-height:1.6;opacity:0.9}
+
+.field-group{margin-bottom:12px}
+label.field-label{display:block;font-size:11px;font-weight:600;color:var(--t2);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:5px}
+input[type=text],input[type=email],input[type=url],textarea{width:100%;padding:8px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--t1);font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s;resize:vertical}
+input:focus,textarea:focus{border-color:var(--acc)}
+textarea{min-height:68px}
+input::placeholder,textarea::placeholder{color:var(--t3)}
+input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2)}
+
+.radio-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.radio-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none}
+.radio-item:hover{border-color:var(--border2)}
+.radio-item.selected{border-color:var(--acc);background:var(--acc-dim)}
+.radio-dot{width:14px;height:14px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;margin-top:2px}
+.radio-item.selected .radio-dot{border-color:var(--acc)}
+.radio-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc);opacity:0;transition:opacity 0.15s}
+.radio-item.selected .radio-dot::after{opacity:1}
+.radio-label{font-size:12px;color:var(--t1);font-weight:500;line-height:1.4}
+.radio-sub{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.4}
+
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.service-card{padding:16px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none}
+.service-card:hover{border-color:var(--border2)}
+.service-card.selected{border-color:var(--acc);background:var(--acc-dim)}
+.service-card-icon{font-size:24px;margin-bottom:7px}
+.service-card-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.service-card-desc{font-size:11px;color:var(--t2);line-height:1.5}
+
+.check-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.check-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none}
+.check-item:hover{border-color:var(--border2)}
+.check-item.checked{border-color:var(--acc);background:var(--acc-dim)}
+.check-box{width:15px;height:15px;border-radius:4px;border:0.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all 0.15s}
+.check-item.checked .check-box{background:var(--acc);border-color:var(--acc)}
+.check-box svg{width:9px;height:9px;opacity:0;transition:opacity 0.15s}
+.check-item.checked .check-box svg{opacity:1}
+.check-label{font-size:12px;color:var(--t1);font-weight:500;line-height:1.4}
+.check-sub{font-size:11px;color:var(--t2);margin-top:3px;line-height:1.4}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);margin-bottom:12px;cursor:pointer;user-select:none;transition:all 0.15s}
+.toggle-row:hover{border-color:var(--border2)}
+.toggle-row.on{border-color:var(--acc);background:var(--acc-dim)}
+.toggle-info .toggle-title{font-size:13px;font-weight:600;color:var(--t1)}
+.toggle-info .toggle-sub{font-size:11px;color:var(--t2);margin-top:2px}
+.toggle-switch{width:32px;height:17px;border-radius:9px;background:var(--t3);position:relative;flex-shrink:0;transition:background 0.2s;margin-left:12px}
+.toggle-row.on .toggle-switch{background:var(--acc)}
+.toggle-switch::after{content:'';position:absolute;width:11px;height:11px;border-radius:50%;background:white;top:3px;left:3px;transition:left 0.2s}
+.toggle-row.on .toggle-switch::after{left:18px}
+
+.other-reveal{display:none;margin-top:6px;padding:9px 11px;background:var(--bg3);border-radius:var(--radius-sm);border:0.5px solid var(--border2)}
+.other-reveal.visible{display:block}
+
+.multi-other-list{display:flex;flex-direction:column;gap:6px;margin-top:7px}
+.multi-other-item{padding:9px 11px;background:var(--bg3);border-radius:var(--radius-sm);border:0.5px solid var(--border);display:flex;gap:7px;align-items:flex-start}
+.multi-other-item .fields{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.multi-other-item input,.multi-other-item textarea{width:100%}
+.multi-other-item textarea{min-height:46px}
+.remove-btn{padding:4px 7px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);cursor:pointer;font-size:11px;flex-shrink:0;margin-top:3px;transition:all 0.15s}
+.remove-btn:hover{color:var(--warn-text);border-color:var(--warn-border)}
+.add-other-btn{padding:6px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s;margin-top:6px;display:inline-block}
+.add-other-btn:hover{color:var(--t1);border-color:var(--acc);background:var(--acc-dim)}
+
+/* DAW GRID */
+.daw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}
+.daw-card{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 5px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;user-select:none;text-align:center}
+.daw-card:hover{border-color:var(--border2)}
+.daw-card.selected{border-color:var(--acc);background:var(--acc-dim)}
+.daw-icon{font-size:18px}
+.daw-name{font-size:10px;font-weight:600;color:var(--t1);line-height:1.2}
+
+/* DAW CONFIRM CARDS */
+.daw-confirm-section{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.daw-confirm-card{border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2);overflow:hidden}
+.daw-confirm-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border-bottom:0.5px solid var(--border)}
+.daw-confirm-header-left{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--t1)}
+.daw-confirmed-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;background:rgba(34,197,94,0.15);border:0.5px solid rgba(34,197,94,0.3);color:#86efac;font-size:10px;font-weight:700}
+.daw-steps-preview{padding:12px 14px;border-bottom:0.5px solid var(--border)}
+.daw-step-row{display:flex;gap:8px;margin-bottom:5px;font-size:12px;color:var(--t1);line-height:1.5}
+.daw-step-num{font-size:10px;font-weight:700;color:var(--acc);flex-shrink:0;width:16px;padding-top:1px}
+.daw-yt-section{padding:10px 14px;border-bottom:0.5px solid var(--border)}
+.daw-yt-label{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px}
+.daw-confirm-question{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.daw-confirm-q-text{font-size:12px;color:var(--t2)}
+.daw-confirm-btns{display:flex;gap:6px}
+.daw-yes-btn,.daw-no-btn{padding:6px 14px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.daw-yes-btn{color:var(--t2)}
+.daw-yes-btn:hover,.daw-yes-btn.active{background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#86efac}
+.daw-no-btn{color:var(--t2)}
+.daw-no-btn:hover,.daw-no-btn.active{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-text)}
+.daw-edit-area{padding:10px 14px;border-top:0.5px solid var(--border)}
+.daw-edit-area textarea{min-height:120px;font-family:'SF Mono','Fira Mono',monospace;font-size:11px;line-height:1.6}
+.daw-edit-confirm-btn{margin-top:6px;padding:7px 14px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* CONTINUE 8 LOCKED */
+.continue-locked-note{font-size:11px;color:var(--t2);margin-top:8px;opacity:0.7}
+
+.logo-upload{border:0.5px dashed var(--border2);border-radius:var(--radius-sm);padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;margin-bottom:9px}
+.logo-upload:hover{border-color:var(--acc);background:var(--acc-dim)}
+.logo-preview{max-height:44px;max-width:160px;margin:5px auto 0;display:block}
+
+.checklist-preview{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.checklist-preview-item{display:flex;align-items:center;gap:9px;padding:7px 11px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:var(--bg2)}
+.cl-dot{width:15px;height:15px;border-radius:50%;border:0.5px solid var(--acc);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;color:var(--acc);font-weight:700}
+.cl-text{font-size:12px;color:var(--t1)}
+
+.stupidity-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;background:var(--acc-dim);border:0.5px solid var(--acc);color:var(--acc);font-size:10px;font-weight:700;margin-left:7px}
+
+.nav-btns{display:flex;gap:9px;margin-top:20px;padding-top:16px;border-top:0.5px solid var(--border)}
+.btn-back{padding:8px 16px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:13px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.btn-back:hover{color:var(--t1);border-color:var(--t1)}
+.btn-next{padding:8px 18px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
+.btn-next:hover{opacity:0.85}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed}
+
+footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.footer-l,.footer-r{font-size:11px;color:var(--t3)}
+
+@media(max-width:800px){
+  main{grid-template-columns:1fr;display:block}
+  .sidebar{position:static;max-height:none;border-right:none;border-bottom:0.5px solid var(--border);padding:12px}
+  .steps-nav{flex-direction:row;flex-wrap:wrap;gap:3px}
+  .form-area{padding:14px}
+  .service-grid,.daw-grid,.check-grid2{grid-template-columns:1fr}
+  header,footer,.hero,.progress-wrap{padding-left:14px;padding-right:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark" id="logoMark">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h3l2-5 3 10 2-5h2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="logo-text">BounceGuide</span>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-tag" data-t="heroTag"></div>
+  <h1 data-t="heroTitle"></h1>
+  <p class="hero-desc" data-t="heroDesc"></p>
+  <div class="hero-features">
+    <span class="hero-feat" data-t="hf1"></span>
+    <span class="hero-feat" data-t="hf2"></span>
+    <span class="hero-feat" data-t="hf3"></span>
+    <span class="hero-feat" data-t="hf4"></span>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span data-t="progressLabel"></span><span id="progressPct">0%</span></div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<main>
+<div class="sidebar">
+  <div class="tone-label" data-t="toneLabel"></div>
+  <div class="tone-btns">
+    <button class="tone-btn active" onclick="setTone('formal')" data-t="toneFormal"></button>
+    <button class="tone-btn" onclick="setTone('informal')" data-t="toneInformal"></button>
+  </div>
+  <div class="sidebar-sep"></div>
+  <div class="steps-nav" id="stepsNav"></div>
+  <div class="sidebar-sep"></div>
+  <button class="gen-btn" id="generateBtn" onclick="generatePDF()" disabled data-t="generateBtn"></button>
+  <button class="reset-btn" onclick="resetAll()" data-t="resetBtn"></button>
+</div>
+
+<div class="form-area">
+
+<!-- S1: Branding -->
+<div class="form-section active" id="step-1">
+  <div class="section-title" data-t="s1title"></div>
+  <div class="section-desc" data-t="s1desc"></div>
+  <div class="field-group"><label class="field-label" data-t="s1name"></label><input type="text" id="mixerName" data-t-ph="s1namePh" oninput="autoSave()"></div>
+  <div class="field-group"><label class="field-label" data-t="s1email"></label><input type="email" id="mixerEmail" data-t-ph="s1emailPh" oninput="autoSave()"></div>
+  <div class="field-group"><label class="field-label" data-t="s1web"></label><input type="url" id="mixerWeb" data-t-ph="s1webPh" oninput="autoSave()"></div>
+  <div class="field-group"><label class="field-label" data-t="s1phone"></label><input type="text" id="mixerPhone" data-t-ph="s1phonePh" oninput="autoSave()"></div>
+  <div class="field-group">
+    <label class="field-label" data-t="s1logo"></label>
+    <div class="logo-upload" onclick="document.getElementById('logoInput').click()">
+      <div style="font-size:11px;color:var(--t2)" data-t="s1logoHint"></div>
+      <img id="logoPreview" class="logo-preview" style="display:none">
+    </div>
+    <input type="file" id="logoInput" accept="image/png,image/jpeg" style="display:none" onchange="handleLogo(this)">
+  </div>
+  <div class="field-group">
+    <label class="field-label" data-t="s1color"></label>
+    <div style="display:flex;align-items:center;gap:10px">
+      <input type="color" id="accentColor" value="#E8C547" oninput="updateAccent(this.value)">
+      <span style="font-size:12px;color:var(--t2)" data-t="s1colorHint"></span>
+    </div>
+  </div>
+  <div class="field-group"><label class="field-label" data-t="s1msg"></label><textarea id="mixerMsg" rows="3" data-t-ph="s1msgPh" oninput="autoSave()"></textarea></div>
+  <div class="field-group"><label class="field-label" data-t="s1contactNote"></label><textarea id="contactNote" rows="2" data-t-ph="s1contactNotePh" oninput="autoSave()"></textarea></div>
+  <div class="nav-btns"><button class="btn-next" onclick="advance(1)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S2: Service -->
+<div class="form-section" id="step-2">
+  <div class="section-title" data-t="s2title"></div>
+  <div class="section-desc" data-t="s2desc"></div>
+  <div class="service-grid">
+    <div class="service-card selected" id="svcMix" onclick="selectService('mix')"><div class="service-card-icon">🎚️</div><div class="service-card-title" data-t="s2mix"></div><div class="service-card-desc" data-t="s2mixDesc"></div></div>
+    <div class="service-card" id="svcMaster" onclick="selectService('mastering')"><div class="service-card-icon">💿</div><div class="service-card-title" data-t="s2master"></div><div class="service-card-desc" data-t="s2masterDesc"></div></div>
+  </div>
+  <div id="trackTypeSection">
+    <div class="sub-label" data-t="s2trackTypeLabel"></div>
+    <div class="radio-group">
+      <div class="radio-item selected" id="rb-stems" onclick="selectTrackType('stems')"><div class="radio-dot"></div><div><div class="radio-label" data-t="s2stems"></div><div class="radio-sub" data-t="s2stemsSub"></div></div></div>
+      <div class="radio-item" id="rb-typebeat" onclick="selectTrackType('typebeat')"><div class="radio-dot"></div><div><div class="radio-label" data-t="s2typebeat"></div><div class="radio-sub" data-t="s2typebeatSub"></div></div></div>
+    </div>
+  </div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(1)" data-t="btnBack"></button><button class="btn-next" onclick="advance(2)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S3: Glossary -->
+<div class="form-section" id="step-3">
+  <div class="section-title" data-t="s3title"></div>
+  <div class="section-desc" data-t="s3desc"></div>
+  <div class="toggle-row" id="glossaryToggle" onclick="toggleGlossary()">
+    <div class="toggle-info"><div class="toggle-title" data-t="s3toggleTitle"></div><div class="toggle-sub" data-t="s3toggleSub"></div></div>
+    <div class="toggle-switch"></div>
+  </div>
+  <div id="glossaryContent" style="display:none">
+    <div class="info-box"><div class="info-box-title" data-t="s3infoTitle"></div><p data-t="s3infoText"></p></div>
+    <div class="check-list" id="glossaryItems"></div>
+    <div class="multi-other-list" id="glossaryOtherList"></div>
+    <button class="add-other-btn" onclick="addGlossaryOther()" data-t="s3addOther"></button>
+  </div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(2)" data-t="btnBack"></button><button class="btn-next" onclick="advance(3)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S4: Format -->
+<div class="form-section" id="step-4">
+  <div class="section-title" data-t="s4title"></div>
+  <div class="section-desc" data-t="s4desc"></div>
+  <div class="info-box"><div class="info-box-title" data-t="s4whyTitle"></div><p data-t="s4whyText"></p></div>
+  <div class="sub-label" data-t="s4format"></div>
+  <div class="radio-group" id="formatGroup">
+    <div class="radio-item" onclick="selectRadio(this,'format','WAV')"><div class="radio-dot"></div><div><div class="radio-label">WAV</div><div class="radio-sub" data-t="s4wavSub"></div></div></div>
+    <div class="radio-item" onclick="selectRadio(this,'format','AIFF')"><div class="radio-dot"></div><div><div class="radio-label">AIFF</div><div class="radio-sub" data-t="s4aiffSub"></div></div></div>
+    <div class="radio-item" onclick="selectRadio(this,'format','MP3 320kbps')"><div class="radio-dot"></div><div><div class="radio-label">MP3 320kbps</div><div class="radio-sub" data-t="s4mp3Sub"></div></div></div>
+    <div class="radio-item" id="fmtOtherToggle" onclick="toggleFmtOther(this)"><div class="radio-dot"></div><div><div class="radio-label" data-t="s4other"></div><div class="radio-sub" data-t="s4otherSub"></div></div></div>
+  </div>
+  <div id="formatOtherField" class="other-reveal"><input type="text" id="formatOtherText" data-t-ph="s4otherPh" oninput="autoSave()"></div>
+  <div class="sub-label" data-t="s4sr"></div>
+  <div class="radio-group" id="srGroup">
+    <div class="radio-item" onclick="selectRadio(this,'sr','44.1 kHz')"><div class="radio-dot"></div><span class="radio-label">44.1 kHz</span></div>
+    <div class="radio-item" onclick="selectRadio(this,'sr','48 kHz')"><div class="radio-dot"></div><span class="radio-label">48 kHz</span></div>
+    <div class="radio-item" onclick="selectRadio(this,'sr','96 kHz')"><div class="radio-dot"></div><span class="radio-label">96 kHz</span></div>
+    <div class="radio-item" onclick="selectRadio(this,'sr','192 kHz')"><div class="radio-dot"></div><span class="radio-label">192 kHz</span></div>
+  </div>
+  <div class="sub-label" data-t="s4bd"></div>
+  <div class="radio-group" id="bdGroup">
+    <div class="radio-item" onclick="selectRadio(this,'bd','24-bit')"><div class="radio-dot"></div><div><div class="radio-label">24-bit</div><div class="radio-sub" data-t="s4bd24Sub"></div></div></div>
+    <div class="radio-item" onclick="selectRadio(this,'bd','32-bit float')"><div class="radio-dot"></div><span class="radio-label">32-bit float</span></div>
+    <div class="radio-item" onclick="selectRadio(this,'bd','16-bit')"><div class="radio-dot"></div><div><div class="radio-label">16-bit</div><div class="radio-sub" data-t="s4bd16Sub"></div></div></div>
+  </div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(3)" data-t="btnBack"></button><button class="btn-next" onclick="advance(4)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S5: Stems -->
+<div class="form-section" id="step-5">
+  <div class="section-title" data-t="s5title"></div>
+  <div class="section-desc" data-t="s5desc"></div>
+  <div class="toggle-row" id="wetToggleRow" onclick="toggleWetPhil()">
+    <div class="toggle-info">
+      <div class="toggle-title" data-t="s5philToggleTitle"></div>
+      <div class="toggle-sub" data-t="s5philToggleSub"></div>
+    </div>
+    <div class="toggle-switch"></div>
+  </div>
+  <div id="wetPhilField" style="display:none">
+    <div class="info-box" style="margin-bottom:7px"><p data-t="s5philHint"></p></div>
+    <textarea id="wetdryPhil" rows="4" data-t-ph="s5philPh" oninput="autoSave()"></textarea>
+  </div>
+  <div class="divider"></div>
+  <div id="typebeatSection" style="display:none">
+    <div class="info-box"><div class="info-box-title" data-t="s5typebeatTitle"></div><p data-t="s5typebeatNote"></p></div>
+    <div class="sub-label" data-t="s5vocalLabel"></div>
+    <div class="check-list" id="vocalChecksTB"></div>
+    <div class="divider"></div>
+    <div class="sub-label" data-t="s5premixLabel"></div>
+    <div class="check-list" id="premixChecksTB"></div>
+  </div>
+  <div id="stemsFullSection" style="display:block">
+    <div class="sub-label" data-t="s5drumsLabel"></div>
+    <div class="info-box"><p data-t="s5drumsInfo"></p></div>
+    <div class="check-list" id="drumsChecks"></div>
+    <div class="divider"></div>
+    <div class="sub-label" data-t="s5instrLabel"></div>
+    <div class="info-box"><p data-t="s5instrInfo"></p></div>
+    <div class="check-list" id="instrChecks"></div>
+    <div class="divider"></div>
+    <div class="sub-label" data-t="s5vocalLabel"></div>
+    <div class="info-box"><p data-t="s5vocalInfo"></p></div>
+    <div class="check-list" id="vocalChecks"></div>
+    <div class="divider"></div>
+    <div class="sub-label" data-t="s5premixLabel"></div>
+    <div class="info-box"><p data-t="s5premixInfo"></p></div>
+    <div class="check-list" id="premixChecks"></div>
+  </div>
+  <div class="divider"></div>
+  <div class="sub-label" data-t="s5otherLabel"></div>
+  <div class="multi-other-list" id="stemOtherList"></div>
+  <button class="add-other-btn" onclick="addStemOther()" data-t="s5addOther"></button>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(4)" data-t="btnBack"></button><button class="btn-next" onclick="advance(5)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S6: Naming -->
+<div class="form-section" id="step-6">
+  <div class="section-title" data-t="s6title"></div>
+  <div class="section-desc" data-t="s6desc"></div>
+  <div class="info-box"><div class="info-box-title" data-t="s6whyTitle"></div><p data-t="s6whyText"></p></div>
+  <div class="field-group"><label class="field-label" data-t="s6exLabel"></label><input type="text" id="namingExample" placeholder="SongName_Kick_01" oninput="autoSave()"></div>
+  <div class="check-list" id="namingChecks"></div>
+  <div class="multi-other-list" id="namingOtherList"></div>
+  <button class="add-other-btn" onclick="addNamingOther()" data-t="s6addOther"></button>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(5)" data-t="btnBack"></button><button class="btn-next" onclick="advance(6)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S7: Delivery -->
+<div class="form-section" id="step-7">
+  <div class="section-title" data-t="s7title"></div>
+  <div class="section-desc" data-t="s7desc"></div>
+  <div class="sub-label" data-t="s7delivLabel"></div>
+  <div class="check-grid2" id="deliveryChecks"></div>
+  <div id="deliveryOtherReveal" class="other-reveal"><input type="text" id="deliveryOtherText" data-t-ph="s7otherPh" oninput="autoSave()"></div>
+  <div class="field-group" style="margin-top:9px"><label class="field-label" data-t="s7customLink"></label><input type="url" id="customLink" data-t-ph="s7customLinkPh" oninput="autoSave()"></div>
+  <div class="field-group"><label class="field-label" data-t="s7delivEmail"></label><input type="email" id="deliveryEmail" data-t-ph="s7delivEmailPh" oninput="autoSave()"></div>
+  <div class="divider"></div>
+  <div class="sub-label" data-t="s7sessionLabel"></div>
+  <div class="check-list" id="sessionChecks"></div>
+  <div id="sessionOtherReveal" class="other-reveal"><input type="text" id="sessionOtherText" data-t-ph="s7otherSessionPh" oninput="autoSave()"></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(6)" data-t="btnBack"></button><button class="btn-next" onclick="advance(7)" data-t="btnNext"></button></div>
+</div>
+
+<!-- S8: DAW Guides -->
+<div class="form-section" id="step-8">
+  <div class="section-title" data-t="s8title"></div>
+  <div class="section-desc" data-t="s8desc"></div>
+  <div class="daw-grid" id="dawGrid"></div>
+  <div class="daw-confirm-section" id="dawConfirmSection"></div>
+  <div class="divider"></div>
+  <div class="sub-label" data-t="s8otherDaw"></div>
+  <div class="multi-other-list" id="dawOtherList"></div>
+  <button class="add-other-btn" onclick="addDAWOther()" data-t="s8addOtherDaw"></button>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goStep(7)" data-t="btnBack"></button>
+    <button class="btn-next" id="advance8Btn" onclick="advance(8)" data-t="btnNext"></button>
+  </div>
+  <div class="continue-locked-note" id="daw8LockedNote" style="display:none" data-t="s8confirmNote"></div>
+</div>
+
+<!-- S9: Checklist + Stupidity + Notes -->
+<div class="form-section" id="step-9">
+  <div class="section-title" data-t="s9title"></div>
+  <div class="section-desc" data-t="s9desc"></div>
+  <div style="display:flex;align-items:center;margin-bottom:5px">
+    <div class="sub-label" style="margin:0" data-t="s9stupidLabel"></div>
+    <div class="stupidity-badge">STUPIDITY CHECK</div>
+  </div>
+  <div style="font-size:11px;color:var(--t2);margin-bottom:9px" data-t="s9stupidSub"></div>
+  <div class="check-list" id="stupidChecks"></div>
+  <div class="multi-other-list" id="stupidOtherList"></div>
+  <button class="add-other-btn" onclick="addStupidOther()" data-t="s9addStupid"></button>
+  <div class="divider"></div>
+  <div class="sub-label" data-t="s9checkLabel"></div>
+  <div style="font-size:11px;color:var(--t2);margin-bottom:9px" data-t="s9checkSub"></div>
+  <div class="checklist-preview" id="checklistPreview"></div>
+  <div class="divider"></div>
+  <div class="field-group"><label class="field-label" data-t="s9notesLabel"></label><textarea id="extraNotes" rows="4" data-t-ph="s9notesPh" oninput="autoSave()"></textarea></div>
+  <div class="field-group"><label class="field-label" data-t="s9ytLabel"></label><input type="url" id="refYT" data-t-ph="s9ytPh" oninput="autoSave()"></div>
+  <div class="divider"></div>
+  <div class="check-item" id="tcToggle" onclick="toggleTC()">
+    <div class="check-box"><svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="check-label" data-t="s9tcEnable"></div><div class="check-sub" data-t="s9tcSub"></div></div>
+  </div>
+  <div id="tcField" style="display:none;margin-top:7px"><textarea id="tcText" rows="5" data-t-ph="s9tcPh" oninput="autoSave()"></textarea></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(8)" data-t="btnBack"></button><button class="btn-next" onclick="finishForm()" data-t="btnFinish"></button></div>
+</div>
+
+</div>
+</main>
+
+<footer>
+  <div class="footer-l">BounceGuide &mdash; <span data-t="footerMade"></span></div>
+  <div class="footer-r" data-t="footerNote"></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ═══════════════════════════════════════════
+//  TRANSLATIONS — EN + IT full
+// ═══════════════════════════════════════════
+const T={
+en:{
+  heroTag:'Stop receiving wrong files from your clients',heroTitle:'The <span>foolproof</span> guide your clients will actually follow',heroDesc:'Set your requirements once. BounceGuide generates a professional PDF in your language — no more back-and-forth, no more mistakes.',hf1:'6 languages',hf2:'DAW step-by-step guides',hf3:'Auto-saved',hf4:'PDF on demand',progressLabel:'Guide completion',toneLabel:'PDF tone',toneFormal:'Formal',toneInformal:'Friendly',generateBtn:'Generate PDF',copyBtn:'Copy for WhatsApp / Email',resetBtn:'Start over',
+  s1title:'Your details & branding',s1desc:'Appears at the top of the PDF your client receives.',s1name:'Name / Studio',s1namePh:'John Smith Mixing',s1email:'Email',s1emailPh:'john@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Phone / WhatsApp',s1phonePh:'+1 555 000 0000',s1logo:'Your logo (PNG, JPG)',s1logoHint:'Click to upload — appears in the PDF header',s1color:'PDF accent color',s1colorHint:'Used for section headers',s1msg:'Opening message',s1msgPh:'Thank you for trusting me with your music. Please read this carefully.',s1contactNote:'End-of-document contact note',s1contactNotePh:'Not sure about something? Message me before sending.',
+  s2title:'Type of service',s2desc:'This determines which requirements to configure.',s2mix:'Mixing',s2mixDesc:'Client sends stems for you to mix.',s2master:'Mastering',s2masterDesc:'Client sends a finished stereo mix.',s2trackTypeLabel:'What is the client sending?',s2stems:'Full instrumental stems',s2stemsSub:'Separate files per instrument.',s2typebeat:'Type beat / single instrumental',s2typebeatSub:'One file for the beat — client only exports vocals.',
+  s3title:'Glossary',s3desc:'Optional glossary of terms in plain language, included in the PDF for non-technical clients.',s3toggleTitle:'Include glossary in the PDF',s3toggleSub:'Recommended for non-technical clients',s3infoTitle:'How it works',s3infoText:'Select the terms you want explained. They appear at the start of the PDF.',s3addOther:'+ Add custom term',
+  s4title:'File format requirements',s4desc:'The exact technical specs your client must use.',s4whyTitle:'Why this matters',s4whyText:'WAV and AIFF are lossless — full quality preserved. MP3 permanently removes audio data. Wrong format = compromised mix.',s4format:'File format',s4sr:'Sample rate',s4bd:'Bit depth',s4wavSub:'Recommended — universal lossless',s4aiffSub:'Same quality as WAV',s4mp3Sub:'Only if WAV is unavailable',s4other:'Other format',s4otherSub:'Specify below',s4otherPh:'e.g. FLAC, OGG...',s4bd24Sub:'Recommended — best quality/size balance',s4bd16Sub:'Not recommended — limited dynamic range',
+  s5title:'Stems & export',s5desc:'Tell your client exactly what to export and how. Most mistakes happen here.',s5philLabel:'Your WET/DRY philosophy (appears in PDF)',s5philHint:'Write your policy in plain language. Sound design effects (distortion, creative reverb, artistic sidechain) stay WET. Mixing effects (generic reverb/delay as filler, light compression) get removed. When in doubt, send both versions.',s5philPh:'Keep all effects that define the character of the sound — distortion, artistic reverb, autotune on vocals. Remove anything added only to mix: generic reverb/delay, limiter or compressor on the master bus. If you are not sure, export two versions: TrackName_WET and TrackName_DRY.',s5philToggleTitle:'Include WET/DRY guidelines in the PDF',s5philToggleSub:'If enabled, selected WET stems will show your guidelines instead of generic descriptions',s5wetUiGeneric:'Follows the guidelines you wrote above',s5typebeatTitle:'Type beat format',s5typebeatNote:'Since this is a type beat, the client only needs to export their vocals over your instrumental.',s5drumsLabel:'Drums',s5drumsInfo:'Drums are usually exported WET — sidechain and sample processing are part of the sound. You can also request DRY for more control.',s5instrLabel:'Instruments / Synths / Bass',s5instrInfo:'Key distinction: sound design effects (define the instrument character) stay WET. Mixing effects get removed.',s5vocalLabel:'Vocals',s5vocalInfo:'Vocals require a specific approach. DRY = completely raw, no pitch correction. DRY + Pitch = clean with Melodyne/Autotune. WET only for artistic sound design parts that cannot be recreated.',s5premixLabel:'Premix (reference)',s5premixInfo:'A stereo bounce of the full project exactly as the client hears it — all effects active. This is a reference only, not used for mixing directly.',s5otherLabel:'Additional requirements',s5addOther:'+ Add requirement',
+  s6title:'File naming',s6desc:'Clear names make every stem instantly identifiable.',s6whyTitle:'Why naming matters',s6whyText:'A session with 40 files called "Audio 01" is a nightmare. Names like "SongName_LeadVocal_DRY.wav" communicate everything instantly.',s6exLabel:'Example file name',s6addOther:'+ Add naming rule',
+  s7title:'How to send files',s7desc:'Where and how the client sends files, and what info to include.',s7delivLabel:'Accepted platforms',s7customLink:'Your personal upload link (optional)',s7customLinkPh:'https://your-link.com',s7delivEmail:'Email for file notifications',s7delivEmailPh:'client@email.com — you will receive the download link here',s7otherPh:'Other platform name',s7sessionLabel:'Session info to include',s7otherSessionPh:'Other required info',
+  s8title:'DAW export guides',s8desc:'Select the DAWs your clients use, review the instructions, and confirm before continuing.',s8otherDaw:'DAW not in the list?',s8addOtherDaw:'+ Add DAW / software',s8ytLabel:'YouTube tutorial link',s8confirmQ:'Are these instructions correct?',s8yesBtn:'Yes, correct',s8noBtn:'No, let me edit',s8editLabel:'Edit instructions (one step per line):',s8confirmEditsBtn:'Confirm edits',s8confirmedLabel:'Confirmed',s8confirmNote:'Please confirm the instructions for each selected DAW before continuing.',
+  s9title:'Stupidity Check & notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Classic client mistakes. In the PDF they appear as a serious "Important — Errors to Avoid" section.',s9addStupid:'+ Add custom mistake',s9checkLabel:'Pre-send checklist',s9checkSub:'Auto-generated from your choices. The client ticks each box before sending.',s9notesLabel:'Additional notes',s9notesPh:'Any other specific instructions...',s9ytLabel:'General tutorial link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Include Terms & Conditions',s9tcSub:'Payment, delivery and revision policy',s9tcPh:'Write your terms here...',
+  btnNext:'Continue',btnBack:'Back',btnFinish:'Done — unlock PDF button',footerMade:'Free tool for mix engineers',footerNote:'PDF generated in your browser. Nothing uploaded.',
+
+  glossaryTerms:[
+    {term:'Stem',def:'An individual audio file containing one element of the song (kick, bass, lead vocal, etc.). Exporting stems means creating one separate file per track.'},
+    {term:'WAV / AIFF',def:'Lossless audio formats — full quality preserved. Always use these instead of MP3 for professional work.'},
+    {term:'MP3',def:'Compressed format. Permanently removes audio data. Not suitable for mixing or mastering.'},
+    {term:'Sample Rate (kHz)',def:'Audio samples captured per second. 44.1 kHz is the music standard. Use whatever the mixer requests.'},
+    {term:'Bit Depth',def:'Detail per audio sample. 24-bit is the professional standard — much more headroom than 16-bit.'},
+    {term:'WET stem',def:'A stem exported with all creative effects still active: reverb, delay, distortion, sidechain, autotune, etc.'},
+    {term:'DRY stem',def:'A stem exported with no effects — just the raw sound.'},
+    {term:'Master bus',def:'Final output of your session — may have a limiter, maximizer or compressor. Must be bypassed before exporting stems.'},
+    {term:'Premix',def:'Stereo bounce of the entire project exactly as you hear it. Used as a reference, not for mixing.'},
+    {term:'Clipping',def:'When a signal exceeds the maximum level and distorts. Check that no meter shows red before exporting.'},
+    {term:'Normalize',def:'Function that automatically raises file volume to a fixed level. Must be disabled when exporting stems.'},
+    {term:'Sidechain',def:'Technique where one sound controls the volume of another, creating a pumping effect.'},
+  ],
+  drumsOptions:[
+    {label:'Export all drums WET — with all effects active',sub:'Sidechain, compression, saturation, reverb — everything that makes them sound as they do in the demo',isWet:true},
+    {label:'Export all drums DRY — completely raw, no effects',sub:'No compression, no sidechain, no saturation — pure raw sounds'},
+    {label:'Export each drum element as a separate file',sub:'Kick, snare, hi-hats, claps, percussion — one file each'},
+    {label:'Grouping all drums in one file is acceptable if individual export is not possible',sub:'Let me know if this is the case'},
+  ],
+  instrOptions:[
+    {label:'Export synths and instruments WET — with all sound design effects',sub:'Effects that define the sound: distortion, creative reverb, chorus, phaser, etc.',isWet:true},
+    {label:'Export synths DRY — without effects, raw sound only',sub:'No reverb, no delay, no saturation — pure instrument output'},
+    {label:'Export 808/sub bass as a separate file',sub:'The low end needs individual treatment — never group it with other instruments'},
+  ],
+  vocalOptions:[
+    {label:'DRY — completely raw, no effects, no pitch correction',sub:'The voice exactly as recorded, with nothing applied'},
+    {label:'DRY + Pitch correction — clean voice with Melodyne or Autotune applied',sub:'No reverb, no delay, no distortion — just the voice with pitch correction. Most common request.'},
+    {label:'WET — ONLY for artistic sound design parts',sub:'Send WET exclusively for parts where the effect IS the sound (heavily distorted voice, vocoder, radio effect). Do NOT send the entire vocal WET.',isWet:true},
+    {label:'Export each vocal part separately',sub:'Lead vocal, harmonies, adlibs, doubles — one file each'},
+    {label:'Export only the final comped version — delete unused takes before sending',sub:'I only need the final performance'},
+  ],
+  premixOptions:[
+    {label:'Include a stereo premix of the full project',sub:'Bounce the full song exactly as you hear it, all effects and master chain active — this is the reference I use'},
+    {label:'Include an instrumental premix (no vocals)',sub:'Same as above but with all vocal tracks removed'},
+  ],
+  namingOptions:[
+    {label:'Use only letters, numbers, underscores ( _ ) and dashes ( - )',sub:'No spaces or special characters'},
+    {label:'Include the song/project name in every file',sub:'Example: SongName_Kick.wav'},
+    {label:'Add _WET or _DRY suffix where applicable',sub:'Example: LeadVocal_DRY.wav'},
+    {label:'Number files if order matters',sub:'Example: 01_Kick.wav, 02_Snare.wav'},
+    {label:'Add _ALT for alternative versions',sub:'Example: LeadVocal_ALT.wav'},
+  ],
+  deliveryOptions:[
+    {label:'WeTransfer',sub:'wetransfer.com — free up to 2GB'},{label:'Dropbox',sub:'Share a folder link'},{label:'Google Drive',sub:'Share a folder link'},{label:'Smash',sub:'fromsmash.com — free, large files'},{label:'Swisstransfer',sub:'swisstransfer.com — free up to 50GB'},{label:'Other (specify)',sub:'',isOther:true},
+  ],
+  sessionOptions:[
+    {label:'BPM (project tempo)',sub:'Essential for time-based effects'},{label:'Song key / tonality',sub:'Example: C minor, F major'},{label:'DAW used and version',sub:'Example: Ableton Live 11'},{label:'Time signature',sub:'Example: 4/4, 3/4'},{label:'Reference tracks',sub:'Songs that represent the sound you want'},{label:'Other (specify)',sub:'',isOther:true},
+  ],
+  stupidItems:[
+    {label:'Exporting with "Export All Tracks" or equivalent',sub:'This often includes bus tracks or MIDI tracks — always export each stem individually'},
+    {label:'Leaving the master bus limiter or maximizer active',sub:'The stems will be pre-compressed and I cannot undo that'},
+    {label:'Normalizing files before export',sub:'Normalization changes relative levels — I need the original proportions'},
+    {label:'Sending MP3 when WAV or AIFF is available',sub:'MP3 permanently removes audio information — always use lossless'},
+    {label:'Files that do not all start from the same point (bar 1, beat 1)',sub:'If stems start at different positions, nothing aligns in the session'},
+    {label:'Sending files and then saying "I changed the bridge"',sub:'Files sent must be final and approved — no changes after sending'},
+    {label:'Sending one big stereo file with everything together',sub:'That is a mix, not stems — I need individual files for each element'},
+  ],
+  pdf_title:'File Submission Guide',pdf_sub_formal:'Please read this document carefully before sending anything.',pdf_sub_informal:'Hey! Before sending your files, please read this — it will make everything smoother.',
+  pdf_from:'Prepared by',pdf_contact:'Email',pdf_web:'Website',pdf_phone:'Phone',
+  pdf_glossary:'GLOSSARY',pdf_sec_format:'FILE FORMAT REQUIREMENTS',pdf_sec_philos:'IMPORTANT — EFFECTS AND EXPORT GUIDELINES',pdf_sec_stems:'WHAT TO EXPORT',pdf_sec_naming:'FILE NAMING',pdf_sec_example:'Example',pdf_sec_delivery:'HOW TO SEND YOUR FILES',pdf_sec_session:'INFORMATION TO INCLUDE',pdf_sec_daw:'EXPORT GUIDE',pdf_sec_stupid:'IMPORTANT — COMMON MISTAKES TO AVOID',pdf_sec_checklist:'PRE-SEND CHECKLIST',pdf_sec_notes:'ADDITIONAL NOTES',pdf_sec_yt:'VIDEO TUTORIAL',pdf_sec_tc:'TERMS AND CONDITIONS',
+  pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',
+  pdf_master_warn:'BEFORE EXPORTING: Turn off the master bus chain (limiter, maximizer, compressor)',
+  pdf_wetdry_note:'WET = exported with effects active | DRY = raw sound without effects',
+  pdf_stem_sub_generic:'Export as indicated in the guidelines above. If in doubt, ask before sending.',pdf_deliv_email_label:'Send link to',
+  pdf_checklist_intro:'Tick every box before sending:',pdf_footer:'Generated with BounceGuide — bounceguide.app',pdf_daw_yt:'Watch tutorial on YouTube',pdf_service_mix:'Service: Mixing',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type beat — vocal stems only',
+  checklistBase:['All files start from the same point (bar 1, beat 1)','Master bus chain is OFF or bypassed','No file is clipping (no red meters)','Files are correctly named','A stereo premix is included','Session info included (BPM, key, DAW)','All files are final — no changes after sending'],
+},
+it:{
+  heroTag:'Smettila di ricevere file sbagliati',heroTitle:'La guida <span>a prova di stupido</span> che i tuoi clienti seguiranno davvero',heroDesc:'Imposti i requisiti una volta sola. BounceGuide genera un PDF professionale nella tua lingua — niente piu\' avanti e indietro, niente piu\' errori.',hf1:'6 lingue',hf2:'Guide step-by-step per DAW',hf3:'Salvataggio automatico',hf4:'PDF su richiesta',progressLabel:'Completamento guida',toneLabel:'Tono del PDF',toneFormal:'Formale',toneInformal:'Amichevole',generateBtn:'Genera PDF',copyBtn:'Copia per WhatsApp / Email',resetBtn:'Ricomincia da capo',
+  s1title:'I tuoi dati e il brand',s1desc:'Appaiono in cima al PDF che riceve il cliente.',s1name:'Nome / Studio',s1namePh:'Marco Rossi Mixing',s1email:'Email',s1emailPh:'marco@mixing.com',s1web:'Sito web (opzionale)',s1webPh:'https://mixing.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+39 340 000 0000',s1logo:'Il tuo logo (PNG, JPG)',s1logoHint:'Clicca per caricare — appare nell\'intestazione del PDF',s1color:'Colore accent del PDF',s1colorHint:'Usato per le intestazioni delle sezioni',s1msg:'Messaggio di apertura',s1msgPh:'Grazie per affidarmi la tua musica. Leggi attentamente prima di inviare.',s1contactNote:'Nota contatti a fine documento',s1contactNotePh:'Non sei sicuro? Scrivimi prima di inviare.',
+  s2title:'Tipo di servizio',s2desc:'Determina quali requisiti configurare.',s2mix:'Mixing',s2mixDesc:'Il cliente ti invia gli stem per il mix.',s2master:'Mastering',s2masterDesc:'Il cliente ti invia un mix stereo finito.',s2trackTypeLabel:'Cosa ti sta inviando il cliente?',s2stems:'Stem completi della strumentale',s2stemsSub:'File separati per ogni strumento.',s2typebeat:'Type beat / file strumentale unico',s2typebeatSub:'Un file unico per la base — il cliente esporta solo le voci.',
+  s3title:'Glossario',s3desc:'Glossario opzionale di termini in parole semplici, incluso nel PDF per clienti non tecnici.',s3toggleTitle:'Includi il glossario nel PDF',s3toggleSub:'Raccomandato per clienti non tecnici',s3infoTitle:'Come funziona',s3infoText:'Seleziona i termini da spiegare. Appariranno all\'inizio del PDF.',s3addOther:'+ Aggiungi termine personalizzato',
+  s4title:'Requisiti formato file',s4desc:'Le specifiche tecniche esatte che il cliente deve usare.',s4whyTitle:'Perche\' e\' importante',s4whyText:'WAV e AIFF sono lossless — qualita\' totale preservata. MP3 rimuove dati audio permanentemente. Formato sbagliato = mix compromesso.',s4format:'Formato file',s4sr:'Sample rate',s4bd:'Bit depth',s4wavSub:'Raccomandato — lossless universale',s4aiffSub:'Stessa qualita\' del WAV',s4mp3Sub:'Solo se il WAV non e\' disponibile',s4other:'Altro formato',s4otherSub:'Specifica sotto',s4otherPh:'es. FLAC, OGG...',s4bd24Sub:'Raccomandato — miglior equilibrio qualita\'/dimensione',s4bd16Sub:'Non raccomandato — range dinamico limitato',
+  s5title:'Stem ed export',s5desc:'Dimmi esattamente cosa esportare e come. La maggior parte degli errori avviene qui.',s5philLabel:'La tua filosofia WET/DRY (appare nel PDF)',s5philHint:'Scrivi la tua politica in parole semplici. Gli effetti di sound design (distorsione, riverbero artistico, sidechain creativo) restano WET. Gli effetti di mixing (riverbero/delay generici, compressione leggera) vanno rimossi. In caso di dubbio, invia entrambe le versioni.',s5philPh:'Lascia attivi tutti gli effetti che definiscono il carattere del suono — distorsione, riverbero artistico, autotune sulle voci. Rimuovi tutto cio\' che e\' stato aggiunto solo per mixare: riverbero/delay generici, limiter o compressore sul master bus. Se non sei sicuro, esporta due versioni: NomeTraccia_WET e NomeTraccia_DRY.',s5philToggleTitle:'Includi le linee guida WET/DRY nel PDF',s5philToggleSub:'Se abilitato, gli stem WET selezionati mostreranno le tue indicazioni invece delle descrizioni generiche',s5wetUiGeneric:'Segue le istruzioni che hai scritto sopra',s5typebeatTitle:'Formato type beat',s5typebeatNote:'Trattandosi di un type beat, il cliente deve esportare solo le voci sopra la tua strumentale.',s5drumsLabel:'Drums',s5drumsInfo:'I drums vengono di solito esportati WET — sidechain e processing dei sample fanno parte del suono. Puoi richiedere anche DRY per piu\' controllo.',s5instrLabel:'Strumenti / Synth / Basso',s5instrInfo:'Distinzione chiave: effetti di sound design (definiscono il carattere) restano WET. Effetti di mixing vanno rimossi.',s5vocalLabel:'Voci',s5vocalInfo:'Le voci richiedono un approccio specifico. DRY = completamente grezzo, nessuna correzione. DRY + Intonazione = pulito con Melodyne/Autotune. WET solo per parti di sound design artistico che non puoi ricreare.',s5premixLabel:'Premix (riferimento)',s5premixInfo:'Bounce stereo del progetto completo esattamente come lo ascolta il cliente — tutti gli effetti attivi. Solo un riferimento, non viene usato per il mix.',s5otherLabel:'Requisiti aggiuntivi',s5addOther:'+ Aggiungi requisito',
+  s6title:'Nomenclatura file',s6desc:'Nomi chiari rendono ogni stem immediatamente identificabile.',s6whyTitle:'Perche\' i nomi sono importanti',s6whyText:'Una sessione con 40 file chiamati "Audio 01" e\' un incubo. Nomi come "NomeBrano_VoceMain_DRY.wav" comunicano tutto in un colpo d\'occhio.',s6exLabel:'Esempio nome file',s6addOther:'+ Aggiungi regola di nomenclatura',
+  s7title:'Come inviare i file',s7desc:'Dove e come il cliente invia i file e quali informazioni deve includere.',s7delivLabel:'Piattaforme accettate',s7customLink:'Il tuo link personale di upload (opzionale)',s7customLinkPh:'https://il-tuo-link.com',s7delivEmail:'Email per le notifiche di ricezione file',s7delivEmailPh:'cliente@email.com — riceverai qui il link di download',s7otherPh:'Nome altra piattaforma',s7sessionLabel:'Informazioni sessione da includere',s7otherSessionPh:'Altra informazione richiesta',
+  s8title:'Guide export per DAW',s8desc:'Seleziona le DAW usate dai tuoi clienti, controlla le istruzioni e confermale prima di continuare.',s8otherDaw:'DAW non in lista?',s8addOtherDaw:'+ Aggiungi DAW / software',s8ytLabel:'Link tutorial YouTube',s8confirmQ:'Le istruzioni sono corrette?',s8yesBtn:'Si, corrette',s8noBtn:'No, voglio modificarle',s8editLabel:'Modifica le istruzioni (un passaggio per riga):',s8confirmEditsBtn:'Conferma modifiche',s8confirmedLabel:'Confermato',s8confirmNote:'Conferma le istruzioni di ogni DAW selezionata prima di continuare.',
+  s9title:'Stupidity Check e note finali',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Gli errori classici dei clienti. Nel PDF appaiono come sezione di avviso seria: "Importante — Errori da Evitare".',s9addStupid:'+ Aggiungi errore personalizzato',s9checkLabel:'Checklist pre-invio',s9checkSub:'Generata automaticamente. Il cliente la spunta prima di inviare.',s9notesLabel:'Note aggiuntive',s9notesPh:'Qualsiasi altra istruzione specifica...',s9ytLabel:'Link tutorial generale (opzionale)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Includi Termini e Condizioni',s9tcSub:'Politica su pagamento, consegna e revisioni',s9tcPh:'Scrivi qui i tuoi termini...',
+  btnNext:'Continua',btnBack:'Indietro',btnFinish:'Fatto — sblocca il pulsante PDF',footerMade:'Strumento gratuito per mix engineer',footerNote:'Il PDF viene generato nel tuo browser. Nulla viene caricato online.',
+
+  glossaryTerms:[
+    {term:'Stem',def:'Un file audio individuale contenente un singolo elemento del brano (cassa, basso, voce principale, ecc.). Esportare gli stem significa creare un file separato per ogni traccia.'},
+    {term:'WAV / AIFF',def:'Formati audio lossless — qualita\' totale preservata. Usa sempre questi invece dell\'MP3 per il lavoro professionale.'},
+    {term:'MP3',def:'Formato compresso. Rimuove dati audio permanentemente. Non adatto per mixing o mastering.'},
+    {term:'Sample Rate (kHz)',def:'Campioni audio per secondo. 44.1 kHz e\' lo standard musicale. Usa quello che ti chiede il mixer.'},
+    {term:'Bit Depth',def:'Dettaglio per campione audio. Il 24-bit e\' lo standard professionale — molto piu\' headroom del 16-bit.'},
+    {term:'Stem WET',def:'Uno stem esportato con tutti gli effetti creativi ancora attivi: riverbero, delay, distorsione, sidechain, autotune, ecc.'},
+    {term:'Stem DRY',def:'Uno stem esportato senza effetti — solo il suono grezzo.'},
+    {term:'Master bus',def:'Uscita finale della sessione — puo\' avere un limiter, maximizer o compressore. Va bypassata prima di esportare gli stem.'},
+    {term:'Premix',def:'Bounce stereo del progetto completo esattamente come lo ascolti tu. Usato come riferimento, non per il mixing.'},
+    {term:'Clipping',def:'Quando un segnale supera il livello massimo e si distorce. Controlla che nessun metro sia in rosso prima di esportare.'},
+    {term:'Normalizzazione',def:'Funzione che alza automaticamente il volume di un file a un livello fisso. Va disabilitata quando si esportano gli stem.'},
+    {term:'Sidechain',def:'Tecnica in cui un suono controlla il volume di un altro, creando un effetto pompa.'},
+  ],
+  drumsOptions:[
+    {label:'Esporta tutti i drums WET — con tutti gli effetti attivi',sub:'Sidechain, compressione, saturazione, riverbero — tutto quello che li fa suonare come nel demo',isWet:true},
+    {label:'Esporta tutti i drums DRY — completamente grezzi, senza effetti',sub:'Nessuna compressione, nessun sidechain, nessuna saturazione — suoni puri dal sampler o plugin'},
+    {label:'Esporta ogni elemento dei drums come file separato',sub:'Cassa, rullante, hi-hat, clap, percussioni — un file ciascuno'},
+    {label:'Raggruppare i drums in un unico file e\' accettabile se l\'export individuale non e\' possibile',sub:'Comunicamelo se e\' questo il caso'},
+  ],
+  instrOptions:[
+    {label:'Esporta synth e strumenti WET — con tutti gli effetti di sound design',sub:'Gli effetti che definiscono il suono: distorsione, riverbero creativo, chorus, phaser, ecc.',isWet:true},
+    {label:'Esporta synth DRY — senza effetti, solo il suono grezzo',sub:'Nessun riverbero, nessun delay, nessuna saturazione — output puro dello strumento'},
+    {label:'Esporta l\'808/sub basso come file separato',sub:'Il low end ha bisogno di trattamento individuale — non raggrupparlo con altri strumenti'},
+  ],
+  vocalOptions:[
+    {label:'DRY — completamente grezzo, nessun effetto, nessuna correzione intonazione',sub:'La voce esattamente come registrata, con nulla applicato'},
+    {label:'DRY + Correzione intonazione — voce pulita con Melodyne o Autotune applicato',sub:'Nessun riverbero, delay o distorsione — solo la voce con il tuning. La richiesta piu\' comune.'},
+    {label:'WET — SOLO per parti usate come sound design artistico',sub:'Invia WET esclusivamente per le parti in cui l\'effetto E\' il suono (voce fortemente distorta, vocoder, effetto radio). NON inviare tutta la voce WET.',isWet:true},
+    {label:'Esporta ogni parte vocale come file separato',sub:'Voce principale, armonie, adlib, doppie — un file per ognuna'},
+    {label:'Esporta solo la versione finale compilata — elimina i take non usati prima di inviare',sub:'Ho bisogno solo della performance finale'},
+  ],
+  premixOptions:[
+    {label:'Includi un premix stereo del progetto completo',sub:'Fai il bounce del brano completo esattamente come lo ascolti tu, tutti gli effetti e la catena master attivi — questa e\' la reference che uso'},
+    {label:'Includi un premix instrumental (senza voci)',sub:'Come sopra ma senza nessuna traccia vocale'},
+  ],
+  namingOptions:[
+    {label:'Usa solo lettere, numeri, underscore ( _ ) e trattini ( - )',sub:'Nessuno spazio o carattere speciale'},
+    {label:'Includi il nome del brano/progetto in ogni file',sub:'Esempio: NomeBrano_Kick.wav'},
+    {label:'Aggiungi il suffisso _WET o _DRY dove applicabile',sub:'Esempio: VoceMain_DRY.wav'},
+    {label:'Numera i file se l\'ordine e\' importante',sub:'Esempio: 01_Kick.wav, 02_Rullante.wav'},
+    {label:'Aggiungi _ALT per versioni alternative',sub:'Esempio: VoceMain_ALT.wav'},
+  ],
+  deliveryOptions:[
+    {label:'WeTransfer',sub:'wetransfer.com — gratuito fino a 2GB'},{label:'Dropbox',sub:'Condividi il link di una cartella'},{label:'Google Drive',sub:'Condividi il link di una cartella'},{label:'Smash',sub:'fromsmash.com — gratuito, file grandi'},{label:'Swisstransfer',sub:'swisstransfer.com — gratuito fino a 50GB'},{label:'Altro (specifica)',sub:'',isOther:true},
+  ],
+  sessionOptions:[
+    {label:'BPM (tempo del brano)',sub:'Essenziale per qualsiasi effetto basato sul tempo'},{label:'Tonalita\' del brano',sub:'Esempio: Do minore, Fa maggiore'},{label:'DAW usata e versione',sub:'Esempio: Ableton Live 11'},{label:'Ritmo (tempo musicale)',sub:'Esempio: 4/4, 3/4'},{label:'Brani di riferimento',sub:'Canzoni che rappresentano il suono che vuoi'},{label:'Altro (specifica)',sub:'',isOther:true},
+  ],
+  stupidItems:[
+    {label:'Esportare con la funzione "Export All Tracks" o equivalente',sub:'Spesso include tracce bus o MIDI — esporta sempre ogni stem singolarmente'},
+    {label:'Lasciare il limiter o maximizer del master bus attivo',sub:'Gli stem saranno pre-compressi e non posso rimediare'},
+    {label:'Normalizzare i file prima dell\'export',sub:'La normalizzazione cambia i livelli relativi — ho bisogno delle proporzioni originali'},
+    {label:'Inviare MP3 quando e\' disponibile WAV o AIFF',sub:'MP3 rimuove informazioni audio permanentemente — usa sempre il lossless'},
+    {label:'File che non partono tutti dallo stesso punto (battuta 1, tempo 1)',sub:'Se gli stem partono da posizioni diverse, nulla si allinea nella sessione'},
+    {label:'Inviare i file e poi dire "ho cambiato il bridge"',sub:'I file inviati devono essere definitivi e approvati — nessuna modifica dopo l\'invio'},
+    {label:'Inviare un unico file stereo con tutto insieme',sub:'Quello e\' un mix, non degli stem — ho bisogno di file individuali'},
+  ],
+  pdf_title:'Guida all\'invio dei file',pdf_sub_formal:'Leggi attentamente questo documento prima di inviarmi qualsiasi file.',pdf_sub_informal:'Ciao! Prima di inviare i file, leggi questo — rendera\' tutto piu\' semplice per entrambi.',
+  pdf_from:'Preparato da',pdf_contact:'Email',pdf_web:'Sito web',pdf_phone:'Telefono',
+  pdf_glossary:'GLOSSARIO',pdf_sec_format:'REQUISITI FORMATO FILE',pdf_sec_philos:'IMPORTANTE — LINEE GUIDA SU EFFETTI ED EXPORT',pdf_sec_stems:'COSA ESPORTARE',pdf_sec_naming:'NOMENCLATURA FILE',pdf_sec_example:'Esempio',pdf_sec_delivery:'COME INVIARE I FILE',pdf_sec_session:'INFORMAZIONI DA INCLUDERE',pdf_sec_daw:'GUIDA ALL\'EXPORT',pdf_sec_stupid:'IMPORTANTE — ERRORI DA EVITARE',pdf_sec_checklist:'CHECKLIST PRE-INVIO',pdf_sec_notes:'NOTE AGGIUNTIVE',pdf_sec_yt:'TUTORIAL VIDEO',pdf_sec_tc:'TERMINI E CONDIZIONI',
+  pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',
+  pdf_master_warn:'PRIMA DI ESPORTARE: Spegni la catena master (limiter, maximizer, compressore)',
+  pdf_wetdry_note:'WET = esportato con effetti attivi | DRY = suono grezzo senza effetti',
+  pdf_stem_sub_generic:'Esporta come indicato nelle linee guida sopra. In caso di dubbio, chiedi prima di inviare.',pdf_deliv_email_label:'Invia il link a',
+  pdf_checklist_intro:'Spunta ogni punto prima di inviare:',pdf_footer:'Generato con BounceGuide — bounceguide.app',pdf_daw_yt:'Guarda il tutorial su YouTube',pdf_service_mix:'Servizio: Mixing',pdf_service_master:'Servizio: Mastering',pdf_typebeat:'Formato: Type beat — solo stem vocali necessari',
+  checklistBase:['Tutti i file partono dallo stesso punto (battuta 1, tempo 1)','Catena master SPENTA o bypassata','Nessun file va in clip (nessun metro in rosso)','File nominati correttamente','Premix stereo incluso','Info sessione incluse (BPM, tonalita\', DAW)','Tutti i file sono definitivi — nessuna modifica dopo l\'invio'],
+},
+};
+
+// ── SPANISH ──────────────────────────────────────────────────
+T.es={
+  heroTag:'Deja de recibir archivos incorrectos de tus clientes',heroTitle:'La guia <span>a prueba de errores</span> que tus clientes seguiran de verdad',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',generateBtn:'Generar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',
+  s1title:'Tus datos y marca',s1desc:'Aparece en la parte superior del PDF que recibe el cliente.',s1name:'Nombre / Estudio',s1namePh:'Carlos Lopez Mezcla',s1email:'Email',s1emailPh:'carlos@mezcla.com',s1web:'Sitio web (opcional)',s1webPh:'https://mezcla.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+34 600 000 000',s1logo:'Tu logo (PNG, JPG)',s1logoHint:'Haz clic para cargar — aparece en el encabezado del PDF',s1color:'Color de acento del PDF',s1colorHint:'Usado en los encabezados de seccion',s1msg:'Mensaje de apertura',s1msgPh:'Gracias por confiarme tu musica. Lee esto con atencion antes de enviar nada.',s1contactNote:'Nota de contacto al final del documento',s1contactNotePh:'Dudas? Escribeme antes de enviar.',
+  s2title:'Tipo de servicio',s2desc:'Determina los requisitos a configurar.',s2mix:'Mezcla',s2mixDesc:'El cliente te envia stems para mezclar.',s2master:'Mastering',s2masterDesc:'El cliente te envia un mix estereo terminado.',s2trackTypeLabel:'Que envia el cliente?',s2stems:'Stems instrumentales completos',s2stemsSub:'Archivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Un solo archivo para la base — el cliente solo exporta las voces.',
+  s3title:'Glosario',s3desc:'Glosario opcional de terminos en lenguaje sencillo, incluido en el PDF para clientes no tecnicos.',s3toggleTitle:'Incluir glosario en el PDF',s3toggleSub:'Recomendado para clientes sin conocimientos tecnicos',s3infoTitle:'Como funciona',s3infoText:'Selecciona los terminos que quieres explicar. Apareceran al inicio del PDF.',s3addOther:'+ Anadir termino personalizado',
+  s4title:'Requisitos de formato de archivo',s4desc:'Las especificaciones tecnicas exactas que debe usar el cliente.',s4whyTitle:'Por que importa',s4whyText:'WAV y AIFF son sin perdida — calidad total preservada. MP3 elimina datos de audio permanentemente. Formato incorrecto = mix comprometido.',s4format:'Formato de archivo',s4sr:'Sample rate',s4bd:'Bit depth',s4wavSub:'Recomendado — lossless universal',s4aiffSub:'Misma calidad que WAV',s4mp3Sub:'Solo si WAV no esta disponible',s4other:'Otro formato',s4otherSub:'Especificar abajo',s4otherPh:'ej. FLAC, OGG...',s4bd24Sub:'Recomendado — mejor equilibrio calidad/tamano',s4bd16Sub:'No recomendado — rango dinamico limitado',
+  s5title:'Stems y exportacion',s5desc:'Dile al cliente exactamente que exportar y como. La mayoria de errores ocurren aqui.',s5philLabel:'Tu filosofia WET/DRY (aparece en el PDF)',s5philHint:'Escribe tu politica en lenguaje sencillo. Los efectos de sound design quedan WET. Los efectos de mezcla se eliminan. En caso de duda, enviar ambas versiones.',s5philPh:'Mantener todos los efectos que definen el caracter del sonido. Eliminar todo lo anadido solo para mezclar: reverb/delay generico, limitador en el master bus. Si no estas seguro, exportar: NomePista_WET y NomePista_DRY.',s5philToggleTitle:'Incluir directrices WET/DRY en el PDF',s5philToggleSub:'Si se activa, los stems WET seleccionados mostraran tus directrices en lugar de descripciones genericas',s5wetUiGeneric:'Sigue las directrices que escribiste arriba',s5typebeatTitle:'Formato type beat',s5typebeatNote:'Al ser un type beat, el cliente solo necesita exportar sus voces sobre tu instrumental.',s5drumsLabel:'Drums',s5drumsInfo:'Los drums se exportan normalmente WET — el sidechain y el procesado son parte del sonido. Tambien puedes pedir DRY para mas control.',s5instrLabel:'Instrumentos / Synths / Bajo',s5instrInfo:'Los efectos de sound design (definen el caracter) quedan WET. Los efectos de mezcla se eliminan.',s5vocalLabel:'Voces',s5vocalInfo:'DRY = completamente crudo, sin correccion de tono. DRY + Pitch = limpio con Melodyne/Autotune. WET solo para partes de sound design artistico que no puedes recrear.',s5premixLabel:'Premix (referencia)',s5premixInfo:'Bounce estereo del proyecto completo exactamente como lo escucha el cliente — todos los efectos activos. Solo una referencia.',s5otherLabel:'Requisitos adicionales',s5addOther:'+ Anadir requisito',
+  s6title:'Nomenclatura de archivos',s6desc:'Nombres claros hacen que cada stem sea identificable al instante.',s6whyTitle:'Por que importan los nombres',s6whyText:'Una sesion con 40 archivos llamados "Audio 01" es una pesadilla. Nombres como "NombreCancion_VozPrincipal_DRY.wav" lo comunican todo.',s6exLabel:'Ejemplo de nombre de archivo',s6addOther:'+ Anadir regla de nomenclatura',
+  s7title:'Como enviar los archivos',s7desc:'Donde y como envia el cliente los archivos y que informacion debe incluir.',s7delivLabel:'Plataformas aceptadas',s7customLink:'Tu enlace personal de carga (opcional)',s7customLinkPh:'https://tu-enlace.com',s7delivEmail:'Email para notificaciones de archivos',s7delivEmailPh:'cliente@email.com — recibiras el enlace de descarga aqui',s7otherPh:'Nombre de otra plataforma',s7sessionLabel:'Informacion de sesion a incluir',s7otherSessionPh:'Otra informacion requerida',
+  s8title:'Guias de exportacion DAW',s8desc:'Selecciona las DAW que usan tus clientes, revisa las instrucciones y confirmalas antes de continuar.',s8otherDaw:'DAW no en la lista?',s8addOtherDaw:'+ Anadir DAW / software',s8ytLabel:'Enlace tutorial YouTube',s8confirmQ:'Son correctas las instrucciones?',s8yesBtn:'Si, correctas',s8noBtn:'No, quiero editarlas',s8editLabel:'Editar instrucciones (un paso por linea):',s8confirmEditsBtn:'Confirmar cambios',s8confirmedLabel:'Confirmado',s8confirmNote:'Confirma las instrucciones de cada DAW seleccionada antes de continuar.',
+  s9title:'Stupidity Check y notas',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Errores clasicos de los clientes. En el PDF aparecen como seccion de advertencia seria.',s9addStupid:'+ Anadir error personalizado',s9checkLabel:'Checklist pre-envio',s9checkSub:'Generada automaticamente. El cliente la marca antes de enviar.',s9notesLabel:'Notas adicionales',s9notesPh:'Cualquier otra instruccion especifica...',s9ytLabel:'Enlace tutorial general (opcional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Incluir Terminos y Condiciones',s9tcSub:'Politica de pago, entrega y revisiones',s9tcPh:'Escribe tus terminos aqui...',
+  btnNext:'Continuar',btnBack:'Atras',btnFinish:'Hecho — desbloquear boton PDF',footerMade:'Herramienta gratuita para ingenieros de mezcla',footerNote:'PDF generado en tu navegador. No se sube nada.',
+  glossaryTerms:[{term:'Stem',def:'Archivo de audio individual con un elemento de la cancion. Exportar stems = un archivo separado por pista.'},{term:'WAV / AIFF',def:'Formatos sin perdida — calidad total preservada. Siempre preferibles al MP3.'},{term:'MP3',def:'Formato comprimido. Elimina datos de audio permanentemente. No apto para mezcla.'},{term:'Sample Rate (kHz)',def:'Muestras de audio por segundo. 44.1 kHz es el estandar musical.'},{term:'Bit Depth',def:'Detalle por muestra. 24-bit es el estandar profesional.'},{term:'Stem WET',def:'Stem exportado con todos los efectos creativos activos: reverb, delay, distorsion, sidechain, autotune, etc.'},{term:'Stem DRY',def:'Stem exportado sin efectos — solo el sonido crudo.'},{term:'Master bus',def:'Salida final de la sesion. Debe desactivarse antes de exportar stems.'},{term:'Premix',def:'Bounce estereo del proyecto completo como lo escuchas. Solo referencia.'},{term:'Clipping',def:'Cuando una senal supera el nivel maximo y se distorsiona. Ningún medidor debe estar en rojo.'},{term:'Normalizar',def:'Funcion que sube el volumen automaticamente. Debe desactivarse al exportar stems.'},{term:'Sidechain',def:'Tecnica donde un sonido controla el volumen de otro, creando efecto de bombeo.'},],
+  drumsOptions:[{label:'Exportar todos los drums WET — con todos los efectos activos',sub:'Sidechain, compresion, saturacion, reverb',isWet:true},{label:'Exportar todos los drums DRY — completamente crudos, sin efectos',sub:'Sin compresion, sin sidechain — sonidos puros del sampler o plugin'},{label:'Exportar cada elemento de bateria como archivo separado',sub:'Bombo, caja, hi-hats, claps — un archivo cada uno'},{label:'Agrupar drums en un archivo es aceptable si el export individual no es posible',sub:'Avisame si es el caso'},],
+  instrOptions:[{label:'Exportar synths e instrumentos WET — con todos los efectos de sound design',sub:'Efectos que definen el sonido: distorsion, reverb creativo, chorus, etc.',isWet:true},{label:'Exportar synths DRY — sin efectos, solo el sonido crudo',sub:'Sin reverb, sin delay, sin saturacion'},{label:'Exportar 808/sub bass como archivo separado',sub:'El bajo necesita tratamiento individual'},],
+  vocalOptions:[{label:'DRY — completamente crudo, sin efectos, sin correccion de tono',sub:'La voz exactamente como fue grabada'},{label:'DRY + Correccion de tono — voz limpia con Melodyne o Autotune aplicado',sub:'Sin reverb, delay ni distorsion. La solicitud mas comun.'},{label:'WET — SOLO para partes de sound design artistico',sub:'Solo para partes donde el efecto ES el sonido. NO enviar la voz completa WET.',isWet:true},{label:'Exportar cada parte vocal como archivo separado',sub:'Voz principal, armonias, adlibs, dobles — un archivo por cada una'},{label:'Exportar solo la version final compilada — eliminar takes no usados antes de enviar',sub:'Solo necesito la interpretacion final'},],
+  premixOptions:[{label:'Incluir un premix estereo del proyecto completo',sub:'Bounce de la cancion completa exactamente como la escuchas, todos los efectos activos'},{label:'Incluir un premix instrumental (sin voces)',sub:'Igual que el anterior pero sin ninguna pista vocal'},],
+  namingOptions:[{label:'Usar solo letras, numeros, guiones bajos ( _ ) y guiones ( - )',sub:'Sin espacios ni caracteres especiales'},{label:'Incluir el nombre de la cancion/proyecto en cada archivo',sub:'Ejemplo: NombreCancion_Bombo.wav'},{label:'Anadir sufijo _WET o _DRY donde corresponda',sub:'Ejemplo: VozPrincipal_DRY.wav'},{label:'Numerar los archivos si el orden importa',sub:'Ejemplo: 01_Bombo.wav, 02_Caja.wav'},{label:'Anadir _ALT para versiones alternativas',sub:'Ejemplo: VozPrincipal_ALT.wav'},],
+  deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — gratis hasta 2GB'},{label:'Dropbox',sub:'Compartir enlace de carpeta'},{label:'Google Drive',sub:'Compartir enlace de carpeta'},{label:'Smash',sub:'fromsmash.com — gratis, archivos grandes'},{label:'Swisstransfer',sub:'swisstransfer.com — gratis hasta 50GB'},{label:'Otro (especificar)',sub:'',isOther:true},],
+  sessionOptions:[{label:'BPM (tempo del proyecto)',sub:'Esencial para cualquier efecto basado en tiempo'},{label:'Tonalidad de la cancion',sub:'Ejemplo: Do menor, Fa mayor'},{label:'DAW utilizada y version',sub:'Ejemplo: Ableton Live 11'},{label:'Compas',sub:'Ejemplo: 4/4, 3/4'},{label:'Canciones de referencia',sub:'Canciones que representan el sonido que buscas'},{label:'Otro (especificar)',sub:'',isOther:true},],
+  stupidItems:[{label:'Exportar con "Export All Tracks" o equivalente',sub:'A menudo incluye pistas de bus o MIDI — exportar siempre cada stem individualmente'},{label:'Dejar el limitador o maximizador del master bus activo',sub:'Los stems quedaran pre-comprimidos y no podre remediarlo'},{label:'Normalizar los archivos antes de exportar',sub:'La normalizacion cambia los niveles relativos'},{label:'Enviar MP3 cuando WAV o AIFF esta disponible',sub:'MP3 elimina informacion de audio permanentemente'},{label:'Archivos que no empiezan todos desde el mismo punto (compas 1, tiempo 1)',sub:'Si los stems empiezan en posiciones diferentes, nada se alinea'},{label:'Enviar los archivos y luego decir "cambie el estribillo"',sub:'Los archivos enviados deben ser definitivos — sin cambios despues del envio'},{label:'Enviar un solo archivo estereo con todo mezclado',sub:'Eso es una mezcla, no stems'},],
+  checklistBase:['Todos los archivos empiezan desde el mismo punto (compas 1, tiempo 1)','Master bus chain DESACTIVADA o en bypass','Ningun archivo clippea','Archivos correctamente nombrados','Premix estereo incluido','Info de sesion incluida (BPM, tonalidad, DAW)','Todos los archivos son definitivos — sin cambios despues del envio'],
+  pdf_title:'Guia de envio de archivos',pdf_sub_formal:'Lee este documento con atencion antes de enviarme cualquier archivo.',pdf_sub_informal:'Hola! Antes de enviar los archivos, lee esto.',pdf_from:'Preparado por',pdf_contact:'Email',pdf_web:'Sitio web',pdf_phone:'Telefono',pdf_glossary:'GLOSARIO',pdf_sec_format:'REQUISITOS DE FORMATO',pdf_sec_philos:'IMPORTANTE — DIRECTRICES SOBRE EFECTOS Y EXPORTACION',pdf_sec_stems:'QUE EXPORTAR',pdf_sec_naming:'NOMENCLATURA DE ARCHIVOS',pdf_sec_example:'Ejemplo',pdf_sec_delivery:'COMO ENVIAR LOS ARCHIVOS',pdf_sec_session:'INFORMACION A INCLUIR',pdf_sec_daw:'GUIA DE EXPORTACION',pdf_sec_stupid:'IMPORTANTE — ERRORES COMUNES A EVITAR',pdf_sec_checklist:'CHECKLIST PRE-ENVIO',pdf_sec_notes:'NOTAS ADICIONALES',pdf_sec_yt:'TUTORIAL EN VIDEO',pdf_sec_tc:'TERMINOS Y CONDICIONES',pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'ANTES DE EXPORTAR: Apaga la cadena del master bus (limitador, maximizador, compresor)',pdf_wetdry_note:'WET = exportado con efectos activos | DRY = sonido crudo sin efectos',pdf_stem_sub_generic:'Exportar como se indica en las directrices anteriores. En caso de duda, preguntar antes de enviar.',pdf_deliv_email_label:'Enviar enlace a',pdf_checklist_intro:'Marca cada punto antes de enviar:',pdf_footer:'Generado con BounceGuide — bounceguide.app',pdf_daw_yt:'Ver tutorial en YouTube',pdf_service_mix:'Servicio: Mezcla',pdf_service_master:'Servicio: Mastering',pdf_typebeat:'Formato: Type beat — solo stems vocales necesarios',
+};
+
+// ── FRENCH ───────────────────────────────────────────────────
+T.fr={
+  heroTag:'Arrete de recevoir des fichiers incorrects de tes clients',heroTitle:'Le guide <span>infaillible</span> que tes clients suivront vraiment',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',generateBtn:'Generer le PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',
+  s1title:'Tes coordonnees et marque',s1desc:'Apparait en haut du PDF que recoivent tes clients.',s1name:'Nom / Studio',s1namePh:'Jean Dupont Mixage',s1email:'Email',s1emailPh:'jean@mixage.com',s1web:'Site web (optionnel)',s1webPh:'https://mixage.com',s1phone:'Telephone / WhatsApp',s1phonePh:'+33 6 00 00 00 00',s1logo:'Ton logo (PNG, JPG)',s1logoHint:'Cliquer pour charger — apparait dans le PDF',s1color:'Couleur accent du PDF',s1colorHint:'Utilisee pour les en-tetes de section',s1msg:'Message d\'ouverture',s1msgPh:'Merci de me confier ta musique. Lis ceci attentivement avant d\'envoyer quoi que ce soit.',s1contactNote:'Note de contact en fin de document',s1contactNotePh:'Un doute? Ecris-moi avant d\'envoyer.',
+  s2title:'Type de service',s2desc:'Determine les exigences a configurer.',s2mix:'Mixage',s2mixDesc:'Le client t\'envoie des stems pour mixer.',s2master:'Mastering',s2masterDesc:'Le client t\'envoie un mix stereo termine.',s2trackTypeLabel:'Que le client envoie-t-il?',s2stems:'Stems instrumentaux complets',s2stemsSub:'Fichiers separes par instrument.',s2typebeat:'Type beat / instrumental unique',s2typebeatSub:'Un seul fichier pour la base — le client exporte seulement les voix.',
+  s3title:'Glossaire',s3desc:'Glossaire optionnel de termes en langage simple, inclus dans le PDF pour les clients non techniques.',s3toggleTitle:'Inclure le glossaire dans le PDF',s3toggleSub:'Recommande pour les clients non techniques',s3infoTitle:'Comment ca fonctionne',s3infoText:'Selectionne les termes a expliquer. Ils apparaissent au debut du PDF.',s3addOther:'+ Ajouter un terme personnalise',
+  s4title:'Exigences de format de fichier',s4desc:'Les specifications techniques exactes que le client doit utiliser.',s4whyTitle:'Pourquoi c\'est important',s4whyText:'WAV et AIFF sont sans perte — qualite totale preservee. MP3 supprime des donnees audio definitivement. Mauvais format = mix compromis.',s4format:'Format de fichier',s4sr:'Sample rate',s4bd:'Bit depth',s4wavSub:'Recommande — lossless universel',s4aiffSub:'Meme qualite que WAV',s4mp3Sub:'Seulement si WAV n\'est pas disponible',s4other:'Autre format',s4otherSub:'Preciser ci-dessous',s4otherPh:'ex. FLAC, OGG...',s4bd24Sub:'Recommande — meilleur equilibre qualite/taille',s4bd16Sub:'Non recommande — plage dynamique limitee',
+  s5title:'Stems et exportation',s5desc:'Dis au client exactement quoi exporter et comment. La plupart des erreurs se produisent ici.',s5philLabel:'Ta philosophie WET/DRY (apparait dans le PDF)',s5philHint:'Ecris ta politique en langage simple. Les effets de sound design restent WET. Les effets de mixage sont supprimes. En cas de doute, envoyer les deux versions.',s5philPh:'Garder tous les effets qui definissent le caractere du son. Supprimer tout ce qui a ete ajoute seulement pour mixer: reverb/delay generique, limiteur sur le master bus. En cas de doute: NomPiste_WET et NomPiste_DRY.',s5philToggleTitle:'Inclure les directives WET/DRY dans le PDF',s5philToggleSub:'Si active, les stems WET selectionnes afficheront tes directives au lieu de descriptions generiques',s5wetUiGeneric:'Suit les directives que tu as ecrites ci-dessus',s5typebeatTitle:'Format type beat',s5typebeatNote:'S\'agissant d\'un type beat, le client n\'a besoin d\'exporter que ses voix.',s5drumsLabel:'Drums',s5drumsInfo:'Les drums sont generalement exportes WET — le sidechain fait partie du son. Tu peux aussi demander DRY pour plus de controle.',s5instrLabel:'Instruments / Synths / Basse',s5instrInfo:'Les effets de sound design (definissent le caractere) restent WET. Les effets de mixage sont supprimes.',s5vocalLabel:'Voix',s5vocalInfo:'DRY = completement brut, sans correction de tonalite. DRY + Pitch = propre avec Melodyne/Autotune. WET uniquement pour les parties de sound design artistique impossibles a recreer.',s5premixLabel:'Premix (reference)',s5premixInfo:'Bounce stereo du projet complet exactement comme le client l\'entend — tous les effets actifs. Juste une reference.',s5otherLabel:'Exigences supplementaires',s5addOther:'+ Ajouter une exigence',
+  s6title:'Nommage des fichiers',s6desc:'Des noms clairs rendent chaque stem immediatement identifiable.',s6whyTitle:'Pourquoi les noms importent',s6whyText:'40 fichiers appeles "Audio 01" c\'est un cauchemar. Des noms comme "NomMorceau_VoixPrincipale_DRY.wav" communiquent tout d\'un coup d\'oeil.',s6exLabel:'Exemple de nom de fichier',s6addOther:'+ Ajouter une regle de nommage',
+  s7title:'Comment envoyer les fichiers',s7desc:'Ou et comment le client envoie les fichiers et quelles infos inclure.',s7delivLabel:'Plateformes acceptees',s7customLink:'Ton lien personnel de telechargement (optionnel)',s7customLinkPh:'https://ton-lien.com',s7delivEmail:'Email pour les notifications de fichiers',s7delivEmailPh:'client@email.com — tu recevras le lien de telechargement ici',s7otherPh:'Nom d\'une autre plateforme',s7sessionLabel:'Informations de session a inclure',s7otherSessionPh:'Autre information requise',
+  s8title:'Guides d\'exportation DAW',s8desc:'Selectionne les DAW utilisees par tes clients, verifie les instructions et confirme-les avant de continuer.',s8otherDaw:'DAW pas dans la liste?',s8addOtherDaw:'+ Ajouter DAW / logiciel',s8ytLabel:'Lien tutoriel YouTube',s8confirmQ:'Les instructions sont-elles correctes?',s8yesBtn:'Oui, correctes',s8noBtn:'Non, je veux les modifier',s8editLabel:'Modifier les instructions (une etape par ligne):',s8confirmEditsBtn:'Confirmer les modifications',s8confirmedLabel:'Confirme',s8confirmNote:'Confirme les instructions de chaque DAW selectionnee avant de continuer.',
+  s9title:'Stupidity Check et notes',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Erreurs classiques des clients. Dans le PDF, elles apparaissent comme avertissements serieux.',s9addStupid:'+ Ajouter une erreur personnalisee',s9checkLabel:'Checklist pre-envoi',s9checkSub:'Generee automatiquement. Le client la coche avant d\'envoyer.',s9notesLabel:'Notes supplementaires',s9notesPh:'Toute autre instruction specifique...',s9ytLabel:'Lien tutoriel general (optionnel)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Inclure les CGV',s9tcSub:'Politique de paiement, livraison et revisions',s9tcPh:'Ecris tes conditions ici...',
+  btnNext:'Continuer',btnBack:'Retour',btnFinish:'Termine — debloquer le bouton PDF',footerMade:'Outil gratuit pour les ingenieurs du son',footerNote:'PDF genere dans ton navigateur. Rien n\'est uploade.',
+  glossaryTerms:[{term:'Stem',def:'Fichier audio individuel contenant un element de la chanson. Exporter des stems = un fichier separe par piste.'},{term:'WAV / AIFF',def:'Formats sans perte — qualite totale preservee. Toujours utiliser ces formats plutot que MP3.'},{term:'MP3',def:'Format compresse. Supprime definitivement des donnees audio. Ne convient pas au mixage.'},{term:'Sample Rate (kHz)',def:'Echantillons audio par seconde. 44.1 kHz est la norme musicale.'},{term:'Bit Depth',def:'Detail par echantillon. 24-bit est la norme professionnelle.'},{term:'Stem WET',def:'Stem exporte avec tous les effets creatifs actifs: reverb, delay, distorsion, sidechain, autotune, etc.'},{term:'Stem DRY',def:'Stem exporte sans effets — seulement le son brut.'},{term:'Master bus',def:'Sortie finale de la session. Doit etre bypasse avant d\'exporter des stems.'},{term:'Premix',def:'Bounce stereo du projet complet comme tu l\'entends. Utilise comme reference.'},{term:'Clipping',def:'Quand un signal depasse le niveau maximum et se distord. Aucun indicateur ne doit etre dans le rouge.'},{term:'Normaliser',def:'Fonction qui monte le volume automatiquement. Doit etre desactivee lors de l\'exportation.'},{term:'Sidechain',def:'Technique ou un son controle le volume d\'un autre, creant un effet de pompage.'},],
+  drumsOptions:[{label:'Exporter tous les drums WET — avec tous les effets actifs',sub:'Sidechain, compression, saturation, reverb',isWet:true},{label:'Exporter tous les drums DRY — completement bruts, sans effets',sub:'Sans compression, sans sidechain — sons purs du sampler ou du plugin'},{label:'Exporter chaque element de batterie comme fichier separe',sub:'Grosse caisse, caisse claire, hi-hats, claps — un fichier chacun'},{label:'Regrouper les drums dans un fichier est acceptable si l\'export individuel n\'est pas possible',sub:'Fais-le moi savoir si c\'est le cas'},],
+  instrOptions:[{label:'Exporter synths et instruments WET — avec tous les effets de sound design',sub:'Effets qui definissent le son: distorsion, reverb creatif, chorus, etc.',isWet:true},{label:'Exporter synths DRY — sans effets, son brut uniquement',sub:'Sans reverb, sans delay, sans saturation'},{label:'Exporter 808/sub bass comme fichier separe',sub:'Le bas du spectre necessite un traitement individuel'},],
+  vocalOptions:[{label:'DRY — completement brut, sans effets, sans correction de tonalite',sub:'La voix exactement comme enregistree'},{label:'DRY + Correction de tonalite — voix propre avec Melodyne ou Autotune applique',sub:'Sans reverb, delay ni distorsion. La demande la plus courante.'},{label:'WET — UNIQUEMENT pour les parties de sound design artistique',sub:'Seulement pour les parties ou l\'effet EST le son. NE PAS envoyer toute la voix WET.',isWet:true},{label:'Exporter chaque partie vocale comme fichier separe',sub:'Voix principale, harmonies, adlibs, doubles — un fichier pour chacune'},{label:'Exporter seulement la version finale compilee — supprimer les takes non utilises avant d\'envoyer',sub:'J\'ai seulement besoin de la performance finale'},],
+  premixOptions:[{label:'Inclure un premix stereo du projet complet',sub:'Bounce de la chanson complete exactement comme tu l\'entends, tous les effets actifs'},{label:'Inclure un premix instrumental (sans voix)',sub:'Identique au precedent mais sans aucune piste vocale'},],
+  namingOptions:[{label:'Utiliser uniquement des lettres, chiffres, underscores ( _ ) et tirets ( - )',sub:'Pas d\'espaces ni de caracteres speciaux'},{label:'Inclure le nom de la chanson/projet dans chaque fichier',sub:'Exemple: NomMorceau_GrosseCaisse.wav'},{label:'Ajouter le suffixe _WET ou _DRY selon le cas',sub:'Exemple: VoixPrincipale_DRY.wav'},{label:'Numeroter les fichiers si l\'ordre importe',sub:'Exemple: 01_GrosseCaisse.wav, 02_CaisseClaire.wav'},{label:'Ajouter _ALT pour les versions alternatives',sub:'Exemple: VoixPrincipale_ALT.wav'},],
+  deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — gratuit jusqu\'a 2Go'},{label:'Dropbox',sub:'Partager un lien de dossier'},{label:'Google Drive',sub:'Partager un lien de dossier'},{label:'Smash',sub:'fromsmash.com — gratuit, gros fichiers'},{label:'Swisstransfer',sub:'swisstransfer.com — gratuit jusqu\'a 50Go'},{label:'Autre (preciser)',sub:'',isOther:true},],
+  sessionOptions:[{label:'BPM (tempo du projet)',sub:'Essentiel pour tout effet base sur le temps'},{label:'Tonalite de la chanson',sub:'Exemple: Do mineur, Fa majeur'},{label:'DAW utilisee et version',sub:'Exemple: Ableton Live 11'},{label:'Signature rythmique',sub:'Exemple: 4/4, 3/4'},{label:'Chansons de reference',sub:'Chansons qui representent le son recherche'},{label:'Autre (preciser)',sub:'',isOther:true},],
+  stupidItems:[{label:'Exporter avec "Export All Tracks" ou equivalent',sub:'Inclut souvent des pistes de bus ou MIDI — toujours exporter chaque stem individuellement'},{label:'Laisser le limiteur ou maximiseur du master bus actif',sub:'Les stems seront pre-compresses et je ne pourrai pas y remedier'},{label:'Normaliser les fichiers avant l\'exportation',sub:'La normalisation change les niveaux relatifs'},{label:'Envoyer des MP3 quand WAV ou AIFF est disponible',sub:'MP3 supprime definitivement des informations audio'},{label:'Fichiers qui ne commencent pas tous au meme point (mesure 1, temps 1)',sub:'Si les stems commencent a des positions differentes, rien ne s\'aligne'},{label:'Envoyer les fichiers puis dire "j\'ai change le pont"',sub:'Les fichiers envoyes doivent etre definitifs — aucune modification apres l\'envoi'},{label:'Envoyer un seul fichier stereo avec tout ensemble',sub:'C\'est un mix, pas des stems'},],
+  checklistBase:['Tous les fichiers commencent au meme point (mesure 1, temps 1)','Master bus chain DESACTIVEE ou en bypass','Aucun fichier n\'ecrete','Fichiers correctement nommes','Premix stereo inclus','Infos de session incluses (BPM, tonalite, DAW)','Tous les fichiers sont definitifs — aucune modification apres l\'envoi'],
+  pdf_title:'Guide d\'envoi des fichiers',pdf_sub_formal:'Lisez ce document attentivement avant de m\'envoyer quoi que ce soit.',pdf_sub_informal:'Salut! Avant d\'envoyer tes fichiers, lis ceci.',pdf_from:'Prepare par',pdf_contact:'Email',pdf_web:'Site web',pdf_phone:'Telephone',pdf_glossary:'GLOSSAIRE',pdf_sec_format:'EXIGENCES DE FORMAT DE FICHIER',pdf_sec_philos:'IMPORTANT — DIRECTIVES SUR LES EFFETS ET L\'EXPORTATION',pdf_sec_stems:'QUOI EXPORTER',pdf_sec_naming:'NOMMAGE DES FICHIERS',pdf_sec_example:'Exemple',pdf_sec_delivery:'COMMENT ENVOYER LES FICHIERS',pdf_sec_session:'INFORMATIONS A INCLURE',pdf_sec_daw:'GUIDE D\'EXPORTATION',pdf_sec_stupid:'IMPORTANT — ERREURS COURANTES A EVITER',pdf_sec_checklist:'CHECKLIST PRE-ENVOI',pdf_sec_notes:'NOTES SUPPLEMENTAIRES',pdf_sec_yt:'TUTORIEL VIDEO',pdf_sec_tc:'CONDITIONS GENERALES',pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'AVANT D\'EXPORTER: Desactiver la chaine du master bus (limiteur, maximiseur, compresseur)',pdf_wetdry_note:'WET = exporte avec effets actifs | DRY = son brut sans effets',pdf_stem_sub_generic:'Exporter comme indique dans les directives ci-dessus. En cas de doute, demander avant d\'envoyer.',pdf_deliv_email_label:'Envoyer le lien a',pdf_checklist_intro:'Cocher chaque point avant d\'envoyer:',pdf_footer:'Genere avec BounceGuide — bounceguide.app',pdf_daw_yt:'Voir le tutoriel sur YouTube',pdf_service_mix:'Service: Mixage',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type beat — seuls les stems vocaux sont necessaires',
+};
+
+// ── GERMAN ───────────────────────────────────────────────────
+T.de={
+  heroTag:'Hore auf falsche Dateien von Kunden zu erhalten',heroTitle:'Die <span>narrensichere</span> Anleitung der deine Kunden wirklich folgen werden',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',generateBtn:'PDF erstellen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',
+  s1title:'Deine Daten und Marke',s1desc:'Erscheint oben im PDF das der Kunde erhalt.',s1name:'Name / Studio',s1namePh:'Hans Muller Mixing',s1email:'Email',s1emailPh:'hans@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Telefon / WhatsApp',s1phonePh:'+49 160 000 0000',s1logo:'Dein Logo (PNG, JPG)',s1logoHint:'Klicken zum Hochladen — erscheint im PDF-Header',s1color:'PDF-Akzentfarbe',s1colorHint:'Wird fur Abschnitts-Header verwendet',s1msg:'Begrussung',s1msgPh:'Danke dass du mir deine Musik anvertraust. Bitte lies das sorgfaltig bevor du etwas sendest.',s1contactNote:'Kontakthinweis am Ende des Dokuments',s1contactNotePh:'Unsicher? Schreib mir vor dem Senden.',
+  s2title:'Art des Services',s2desc:'Bestimmt welche Anforderungen konfiguriert werden.',s2mix:'Mixing',s2mixDesc:'Der Kunde schickt dir Stems zum Mixen.',s2master:'Mastering',s2masterDesc:'Der Kunde schickt dir einen fertigen Stereo-Mix.',s2trackTypeLabel:'Was schickt der Kunde?',s2stems:'Vollstandige instrumentale Stems',s2stemsSub:'Separate Dateien pro Instrument.',s2typebeat:'Type Beat / einzelne Instrumentaldatei',s2typebeatSub:'Eine Datei fur den Beat — der Kunde exportiert nur die Vocals.',
+  s3title:'Glossar',s3desc:'Optionales Glossar mit Begriffen in einfacher Sprache, im PDF enthalten fur nicht-technische Kunden.',s3toggleTitle:'Glossar im PDF einschliessen',s3toggleSub:'Empfohlen fur technisch unerfahrene Kunden',s3infoTitle:'Wie es funktioniert',s3infoText:'Wahle die Begriffe aus die du erklaren mochtest. Sie erscheinen am Anfang des PDFs.',s3addOther:'+ Benutzerdefinierten Begriff hinzufugen',
+  s4title:'Dateiformat-Anforderungen',s4desc:'Die genauen technischen Spezifikationen die der Kunde verwenden muss.',s4whyTitle:'Warum das wichtig ist',s4whyText:'WAV und AIFF sind verlustfrei — volle Qualitat erhalten. MP3 entfernt Audiodaten dauerhaft. Falsches Format = kompromittierter Mix.',s4format:'Dateiformat',s4sr:'Sample Rate',s4bd:'Bit Depth',s4wavSub:'Empfohlen — universell verlustfrei',s4aiffSub:'Gleiche Qualitat wie WAV',s4mp3Sub:'Nur wenn WAV nicht verfugbar ist',s4other:'Anderes Format',s4otherSub:'Unten angeben',s4otherPh:'z.B. FLAC, OGG...',s4bd24Sub:'Empfohlen — bestes Qualitats-/Grossenverhaltnis',s4bd16Sub:'Nicht empfohlen — begrenzter Dynamikbereich',
+  s5title:'Stems und Export',s5desc:'Sag dem Kunden genau was und wie er exportieren soll. Die meisten Fehler passieren hier.',s5philLabel:'Deine WET/DRY-Philosophie (erscheint im PDF)',s5philHint:'Schreibe deine Richtlinie in einfacher Sprache. Sound-Design-Effekte bleiben WET. Mixing-Effekte werden entfernt. Im Zweifel beide Versionen senden.',s5philPh:'Alle Effekte behalten die den Klangcharakter definieren. Alles entfernen das nur zum Mixen hinzugefugt wurde: generischer Reverb/Delay, Limiter auf dem Master Bus. Im Zweifel: SpurName_WET und SpurName_DRY.',s5philToggleTitle:'WET/DRY-Richtlinien in das PDF einschliessen',s5philToggleSub:'Wenn aktiviert zeigen ausgewahlte WET-Stems deine Richtlinien statt generischer Beschreibungen',s5wetUiGeneric:'Befolgt die oben geschriebenen Richtlinien',s5typebeatTitle:'Type-Beat-Format',s5typebeatNote:'Da es sich um einen Type Beat handelt muss der Kunde nur seine Vocals uber deinen Instrumental exportieren.',s5drumsLabel:'Drums',s5drumsInfo:'Drums werden normalerweise WET exportiert — Sidechain und Sample-Verarbeitung sind Teil des Sounds. Du kannst auch DRY anfordern.',s5instrLabel:'Instrumente / Synths / Bass',s5instrInfo:'Sound-Design-Effekte (definieren den Charakter) bleiben WET. Mixing-Effekte werden entfernt.',s5vocalLabel:'Gesang',s5vocalInfo:'DRY = vollig roh, ohne Tonhohenkorrektur. DRY + Pitch = sauber mit Melodyne/Autotune. WET nur fur kunstlerische Sound-Design-Teile die sich nicht nachbilden lassen.',s5premixLabel:'Premix (Referenz)',s5premixInfo:'Stereo-Bounce des gesamten Projekts genau wie der Kunde es hort — alle Effekte aktiv. Nur eine Referenz.',s5otherLabel:'Weitere Anforderungen',s5addOther:'+ Anforderung hinzufugen',
+  s6title:'Dateinamen-Konvention',s6desc:'Klare Namen machen jeden Stem sofort identifizierbar.',s6whyTitle:'Warum Namen wichtig sind',s6whyText:'40 Dateien namens "Audio 01" sind ein Albtraum. Namen wie "SongName_HauptGesang_DRY.wav" kommunizieren alles auf einen Blick.',s6exLabel:'Beispiel-Dateiname',s6addOther:'+ Benennungsregel hinzufugen',
+  s7title:'Wie Dateien gesendet werden',s7desc:'Wo und wie der Kunde Dateien sendet und welche Infos er beifugen soll.',s7delivLabel:'Akzeptierte Plattformen',s7customLink:'Dein personlicher Upload-Link (optional)',s7customLinkPh:'https://dein-link.com',s7delivEmail:'Email fur Dateibenachrichtigungen',s7delivEmailPh:'kunde@email.com — du erhaltst den Download-Link hier',s7otherPh:'Name einer anderen Plattform',s7sessionLabel:'Zu sendende Session-Informationen',s7otherSessionPh:'Weitere erforderliche Information',
+  s8title:'DAW-Exportanleitungen',s8desc:'Wahle die DAWs deiner Kunden aus verifiziere die Anweisungen und bestatige sie vor dem Fortfahren.',s8otherDaw:'DAW nicht in der Liste?',s8addOtherDaw:'+ DAW / Software hinzufugen',s8ytLabel:'YouTube-Tutorial-Link',s8confirmQ:'Sind die Anweisungen korrekt?',s8yesBtn:'Ja, korrekt',s8noBtn:'Nein, ich mochte sie bearbeiten',s8editLabel:'Anweisungen bearbeiten (ein Schritt pro Zeile):',s8confirmEditsBtn:'Anderungen bestatigen',s8confirmedLabel:'Bestatigt',s8confirmNote:'Bestatige die Anweisungen fur jede ausgewahlte DAW bevor du fortfahrst.',
+  s9title:'Stupidity Check und Notizen',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Klassische Kundenfehler. Im PDF erscheinen sie als ernste Warnsektion.',s9addStupid:'+ Benutzerdefinierten Fehler hinzufugen',s9checkLabel:'Checkliste vor dem Senden',s9checkSub:'Automatisch generiert. Der Kunde hakt sie ab bevor er sendet.',s9notesLabel:'Weitere Notizen',s9notesPh:'Weitere spezifische Anweisungen...',s9ytLabel:'Allgemeiner Tutorial-Link (optional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'AGB einschliessen',s9tcSub:'Zahlungs- Liefer- und Revisionsrichtlinie',s9tcPh:'Schreibe hier deine Bedingungen...',
+  btnNext:'Weiter',btnBack:'Zuruck',btnFinish:'Fertig — PDF-Schaltflache freischalten',footerMade:'Kostenloses Tool fur Mix-Ingenieure',footerNote:'PDF wird in deinem Browser erstellt. Es wird nichts hochgeladen.',
+  glossaryTerms:[{term:'Stem',def:'Einzelne Audiodatei die ein Element des Songs enthalt. Stems exportieren = eine separate Datei pro Spur.'},{term:'WAV / AIFF',def:'Verlustfreie Formate — volle Qualitat erhalten. Immer diese statt MP3 fur professionelle Arbeit.'},{term:'MP3',def:'Komprimiertes Format. Entfernt Audiodaten dauerhaft. Nicht geeignet fur Mixing.'},{term:'Sample Rate (kHz)',def:'Audiosamples pro Sekunde. 44.1 kHz ist der Musikstandard.'},{term:'Bit Depth',def:'Detail pro Sample. 24-bit ist der Profistandard.'},{term:'WET-Stem',def:'Stem der mit allen kreativen Effekten aktiv exportiert wird: Reverb, Delay, Verzerrung, Sidechain, Autotune, etc.'},{term:'DRY-Stem',def:'Stem der ohne Effekte exportiert wird — nur der rohe Sound.'},{term:'Master Bus',def:'Endausgang der Session. Muss deaktiviert werden bevor Stems exportiert werden.'},{term:'Premix',def:'Stereo-Bounce des gesamten Projekts genau wie du es horst. Als Referenz verwendet.'},{term:'Clipping',def:'Wenn ein Signal den maximalen Pegel uberschreitet und verzerrt. Kein Anzeiger darf im Roten sein.'},{term:'Normalisieren',def:'Funktion die die Lautstarke automatisch auf einen festen Pegel anhebt. Beim Exportieren deaktivieren.'},{term:'Sidechain',def:'Technik bei der ein Sound die Lautstarke eines anderen steuert und einen Pumping-Effekt erzeugt.'},],
+  drumsOptions:[{label:'Alle Drums WET exportieren — mit allen aktiven Effekten',sub:'Sidechain, Kompression, Saturation, Reverb',isWet:true},{label:'Alle Drums DRY exportieren — komplett roh, ohne Effekte',sub:'Keine Kompression, kein Sidechain — reine Sounds aus Sampler oder Plugin'},{label:'Jedes Drum-Element als separate Datei exportieren',sub:'Kick, Snare, Hi-Hats, Claps — je eine Datei'},{label:'Alle Drums in einer Datei zusammenzufassen ist akzeptabel wenn Einzelexport nicht moglich ist',sub:'Informiere mich wenn das der Fall ist'},],
+  instrOptions:[{label:'Synths und Instrumente WET exportieren — mit allen Sound-Design-Effekten',sub:'Effekte die den Sound definieren: Verzerrung, kreativer Reverb, Chorus, etc.',isWet:true},{label:'Synths DRY exportieren — ohne Effekte, nur roher Sound',sub:'Kein Reverb, kein Delay, keine Saturation'},{label:'808/Sub-Bass als separate Datei exportieren',sub:'Der Tiefbass braucht individuelle Behandlung'},],
+  vocalOptions:[{label:'DRY — komplett roh, ohne Effekte, ohne Tonhohenkorrektur',sub:'Die Stimme genau wie aufgenommen'},{label:'DRY + Tonhohenkorrektur — saubere Stimme mit Melodyne oder Autotune',sub:'Kein Reverb, Delay oder Verzerrung. Haufigste Anforderung.'},{label:'WET — NUR fur kunstlerische Sound-Design-Teile',sub:'Nur senden wo der Effekt DER Sound ist. NICHT die gesamte Stimme WET senden.',isWet:true},{label:'Jeden Gesangspart als separate Datei exportieren',sub:'Hauptgesang, Harmonien, Adlibs, Doubles — je eine Datei'},{label:'Nur die finale kompilierte Version exportieren — unbenutzte Takes vorher loschen',sub:'Ich brauche nur die finale Performance'},],
+  premixOptions:[{label:'Einen Stereo-Premix des gesamten Projekts einschliessen',sub:'Bounce des vollstandigen Songs genau wie du ihn horst, alle Effekte aktiv'},{label:'Einen instrumentalen Premix einschliessen (ohne Gesang)',sub:'Wie oben aber ohne Gesangsspuren'},],
+  namingOptions:[{label:'Nur Buchstaben, Zahlen, Unterstriche ( _ ) und Bindestriche ( - ) verwenden',sub:'Keine Leerzeichen oder Sonderzeichen'},{label:'Den Namen des Songs/Projekts in jede Datei einschliessen',sub:'Beispiel: SongName_Kick.wav'},{label:'Suffix _WET oder _DRY hinzufugen wo zutreffend',sub:'Beispiel: HauptGesang_DRY.wav'},{label:'Dateien nummerieren wenn die Reihenfolge wichtig ist',sub:'Beispiel: 01_Kick.wav, 02_Snare.wav'},{label:'_ALT fur alternative Versionen hinzufugen',sub:'Beispiel: HauptGesang_ALT.wav'},],
+  deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — kostenlos bis 2GB'},{label:'Dropbox',sub:'Ordner-Link teilen'},{label:'Google Drive',sub:'Ordner-Link teilen'},{label:'Smash',sub:'fromsmash.com — kostenlos, grosse Dateien'},{label:'Swisstransfer',sub:'swisstransfer.com — kostenlos bis 50GB'},{label:'Andere (angeben)',sub:'',isOther:true},],
+  sessionOptions:[{label:'BPM (Projekttempo)',sub:'Essenziell fur jeden zeitbasierten Effekt'},{label:'Tonart des Songs',sub:'Beispiel: C-Moll, F-Dur'},{label:'Verwendete DAW und Version',sub:'Beispiel: Ableton Live 11'},{label:'Taktart',sub:'Beispiel: 4/4, 3/4'},{label:'Referenz-Tracks',sub:'Songs die den gewunschten Sound reprasentieren'},{label:'Andere (angeben)',sub:'',isOther:true},],
+  stupidItems:[{label:'"Export All Tracks" oder Ahnliches verwenden',sub:'Enthalt oft Bus-Spuren oder MIDI-Spuren — immer jeden Stem einzeln exportieren'},{label:'Den Limiter oder Maximizer des Master Bus aktiv lassen',sub:'Die Stems werden vorkomprimiert und ich kann das nicht ruckgangig machen'},{label:'Dateien vor dem Export normalisieren',sub:'Normalisierung andert die relativen Pegel'},{label:'MP3 senden wenn WAV oder AIFF verfugbar ist',sub:'MP3 entfernt Audioinformationen dauerhaft'},{label:'Dateien die nicht alle am gleichen Punkt beginnen (Takt 1)',sub:'Wenn Stems an verschiedenen Positionen beginnen passt in der Session nichts zusammen'},{label:'Dateien senden und dann sagen "ich habe die Bridge geandert"',sub:'Gesendete Dateien mussen endgultig sein — keine Anderungen nach dem Senden'},{label:'Eine einzelne Stereo-Datei mit allem zusammen senden',sub:'Das ist ein Mix, keine Stems'},],
+  checklistBase:['Alle Dateien beginnen am gleichen Punkt (Takt 1)','Master Bus Chain DEAKTIVIERT oder im Bypass','Keine Datei clippt','Dateien korrekt benannt','Stereo-Premix enthalten','Session-Infos enthalten (BPM, Tonart, DAW)','Alle Dateien sind endgultig — keine Anderungen nach dem Senden'],
+  pdf_title:'Datei-Einreichungsanleitung',pdf_sub_formal:'Bitte lesen Sie dieses Dokument sorgfaltig bevor Sie mir etwas senden.',pdf_sub_informal:'Hallo! Bevor du Dateien sendest bitte lies das.',pdf_from:'Erstellt von',pdf_contact:'Email',pdf_web:'Website',pdf_phone:'Telefon',pdf_glossary:'GLOSSAR',pdf_sec_format:'DATEIFORMAT-ANFORDERUNGEN',pdf_sec_philos:'WICHTIG — RICHTLINIEN ZU EFFEKTEN UND EXPORT',pdf_sec_stems:'WAS EXPORTIEREN',pdf_sec_naming:'DATEINAMEN-KONVENTION',pdf_sec_example:'Beispiel',pdf_sec_delivery:'WIE DATEIEN GESENDET WERDEN',pdf_sec_session:'ZU SENDENDE INFORMATIONEN',pdf_sec_daw:'EXPORTANLEITUNG',pdf_sec_stupid:'WICHTIG — HAUFIGE FEHLER ZU VERMEIDEN',pdf_sec_checklist:'CHECKLISTE VOR DEM SENDEN',pdf_sec_notes:'WEITERE NOTIZEN',pdf_sec_yt:'VIDEO-TUTORIAL',pdf_sec_tc:'ALLGEMEINE GESCHAFTSBEDINGUNGEN',pdf_format_label:'Format',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'VOR DEM EXPORT: Master Bus Chain deaktivieren (Limiter, Maximizer, Kompressor)',pdf_wetdry_note:'WET = mit aktiven Effekten exportiert | DRY = roher Sound ohne Effekte',pdf_stem_sub_generic:'Wie in den obigen Richtlinien angegeben exportieren. Im Zweifel vor dem Senden fragen.',pdf_deliv_email_label:'Link senden an',pdf_checklist_intro:'Jeden Punkt vor dem Senden abhaken:',pdf_footer:'Erstellt mit BounceGuide — bounceguide.app',pdf_daw_yt:'YouTube-Tutorial ansehen',pdf_service_mix:'Service: Mixing',pdf_service_master:'Service: Mastering',pdf_typebeat:'Format: Type Beat — nur Vocal-Stems erforderlich',
+};
+
+// ── PORTUGUESE ───────────────────────────────────────────────
+T.pt={
+  heroTag:'Para de receber arquivos errados dos seus clientes',heroTitle:'O guia <span>a prova de erros</span> que seus clientes seguirao de verdade',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',generateBtn:'Gerar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',
+  s1title:'Seus dados e marca',s1desc:'Aparece no topo do PDF que o cliente recebe.',s1name:'Nome / Estudio',s1namePh:'Carlos Silva Mixagem',s1email:'Email',s1emailPh:'carlos@mixagem.com',s1web:'Site (opcional)',s1webPh:'https://mixagem.com',s1phone:'Telefone / WhatsApp',s1phonePh:'+55 11 90000 0000',s1logo:'Seu logo (PNG, JPG)',s1logoHint:'Clique para carregar — aparece no PDF',s1color:'Cor de destaque do PDF',s1colorHint:'Usada nos cabecalhos de secao',s1msg:'Mensagem de abertura',s1msgPh:'Obrigado por confiar sua musica a mim. Leia isso com atencao antes de enviar qualquer coisa.',s1contactNote:'Nota de contato no final do documento',s1contactNotePh:'Duvidas? Me escreva antes de enviar.',
+  s2title:'Tipo de servico',s2desc:'Determina os requisitos a configurar.',s2mix:'Mixagem',s2mixDesc:'O cliente te envia stems para mixar.',s2master:'Mastering',s2masterDesc:'O cliente te envia um mix estereo pronto.',s2trackTypeLabel:'O que o cliente esta enviando?',s2stems:'Stems instrumentais completos',s2stemsSub:'Arquivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Um unico arquivo para a base — o cliente so exporta os vocais.',
+  s3title:'Glossario',s3desc:'Glossario opcional de termos em linguagem simples, incluido no PDF para clientes nao tecnicos.',s3toggleTitle:'Incluir glossario no PDF',s3toggleSub:'Recomendado para clientes sem conhecimento tecnico',s3infoTitle:'Como funciona',s3infoText:'Selecione os termos que quer explicar. Aparecerao no inicio do PDF.',s3addOther:'+ Adicionar termo personalizado',
+  s4title:'Requisitos de formato de arquivo',s4desc:'As especificacoes tecnicas exatas que o cliente deve usar.',s4whyTitle:'Por que isso importa',s4whyText:'WAV e AIFF sao sem perda — qualidade total preservada. MP3 remove dados de audio permanentemente. Formato errado = mix comprometido.',s4format:'Formato de arquivo',s4sr:'Sample rate',s4bd:'Bit depth',s4wavSub:'Recomendado — lossless universal',s4aiffSub:'Mesma qualidade que WAV',s4mp3Sub:'So se WAV nao estiver disponivel',s4other:'Outro formato',s4otherSub:'Especificar abaixo',s4otherPh:'ex. FLAC, OGG...',s4bd24Sub:'Recomendado — melhor equilibrio qualidade/tamanho',s4bd16Sub:'Nao recomendado — faixa dinamica limitada',
+  s5title:'Stems e exportacao',s5desc:'Diga ao cliente exatamente o que exportar e como. A maioria dos erros acontece aqui.',s5philLabel:'Sua filosofia WET/DRY (aparece no PDF)',s5philHint:'Escreva sua politica em linguagem simples. Efeitos de sound design ficam WET. Efeitos de mixagem sao removidos. Em caso de duvida enviar ambas versoes.',s5philPh:'Manter todos os efeitos que definem o carater do som. Remover tudo que foi adicionado so para mixar: reverb/delay generico, limitador no master bus. Em caso de duvida: NomePista_WET e NomePista_DRY.',s5philToggleTitle:'Incluir diretrizes WET/DRY no PDF',s5philToggleSub:'Se ativado, os stems WET selecionados mostrarao suas diretrizes em vez de descricoes genericas',s5wetUiGeneric:'Segue as diretrizes que voce escreveu acima',s5typebeatTitle:'Formato type beat',s5typebeatNote:'Por ser um type beat o cliente so precisa exportar seus vocais sobre seu instrumental.',s5drumsLabel:'Drums',s5drumsInfo:'Os drums geralmente sao exportados WET — sidechain e processamento de samples sao parte do som. Voce tambem pode pedir DRY.',s5instrLabel:'Instrumentos / Synths / Baixo',s5instrInfo:'Efeitos de sound design (definem o carater) ficam WET. Efeitos de mixagem sao removidos.',s5vocalLabel:'Vocais',s5vocalInfo:'DRY = completamente cru, sem correcao de afinacao. DRY + Pitch = limpo com Melodyne/Autotune. WET apenas para partes de sound design artistico que nao podem ser recriadas.',s5premixLabel:'Premix (referencia)',s5premixInfo:'Bounce estereo do projeto completo exatamente como o cliente ouve — todos os efeitos ativos. Apenas uma referencia.',s5otherLabel:'Requisitos adicionais',s5addOther:'+ Adicionar requisito',
+  s6title:'Nomenclatura de arquivos',s6desc:'Nomes claros tornam cada stem imediatamente identificavel.',s6whyTitle:'Por que os nomes importam',s6whyText:'40 arquivos chamados "Audio 01" e um pesadelo. Nomes como "NomeMusica_VocalPrincipal_DRY.wav" comunicam tudo de uma vez.',s6exLabel:'Exemplo de nome de arquivo',s6addOther:'+ Adicionar regra de nomenclatura',
+  s7title:'Como enviar os arquivos',s7desc:'Onde e como o cliente envia os arquivos e que informacoes incluir.',s7delivLabel:'Plataformas aceitas',s7customLink:'Seu link pessoal de upload (opcional)',s7customLinkPh:'https://seu-link.com',s7delivEmail:'Email para notificacoes de arquivos',s7delivEmailPh:'cliente@email.com — voce recebera o link de download aqui',s7otherPh:'Nome de outra plataforma',s7sessionLabel:'Informacoes de sessao a incluir',s7otherSessionPh:'Outra informacao necessaria',
+  s8title:'Guias de exportacao DAW',s8desc:'Selecione as DAWs que seus clientes usam revise as instrucoes e confirme-as antes de continuar.',s8otherDaw:'DAW nao na lista?',s8addOtherDaw:'+ Adicionar DAW / software',s8ytLabel:'Link tutorial YouTube',s8confirmQ:'As instrucoes estao corretas?',s8yesBtn:'Sim, corretas',s8noBtn:'Nao, quero edita-las',s8editLabel:'Editar instrucoes (um passo por linha):',s8confirmEditsBtn:'Confirmar alteracoes',s8confirmedLabel:'Confirmado',s8confirmNote:'Confirme as instrucoes de cada DAW selecionada antes de continuar.',
+  s9title:'Stupidity Check e notas',s9desc:'',s9stupidLabel:'Stupidity Check',s9stupidSub:'Erros classicos dos clientes. No PDF aparecem como uma secao de aviso serio.',s9addStupid:'+ Adicionar erro personalizado',s9checkLabel:'Checklist pre-envio',s9checkSub:'Gerada automaticamente. O cliente marca cada item antes de enviar.',s9notesLabel:'Notas adicionais',s9notesPh:'Qualquer outra instrucao especifica...',s9ytLabel:'Link tutorial geral (opcional)',s9ytPh:'https://youtube.com/watch?v=...',s9tcEnable:'Incluir Termos e Condicoes',s9tcSub:'Politica de pagamento entrega e revisoes',s9tcPh:'Escreva seus termos aqui...',
+  btnNext:'Continuar',btnBack:'Voltar',btnFinish:'Feito — desbloquear botao PDF',footerMade:'Ferramenta gratuita para engenheiros de mixagem',footerNote:'PDF gerado no seu navegador. Nada e enviado.',
+  glossaryTerms:[{term:'Stem',def:'Arquivo de audio individual contendo um elemento da musica. Exportar stems = um arquivo separado por faixa.'},{term:'WAV / AIFF',def:'Formatos sem perda — qualidade total preservada. Sempre usar estes em vez de MP3.'},{term:'MP3',def:'Formato comprimido. Remove dados de audio permanentemente. Nao adequado para mixagem.'},{term:'Sample Rate (kHz)',def:'Amostras de audio por segundo. 44.1 kHz e o padrao musical.'},{term:'Bit Depth',def:'Detalhe por amostra. 24-bit e o padrao profissional.'},{term:'Stem WET',def:'Stem exportado com todos os efeitos criativos ativos: reverb, delay, distorcao, sidechain, autotune, etc.'},{term:'Stem DRY',def:'Stem exportado sem efeitos — apenas o som bruto.'},{term:'Master bus',def:'Saida final da sessao. Deve ser desativado antes de exportar stems.'},{term:'Premix',def:'Bounce estereo do projeto completo como voce ouve. Usado como referencia.'},{term:'Clipping',def:'Quando um sinal ultrapassa o nivel maximo e distorce. Nenhum medidor deve estar no vermelho.'},{term:'Normalizar',def:'Funcao que sobe o volume automaticamente. Deve ser desativada ao exportar stems.'},{term:'Sidechain',def:'Tecnica onde um som controla o volume de outro criando um efeito de bombeamento.'},],
+  drumsOptions:[{label:'Exportar todos os drums WET — com todos os efeitos ativos',sub:'Sidechain, compressao, saturacao, reverb',isWet:true},{label:'Exportar todos os drums DRY — completamente crus, sem efeitos',sub:'Sem compressao, sem sidechain — sons puros do sampler ou plugin'},{label:'Exportar cada elemento da bateria como arquivo separado',sub:'Bumbo, caixa, hi-hats, claps — um arquivo cada'},{label:'Agrupar drums em um arquivo e aceitavel se o export individual nao for possivel',sub:'Me avise se for o caso'},],
+  instrOptions:[{label:'Exportar synths e instrumentos WET — com todos os efeitos de sound design',sub:'Efeitos que definem o som: distorcao, reverb criativo, chorus, etc.',isWet:true},{label:'Exportar synths DRY — sem efeitos, apenas som bruto',sub:'Sem reverb, sem delay, sem saturacao'},{label:'Exportar 808/sub bass como arquivo separado',sub:'O baixo precisa de tratamento individual'},],
+  vocalOptions:[{label:'DRY — completamente cru, sem efeitos, sem correcao de afinacao',sub:'A voz exatamente como gravada'},{label:'DRY + Correcao de afinacao — voz limpia com Melodyne ou Autotune aplicado',sub:'Sem reverb, delay ou distorcao. O pedido mais comum.'},{label:'WET — APENAS para partes de sound design artistico',sub:'Apenas para partes onde o efeito E o som. NAO enviar o vocal inteiro WET.',isWet:true},{label:'Exportar cada parte vocal como arquivo separado',sub:'Vocal principal, harmonias, adlibs, dobras — um arquivo para cada'},{label:'Exportar apenas a versao final compilada — excluir takes nao utilizados antes de enviar',sub:'So preciso da performance final'},],
+  premixOptions:[{label:'Incluir um premix estereo do projeto completo',sub:'Bounce da musica completa exatamente como voce ouve, todos os efeitos ativos'},{label:'Incluir um premix instrumental (sem vocais)',sub:'Igual ao anterior mas sem nenhuma faixa vocal'},],
+  namingOptions:[{label:'Usar apenas letras, numeros, underscores ( _ ) e hifens ( - )',sub:'Sem espacos ou caracteres especiais'},{label:'Incluir o nome da musica/projeto em cada arquivo',sub:'Exemplo: NomeMusica_Bumbo.wav'},{label:'Adicionar sufixo _WET ou _DRY onde aplicavel',sub:'Exemplo: VocalPrincipal_DRY.wav'},{label:'Numerar os arquivos se a ordem importar',sub:'Exemplo: 01_Bumbo.wav, 02_Caixa.wav'},{label:'Adicionar _ALT para versoes alternativas',sub:'Exemplo: VocalPrincipal_ALT.wav'},],
+  deliveryOptions:[{label:'WeTransfer',sub:'wetransfer.com — gratis ate 2GB'},{label:'Dropbox',sub:'Compartilhar link de pasta'},{label:'Google Drive',sub:'Compartilhar link de pasta'},{label:'Smash',sub:'fromsmash.com — gratis, arquivos grandes'},{label:'Swisstransfer',sub:'swisstransfer.com — gratis ate 50GB'},{label:'Outro (especificar)',sub:'',isOther:true},],
+  sessionOptions:[{label:'BPM (tempo do projeto)',sub:'Essencial para qualquer efeito baseado em tempo'},{label:'Tonalidade da musica',sub:'Exemplo: Do menor, Fa maior'},{label:'DAW utilizada e versao',sub:'Exemplo: Ableton Live 11'},{label:'Compasso',sub:'Exemplo: 4/4, 3/4'},{label:'Musicas de referencia',sub:'Musicas que representam o som desejado'},{label:'Outro (especificar)',sub:'',isOther:true},],
+  stupidItems:[{label:'Exportar com "Export All Tracks" ou equivalente',sub:'Frequentemente inclui faixas de bus ou MIDI — sempre exportar cada stem individualmente'},{label:'Deixar o limitador ou maximizador do master bus ativo',sub:'Os stems serao pre-comprimidos e nao poderei remediar isso'},{label:'Normalizar os arquivos antes de exportar',sub:'A normalizacao muda os niveis relativos'},{label:'Enviar MP3 quando WAV ou AIFF esta disponivel',sub:'MP3 remove informacoes de audio permanentemente'},{label:'Arquivos que nao comecam todos no mesmo ponto (compasso 1, tempo 1)',sub:'Se os stems comecam em posicoes diferentes nada se alinha'},{label:'Enviar os arquivos e depois dizer "mudei a ponte"',sub:'Os arquivos enviados devem ser definitivos — sem alteracoes apos o envio'},{label:'Enviar um unico arquivo estereo com tudo junto',sub:'Isso e um mix, nao stems'},],
+  checklistBase:['Todos os arquivos comecam no mesmo ponto (compasso 1, tempo 1)','Master bus chain DESATIVADA ou em bypass','Nenhum arquivo clippando','Arquivos corretamente nomeados','Premix estereo incluido','Infos de sessao incluidas (BPM, tonalidade, DAW)','Todos os arquivos sao definitivos — sem alteracoes apos o envio'],
+  pdf_title:'Guia de envio de arquivos',pdf_sub_formal:'Por favor leia este documento com atencao antes de me enviar qualquer coisa.',pdf_sub_informal:'Oi! Antes de enviar os arquivos leia isso.',pdf_from:'Preparado por',pdf_contact:'Email',pdf_web:'Site',pdf_phone:'Telefone',pdf_glossary:'GLOSSARIO',pdf_sec_format:'REQUISITOS DE FORMATO DE ARQUIVO',pdf_sec_philos:'IMPORTANTE — DIRETRIZES SOBRE EFEITOS E EXPORTACAO',pdf_sec_stems:'O QUE EXPORTAR',pdf_sec_naming:'NOMENCLATURA DE ARQUIVOS',pdf_sec_example:'Exemplo',pdf_sec_delivery:'COMO ENVIAR OS ARQUIVOS',pdf_sec_session:'INFORMACOES A INCLUIR',pdf_sec_daw:'GUIA DE EXPORTACAO',pdf_sec_stupid:'IMPORTANTE — ERROS COMUNS A EVITAR',pdf_sec_checklist:'CHECKLIST PRE-ENVIO',pdf_sec_notes:'NOTAS ADICIONAIS',pdf_sec_yt:'TUTORIAL EM VIDEO',pdf_sec_tc:'TERMOS E CONDICOES',pdf_format_label:'Formato',pdf_sr_label:'Sample Rate',pdf_bd_label:'Bit Depth',pdf_master_warn:'ANTES DE EXPORTAR: Desativar a cadeia do master bus (limitador, maximizador, compressor)',pdf_wetdry_note:'WET = exportado com efeitos ativos | DRY = som bruto sem efeitos',pdf_stem_sub_generic:'Exportar conforme indicado nas diretrizes acima. Em caso de duvida perguntar antes de enviar.',pdf_deliv_email_label:'Enviar link para',pdf_checklist_intro:'Marcar cada item antes de enviar:',pdf_footer:'Gerado com BounceGuide — bounceguide.app',pdf_daw_yt:'Assistir tutorial no YouTube',pdf_service_mix:'Servico: Mixagem',pdf_service_master:'Servico: Mastering',pdf_typebeat:'Formato: Type beat — apenas stems vocais necessarios',
+};
+
+// ═══════════════════════════════════════════
+//  DAW STEPS
+// ═══════════════════════════════════════════
+const DAW_STEPS={
+en:{
+  ableton:['Open your project in Arrangement View (press Tab if in Session View).','Make sure all clips are on the timeline and everything sounds correct.','Go to File > Export Audio/Video (Ctrl+Shift+E on Windows / Cmd+Shift+E on Mac).','Under Rendered Track, select the specific track you want to export.','Set: Format = WAV | Sample Rate as requested | Bit Depth as requested.','Disable Normalize and Create Analysis File.','Click Export, name the file correctly, and repeat for every stem. Do NOT use Export All Tracks.'],
+  logic:['Open your project in Logic Pro.','Go to File > Export > All Tracks as Audio Files.','Choose your destination folder.','Set Format: WAV | Resolution: 24-bit | Sample Rate as requested.','Enable Bypass Effect Plug-Ins ONLY if you need DRY stems.','Disable Include Audio Tail unless tails are needed.','Click Export. Logic exports one file per track automatically.'],
+  flstudio:['Open your project in FL Studio.','Make sure each instrument has its own dedicated Mixer channel.','Go to File > Export > Project bones (Stems).','Set Quality: 32-bit float or 24-bit | Sample Rate as requested.','Choose your destination folder and click Accept.','FL Studio exports each Mixer channel as a separate file.','Verify each exported file sounds correct when played alone.'],
+  protools:['Open your session in Pro Tools.','Select all regions: Ctrl+A (Windows) or Cmd+A (Mac).','Go to Track > Consolidate Clip to create one continuous file per track.','Select the track you want to export.','Go to Clip > Export Clips as Files.','Set Format: WAV | Bit Depth as requested | Sample Rate as requested.','Click Export. Repeat for each stem.'],
+  cubase:['Open your project in Cubase or Nuendo.','Go to File > Export > Audio Mixdown.','In the Channel Selection panel choose which channels to export.','Set the export range using the left and right locators on the timeline.','Set Format: Wave | Sample Rate and Bit Depth as requested.','Enable Channel Batch Export to export all channels at once.','Choose destination folder and click Export Audio.'],
+  studioone:['Open your Song in Studio One.','Go to Song > Export Stems.','Select which tracks to include.','Set Format: WAV | Sample Rate and Bit Depth as requested.','Choose Dry or Wet depending on what is required.','Select destination folder and click OK.','Studio One exports each stem automatically.'],
+  reaper:['Open your project in REAPER.','Go to File > Render (or press Ctrl+Alt+R).','Set Render what to Stems (selected tracks).','Set bounds to Entire project.','Set Format: WAV | Sample Rate and Bit Depth as requested.','Set output folder and filename pattern (use $track for track name).','Click Render X files.'],
+  bitwig:['Open your project in Bitwig Studio.','Go to File > Export Audio.','Select Export stems for individual track export.','Set Format: WAV | Sample Rate and Bit Depth as requested.','Check that the export range covers the full song.','Disable Normalize if present.','Click Export and choose your destination folder.'],
+  garageband:['Open your project in GarageBand (Mac or iOS).','Note: GarageBand does not support direct stem export. Export one track at a time.','Solo the first track (click the headphones icon).','Go to Share > Export Song to Disk (Mac) or Share > Song (iOS).','Set Format: AIFF or WAV | Quality: Lossless.','Click Export, save with a clear name, and repeat for each track.'],
+},
+it:{
+  ableton:['Apri il progetto in Arrangement View (premi Tab se sei in Session View).','Assicurati che tutti i clip siano sulla timeline e tutto suoni correttamente.','Vai su File > Export Audio/Video (Ctrl+Shift+E su Windows / Cmd+Shift+E su Mac).','In Rendered Track seleziona la traccia specifica che vuoi esportare.','Imposta: Formato = WAV | Sample Rate come richiesto | Bit Depth come richiesto.','Disabilita Normalize e Create Analysis File.','Clicca Export, nomina il file correttamente e ripeti per ogni stem. NON usare Export All Tracks.'],
+  logic:['Apri il progetto in Logic Pro.','Vai su File > Export > All Tracks as Audio Files.','Scegli la cartella di destinazione.','Imposta Formato: WAV | Risoluzione: 24-bit | Sample Rate come richiesto.','Attiva Bypass Effect Plug-Ins SOLO se hai bisogno di stem DRY.','Disattiva Include Audio Tail a meno che non siano necessarie le code.','Clicca Export. Logic esporta automaticamente un file per ogni traccia.'],
+  flstudio:['Apri il progetto in FL Studio.','Assicurati che ogni strumento abbia il proprio canale Mixer dedicato.','Vai su File > Export > Project bones (Stems).','Imposta Qualita: 32-bit float o 24-bit | Sample Rate come richiesto.','Scegli la cartella di destinazione e clicca Accept.','FL Studio esportera ogni canale Mixer come file separato.','Verifica che ogni file esportato suoni correttamente riprodotto da solo.'],
+  protools:['Apri la sessione in Pro Tools.','Seleziona tutte le regioni: Ctrl+A (Windows) o Cmd+A (Mac).','Vai su Track > Consolidate Clip per creare un file continuo per ogni traccia.','Seleziona la traccia che vuoi esportare.','Vai su Clip > Export Clips as Files.','Imposta Formato: WAV | Bit Depth come richiesto | Sample Rate come richiesto.','Clicca Export. Ripeti per ogni stem.'],
+  cubase:['Apri il progetto in Cubase o Nuendo.','Vai su File > Export > Audio Mixdown.','Nel pannello Channel Selection scegli quali canali esportare.','Imposta il range di export con i locatori sinistro e destro sulla timeline.','Imposta Formato: Wave | Sample Rate e Bit Depth come richiesto.','Attiva Channel Batch Export per esportare tutti i canali in una volta.','Scegli la cartella di destinazione e clicca Export Audio.'],
+  studioone:['Apri il brano in Studio One.','Vai su Song > Export Stems.','Seleziona le tracce da includere.','Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.','Scegli Dry o Wet in base a cio che e richiesto.','Seleziona la cartella di destinazione e clicca OK.','Studio One esporta ogni stem automaticamente.'],
+  reaper:['Apri il progetto in REAPER.','Vai su File > Render (o premi Ctrl+Alt+R).','Imposta Render what su Stems (selected tracks).','Imposta i bounds su Entire project.','Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.','Imposta cartella di output e pattern del nome file (usa $track per il nome).','Clicca Render X files.'],
+  bitwig:['Apri il progetto in Bitwig Studio.','Vai su File > Export Audio.','Seleziona Export stems per l\'export individuale delle tracce.','Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.','Verifica che il range di export copra tutto il brano.','Disabilita Normalize se presente.','Clicca Export e scegli la cartella di destinazione.'],
+  garageband:['Apri il progetto in GarageBand (Mac o iOS).','Nota: GarageBand non supporta l\'export diretto degli stem. Esporta una traccia alla volta.','Metti in solo la prima traccia (clicca l\'icona delle cuffie).','Vai su Share > Export Song to Disk (Mac) o Share > Song (iOS).','Imposta Formato: AIFF o WAV | Qualita: Lossless.','Clicca Export, salva con un nome chiaro e ripeti per ogni traccia.'],
+},
+};
+
+const DAWS=[
+  {id:'ableton',name:'Ableton Live',icon:'🎛️'},{id:'logic',name:'Logic Pro',icon:'🍎'},
+  {id:'flstudio',name:'FL Studio',icon:'🎹'},{id:'protools',name:'Pro Tools',icon:'🔊'},
+  {id:'cubase',name:'Cubase / Nuendo',icon:'🎼'},{id:'studioone',name:'Studio One',icon:'🎵'},
+  {id:'reaper',name:'REAPER',icon:'🔧'},{id:'bitwig',name:'Bitwig Studio',icon:'⚡'},
+  {id:'garageband',name:'GarageBand',icon:'🎸'},
+];
+
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+let lang='en', currentStep=1, tone='formal';
+const TOTAL=9;
+const completedSteps=new Set();
+
+const fd={
+  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,
+  serviceType:'mix',trackType:'stems',
+  glossaryEnabled:false,glossary:[],glossaryOthers:[],
+  drums:[],instr:[],vocals:[],premix:[],vocalsTB:[],premixTB:[],
+  stemOthers:[],
+  naming:[],namingExample:'',namingOthers:[],
+  delivery:[],deliveryOther:'',customLink:'',
+  session:[],sessionOther:'',
+  daws:[],dawYT:{},dawConfirmed:{},dawCustomSteps:{},dawOthers:[],
+  stupid:[],stupidOthers:[],
+  tc:false,logoBase64:null,accentColor:'#E8C547',
+};
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function t(k){return T[lang]?.[k]??T.en?.[k]??k;}
+function tArr(k){return T[lang]?.[k]??T.en?.[k]??[];}
+function checkSVG(){return`<svg viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
+
+// Luminance helper for PDF text color
+function luminance(r,g,b){return 0.299*r+0.587*g+0.114*b;}
+function textOnBg(r,g,b){return luminance(r,g,b)<128?[255,255,255]:[15,15,15];}
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.documentElement.lang=l;
+  applyT();buildAll();
+}
+
+function applyT(){
+  document.querySelectorAll('[data-t]').forEach(el=>el.innerHTML=t(el.getAttribute('data-t')));
+  document.querySelectorAll('[data-t-ph]').forEach(el=>el.placeholder=t(el.getAttribute('data-t-ph')));
+  buildStepsNav();
+}
+
+function updateAccent(v){
+  fd.accentColor=v;
+  document.querySelector(':root').style.setProperty('--acc',v);
+  document.getElementById('logoMark').style.background=v;
+  const r=parseInt(v.slice(1,3),16),g=parseInt(v.slice(3,5),16),b=parseInt(v.slice(5,7),16);
+  document.querySelector(':root').style.setProperty('--acc-dim',`rgba(${r},${g},${b},0.12)`);
+}
+
+function setTone(t2){
+  tone=t2;
+  document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.tone-btn[onclick="setTone('${t2}')"]`)?.classList.add('active');
+}
+
+function handleLogo(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{fd.logoBase64=e.target.result;const p=document.getElementById('logoPreview');p.src=e.target.result;p.style.display='block';};
+  reader.readAsDataURL(file);
+}
+
+function autoSave(){
+  updateProgress();
+  try{localStorage.setItem('bg_v5',JSON.stringify({accentColor:fd.accentColor,mixerName:document.getElementById('mixerName')?.value||''}));}catch(e){}
+}
+
+function updateProgress(){
+  const pct=Math.round((completedSteps.size/TOTAL)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+}
+
+function resetAll(){
+  const msg=lang==='it'?'Ricominciare da capo? Tutti i dati verranno cancellati.':'Start over? All data will be lost.';
+  if(!confirm(msg))return;
+  try{localStorage.removeItem('bg_v5');}catch(e){}
+  location.reload();
+}
+
+// ═══════════════════════════════════════════
+//  NAV
+// ═══════════════════════════════════════════
+const stepLabels={en:['Details','Service','Glossary','Format','Stems','Naming','Delivery','DAW Guides','Checklist'],it:['Dati','Servizio','Glossario','Formato','Stem','Nomenclatura','Invio','Guide DAW','Checklist'],es:['Datos','Servicio','Glosario','Formato','Stems','Nomenclatura','Envio','DAW','Checklist'],fr:['Donnees','Service','Glossaire','Format','Stems','Nommage','Envoi','DAW','Checklist'],de:['Daten','Service','Glossar','Format','Stems','Benennung','Senden','DAW','Checkliste'],pt:['Dados','Servico','Glossario','Formato','Stems','Nomenclatura','Envio','DAW','Checklist']};
+
+function buildStepsNav(){
+  const nav=document.getElementById('stepsNav');
+  const labels=stepLabels[lang]||stepLabels.en;
+  nav.innerHTML=labels.map((lb,i)=>{
+    const n=i+1,done=completedSteps.has(n)||n<currentStep,active=n===currentStep;
+    return`<button class="step-btn${done?' done':''}${active?' active':''}" onclick="goStep(${n})"><span class="step-num">${done?'v':n}</span>${lb}</button>`;
+  }).join('');
+}
+
+function goStep(n){
+  if(n<1||n>TOTAL)return;
+  document.querySelectorAll('.form-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(`step-${n}`).classList.add('active');
+  currentStep=n;buildStepsNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function advance(fromStep){
+  completedSteps.add(fromStep);updateProgress();goStep(fromStep+1);
+}
+
+function finishForm(){
+  completedSteps.add(9);updateProgress();
+  document.getElementById('generateBtn').disabled=false;
+  buildChecklist();
+}
+
+// ═══════════════════════════════════════════
+//  RADIO / SERVICE / TRACK TYPE
+// ═══════════════════════════════════════════
+function selectRadio(el,group,val){
+  el.closest('.radio-group').querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));
+  el.classList.add('selected');fd[group]=val;
+}
+function selectService(type){
+  fd.serviceType=type;
+  document.getElementById('svcMix').classList.toggle('selected',type==='mix');
+  document.getElementById('svcMaster').classList.toggle('selected',type==='mastering');
+  document.getElementById('trackTypeSection').style.display=type==='mix'?'block':'none';
+}
+function selectTrackType(type){
+  fd.trackType=type;
+  document.getElementById('rb-stems').classList.toggle('selected',type==='stems');
+  document.getElementById('rb-typebeat').classList.toggle('selected',type==='typebeat');
+  document.getElementById('stemsFullSection').style.display=type==='stems'?'block':'none';
+  document.getElementById('typebeatSection').style.display=type==='typebeat'?'block':'none';
+}
+function toggleFmtOther(el){
+  el.closest('.radio-group').querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));
+  el.classList.add('selected');fd.format='other';
+  document.getElementById('formatOtherField').classList.add('visible');
+}
+
+// ═══════════════════════════════════════════
+//  GLOSSARY
+// ═══════════════════════════════════════════
+function toggleGlossary(){
+  fd.glossaryEnabled=!fd.glossaryEnabled;
+  document.getElementById('glossaryToggle').classList.toggle('on',fd.glossaryEnabled);
+  document.getElementById('glossaryContent').style.display=fd.glossaryEnabled?'block':'none';
+}
+function toggleWetPhil(){
+  fd.wetPhilEnabled=!fd.wetPhilEnabled;
+  const row=document.getElementById('wetToggleRow');
+  row.classList.toggle('on',fd.wetPhilEnabled);
+  document.getElementById('wetPhilField').style.display=fd.wetPhilEnabled?'block':'none';
+  // Rebuild stem lists so WET sub-labels update immediately
+  ['drumsChecks','instrChecks','vocalChecks','premixChecks','vocalChecksTB','premixChecksTB'].forEach(id=>{
+    const key=id.replace('Checks','').replace('TB','');
+    const stateKey=id.includes('TB')?key+'TB':key;
+    const optKey=key+'Options';
+    buildCheckListFromKey(id,optKey,stateKey,null,false);
+  });
+  autoSave();
+}
+
+function buildGlossaryItems(){
+  const el=document.getElementById('glossaryItems');if(!el)return;
+  const terms=tArr('glossaryTerms');
+  el.innerHTML=terms.map((term,i)=>`
+    <div class="check-item${fd.glossary.includes(i)?' checked':''}" onclick="toggleArr('glossary',${i},null,false,true)">
+      <div class="check-box">${checkSVG()}</div>
+      <div><div class="check-label">${term.term}</div><div class="check-sub">${term.def}</div></div>
+    </div>`).join('');
+}
+function addGlossaryOther(){fd.glossaryOthers.push({term:'',def:''});buildGlossaryOtherList();}
+function buildGlossaryOtherList(){
+  const el=document.getElementById('glossaryOtherList');if(!el)return;
+  el.innerHTML=fd.glossaryOthers.map((item,i)=>`
+    <div class="multi-other-item">
+      <div class="fields">
+        <input type="text" placeholder="${lang==='it'?'Termine':'Term'}" value="${item.term}" oninput="fd.glossaryOthers[${i}].term=this.value">
+        <textarea placeholder="${lang==='it'?'Definizione':'Definition'}" oninput="fd.glossaryOthers[${i}].def=this.value">${item.def}</textarea>
+      </div>
+      <button class="remove-btn" onclick="fd.glossaryOthers.splice(${i},1);buildGlossaryOtherList()">x</button>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  GENERIC CHECK TOGGLE
+// ═══════════════════════════════════════════
+function toggleArr(key,idx,otherRevealId,isOther,rebuild){
+  const arr=fd[key],pos=arr.indexOf(idx);
+  if(pos>-1)arr.splice(pos,1);else arr.push(idx);
+  if(rebuild)rebuildKey(key);
+  if(otherRevealId&&isOther){const rev=document.getElementById(otherRevealId);if(rev)rev.classList.toggle('visible',arr.includes(idx));}
+  buildChecklist();autoSave();
+}
+
+function rebuildKey(key){
+  const map={glossary:['glossaryItems','glossaryTerms','glossary',null,false],drums:['drumsChecks','drumsOptions','drums',null,false],instr:['instrChecks','instrOptions','instr',null,false],vocals:['vocalChecks','vocalOptions','vocals',null,false],premix:['premixChecks','premixOptions','premix',null,false],vocalsTB:['vocalChecksTB','vocalOptions','vocalsTB',null,false],premixTB:['premixChecksTB','premixOptions','premixTB',null,false],naming:['namingChecks','namingOptions','naming',null,false],delivery:['deliveryChecks','deliveryOptions','delivery','deliveryOtherReveal',true],session:['sessionChecks','sessionOptions','session','sessionOtherReveal',true],stupid:['stupidChecks','stupidItems','stupid',null,false]};
+  const args=map[key];if(!args)return;
+  if(key==='glossary'){buildGlossaryItems();return;}
+  buildCheckListFromKey(...args);
+}
+
+function buildCheckListFromKey(containerId,optKey,stateKey,otherRevealId,hasOther){
+  const el=document.getElementById(containerId);if(!el)return;
+  const opts=tArr(optKey);
+  el.innerHTML=opts.map((opt,i)=>`
+    <div class="check-item${fd[stateKey].includes(i)?' checked':''}" onclick="toggleArr('${stateKey}',${i},'${otherRevealId||''}',${opt.isOther||false},true)">
+      <div class="check-box">${checkSVG()}</div>
+      <div><div class="check-label">${opt.label}</div>${opt.sub?`<div class="check-sub">${(fd.wetPhilEnabled&&opt.isWet)?t('s5wetUiGeneric'):opt.sub}</div>`:''}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  MULTI-OTHER
+// ═══════════════════════════════════════════
+function addStemOther(){fd.stemOthers.push({title:'',desc:''});buildStemOtherList();}
+function buildStemOtherList(){
+  const el=document.getElementById('stemOtherList');if(!el)return;
+  el.innerHTML=fd.stemOthers.map((item,i)=>`
+    <div class="multi-other-item"><div class="fields">
+      <input type="text" placeholder="${lang==='it'?'Titolo requisito':'Requirement title'}" value="${item.title}" oninput="fd.stemOthers[${i}].title=this.value;autoSave()">
+      <textarea placeholder="${lang==='it'?'Spiegazione (semplice e chiara)':'Explanation (simple and clear)'}" oninput="fd.stemOthers[${i}].desc=this.value;autoSave()">${item.desc}</textarea>
+    </div><button class="remove-btn" onclick="fd.stemOthers.splice(${i},1);buildStemOtherList()">x</button></div>`).join('');
+}
+function addNamingOther(){fd.namingOthers.push({title:'',desc:''});buildNamingOtherList();}
+function buildNamingOtherList(){
+  const el=document.getElementById('namingOtherList');if(!el)return;
+  el.innerHTML=fd.namingOthers.map((item,i)=>`
+    <div class="multi-other-item"><div class="fields">
+      <input type="text" placeholder="${lang==='it'?'Regola':'Rule'}" value="${item.title}" oninput="fd.namingOthers[${i}].title=this.value;autoSave()">
+      <textarea placeholder="${lang==='it'?'Spiegazione':'Explanation'}" oninput="fd.namingOthers[${i}].desc=this.value;autoSave()">${item.desc}</textarea>
+    </div><button class="remove-btn" onclick="fd.namingOthers.splice(${i},1);buildNamingOtherList()">x</button></div>`).join('');
+}
+function addDAWOther(){fd.dawOthers.push({name:'',yt:'',steps:''});buildDAWOtherList();}
+function buildDAWOtherList(){
+  const el=document.getElementById('dawOtherList');if(!el)return;
+  el.innerHTML=fd.dawOthers.map((item,i)=>`
+    <div class="multi-other-item"><div class="fields">
+      <input type="text" placeholder="${lang==='it'?'Nome DAW / Software':'DAW / Software name'}" value="${item.name}" oninput="fd.dawOthers[${i}].name=this.value;autoSave()">
+      <input type="url" placeholder="YouTube URL (optional)" value="${item.yt}" oninput="fd.dawOthers[${i}].yt=this.value;autoSave()">
+      <textarea placeholder="${lang==='it'?'Istruzioni (una per riga)':'Instructions (one per line)'}" oninput="fd.dawOthers[${i}].steps=this.value;autoSave()">${item.steps}</textarea>
+    </div><button class="remove-btn" onclick="fd.dawOthers.splice(${i},1);buildDAWOtherList()">x</button></div>`).join('');
+}
+function addStupidOther(){fd.stupidOthers.push({label:'',sub:''});buildStupidOtherList();}
+function buildStupidOtherList(){
+  const el=document.getElementById('stupidOtherList');if(!el)return;
+  el.innerHTML=fd.stupidOthers.map((item,i)=>`
+    <div class="multi-other-item"><div class="fields">
+      <input type="text" placeholder="${lang==='it'?'Errore da evitare':'Mistake to avoid'}" value="${item.label}" oninput="fd.stupidOthers[${i}].label=this.value;autoSave()">
+      <input type="text" placeholder="${lang==='it'?'Spiegazione breve':'Brief explanation'}" value="${item.sub}" oninput="fd.stupidOthers[${i}].sub=this.value;autoSave()">
+    </div><button class="remove-btn" onclick="fd.stupidOthers.splice(${i},1);buildStupidOtherList()">x</button></div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  DAW GRID + CONFIRM
+// ═══════════════════════════════════════════
+function buildDAWGrid(){
+  document.getElementById('dawGrid').innerHTML=DAWS.map(d=>`
+    <div class="daw-card${fd.daws.includes(d.id)?' selected':''}" onclick="toggleDAW('${d.id}')">
+      <div class="daw-icon">${d.icon}</div>
+      <div class="daw-name">${d.name}</div>
+    </div>`).join('');
+  buildDAWConfirmSection();
+}
+
+function toggleDAW(id){
+  const pos=fd.daws.indexOf(id);
+  if(pos>-1){
+    fd.daws.splice(pos,1);
+    delete fd.dawConfirmed[id];
+    delete fd.dawCustomSteps[id];
+  } else {
+    fd.daws.push(id);
+  }
+  buildDAWGrid();autoSave();
+}
+
+function buildDAWConfirmSection(){
+  const wrap=document.getElementById('dawConfirmSection');
+  if(!wrap)return;
+  if(!fd.daws.length){wrap.innerHTML='';updateContinue8();return;}
+
+  const steps=DAW_STEPS[lang]||DAW_STEPS.en;
+  wrap.innerHTML=fd.daws.map(id=>{
+    const d=DAWS.find(x=>x.id===id);
+    const dawSteps=(steps[id]||DAW_STEPS.en[id]||[]).filter(s=>s);
+    const confirmed=fd.dawConfirmed[id];
+    const isNo=confirmed===false;
+    const isYes=confirmed===true;
+
+    const stepsHTML=dawSteps.map((s,i)=>`<div class="daw-step-row"><span class="daw-step-num">${i+1}</span>${s}</div>`).join('');
+
+    return `<div class="daw-confirm-card">
+      <div class="daw-confirm-header">
+        <div class="daw-confirm-header-left">${d.icon} ${d.name}</div>
+        ${isYes?`<div class="daw-confirmed-badge">&#10003; ${t('s8confirmedLabel')}</div>`:''}
+      </div>
+      <div class="daw-steps-preview">${stepsHTML}</div>
+      <div class="daw-yt-section">
+        <div class="daw-yt-label">${t('s8ytLabel')}</div>
+        <input type="url" placeholder="https://youtube.com/watch?v=..." value="${fd.dawYT[id]||''}" oninput="fd.dawYT['${id}']=this.value;autoSave()">
+      </div>
+      <div class="daw-confirm-question">
+        <span class="daw-confirm-q-text">${t('s8confirmQ')}</span>
+        <div class="daw-confirm-btns">
+          <button class="daw-yes-btn${isYes?' active':''}" onclick="confirmDAW('${id}',true)">${t('s8yesBtn')}</button>
+          <button class="daw-no-btn${isNo?' active':''}" onclick="confirmDAW('${id}',false)">${t('s8noBtn')}</button>
+        </div>
+      </div>
+      ${isNo?`<div class="daw-edit-area">
+        <div style="font-size:11px;color:var(--t2);margin-bottom:6px">${t('s8editLabel')}</div>
+        <textarea rows="9" oninput="fd.dawCustomSteps['${id}']=this.value;autoSave()">${fd.dawCustomSteps[id]||dawSteps.join('\n')}</textarea>
+        <button class="daw-edit-confirm-btn" onclick="finalizeDAWEdit('${id}')">${t('s8confirmEditsBtn')}</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+
+  updateContinue8();
+}
+
+function confirmDAW(id,yes){
+  fd.dawConfirmed[id]=yes;
+  if(!yes&&!fd.dawCustomSteps[id]){
+    const steps=DAW_STEPS[lang]||DAW_STEPS.en;
+    fd.dawCustomSteps[id]=(steps[id]||DAW_STEPS.en[id]||[]).filter(s=>s).join('\n');
+  }
+  buildDAWConfirmSection();autoSave();
+}
+
+function finalizeDAWEdit(id){
+  fd.dawConfirmed[id]=true;
+  buildDAWConfirmSection();autoSave();
+}
+
+function updateContinue8(){
+  const btn=document.getElementById('advance8Btn');
+  const note=document.getElementById('daw8LockedNote');
+  if(!btn)return;
+  const allConfirmed=fd.daws.length===0||fd.daws.every(id=>fd.dawConfirmed[id]===true);
+  btn.disabled=!allConfirmed;
+  if(note)note.style.display=(!allConfirmed&&fd.daws.length>0)?'block':'none';
+}
+
+// ═══════════════════════════════════════════
+//  STUPIDITY CHECK
+// ═══════════════════════════════════════════
+function buildStupidChecks(){
+  const el=document.getElementById('stupidChecks');if(!el)return;
+  const items=tArr('stupidItems');
+  el.innerHTML=items.map((item,i)=>`
+    <div class="check-item${fd.stupid.includes(i)?' checked':''}" onclick="toggleArr('stupid',${i},null,false,true)">
+      <div class="check-box">${checkSVG()}</div>
+      <div><div class="check-label">${item.label}</div><div class="check-sub">${item.sub}</div></div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  CHECKLIST
+// ═══════════════════════════════════════════
+function buildChecklist(){
+  const el=document.getElementById('checklistPreview');if(!el)return;
+  const base=tArr('checklistBase');
+  const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
+  const items=fmtVal?[`${t('pdf_format_label')}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`,...base]:base;
+  el.innerHTML=items.map(item=>`
+    <div class="checklist-preview-item">
+      <div class="cl-dot">v</div>
+      <div class="cl-text">${item}</div>
+    </div>`).join('');
+}
+
+function toggleTC(){
+  fd.tc=!fd.tc;
+  document.getElementById('tcToggle').classList.toggle('checked',fd.tc);
+  document.getElementById('tcField').style.display=fd.tc?'block':'none';
+}
+
+// ═══════════════════════════════════════════
+//  COPY AS TEXT
+// ═══════════════════════════════════════════
+
+// ═══════════════════════════════════════════
+//  PDF GENERATION
+// ═══════════════════════════════════════════
+function generatePDF(){
+  if(!window.jspdf){setTimeout(generatePDF,500);return;}
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF('p','mm','a4');
+  const W=210,H=297,M=18,CW=W-M*2;
+  let y=M;
+  const tl=T[lang]||T.en;
+  const hex=fd.accentColor;
+  const AR=parseInt(hex.slice(1,3),16),AG=parseInt(hex.slice(3,5),16),AB=parseInt(hex.slice(5,7),16);
+  const ACC=[AR,AG,AB];
+  const DARK=[15,15,15];
+  const MID=[90,90,90];
+  const LIGHT=[242,242,242];
+  const accTextColor=textOnBg(AR,AG,AB);
+
+  const phil=document.getElementById('wetdryPhil')?.value?.trim()||'';
+  const hasPhil=fd.wetPhilEnabled&&phil.length>0;
+  const genericSub=tl.pdf_stem_sub_generic;
+
+  function np(){doc.addPage();y=M;}
+  function ck(need){if(y+need>H-16)np();}
+
+  function secH(label,bgColor=ACC,minContent=28){
+    if(y+12+minContent>H-16)np();
+    else if(y>M+5)y+=4;
+    doc.setFillColor(...bgColor);
+    doc.rect(M,y,CW,7,'F');
+    const tc=textOnBg(bgColor[0],bgColor[1],bgColor[2]);
+    doc.setFontSize(8);doc.setFont('helvetica','bold');doc.setTextColor(...tc);
+    doc.text(label,M+4,y+5);
+    y+=11;doc.setTextColor(40,40,40);
+  }
+
+  function bodyTxt(text,indent=0,color=[40,40,40],size=10){
+    if(!text?.trim())return;
+    doc.setFontSize(size);doc.setFont('helvetica','normal');doc.setTextColor(...color);
+    const lines=doc.splitTextToSize(text,Math.max(CW-indent-4,60));
+    lines.forEach(l=>{ck(6);doc.text(l,M+indent,y);y+=5.5;});
+  }
+
+  function bullet(text,n=null,indent=5){
+    if(!text?.trim())return;
+    ck(7);
+    doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(40,40,40);
+    const pre=n!=null?`${n}.  `:'- ';
+    const lines=doc.splitTextToSize(pre+text,Math.max(CW-indent-8,60));
+    lines.forEach((l,i)=>{ck(6);doc.text(l,M+indent+(i>0?6:0),y);y+=5.5;});
+  }
+
+  function subBullet(text,indent=12){
+    if(!text?.trim())return;
+    ck(6);
+    doc.setFontSize(9);doc.setFont('helvetica','italic');doc.setTextColor(100,100,100);
+    const lines=doc.splitTextToSize(text,CW-indent-4);
+    lines.forEach(l=>{ck(5);doc.text(l,M+indent,y);y+=5;});
+    doc.setTextColor(40,40,40);
+  }
+
+  function infoBox(label,value){
+    ck(11);
+    doc.setFillColor(...LIGHT);doc.rect(M,y,CW,9,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...MID);
+    doc.text(label.toUpperCase()+':',M+4,y+6);
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...DARK);
+    doc.text(value,M+40,y+6);
+    y+=13;
+  }
+
+  function warnBox(text){
+    if(!text?.trim())return;
+    ck(18);
+    const lines=doc.splitTextToSize(text,CW-12);
+    // tight padding: top 6px, bottom 6px, line height 5.5
+    const bh=Math.max(lines.length*5+4,9);
+    doc.setFillColor(255,240,240);doc.rect(M,y,CW,bh,'F');
+    doc.setFillColor(190,40,40);doc.rect(M,y,3,bh,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(140,20,20);
+    let iy=y+4.5;
+    lines.forEach(l=>{doc.text(l,M+7,iy);iy+=5;});
+    y+=bh+2;
+  }
+
+  function infoExplain(text){
+    if(!text?.trim())return;
+    ck(14);
+    const lines=doc.splitTextToSize(text,CW-12);
+    const bh=Math.max(lines.length*5+4,9);
+    doc.setFillColor(235,245,255);doc.rect(M,y,CW,bh,'F');
+    doc.setFillColor(100,150,220);doc.rect(M,y,3,bh,'F');
+    doc.setFont('helvetica','italic');doc.setFontSize(9.5);doc.setTextColor(40,70,130);
+    let iy=y+4.5;
+    lines.forEach(l=>{doc.text(l,M+7,iy);iy+=5;});
+    y+=bh+2;
+  }
+
+  // ── COVER ──
+  doc.setFillColor(...DARK);doc.rect(0,0,W,36,'F');
+  doc.setFillColor(...ACC);doc.rect(0,36,W,3,'F');
+  if(fd.logoBase64){try{doc.addImage(fd.logoBase64,'PNG',M,5,0,24);}catch(e){}}
+  const titleX=fd.logoBase64?M+85:M;
+  doc.setFont('helvetica','bold');doc.setFontSize(17);doc.setTextColor(255,255,255);
+  doc.text(tl.pdf_title,titleX,19);
+  const sub=tone==='formal'?tl.pdf_sub_formal:tl.pdf_sub_informal;
+  doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(155,155,155);
+  const subLines=doc.splitTextToSize(sub,CW-(fd.logoBase64?82:0));
+  subLines.forEach((l,i)=>doc.text(l,titleX,28+i*5));
+  y=48;
+
+  const mixerName=document.getElementById('mixerName')?.value||'';
+  const mixerEmail=document.getElementById('mixerEmail')?.value||'';
+  const mixerWeb=document.getElementById('mixerWeb')?.value||'';
+  const mixerPhone=document.getElementById('mixerPhone')?.value||'';
+  if(mixerName){doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(...DARK);doc.text(mixerName,M,y);y+=7;}
+  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(...MID);
+  if(mixerEmail){doc.text(`${tl.pdf_contact}: ${mixerEmail}`,M,y);y+=5;}
+  if(mixerWeb){doc.text(`${tl.pdf_web}: ${mixerWeb}`,M,y);y+=5;}
+  if(mixerPhone){doc.text(`${tl.pdf_phone}: ${mixerPhone}`,M,y);y+=5;}
+
+  const svcLabel=fd.serviceType==='mix'?tl.pdf_service_mix:tl.pdf_service_master;
+  doc.setFillColor(...ACC);doc.roundedRect(M,y+4,55,8,2,2,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...textOnBg(AR,AG,AB));
+  doc.text(svcLabel,M+3,y+9.5);y+=20;
+
+  const msg=document.getElementById('mixerMsg')?.value||'';
+  if(msg){
+    ck(18);
+    const mlines=doc.splitTextToSize(msg,CW-9);
+    const bh=Math.max(mlines.length*5.5+10,14);
+    doc.setFillColor(248,252,245);doc.rect(M,y,CW,bh,'F');
+    doc.setFillColor(...ACC);doc.rect(M,y,2.5,bh,'F');
+    doc.setFont('helvetica','italic');doc.setFontSize(10);doc.setTextColor(50,70,50);
+    let iy=y+7;mlines.forEach(l=>{doc.text(l,M+6,iy);iy+=5.5;});
+    y+=bh+6;
+  }
+
+  // ── GLOSSARY ──
+  if(fd.glossaryEnabled&&(fd.glossary.length||fd.glossaryOthers.length)){
+    secH(tl.pdf_glossary,[60,60,60]);
+    const terms=tArr('glossaryTerms');
+    fd.glossary.forEach(i=>{
+      const term=terms[i];if(!term)return;
+      ck(16);
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...DARK);
+      doc.text(term.term+':',M+3,y);y+=5.5;
+      bodyTxt(term.def,6,[70,70,70],9.5);y+=2;
+    });
+    fd.glossaryOthers.filter(g=>g.term).forEach(g=>{
+      ck(14);
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...DARK);
+      doc.text(g.term+':',M+3,y);y+=5.5;
+      if(g.def)bodyTxt(g.def,6,[70,70,70],9.5);y+=2;
+    });
+  }
+
+  // ── FORMAT ──
+  secH(tl.pdf_sec_format);
+  const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
+  if(fmtVal)infoBox(tl.pdf_format_label,fmtVal);
+  if(fd.sr)infoBox(tl.pdf_sr_label,fd.sr);
+  if(fd.bd)infoBox(tl.pdf_bd_label,fd.bd);
+
+  // ── WET/DRY PHILOSOPHY ──
+  warnBox(tl.pdf_master_warn);
+  infoExplain(tl.pdf_wetdry_note);
+  if(hasPhil){
+    secH(tl.pdf_sec_philos);
+    bodyTxt(phil,0,[40,40,40]);y+=4;
+  }
+
+  // ── STEMS ──
+  const renderStemGroup=(optKey,stateKey,groupTitle)=>{
+    const opts=tArr(optKey);
+    const sel=fd[stateKey].map(i=>opts[i]).filter(Boolean);
+    if(!sel.length)return;
+    ck(14);
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(AR,AG,AB);
+    doc.text('-- '+groupTitle+' --',M+3,y);y+=7;doc.setTextColor(40,40,40);
+    sel.forEach(s=>{
+      // Calculate combined height of label + sub before drawing anything
+      const subText=(hasPhil&&s.isWet)?genericSub:s.sub;
+      const labelLines=doc.splitTextToSize('- '+s.label,Math.max(CW-5-8,60));
+      const subLines=subText?doc.splitTextToSize(subText,CW-12-4):[];
+      const totalH=labelLines.length*5.5+(subLines.length*5)+2;
+      ck(totalH); // ensure whole item fits before starting
+      bullet(s.label);
+      if(subText)subBullet(subText);
+    });
+    y+=2;
+  };
+
+  secH(tl.pdf_sec_stems);
+  if(fd.serviceType==='mix'&&fd.trackType==='stems'){
+    renderStemGroup('drumsOptions','drums',t('s5drumsLabel'));
+    renderStemGroup('instrOptions','instr',t('s5instrLabel'));
+    renderStemGroup('vocalOptions','vocals',t('s5vocalLabel'));
+    renderStemGroup('premixOptions','premix',t('s5premixLabel'));
+  } else if(fd.serviceType==='mix'&&fd.trackType==='typebeat'){
+    renderStemGroup('vocalOptions','vocalsTB',t('s5vocalLabel'));
+    renderStemGroup('premixOptions','premixTB',t('s5premixLabel'));
+  } else {
+    renderStemGroup('premixOptions','premix',t('s5premixLabel'));
+  }
+  fd.stemOthers.filter(s=>s.title).forEach(s=>{
+    ck(14);
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(AR,AG,AB);
+    doc.text('-- '+s.title+' --',M+3,y);y+=7;doc.setTextColor(40,40,40);
+    if(s.desc)bodyTxt(s.desc,4,[60,60,60]);y+=2;
+  });
+
+  // ── NAMING ──
+  const namOpts=tArr('namingOptions');
+  const selNam=fd.naming.filter(i=>!namOpts[i]?.isOther).map(i=>namOpts[i]).filter(Boolean);
+  const namExample=document.getElementById('namingExample')?.value||'';
+  if(selNam.length||namExample||fd.namingOthers.length){
+    secH(tl.pdf_sec_naming);
+    if(namExample){
+      ck(14);
+      doc.setFillColor(...DARK);doc.rect(M,y,CW,10,'F');
+      doc.setFont('courier','bold');doc.setFontSize(11);doc.setTextColor(AR,AG,AB);
+      doc.text(`${tl.pdf_sec_example}: ${namExample}.wav`,M+5,y+7);y+=14;
+    }
+    selNam.forEach(s=>{
+      const nl=doc.splitTextToSize('- '+s.label,Math.max(CW-5-8,60));
+      const ns=s.sub?doc.splitTextToSize(s.sub,CW-12-4):[];
+      ck(nl.length*5.5+ns.length*5+2);
+      bullet(s.label);if(s.sub)subBullet(s.sub);
+    });
+    fd.namingOthers.filter(n=>n.title).forEach(n=>{
+      const nl=doc.splitTextToSize('- '+n.title,Math.max(CW-5-8,60));
+      const ns=n.desc?doc.splitTextToSize(n.desc,CW-12-4):[];
+      ck(nl.length*5.5+ns.length*5+2);
+      bullet(n.title);if(n.desc)subBullet(n.desc);
+    });
+    y+=2;
+  }
+
+  // ── DELIVERY ──
+  const delOpts=tArr('deliveryOptions');
+  const selDel=fd.delivery.filter(i=>!delOpts[i]?.isOther).map(i=>delOpts[i]).filter(Boolean);
+  const delOther=document.getElementById('deliveryOtherText')?.value||'';
+  const customLink=document.getElementById('customLink')?.value||'';
+  const delivEmail=document.getElementById('deliveryEmail')?.value||'';
+  if(selDel.length||delOther){
+    secH(tl.pdf_sec_delivery);
+    selDel.forEach(s=>{
+      const dl=doc.splitTextToSize('- '+s.label,CW-6);
+      const ds=s.sub?doc.splitTextToSize('  '+s.sub,CW-8):[];
+      ck(dl.length*5.5+ds.length*5.5+2);
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...DARK);doc.text(`- ${s.label}`,M+3,y);y+=5.5;
+      if(s.sub){doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...MID);doc.text(`  ${s.sub}`,M+5,y);y+=5.5;}
+    });
+    if(delOther)bullet(delOther);
+    if(customLink){ck(12);y+=2;doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(`Link: ${customLink}`,M+4,y+6);y+=13;}
+    if(delivEmail){ck(10);doc.setFillColor(...LIGHT);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...MID);doc.text(`${tl.pdf_deliv_email_label}: `,M+4,y+6);doc.setFont('helvetica','bold');doc.setTextColor(...DARK);doc.text(delivEmail,M+4+doc.getTextWidth(`${tl.pdf_deliv_email_label}: `),y+6);y+=13;}
+  }
+
+  // ── SESSION ──
+  const sessOpts=tArr('sessionOptions');
+  const selSess=fd.session.filter(i=>!sessOpts[i]?.isOther).map(i=>sessOpts[i]).filter(Boolean);
+  const sessOther=document.getElementById('sessionOtherText')?.value||'';
+  if(selSess.length||sessOther){
+    secH(tl.pdf_sec_session);
+    selSess.forEach(s=>bullet(s.label));
+    if(sessOther)bullet(sessOther);y+=2;
+  }
+
+  // ── DAW GUIDES ──
+  const selDAWs=DAWS.filter(d=>fd.daws.includes(d.id));
+  selDAWs.forEach(daw=>{
+    // Use custom steps if confirmed with edits, else use standard steps
+    const stdSteps=(DAW_STEPS[lang]||DAW_STEPS.en)[daw.id]||DAW_STEPS.en[daw.id]||[];
+    const dawStepList=fd.dawCustomSteps[daw.id]?fd.dawCustomSteps[daw.id].split('\n').filter(s=>s.trim()):stdSteps.filter(s=>s);
+    const estH=14+(dawStepList.length*11);
+    if(y+Math.min(estH,55)>H-16)np();
+    secH(`${tl.pdf_sec_daw} -- ${daw.name}`,DARK);
+    dawStepList.forEach((step,i)=>bullet(step,i+1));
+    y+=3;
+    const ytUrl=fd.dawYT[daw.id]||'';
+    if(ytUrl){ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(`${tl.pdf_daw_yt}: ${ytUrl}`,M+4,y+6);y+=13;}
+  });
+
+  fd.dawOthers.filter(d=>d.name).forEach(d=>{
+    if(y+40>H-16)np();
+    secH(`${tl.pdf_sec_daw} -- ${d.name}`,DARK);
+    if(d.steps){d.steps.split('\n').filter(s=>s.trim()).forEach((step,i)=>bullet(step,i+1));}
+    if(d.yt){ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(`${tl.pdf_daw_yt}: ${d.yt}`,M+4,y+6);y+=13;}
+    y+=3;
+  });
+
+  // ── STUPIDITY CHECK ──
+  const stupidItems=tArr('stupidItems');
+  const allStupid=[...fd.stupid.map(i=>stupidItems[i]).filter(Boolean),...fd.stupidOthers.filter(s=>s.label)];
+  if(allStupid.length){
+    if(y+40>H-16)np();
+    secH(tl.pdf_sec_stupid,[170,25,25]);
+    allStupid.forEach(s=>{
+      const labelLines=doc.splitTextToSize(s.label,CW-14);
+      const subLines=s.sub?doc.splitTextToSize(s.sub,CW-17):[];
+      const bh=Math.max(labelLines.length*5+subLines.length*4.5+5,9);
+      ck(bh+2);
+      doc.setFillColor(255,243,243);doc.rect(M,y,CW,bh,'F');
+      doc.setFillColor(180,35,35);doc.rect(M,y,3,bh,'F');
+      let iy=y+4.5;
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(140,20,20);
+      labelLines.forEach(l=>{doc.text(l,M+7,iy);iy+=5;});
+      if(subLines.length){doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(110,40,40);subLines.forEach(l=>{doc.text(l,M+9,iy);iy+=4.5;});}
+      y+=bh+3;
+    });
+  }
+
+  // ── CHECKLIST ──
+  const base=tArr('checklistBase');
+  const fmtItem=fmtVal?`${tl.pdf_format_label}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`:null;
+  const allCl=fmtItem?[fmtItem,...base]:base;
+  if(y+40>H-16)np();
+  secH(tl.pdf_sec_checklist);
+  ck(7);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(60,60,60);
+  doc.text(tl.pdf_checklist_intro,M,y);y+=8;
+  allCl.forEach(item=>{
+    const clLines=doc.splitTextToSize(item,CW-16);
+    const rowH=Math.max(clLines.length*5.5+6,10);
+    ck(rowH+3);
+    doc.setFillColor(245,245,245);doc.rect(M,y,CW,rowH,'F');
+    doc.setDrawColor(150,150,150);doc.setLineWidth(0.4);
+    doc.rect(M+3,y+(rowH-5)/2,5,5,'S');
+    doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(...DARK);
+    const textY=clLines.length===1?y+(rowH/2)+3:y+7;
+    clLines.forEach((l,i)=>{doc.text(l,M+12,textY+i*5.5);});
+    y+=rowH+3;
+  });
+
+  // ── NOTES ──
+  const notes=document.getElementById('extraNotes')?.value||'';
+  const refYT=document.getElementById('refYT')?.value||'';
+  if(notes){secH(tl.pdf_sec_notes);bodyTxt(notes);y+=3;}
+  if(refYT){secH(tl.pdf_sec_yt);ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(refYT,M+4,y+6);y+=13;}
+
+  // ── CONTACT BOX ──
+  const contactNote=document.getElementById('contactNote')?.value||'';
+  if(contactNote){
+    ck(22);y+=4;
+    const cnLines=doc.splitTextToSize(contactNote,CW-14);
+    const bh=Math.max(cnLines.length*5.5+12,18);
+    doc.setFillColor(...DARK);doc.rect(M,y,CW,bh,'F');
+    doc.setFillColor(AR,AG,AB);doc.rect(M,y,CW,3,'F');
+    doc.setFont('helvetica','italic');doc.setFontSize(10);doc.setTextColor(210,210,210);
+    let iy=y+10;
+    cnLines.forEach(l=>{doc.text(l,M+6,iy);iy+=5.5;});
+    y+=bh+4;
+  }
+
+  // ── T&C ──
+  if(fd.tc){const tc=document.getElementById('tcText')?.value||'';if(tc){secH(tl.pdf_sec_tc);bodyTxt(tc);}}
+
+  // ── FOOTER ──
+  const pages=doc.getNumberOfPages();
+  for(let p=1;p<=pages;p++){
+    doc.setPage(p);
+    doc.setFillColor(...DARK);doc.rect(0,H-10,W,10,'F');
+    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(100,100,100);
+    doc.text(tl.pdf_footer,M,H-4);
+    doc.text(`${p} / ${pages}`,W-M,H-4,{align:'right'});
+  }
+
+  const name=(document.getElementById('mixerName')?.value||'guide').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_-]/g,'');
+  doc.save(`BounceGuide_${name||'guide'}.pdf`);
+}
+
+// ═══════════════════════════════════════════
+//  BUILD ALL
+// ═══════════════════════════════════════════
+function buildAll(){
+  buildGlossaryItems();buildGlossaryOtherList();
+  buildCheckListFromKey('drumsChecks','drumsOptions','drums',null,false);
+  buildCheckListFromKey('instrChecks','instrOptions','instr',null,false);
+  buildCheckListFromKey('vocalChecks','vocalOptions','vocals',null,false);
+  buildCheckListFromKey('premixChecks','premixOptions','premix',null,false);
+  buildCheckListFromKey('vocalChecksTB','vocalOptions','vocalsTB',null,false);
+  buildCheckListFromKey('premixChecksTB','premixOptions','premixTB',null,false);
+  buildCheckListFromKey('namingChecks','namingOptions','naming',null,false);
+  buildCheckListFromKey('deliveryChecks','deliveryOptions','delivery','deliveryOtherReveal',true);
+  buildCheckListFromKey('sessionChecks','sessionOptions','session','sessionOtherReveal',true);
+  buildStupidChecks();buildStupidOtherList();
+  buildDAWGrid();
+  buildStemOtherList();buildNamingOtherList();buildDAWOtherList();
+  buildChecklist();updateContinue8();
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  try{
+    const saved=localStorage.getItem('bg_v5');
+    if(saved){
+      const p=JSON.parse(saved);
+      if(p.mixerName)document.getElementById('mixerName').value=p.mixerName;
+      if(p.accentColor){fd.accentColor=p.accentColor;updateAccent(p.accentColor);document.getElementById('accentColor').value=p.accentColor;}
+    }
+  }catch(e){}
+  applyT();buildAll();
+});
+</script>
+</body>
+</html>
