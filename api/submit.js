@@ -13,27 +13,26 @@ module.exports = async function handler(req, res) {
  
   const NOTION_TOKEN = process.env.NOTION_TOKEN;
  
-  // Page body for description and email
-  const children = [];
- 
-  if (descrizione && descrizione.trim()) {
-    children.push({
-      object: 'block',
-      type: 'paragraph',
-      paragraph: {
-        rich_text: [{ type: 'text', text: { content: descrizione.trim() } }]
-      }
-    });
+  // Build description content including email if provided
+  let descContent = (descrizione || '').trim();
+  if (email && email.trim()) {
+    descContent += (descContent ? '\n\nEmail: ' : 'Email: ') + email.trim();
   }
  
-  if (email && email.trim()) {
-    children.push({
-      object: 'block',
-      type: 'paragraph',
-      paragraph: {
-        rich_text: [{ type: 'text', text: { content: 'Email: ' + email.trim() } }]
-      }
-    });
+  const properties = {
+    Feature: {
+      title: [{ text: { content: feature.trim() } }]
+    },
+    Lingua: {
+      select: { name: (lingua || 'EN').toUpperCase() }
+    }
+  };
+ 
+  // Only add Descrizione if there's content
+  if (descContent) {
+    properties['Descrizione'] = {
+      rich_text: [{ text: { content: descContent } }]
+    };
   }
  
   try {
@@ -46,15 +45,7 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         parent: { database_id: DATABASE_ID },
-        properties: {
-          Feature: {
-            title: [{ text: { content: feature.trim() } }]
-          },
-          Lingua: {
-            select: { name: (lingua || 'EN').toUpperCase() }
-          }
-        },
-        children: children
+        properties
       })
     });
  
