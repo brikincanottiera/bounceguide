@@ -173,7 +173,7 @@
     "en": [
       {
         "label": "Export with 'Export All Tracks' or equivalent",
-        "sub": "Often includes bus tracks or MIDI, always export each stem individually"
+        "sub": "Often includes bus tracks or MIDI — always export each stem individually"
       },
       {
         "label": "Leave the limiter or maximizer on the master bus active",
@@ -181,26 +181,26 @@
       },
       {
         "label": "Normalize files before exporting",
-        "sub": "Normalization changes the relative levels, I need your balance as-is"
+        "sub": "Normalization changes the relative levels — I need your balance as-is"
       },
       {
         "label": "Send MP3 when WAV or AIFF is available",
         "sub": "MP3 permanently removes audio information"
       },
       {
-        "label": "All files must start from the same point (bar 1, beat 1) ",
+        "label": "All files must start from the same point (bar 1, beat 1)",
         "sub": "If stems start at different positions nothing aligns in the session"
       },
       {
-        "label": "Send the files and then say 'I changed the chorus' ",
-        "sub": "Files sent must be final, no changes after sending"
+        "label": "Send the files and then say 'I changed the chorus'",
+        "sub": "Files sent must be final — no changes after sending"
       },
       {
         "label": "Send a single stereo file with everything mixed together",
         "sub": "That is a mix, not stems"
       },
       {
-        "label": "Export MONO what is mono, STEREO what is stereo ",
+        "label": "Export MONO what is mono, STEREO what is stereo",
         "sub": "If your DAW allows it, of course"
       }
     ],
@@ -218,11 +218,11 @@
         "sub": "La normalizzazione cambia i livelli relativi, io voglio il tuo balance"
       },
       {
-        "label": "Inviare MP3 quando WAV o AIFF e disponibile",
+        "label": "Inviare MP3 quando WAV o AIFF è disponibile",
         "sub": "L'MP3 rimuove permanentemente informazioni audio"
       },
       {
-        "label": "I file devono tutti paritre dallo stesso punto (battuta 1, tempo 1)",
+        "label": "I file devono tutti partire dallo stesso punto (battuta 1, tempo 1)",
         "sub": "Se gli stem partono da posizioni diverse, niente si allinea in sessione"
       },
       {
@@ -238,10 +238,142 @@
         "sub": "Se la tua DAW te lo consente, ovviamente"
       }
     ],
-    "es": [],
-    "fr": [],
-    "de": [],
-    "pt": []
+    "es": [
+      {
+        "label": "Exportar con 'Export All Tracks' o equivalente",
+        "sub": "Suele incluir pistas de bus o MIDI — exportar siempre cada stem individualmente"
+      },
+      {
+        "label": "Dejar el limitador o maximizador del master bus activo",
+        "sub": "Los stems estarán pre-comprimidos y no podré remediarlo"
+      },
+      {
+        "label": "Normalizar los archivos antes de exportar",
+        "sub": "La normalización cambia los niveles relativos — necesito tu balance tal cual"
+      },
+      {
+        "label": "Enviar MP3 cuando WAV o AIFF está disponible",
+        "sub": "El MP3 elimina permanentemente información de audio"
+      },
+      {
+        "label": "Todos los archivos deben partir del mismo punto (compás 1, tiempo 1)",
+        "sub": "Si los stems parten de posiciones distintas nada se alinea en la sesión"
+      },
+      {
+        "label": "Enviar los archivos y luego decir 'cambié el estribillo'",
+        "sub": "Los archivos enviados deben ser definitivos — sin cambios después del envío"
+      },
+      {
+        "label": "Enviar un único archivo estéreo con todo mezclado",
+        "sub": "Eso es un mix, no stems"
+      },
+      {
+        "label": "Exportar MONO lo que es mono, ESTÉREO lo que es estéreo",
+        "sub": "Si tu DAW te lo permite, claro"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Exporter avec 'Export All Tracks' ou équivalent",
+        "sub": "Inclut souvent des pistes de bus ou MIDI — toujours exporter chaque stem individuellement"
+      },
+      {
+        "label": "Laisser le limiteur ou maximiseur du master bus actif",
+        "sub": "Les stems seront pré-compressés et je ne pourrai pas y remédier"
+      },
+      {
+        "label": "Normaliser les fichiers avant d'exporter",
+        "sub": "La normalisation change les niveaux relatifs — j'ai besoin de ton balance tel quel"
+      },
+      {
+        "label": "Envoyer des MP3 quand WAV ou AIFF est disponible",
+        "sub": "Le MP3 supprime définitivement des informations audio"
+      },
+      {
+        "label": "Tous les fichiers doivent partir du même point (mesure 1, temps 1)",
+        "sub": "Si les stems partent de positions différentes rien ne s'aligne dans la session"
+      },
+      {
+        "label": "Envoyer les fichiers puis dire 'j'ai changé le refrain'",
+        "sub": "Les fichiers envoyés doivent être définitifs — aucune modification après l'envoi"
+      },
+      {
+        "label": "Envoyer un seul fichier stéréo avec tout mixé ensemble",
+        "sub": "C'est un mix, pas des stems"
+      },
+      {
+        "label": "Exporter en MONO ce qui est mono, en STÉRÉO ce qui est stéréo",
+        "sub": "Si ta DAW te le permet bien sûr"
+      }
+    ],
+    "de": [
+      {
+        "label": "Mit 'Export All Tracks' oder Ähnlichem exportieren",
+        "sub": "Enthält oft Bus-Spuren oder MIDI — immer jeden Stem einzeln exportieren"
+      },
+      {
+        "label": "Den Limiter oder Maximizer auf dem Master Bus aktiv lassen",
+        "sub": "Die Stems werden vorkomprimiert und ich kann das nicht rückgängig machen"
+      },
+      {
+        "label": "Dateien vor dem Export normalisieren",
+        "sub": "Die Normalisierung ändert die relativen Pegel — ich brauche deine Balance so wie sie ist"
+      },
+      {
+        "label": "MP3 senden wenn WAV oder AIFF verfügbar ist",
+        "sub": "MP3 entfernt dauerhaft Audioinformationen"
+      },
+      {
+        "label": "Alle Dateien müssen vom gleichen Punkt starten (Takt 1, Zählzeit 1)",
+        "sub": "Wenn Stems an verschiedenen Positionen beginnen passt nichts zusammen"
+      },
+      {
+        "label": "Die Dateien senden und dann sagen 'ich habe den Refrain geändert'",
+        "sub": "Gesendete Dateien müssen endgültig sein — keine Änderungen nach dem Senden"
+      },
+      {
+        "label": "Eine einzelne Stereodatei mit allem zusammen gemischt senden",
+        "sub": "Das ist ein Mix, keine Stems"
+      },
+      {
+        "label": "MONO exportieren was mono ist, STEREO was stereo ist",
+        "sub": "Wenn deine DAW das erlaubt natürlich"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Exportar com 'Export All Tracks' ou equivalente",
+        "sub": "Frequentemente inclui faixas de bus ou MIDI — sempre exportar cada stem individualmente"
+      },
+      {
+        "label": "Deixar o limitador ou maximizador do master bus ativo",
+        "sub": "Os stems ficarão pré-comprimidos e não poderei remediar"
+      },
+      {
+        "label": "Normalizar os arquivos antes de exportar",
+        "sub": "A normalização muda os níveis relativos — preciso do seu balance como está"
+      },
+      {
+        "label": "Enviar MP3 quando WAV ou AIFF está disponível",
+        "sub": "O MP3 remove permanentemente informações de áudio"
+      },
+      {
+        "label": "Todos os arquivos devem partir do mesmo ponto (compasso 1, tempo 1)",
+        "sub": "Se os stems partem de posições diferentes nada se alinha na sessão"
+      },
+      {
+        "label": "Enviar os arquivos e depois dizer 'mudei o refrão'",
+        "sub": "Os arquivos enviados devem ser definitivos — sem alterações após o envio"
+      },
+      {
+        "label": "Enviar um único arquivo estéreo com tudo mixado junto",
+        "sub": "Isso é um mix, não stems"
+      },
+      {
+        "label": "Exportar MONO o que é mono, ESTÉREO o que é estéreo",
+        "sub": "Se a sua DAW permitir claro"
+      }
+    ]
   },
   "glossaryTerms": {
     "en": [
@@ -344,10 +476,206 @@
         "def": "Tecnica in cui un suono controlla il volume di un altro, creando un effetto pumping."
       }
     ],
-    "es": [],
-    "fr": [],
-    "de": [],
-    "pt": []
+    "es": [
+      {
+        "term": "Stem",
+        "def": "Archivo de audio individual que contiene un elemento de la canción. Exportar stems = un archivo separado por pista."
+      },
+      {
+        "term": "WAV / AIFF",
+        "def": "Formatos sin pérdida — calidad total preservada. Siempre preferibles al MP3 para trabajo profesional."
+      },
+      {
+        "term": "MP3",
+        "def": "Formato comprimido. Elimina datos de audio permanentemente. No apto para mezcla."
+      },
+      {
+        "term": "Sample Rate (kHz)",
+        "def": "Muestras de audio por segundo. 44.1 kHz es el estándar musical."
+      },
+      {
+        "term": "Bit Depth",
+        "def": "Detalle por muestra. 24-bit es el estándar profesional."
+      },
+      {
+        "term": "Stem WET",
+        "def": "Stem exportado con todos los efectos creativos activos: reverb, delay, distorsión, sidechain, autotune, etc."
+      },
+      {
+        "term": "Stem DRY",
+        "def": "Stem exportado sin efectos — solo el sonido crudo."
+      },
+      {
+        "term": "Master bus",
+        "def": "Salida final de la sesión. Debe desactivarse antes de exportar stems."
+      },
+      {
+        "term": "Premix",
+        "def": "Bounce estéreo del proyecto completo como lo escuchas. Solo una referencia."
+      },
+      {
+        "term": "Clipping",
+        "def": "Cuando una señal supera el nivel máximo y se distorsiona. Ningún medidor debe estar en rojo."
+      },
+      {
+        "term": "Normalizar",
+        "def": "Función que sube el volumen automáticamente. Debe desactivarse al exportar stems."
+      },
+      {
+        "term": "Sidechain",
+        "def": "Técnica donde un sonido controla el volumen de otro, creando un efecto de bombeo."
+      }
+    ],
+    "fr": [
+      {
+        "term": "Stem",
+        "def": "Fichier audio individuel contenant un élément de la chanson. Exporter des stems = un fichier séparé par piste."
+      },
+      {
+        "term": "WAV / AIFF",
+        "def": "Formats sans perte — qualité totale préservée. Toujours préférables au MP3 pour le travail professionnel."
+      },
+      {
+        "term": "MP3",
+        "def": "Format compressé. Supprime définitivement des données audio. Ne convient pas au mixage."
+      },
+      {
+        "term": "Sample Rate (kHz)",
+        "def": "Échantillons audio par seconde. 44.1 kHz est la norme musicale."
+      },
+      {
+        "term": "Bit Depth",
+        "def": "Détail par échantillon. 24-bit est la norme professionnelle."
+      },
+      {
+        "term": "Stem WET",
+        "def": "Stem exporté avec tous les effets créatifs actifs: reverb, delay, distorsion, sidechain, autotune, etc."
+      },
+      {
+        "term": "Stem DRY",
+        "def": "Stem exporté sans effets — son brut uniquement."
+      },
+      {
+        "term": "Master bus",
+        "def": "Sortie finale de la session. Doit être bypassé avant d'exporter des stems."
+      },
+      {
+        "term": "Premix",
+        "def": "Bounce stéréo du projet complet comme tu l'entends. Utilisé comme référence uniquement."
+      },
+      {
+        "term": "Clipping",
+        "def": "Quand un signal dépasse le niveau maximum et se distord. Aucun indicateur ne doit être dans le rouge."
+      },
+      {
+        "term": "Normaliser",
+        "def": "Fonction qui monte le volume automatiquement. Doit être désactivée lors de l'exportation."
+      },
+      {
+        "term": "Sidechain",
+        "def": "Technique où un son contrôle le volume d'un autre, créant un effet de pompage."
+      }
+    ],
+    "de": [
+      {
+        "term": "Stem",
+        "def": "Einzelne Audiodatei die ein Element des Songs enthält. Stems exportieren = eine separate Datei pro Spur."
+      },
+      {
+        "term": "WAV / AIFF",
+        "def": "Verlustfreie Formate — volle Qualität erhalten. Immer bevorzugt gegenüber MP3 für professionelle Arbeit."
+      },
+      {
+        "term": "MP3",
+        "def": "Komprimiertes Format. Entfernt Audiodaten dauerhaft. Nicht geeignet für Mixing."
+      },
+      {
+        "term": "Sample Rate (kHz)",
+        "def": "Audiosamples pro Sekunde. 44.1 kHz ist der Musikstandard."
+      },
+      {
+        "term": "Bit Depth",
+        "def": "Detail pro Sample. 24-bit ist der Profistandard."
+      },
+      {
+        "term": "WET-Stem",
+        "def": "Stem der mit allen kreativen Effekten aktiv exportiert wird: Reverb, Delay, Verzerrung, Sidechain, Autotune, etc."
+      },
+      {
+        "term": "DRY-Stem",
+        "def": "Stem der ohne Effekte exportiert wird — nur der rohe Sound."
+      },
+      {
+        "term": "Master Bus",
+        "def": "Endausgang der Session. Muss deaktiviert werden bevor Stems exportiert werden."
+      },
+      {
+        "term": "Premix",
+        "def": "Stereo-Bounce des gesamten Projekts genau wie du es hörst. Als Referenz verwendet."
+      },
+      {
+        "term": "Clipping",
+        "def": "Wenn ein Signal den maximalen Pegel überschreitet und verzerrt. Kein Anzeiger darf im Roten sein."
+      },
+      {
+        "term": "Normalisieren",
+        "def": "Funktion die die Lautstärke automatisch auf einen festen Pegel anhebt. Beim Exportieren deaktivieren."
+      },
+      {
+        "term": "Sidechain",
+        "def": "Technik bei der ein Sound die Lautstärke eines anderen steuert und einen Pumping-Effekt erzeugt."
+      }
+    ],
+    "pt": [
+      {
+        "term": "Stem",
+        "def": "Arquivo de áudio individual contendo um elemento da música. Exportar stems = um arquivo separado por faixa."
+      },
+      {
+        "term": "WAV / AIFF",
+        "def": "Formatos sem perda — qualidade total preservada. Sempre preferíveis ao MP3 para trabalho profissional."
+      },
+      {
+        "term": "MP3",
+        "def": "Formato comprimido. Remove dados de áudio permanentemente. Não adequado para mixagem."
+      },
+      {
+        "term": "Sample Rate (kHz)",
+        "def": "Amostras de áudio por segundo. 44.1 kHz é o padrão musical."
+      },
+      {
+        "term": "Bit Depth",
+        "def": "Detalhe por amostra. 24-bit é o padrão profissional."
+      },
+      {
+        "term": "Stem WET",
+        "def": "Stem exportado com todos os efeitos criativos ativos: reverb, delay, distorção, sidechain, autotune, etc."
+      },
+      {
+        "term": "Stem DRY",
+        "def": "Stem exportado sem efeitos — apenas o som bruto."
+      },
+      {
+        "term": "Master bus",
+        "def": "Saída final da sessão. Deve ser desativado antes de exportar stems."
+      },
+      {
+        "term": "Premix",
+        "def": "Bounce estéreo do projeto completo como você ouve. Usado como referência apenas."
+      },
+      {
+        "term": "Clipping",
+        "def": "Quando um sinal ultrapassa o nível máximo e distorce. Nenhum medidor deve estar no vermelho."
+      },
+      {
+        "term": "Normalizar",
+        "def": "Função que sobe o volume automaticamente. Deve ser desativada ao exportar stems."
+      },
+      {
+        "term": "Sidechain",
+        "def": "Técnica onde um som controla o volume de outro, criando um efeito de bombeamento."
+      }
+    ]
   },
   "drumsOptions": {
     "en": [
@@ -388,10 +716,82 @@
         "sub": "Comunicamelo se e questo il caso"
       }
     ],
-    "es": [],
-    "fr": [],
-    "de": [],
-    "pt": []
+    "es": [
+      {
+        "label": "Exportar todos los drums WET — con todos los efectos activos",
+        "sub": "Sidechain, compresión, saturación, reverb",
+        "isWet": true
+      },
+      {
+        "label": "Exportar todos los drums DRY — completamente crudos, sin efectos",
+        "sub": "Sin compresión, sin sidechain — sonidos puros del sampler o plugin"
+      },
+      {
+        "label": "Exportar cada elemento de batería como archivo separado",
+        "sub": "Bombo, caja, hi-hats, claps — un archivo cada uno"
+      },
+      {
+        "label": "Agrupar drums en un archivo es aceptable si el export individual no es posible",
+        "sub": "Avísame si es el caso"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Exporter tous les drums WET — avec tous les effets actifs",
+        "sub": "Sidechain, compression, saturation, reverb",
+        "isWet": true
+      },
+      {
+        "label": "Exporter tous les drums DRY — complètement bruts, sans effets",
+        "sub": "Sans compression, sans sidechain — sons purs du sampler ou du plugin"
+      },
+      {
+        "label": "Exporter chaque élément de batterie comme fichier séparé",
+        "sub": "Grosse caisse, caisse claire, hi-hats, claps — un fichier chacun"
+      },
+      {
+        "label": "Regrouper les drums dans un fichier est acceptable si l'export individuel n'est pas possible",
+        "sub": "Fais-le moi savoir si c'est le cas"
+      }
+    ],
+    "de": [
+      {
+        "label": "Alle Drums WET exportieren — mit allen aktiven Effekten",
+        "sub": "Sidechain, Kompression, Saturation, Reverb",
+        "isWet": true
+      },
+      {
+        "label": "Alle Drums DRY exportieren — komplett roh, ohne Effekte",
+        "sub": "Keine Kompression, kein Sidechain — reine Sounds aus Sampler oder Plugin"
+      },
+      {
+        "label": "Jedes Drum-Element als separate Datei exportieren",
+        "sub": "Kick, Snare, Hi-Hats, Claps — je eine Datei"
+      },
+      {
+        "label": "Alle Drums in einer Datei zusammenzufassen ist akzeptabel wenn Einzelexport nicht möglich ist",
+        "sub": "Informiere mich wenn das der Fall ist"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Exportar todos os drums WET — com todos os efeitos ativos",
+        "sub": "Sidechain, compressão, saturação, reverb",
+        "isWet": true
+      },
+      {
+        "label": "Exportar todos os drums DRY — completamente crus, sem efeitos",
+        "sub": "Sem compressão, sem sidechain — sons puros do sampler ou plugin"
+      },
+      {
+        "label": "Exportar cada elemento da bateria como arquivo separado",
+        "sub": "Bumbo, caixa, hi-hats, claps — um arquivo cada"
+      },
+      {
+        "label": "Agrupar drums em um arquivo é aceitável se o export individual não for possível",
+        "sub": "Me avise se for o caso"
+      }
+    ]
   },
   "instrOptions": {
     "en": [
@@ -424,10 +824,66 @@
         "sub": "Il low end ha bisogno di trattamento individuale — non raggrupparlo con altri strumenti"
       }
     ],
-    "es": [],
-    "fr": [],
-    "de": [],
-    "pt": []
+    "es": [
+      {
+        "label": "Exportar synths e instrumentos WET — con todos los efectos de sound design",
+        "sub": "Efectos que definen el sonido: distorsión, reverb creativo, chorus, phaser, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar synths DRY — sin efectos, solo el sonido crudo",
+        "sub": "Sin reverb, sin delay, sin saturación"
+      },
+      {
+        "label": "Exportar 808/sub bass como archivo separado",
+        "sub": "El low end necesita tratamiento individual"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Exporter synths et instruments WET — avec tous les effets de sound design",
+        "sub": "Effets qui définissent le son: distorsion, reverb créatif, chorus, phaser, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Exporter synths DRY — sans effets, son brut uniquement",
+        "sub": "Sans reverb, sans delay, sans saturation"
+      },
+      {
+        "label": "Exporter 808/sub bass comme fichier séparé",
+        "sub": "Le bas du spectre nécessite un traitement individuel"
+      }
+    ],
+    "de": [
+      {
+        "label": "Synths und Instrumente WET exportieren — mit allen Sound-Design-Effekten",
+        "sub": "Effekte die den Sound definieren: Verzerrung, kreativer Reverb, Chorus, Phaser, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Synths DRY exportieren — ohne Effekte, nur roher Sound",
+        "sub": "Kein Reverb, kein Delay, keine Saturation"
+      },
+      {
+        "label": "808/Sub-Bass als separate Datei exportieren",
+        "sub": "Der Tiefbass braucht individuelle Behandlung"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Exportar synths e instrumentos WET — com todos os efeitos de sound design",
+        "sub": "Efeitos que definem o som: distorção, reverb criativo, chorus, phaser, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar synths DRY — sem efeitos, apenas som bruto",
+        "sub": "Sem reverb, sem delay, sem saturação"
+      },
+      {
+        "label": "Exportar 808/sub bass como arquivo separado",
+        "sub": "O baixo precisa de tratamento individual"
+      }
+    ]
   },
   "vocalOptions": {
     "en": [
@@ -476,10 +932,98 @@
         "sub": "Ho bisogno solo della performance finale"
       }
     ],
-    "es": [],
-    "fr": [],
-    "de": [],
-    "pt": []
+    "es": [
+      {
+        "label": "DRY — completamente crudo, sin efectos, sin corrección de tono",
+        "sub": "La voz exactamente como fue grabada"
+      },
+      {
+        "label": "DRY + Corrección de tono — voz limpia con Melodyne o Autotune aplicado",
+        "sub": "Sin reverb, delay ni distorsión. La solicitud más común."
+      },
+      {
+        "label": "WET — SOLO para partes de sound design artístico",
+        "sub": "Solo para partes donde el efecto ES el sonido. NO enviar la voz completa WET.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar cada parte vocal como archivo separado",
+        "sub": "Voz principal, armonías, adlibs, dobles — un archivo para cada una"
+      },
+      {
+        "label": "Exportar solo la versión final compilada — eliminar takes no usados antes de enviar",
+        "sub": "Solo necesito la interpretación final"
+      }
+    ],
+    "fr": [
+      {
+        "label": "DRY — complètement brut, sans effets, sans correction de tonalité",
+        "sub": "La voix exactement comme enregistrée"
+      },
+      {
+        "label": "DRY + Correction de tonalité — voix propre avec Melodyne ou Autotune",
+        "sub": "Sans reverb, delay ni distorsion. La demande la plus courante."
+      },
+      {
+        "label": "WET — UNIQUEMENT pour les parties de sound design artistique",
+        "sub": "Seulement pour les parties où l'effet EST le son. NE PAS envoyer toute la voix WET.",
+        "isWet": true
+      },
+      {
+        "label": "Exporter chaque partie vocale comme fichier séparé",
+        "sub": "Voix principale, harmonies, adlibs, doubles — un fichier pour chacune"
+      },
+      {
+        "label": "Exporter seulement la version finale compilée — supprimer les takes non utilisés avant d'envoyer",
+        "sub": "J'ai seulement besoin de la performance finale"
+      }
+    ],
+    "de": [
+      {
+        "label": "DRY — komplett roh, ohne Effekte, ohne Tonhöhenkorrektur",
+        "sub": "Die Stimme genau wie aufgenommen"
+      },
+      {
+        "label": "DRY + Tonhöhenkorrektur — saubere Stimme mit Melodyne oder Autotune",
+        "sub": "Kein Reverb, Delay oder Verzerrung. Häufigste Anforderung."
+      },
+      {
+        "label": "WET — NUR für künstlerische Sound-Design-Teile",
+        "sub": "Nur senden wo der Effekt DER Sound ist. NICHT die gesamte Stimme WET senden.",
+        "isWet": true
+      },
+      {
+        "label": "Jeden Gesangspart als separate Datei exportieren",
+        "sub": "Hauptgesang, Harmonien, Adlibs, Doubles — je eine Datei"
+      },
+      {
+        "label": "Nur die finale kompilierte Version exportieren — unbenutzte Takes vorher löschen",
+        "sub": "Ich brauche nur die finale Performance"
+      }
+    ],
+    "pt": [
+      {
+        "label": "DRY — completamente cru, sem efeitos, sem correção de afinação",
+        "sub": "A voz exatamente como gravada"
+      },
+      {
+        "label": "DRY + Correção de afinação — voz limpa com Melodyne ou Autotune aplicado",
+        "sub": "Sem reverb, delay ou distorção. O pedido mais comum."
+      },
+      {
+        "label": "WET — APENAS para partes de sound design artístico",
+        "sub": "Apenas para partes onde o efeito É o som. NÃO enviar o vocal inteiro WET.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar cada parte vocal como arquivo separado",
+        "sub": "Vocal principal, harmonias, adlibs, dobras — um arquivo para cada"
+      },
+      {
+        "label": "Exportar apenas a versão final compilada — excluir takes não utilizados antes de enviar",
+        "sub": "Só preciso da performance final"
+      }
+    ]
   },
   "premixOptions": {
     "en": [
@@ -502,9 +1046,45 @@
         "sub": "Come sopra ma senza nessuna traccia vocale"
       }
     ],
-    "es": [],
-    "fr": [],
-    "de": [],
-    "pt": []
+    "es": [
+      {
+        "label": "Incluir un premix estéreo del proyecto completo",
+        "sub": "Bounce de la canción completa exactamente como la escuchas, todos los efectos activos"
+      },
+      {
+        "label": "Incluir un premix instrumental (sin voces)",
+        "sub": "Igual que el anterior pero sin ninguna pista vocal"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Inclure un premix stéréo du projet complet",
+        "sub": "Bounce de la chanson complète exactement comme tu l'entends, tous les effets actifs"
+      },
+      {
+        "label": "Inclure un premix instrumental (sans voix)",
+        "sub": "Identique au précédent mais sans aucune piste vocale"
+      }
+    ],
+    "de": [
+      {
+        "label": "Einen Stereo-Premix des gesamten Projekts einschließen",
+        "sub": "Bounce des vollständigen Songs genau wie du ihn hörst, alle Effekte aktiv"
+      },
+      {
+        "label": "Einen instrumentalen Premix einschließen (ohne Gesang)",
+        "sub": "Wie oben aber ohne Gesangsspuren"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Incluir um premix estéreo do projeto completo",
+        "sub": "Bounce da música completa exatamente como você ouve, todos os efeitos ativos"
+      },
+      {
+        "label": "Incluir um premix instrumental (sem vocais)",
+        "sub": "Igual ao anterior mas sem nenhuma faixa vocal"
+      }
+    ]
   }
 }
