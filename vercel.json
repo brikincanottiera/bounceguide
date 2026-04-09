@@ -7,10 +7,20 @@
     {
       "source": "/feature-requests",
       "destination": "/feature-requests.html"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/404",
+      "dest": "/404.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
     }
   ]
 }
