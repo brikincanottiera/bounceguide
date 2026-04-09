@@ -173,7 +173,7 @@
     "en": [
       {
         "label": "Export with 'Export All Tracks' or equivalent",
-        "sub": "Often includes bus tracks or MIDI — always export each stem individually"
+        "sub": "Often includes bus tracks or MIDI, always export each stem individually"
       },
       {
         "label": "Leave the limiter or maximizer on the master bus active",
@@ -181,23 +181,27 @@
       },
       {
         "label": "Normalize files before exporting",
-        "sub": "Normalization changes the relative levels"
+        "sub": "Normalization changes the relative levels, I need your balance as-is"
       },
       {
         "label": "Send MP3 when WAV or AIFF is available",
         "sub": "MP3 permanently removes audio information"
       },
       {
-        "label": "Files that don't all start from the same point (bar 1, beat 1)",
+        "label": "All files must start from the same point (bar 1, beat 1) ",
         "sub": "If stems start at different positions nothing aligns in the session"
       },
       {
-        "label": "Send the files and then say 'I changed the chorus'",
-        "sub": "Files sent must be final — no changes after sending"
+        "label": "Send the files and then say 'I changed the chorus' ",
+        "sub": "Files sent must be final, no changes after sending"
       },
       {
         "label": "Send a single stereo file with everything mixed together",
         "sub": "That is a mix, not stems"
+      },
+      {
+        "label": "Export MONO what is mono, STEREO what is stereo ",
+        "sub": "If your DAW allows it, of course"
       }
     ],
     "it": [
