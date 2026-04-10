@@ -981,6 +981,7 @@ function setLang(l){
 }
 
 function applyT(){
+  const tl=T[lang]||T.en;
   document.querySelectorAll('[data-t]').forEach(el=>el.innerHTML=t(el.getAttribute('data-t')));
   document.querySelectorAll('[data-t-ph]').forEach(el=>el.placeholder=t(el.getAttribute('data-t-ph')));
   buildStepsNav();
@@ -1141,7 +1142,7 @@ function buildGlossaryItems(){
   const el=document.getElementById('glossaryItems');if(!el)return;
   const terms=tArr('glossaryTerms');
   el.innerHTML=terms.map((term,i)=>`
-    <div class="check-item${fd.glossary.includes(i)?' checked':''}" onclick="toggleArr('glossary',${i},null,false,true)">
+    <div class="check-item${(fd.glossary||[]).includes(i)?' checked':''}" onclick="toggleArr('glossary',${i},null,false,true)">
       <div class="check-box">${checkSVG()}</div>
       <div><div class="check-label">${term.term}</div><div class="check-sub">${term.def}</div></div>
     </div>`).join('');
@@ -1181,7 +1182,7 @@ function buildCheckListFromKey(containerId,optKey,stateKey,otherRevealId,hasOthe
   const el=document.getElementById(containerId);if(!el)return;
   const opts=tArr(optKey);
   el.innerHTML=opts.map((opt,i)=>`
-    <div class="check-item${fd[stateKey].includes(i)?' checked':''}" onclick="toggleArr('${stateKey}',${i},'${otherRevealId||''}',${opt.isOther||false},true)">
+    <div class="check-item${(fd[stateKey]||[]).includes(i)?' checked':''}" onclick="toggleArr('${stateKey}',${i},'${otherRevealId||''}',${opt.isOther||false},true)">
       <div class="check-box">${checkSVG()}</div>
       <div><div class="check-label">${opt.label}</div>${opt.sub?`<div class="check-sub">${(fd.wetPhilEnabled&&opt.isWet)?t('s5wetUiGeneric'):opt.sub}</div>`:''}</div>
     </div>`).join('');
@@ -1325,7 +1326,7 @@ function buildStupidChecks(){
   const el=document.getElementById('stupidChecks');if(!el)return;
   const items=tArr('stupidItems');
   el.innerHTML=items.map((item,i)=>`
-    <div class="check-item${fd.stupid.includes(i)?' checked':''}" onclick="toggleArr('stupid',${i},null,false,true)">
+    <div class="check-item${(fd.stupid||[]).includes(i)?' checked':''}" onclick="toggleArr('stupid',${i},null,false,true)">
       <div class="check-box">${checkSVG()}</div>
       <div><div class="check-label">${item.label}</div><div class="check-sub">${item.sub}</div></div>
     </div>`).join('');
@@ -2009,48 +2010,42 @@ function buildAll(){
 //  INIT
 // ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
-  // 1. Init immediately with inline defaults — always works
-  try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl))lang=sl;}catch(e){}
+  // Restore language
+  try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl)){lang=sl;}}catch(e){}
+  // Restore saved state
   try{
     const saved=localStorage.getItem('bg_v5');
     if(saved){
       const p=JSON.parse(saved);
-      if(p.mixerName)document.getElementById('mixerName').value=p.mixerName;
-      if(p.accentColor){fd.accentColor=p.accentColor;updateAccent(p.accentColor);document.getElementById('accentColor').value=p.accentColor;}
+      if(p.mixerName){const el=document.getElementById('mixerName');if(el)el.value=p.mixerName;}
+      if(p.accentColor){fd.accentColor=p.accentColor;updateAccent(p.accentColor);const el=document.getElementById('accentColor');if(el)el.value=p.accentColor;}
     }
-    const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;
   }catch(e){}
-  applyT();buildAll();
-
-  // 2. Then try to load data.json in background — if it works, rebuild affected sections
-  fetch('/data.json?v=' + Date.now())
-    .then(res => {
-      if (!res.ok) throw new Error('data.json not found: ' + res.status);
-      return res.text();
-    })
-    .then(text => {
-      if (!text.trim().startsWith('{')) throw new Error('not json');
-      const d = JSON.parse(text);
-      if (d.dawSteps) {
-        Object.keys(d.dawSteps).forEach(l => {
-          if (!DAW_STEPS[l]) DAW_STEPS[l] = {};
-          Object.assign(DAW_STEPS[l], d.dawSteps[l]);
+  // Init UI with inline defaults
+  applyT();
+  buildAll();
+  // Load data.json in background — only overrides if non-empty
+  fetch('/data.json?t=' + Date.now())
+    .then(r=>r.ok?r.json():Promise.reject('not ok'))
+    .then(d=>{
+      let changed=false;
+      if(d.dawSteps){
+        Object.keys(d.dawSteps).forEach(l=>{
+          if(!DAW_STEPS[l])DAW_STEPS[l]={};
+          Object.assign(DAW_STEPS[l],d.dawSteps[l]);
         });
+        changed=true;
       }
-      ['drumsOptions','instrOptions','vocalOptions','premixOptions','stupidItems','glossaryTerms'].forEach(key => {
-        if (d[key]) {
-          Object.keys(d[key]).forEach(l => {
-            if (d[key][l] && d[key][l].length > 0) {
-              if (!T[l]) T[l] = {...T.en};
-              T[l][key] = d[key][l];
-            }
-          });
-        }
+      ['drumsOptions','instrOptions','vocalOptions','premixOptions','stupidItems','glossaryTerms'].forEach(key=>{
+        if(!d[key])return;
+        Object.keys(d[key]).forEach(l=>{
+          const arr=d[key][l];
+          if(arr&&arr.length>0&&T[l]){T[l][key]=arr;changed=true;}
+        });
       });
-      // Rebuild only the sections that data.json can affect
-      buildAll();
+      if(changed)buildAll();
     })
-    .catch(e => console.warn('data.json not loaded, using defaults', e));
+    .catch(()=>{});
 });
 </script>
 <footer style="padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)">
