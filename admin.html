@@ -155,7 +155,13 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
     <div class="sidebar">
       <div class="sidebar-title">Sezioni</div>
       <button class="nav-btn active" onclick="showSection('daw')" id="nav-daw">
-        <span class="nav-icon">🎛️</span> DAW Guides
+        <span class="nav-icon">🎛️</span> DAW — Mix Stems
+      </button>
+      <button class="nav-btn" onclick="showSection('dawtb')" id="nav-dawtb">
+        <span class="nav-icon">🎤</span> DAW — Type Beat
+      </button>
+      <button class="nav-btn" onclick="showSection('dawsm')" id="nav-dawsm">
+        <span class="nav-icon">🎵</span> DAW — Stem Mastering
       </button>
       <button class="nav-btn" onclick="showSection('stems')" id="nav-stems">
         <span class="nav-icon">🎚️</span> Stems
@@ -178,13 +184,39 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
       <div class="section active" id="section-daw">
         <div class="section-header">
           <div>
-            <div class="section-title">DAW Guides</div>
-            <div class="section-desc">Istruzioni step-by-step per ogni DAW, per ogni lingua.</div>
+            <div class="section-title">DAW Guides — Mix Stems</div>
+            <div class="section-desc">Guide per export stems (mix completo con strumentale e voce).</div>
           </div>
         </div>
         <div class="lang-tabs" id="dawLangTabs"></div>
         <div class="daw-tabs" id="dawTabs"></div>
         <div id="dawEditor"></div>
+      </div>
+
+      <!-- DAW TYPE BEAT -->
+      <div class="section" id="section-dawtb">
+        <div class="section-header">
+          <div>
+            <div class="section-title">DAW Guides — Type Beat + Voce</div>
+            <div class="section-desc">Guide per export voci su type beat. Appaiono quando il cliente sceglie "Type beat / file strumentale unico".</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="dawTbLangTabs"></div>
+        <div class="daw-tabs" id="dawTbTabs"></div>
+        <div id="dawTbEditor"></div>
+      </div>
+
+      <!-- DAW STEM MASTERING -->
+      <div class="section" id="section-dawsm">
+        <div class="section-header">
+          <div>
+            <div class="section-title">DAW Guides — Stem Mastering</div>
+            <div class="section-desc">Guide per export stems per mastering. Appaiono quando il cliente sceglie "Stem Mastering".</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="dawSmLangTabs"></div>
+        <div class="daw-tabs" id="dawSmTabs"></div>
+        <div id="dawSmEditor"></div>
       </div>
 
       <!-- STEMS -->
@@ -267,6 +299,8 @@ const DAWS = [
   {id:'garageband',name:'GarageBand'},
 ];
 let masterDawLang = 'en', masterDawId = 'ableton';
+let dawTbLang = 'en', dawTbId = 'ableton';
+let dawSmLang = 'en', dawSmId = 'ableton';
 
 const STEM_CATS = [
   {id:'drumsOptions',name:'🥁 Drums'},
@@ -381,6 +415,8 @@ function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-' + id).classList.add('active');
   if(id === 'masterdaw') buildMasterDawEditor();
+  if(id === 'dawtb') buildDawTbEditor();
+  if(id === 'dawsm') buildDawSmEditor();
 }
 
 // ── LANG TABS BUILDER ─────────────────────────────────
@@ -679,6 +715,50 @@ function escHtml(str) {
 }
 
 // ══════════════════════════════════════════════════════
+// GENERIC DAW EDITOR FACTORY
+// ══════════════════════════════════════════════════════
+function buildGenericDawEditor(dataKey, langVar, setLangFn, idVar, setIdFn, langTabsId, dawTabsId, editorId, label) {
+  buildLangTabs(langTabsId, langVar, setLangFn);
+  document.getElementById(dawTabsId).innerHTML = DAWS.map(d => `
+    <button class="daw-tab ${d.id===idVar?'active':''}" onclick="${setIdFn}('${d.id}')">${d.name}</button>
+  `).join('');
+  if (!data[dataKey]) data[dataKey] = {};
+  if (!data[dataKey][langVar]) data[dataKey][langVar] = {};
+  if (!data[dataKey][langVar][idVar]) data[dataKey][langVar][idVar] = [];
+  const steps = data[dataKey][langVar][idVar];
+  const el = document.getElementById(editorId);
+  const dawName = DAWS.find(d=>d.id===idVar)?.name || idVar;
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--t2)">${dawName} — ${LANG_NAMES[langVar]} — <span style="color:var(--acc)">${label}</span></div>
+      ${langVar!=='en'&&langVar!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyGenericDawFromEn('${dataKey}','${idVar}','${setLangFn}')">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list">
+      ${steps.map((s,i) => `<div class="item-row">
+        <span class="item-num">${i+1}</span>
+        <div class="fields"><textarea class="step-textarea" oninput="updateGenericDawStep('${dataKey}','${langVar}','${idVar}',${i},this.value)">${escHtml(s)}</textarea></div>
+        <button class="btn btn-danger" onclick="removeGenericDawStep('${dataKey}','${langVar}','${idVar}',${i})">✕</button>
+      </div>`).join('')}
+    </div>
+    <button class="add-btn" onclick="addGenericDawStep('${dataKey}','${langVar}','${idVar}')">+ Aggiungi step</button>
+  `;
+}
+function updateGenericDawStep(dk,l,id,i,v){if(!data[dk])data[dk]={};if(!data[dk][l])data[dk][l]={};if(!data[dk][l][id])data[dk][l][id]=[];data[dk][l][id][i]=v;markChanged();}
+function addGenericDawStep(dk,l,id){if(!data[dk])data[dk]={};if(!data[dk][l])data[dk][l]={};if(!data[dk][l][id])data[dk][l][id]=[];data[dk][l][id].push('');buildDawTbEditor();buildDawSmEditor();buildMasterDawEditor();markChanged();}
+function removeGenericDawStep(dk,l,id,i){data[dk][l][id].splice(i,1);buildDawTbEditor();buildDawSmEditor();buildMasterDawEditor();markChanged();}
+function copyGenericDawFromEn(dk,id,rebuildFn){if(!data[dk]?.en?.[id])return;const curLang=dk==='typebeatDAWSteps'?dawTbLang:dk==='stemMasterDAWSteps'?dawSmLang:masterDawLang;if(!data[dk][curLang])data[dk][curLang]={};data[dk][curLang][id]=[...data[dk].en[id]];buildDawTbEditor();buildDawSmEditor();buildMasterDawEditor();markChanged();showToast('Copiato da EN!','success');}
+
+// Type Beat DAW editor
+function buildDawTbEditor(){buildGenericDawEditor('typebeatDAWSteps',dawTbLang,'selectDawTbLang',dawTbId,'selectDawTb','dawTbLangTabs','dawTbTabs','dawTbEditor','Type Beat + Voce');}
+function selectDawTbLang(l){dawTbLang=l;buildDawTbEditor();}
+function selectDawTb(id){dawTbId=id;buildDawTbEditor();}
+
+// Stem Mastering DAW editor
+function buildDawSmEditor(){buildGenericDawEditor('stemMasterDAWSteps',dawSmLang,'selectDawSmLang',dawSmId,'selectDawSm','dawSmLangTabs','dawSmTabs','dawSmEditor','Stem Mastering');}
+function selectDawSmLang(l){dawSmLang=l;buildDawSmEditor();}
+function selectDawSm(id){dawSmId=id;buildDawSmEditor();}
+
+// ══════════════════════════════════════════════════════
 // MASTER DAW GUIDES EDITOR
 // ══════════════════════════════════════════════════════
 function buildMasterDawEditor() {
@@ -753,6 +833,8 @@ function copyMasterFromEn() {
 
 function buildAllEditors() {
   buildDawEditor();
+  buildDawTbEditor();
+  buildDawSmEditor();
   buildStemsEditor();
   buildStupidEditor();
   buildGlossaryEditor();
