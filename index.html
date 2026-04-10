@@ -2037,7 +2037,6 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   } catch(e) {
     console.warn('data.json not loaded, using defaults', e);
   }
-  {
   // Load saved lang
   try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl))lang=sl;}catch(e){}
   try{
@@ -2050,7 +2049,6 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;
   }catch(e){}
   applyT();buildAll();
-  }
 });
 </script>
 <footer style="padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)">
