@@ -138,13 +138,15 @@
         "Studio One esporta ogni stem automaticamente."
       ],
       "reaper": [
-        "Apri il progetto in REAPER.",
-        "Vai su File > Render (o premi Ctrl+Alt+R).",
-        "Imposta Render what su Stems (selected tracks).",
-        "Imposta i bounds su Entire project.",
-        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
-        "Imposta cartella di output e pattern del nome file (usa $track per il nome).",
-        "Clicca Render X files."
+        "Apri il progetto di REAPER.",
+        "Rinomina le tracce da esportare.",
+        "Vai su File > Render (o premi Ctrl+Alt+R o Command+Alt+R).",
+        "Imposta Source su \"Stems selected tracks\".",
+        "Imposta i bounds su \"Entire project\".",
+        "Imposta Formato/Sample Rate/Bit Depth come richiesto.",
+        "Imposta cartella di output e pattern del nome file come da istruzioni (usa $track per far comparire il nome delle tracce come le hai rinominate nella tua sessione, e poi compila il resto come da istruzioni).",
+        "Clicca \"Tracks with only mono media to mono files\".",
+        "Clicca Render files."
       ],
       "bitwig": [
         "Apri il progetto in Bitwig Studio.",
@@ -1214,11 +1216,12 @@
         "Disabilita Normalize e clicca OK."
       ],
       "reaper": [
-        "Apri il progetto in REAPER.",
+        "Apri il progetto di REAPER.",
         "Bypassa tutti i plugin sulla traccia Master.",
-        "Vai su File > Render (Ctrl+Alt+R).",
-        "Imposta Render what su Master mix.",
-        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Vai su File > Render (o premi Ctrl+Alt+R o Command+Alt+R).",
+        "Imposta Source su \"Master mix\".",
+        "Imposta i bounds su \"Entire project\".",
+        "Imposta Formato/Sample Rate/Bit Depth come richiesto.",
         "Imposta cartella di output e nome file.",
         "Clicca Render 1 file."
       ],
@@ -1371,12 +1374,16 @@
         "Esporta anche il file type beat / strumentale."
       ],
       "reaper": [
-        "Apri il progetto in REAPER.",
-        "Vai su File > Render (Ctrl+Alt+R).",
-        "Imposta Render what su Stems (selected tracks).",
+        "Apri il progetto di REAPER.",
+        "Rinomina le tracce vocali da esportare.",
+        "Vai su File > Render (o premi Ctrl+Alt+R o Command+Alt+R).",
+        "Imposta Source su \"Stems selected tracks\".",
         "Seleziona solo le tracce vocali.",
-        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
-        "Clicca Render. Esporta anche il type beat / strumentale."
+        "Imposta i bounds su \"Entire project\".",
+        "Imposta Formato/Sample Rate/Bit Depth come richiesto.",
+        "Imposta cartella di output e pattern del nome file (usa $track per il nome delle tracce).",
+        "Clicca \"Tracks with only mono media to mono files\".",
+        "Clicca Render files. Esporta anche il type beat / strumentale separatamente."
       ],
       "bitwig": [
         "Apri il progetto in Bitwig Studio.",
@@ -1538,13 +1545,15 @@
         "Studio One esporta ogni stem automaticamente."
       ],
       "reaper": [
-        "Apri il progetto in REAPER.",
-        "Vai su File > Render (o premi Ctrl+Alt+R).",
-        "Imposta Render what su Stems (selected tracks).",
-        "Imposta i bounds su Entire project.",
-        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
-        "Imposta cartella di output e pattern del nome file (usa $track per il nome).",
-        "Clicca Render X files."
+        "Apri il progetto di REAPER.",
+        "Rinomina le tracce da esportare.",
+        "Vai su File > Render (o premi Ctrl+Alt+R o Command+Alt+R).",
+        "Imposta Source su \"Stems selected tracks\".",
+        "Imposta i bounds su \"Entire project\".",
+        "Imposta Formato/Sample Rate/Bit Depth come richiesto.",
+        "Imposta cartella di output e pattern del nome file come da istruzioni (usa $track per far comparire il nome delle tracce come le hai rinominate nella tua sessione, e poi compila il resto come da istruzioni).",
+        "Clicca \"Tracks with only mono media to mono files\".",
+        "Clicca Render files."
       ],
       "bitwig": [
         "Apri il progetto in Bitwig Studio.",
