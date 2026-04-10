@@ -1086,5 +1086,161 @@
         "sub": "Igual ao anterior mas sem nenhuma faixa vocal"
       }
     ]
+  },
+  "masterDAWSteps": {
+    "en": {
+      "ableton": [
+        "Open your project in Arrangement View.",
+        "Bypass or disable all plugins on the Master track (limiter, maximizer, compressor, everything).",
+        "Go to File > Export Audio/Video (Ctrl+Shift+E / Cmd+Shift+E).",
+        "Under Rendered Track select Master.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Disable Normalize.",
+        "Click Export and name the file correctly."
+      ],
+      "logic": [
+        "Open your project in Logic Pro.",
+        "Bypass all plugins on the Stereo Out channel strip.",
+        "Go to File > Bounce > Project or Section.",
+        "Set Mode: Offline | Start: beginning of song | End: end of song.",
+        "Set Format: WAV | Resolution: 24-bit | Sample Rate as requested.",
+        "Disable Normalize.",
+        "Click Bounce and save with a clear name."
+      ],
+      "flstudio": [
+        "Open your project in FL Studio.",
+        "Bypass or remove all plugins on the Master mixer channel.",
+        "Go to File > Export > Wave file.",
+        "Set Quality: 24-bit | Sample Rate as requested.",
+        "Make sure export range covers the full song.",
+        "Click Accept and name the file correctly."
+      ],
+      "protools": [
+        "Open your session in Pro Tools.",
+        "Bypass all processing on the Master Fader.",
+        "Go to File > Bounce to > Disk.",
+        "Set Format: WAV | Bit Depth and Sample Rate as requested.",
+        "Set the export range from beginning to end of song.",
+        "Click Bounce and name the file correctly."
+      ],
+      "cubase": [
+        "Open your project in Cubase or Nuendo.",
+        "Bypass all plugins on the Stereo Out channel.",
+        "Go to File > Export > Audio Mixdown.",
+        "Set Format: Wave | Sample Rate and Bit Depth as requested.",
+        "Set the export range using the left and right locators.",
+        "Disable Normalize and click Export Audio."
+      ],
+      "studioone": [
+        "Open your Song in Studio One.",
+        "Bypass all plugins on the Master bus.",
+        "Go to Song > Export Mixdown.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Disable Normalize and click OK."
+      ],
+      "reaper": [
+        "Open your project in REAPER.",
+        "Bypass all plugins on the Master track.",
+        "Go to File > Render (Ctrl+Alt+R).",
+        "Set Render what to Master mix.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Set output folder and filename.",
+        "Click Render 1 file."
+      ],
+      "bitwig": [
+        "Open your project in Bitwig Studio.",
+        "Bypass all devices on the Master track.",
+        "Go to File > Export Audio.",
+        "Select Export master for full mix export.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Click Export and name the file."
+      ],
+      "garageband": [
+        "Open your project in GarageBand.",
+        "Remove or bypass any plugins on the master output.",
+        "Go to Share > Export Song to Disk (Mac) or Share > Song (iOS).",
+        "Set Format: AIFF or WAV | Quality: Lossless.",
+        "Click Export and save with a clear name."
+      ]
+    },
+    "it": {
+      "ableton": [
+        "Apri il progetto in Arrangement View.",
+        "Bypassa o disabilita tutti i plugin sulla traccia Master (limiter, maximizer, compressore, tutto).",
+        "Vai su File > Export Audio/Video (Ctrl+Shift+E / Cmd+Shift+E).",
+        "In Rendered Track seleziona Master.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Disabilita Normalize.",
+        "Clicca Export e nomina il file correttamente."
+      ],
+      "logic": [
+        "Apri il progetto in Logic Pro.",
+        "Bypassa tutti i plugin sul canale Stereo Out.",
+        "Vai su File > Bounce > Progetto o Sezione.",
+        "Imposta Modo: Offline | Inizio: inizio del brano | Fine: fine del brano.",
+        "Imposta Formato: WAV | Risoluzione: 24-bit | Sample Rate come richiesto.",
+        "Disabilita Normalize.",
+        "Clicca Bounce e salva con un nome chiaro."
+      ],
+      "flstudio": [
+        "Apri il progetto in FL Studio.",
+        "Bypassa o rimuovi tutti i plugin sul canale Master del mixer.",
+        "Vai su File > Export > Wave file.",
+        "Imposta Qualità: 24-bit | Sample Rate come richiesto.",
+        "Assicurati che il range di export copra tutto il brano.",
+        "Clicca Accept e nomina il file correttamente."
+      ],
+      "protools": [
+        "Apri la sessione in Pro Tools.",
+        "Bypassa tutto il processing sul Master Fader.",
+        "Vai su File > Bounce to > Disk.",
+        "Imposta Formato: WAV | Bit Depth e Sample Rate come richiesto.",
+        "Imposta il range di export da inizio a fine del brano.",
+        "Clicca Bounce e nomina il file correttamente."
+      ],
+      "cubase": [
+        "Apri il progetto in Cubase o Nuendo.",
+        "Bypassa tutti i plugin sul canale Stereo Out.",
+        "Vai su File > Export > Audio Mixdown.",
+        "Imposta Formato: Wave | Sample Rate e Bit Depth come richiesto.",
+        "Imposta il range di export con i locatori.",
+        "Disabilita Normalize e clicca Export Audio."
+      ],
+      "studioone": [
+        "Apri il brano in Studio One.",
+        "Bypassa tutti i plugin sul master bus.",
+        "Vai su Song > Export Mixdown.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Disabilita Normalize e clicca OK."
+      ],
+      "reaper": [
+        "Apri il progetto in REAPER.",
+        "Bypassa tutti i plugin sulla traccia Master.",
+        "Vai su File > Render (Ctrl+Alt+R).",
+        "Imposta Render what su Master mix.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Imposta cartella di output e nome file.",
+        "Clicca Render 1 file."
+      ],
+      "bitwig": [
+        "Apri il progetto in Bitwig Studio.",
+        "Bypassa tutti i dispositivi sulla traccia Master.",
+        "Vai su File > Export Audio.",
+        "Seleziona Export master per esportare il mix completo.",
+        "Imposta Formato: WAV | Sample Rate e Bit Depth come richiesto.",
+        "Clicca Export e nomina il file."
+      ],
+      "garageband": [
+        "Apri il progetto in GarageBand.",
+        "Rimuovi o bypassa qualsiasi plugin sull'output master.",
+        "Vai su Share > Export Song to Disk (Mac) o Share > Song (iOS).",
+        "Imposta Formato: AIFF o WAV | Qualità: Lossless.",
+        "Clicca Export e salva con un nome chiaro."
+      ]
+    },
+    "es": {},
+    "fr": {},
+    "de": {},
+    "pt": {}
   }
 }
