@@ -2008,36 +2008,8 @@ function buildAll(){
 // ═══════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded',async ()=>{
-  // Load editable content from data.json
-  try {
-    const res = await fetch('/data.json?v=' + Date.now());
-    if (!res.ok) throw new Error('data.json not found: ' + res.status);
-    const text = await res.text();
-    if (!text.trim().startsWith('{')) throw new Error('data.json invalid: ' + text.substring(0,50));
-    const d = JSON.parse(text);
-    // Override DAW_STEPS with data from data.json
-    if (d.dawSteps) {
-      Object.keys(d.dawSteps).forEach(lang => {
-        if (!DAW_STEPS[lang]) DAW_STEPS[lang] = {};
-        Object.assign(DAW_STEPS[lang], d.dawSteps[lang]);
-      });
-    }
-    // Override stem options per language
-    ['drumsOptions','instrOptions','vocalOptions','premixOptions','stupidItems','glossaryTerms'].forEach(key => {
-      if (d[key]) {
-        Object.keys(d[key]).forEach(lang => {
-          if (d[key][lang] && d[key][lang].length > 0) {
-            if (!T[lang]) T[lang] = {...T.en};
-            T[lang][key] = d[key][lang];
-          }
-        });
-      }
-    });
-  } catch(e) {
-    console.warn('data.json not loaded, using defaults', e);
-  }
-  // Load saved lang
+document.addEventListener('DOMContentLoaded',()=>{
+  // 1. Init immediately with inline defaults — always works
   try{const sl=localStorage.getItem('bg_lang');if(sl&&['en','it','es','fr','de','pt'].includes(sl))lang=sl;}catch(e){}
   try{
     const saved=localStorage.getItem('bg_v5');
@@ -2049,6 +2021,36 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     const sl=localStorage.getItem('bg_lang');if(sl)lang=sl;
   }catch(e){}
   applyT();buildAll();
+
+  // 2. Then try to load data.json in background — if it works, rebuild affected sections
+  fetch('/data.json?v=' + Date.now())
+    .then(res => {
+      if (!res.ok) throw new Error('data.json not found: ' + res.status);
+      return res.text();
+    })
+    .then(text => {
+      if (!text.trim().startsWith('{')) throw new Error('not json');
+      const d = JSON.parse(text);
+      if (d.dawSteps) {
+        Object.keys(d.dawSteps).forEach(l => {
+          if (!DAW_STEPS[l]) DAW_STEPS[l] = {};
+          Object.assign(DAW_STEPS[l], d.dawSteps[l]);
+        });
+      }
+      ['drumsOptions','instrOptions','vocalOptions','premixOptions','stupidItems','glossaryTerms'].forEach(key => {
+        if (d[key]) {
+          Object.keys(d[key]).forEach(l => {
+            if (d[key][l] && d[key][l].length > 0) {
+              if (!T[l]) T[l] = {...T.en};
+              T[l][key] = d[key][l];
+            }
+          });
+        }
+      });
+      // Rebuild only the sections that data.json can affect
+      buildAll();
+    })
+    .catch(e => console.warn('data.json not loaded, using defaults', e));
 });
 </script>
 <footer style="padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)">
