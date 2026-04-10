@@ -1315,7 +1315,10 @@ function renderChecklist(){
       ondragover="onClDragOver(event,${i})"
       ondrop="onClDrop(${i})"
       ondragend="onClDragEnd()">
-      <span class="cl-drag">⠿</span>
+      <span class="cl-drag" 
+        ontouchstart="onClTouchStart(event,${i})"
+        ontouchmove="onClTouchMove(event)"
+        ontouchend="onClTouchEnd(event)">⠿</span>
       <div class="cl-dot">v</div>
       <div class="cl-text">${item.text}</div>
       <button class="cl-remove" onclick="removeClItem(${i})" title="Rimuovi">✕</button>
@@ -1360,6 +1363,52 @@ function onClDrop(i){
   autoSave();
 }
 function onClDragEnd(){dragSrcIdx=null;document.querySelectorAll('.checklist-preview-item').forEach(el=>{el.classList.remove('dragging','drag-over');});}
+
+// ── TOUCH DRAG FOR MOBILE ─────────────────────────────────
+let _touchSrcIdx=null;
+let _touchPlaceholder=null;
+
+function onClTouchStart(e,i){
+  e.preventDefault();
+  _touchSrcIdx=i;
+  const items=document.querySelectorAll('.checklist-preview-item');
+  items[i].classList.add('dragging');
+}
+
+function onClTouchMove(e){
+  e.preventDefault();
+  if(_touchSrcIdx===null)return;
+  const touch=e.touches[0];
+  const items=document.querySelectorAll('.checklist-preview-item');
+  // Find which item we're hovering over
+  let targetIdx=null;
+  items.forEach((el,j)=>{
+    const rect=el.getBoundingClientRect();
+    if(touch.clientY>=rect.top&&touch.clientY<=rect.bottom){
+      targetIdx=j;
+    }
+    el.classList.remove('drag-over');
+  });
+  if(targetIdx!==null&&targetIdx!==_touchSrcIdx){
+    items[targetIdx].classList.add('drag-over');
+    _touchPlaceholder=targetIdx;
+  }
+}
+
+function onClTouchEnd(e){
+  if(_touchSrcIdx===null)return;
+  const items=document.querySelectorAll('.checklist-preview-item');
+  items.forEach(el=>el.classList.remove('dragging','drag-over'));
+  if(_touchPlaceholder!==null&&_touchPlaceholder!==_touchSrcIdx){
+    const moved=clItems.splice(_touchSrcIdx,1)[0];
+    clItems.splice(_touchPlaceholder,0,moved);
+    fd.customChecklist=clItems.filter(x=>x.custom).map(x=>x.text);
+    renderChecklist();
+    autoSave();
+  }
+  _touchSrcIdx=null;
+  _touchPlaceholder=null;
+}
 
 function toggleTC(){
   fd.tc=!fd.tc;
