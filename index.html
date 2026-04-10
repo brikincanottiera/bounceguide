@@ -562,12 +562,12 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     <div class="multi-other-list" id="masterStemList"></div>
     <button class="add-other-btn" onclick="addMasterStem()"><span data-t="s5addMasterStem"></span></button>
     <div class="divider"></div>
-    <div class="sub-label" data-t="s5stemMasterRefLabel"></div>
-    <div class="check-list" id="masterRefChecks"></div>
-    <div class="divider"></div>
     <div class="sub-label" data-t="s5stemMasterNotesLabel"></div>
     <div class="multi-other-list" id="masterStemNoteList"></div>
     <button class="add-other-btn" onclick="addMasterStemNote()"><span data-t="s5addMasterNote"></span></button>
+    <div class="divider"></div>
+    <div class="sub-label" data-t="s5stemMasterRefLabel"></div>
+    <div class="check-list" id="masterRefChecks"></div>
   </div>
 
   <!-- FULL MASTERING SECTION -->
@@ -576,6 +576,9 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     <div class="sub-label" data-t="s5fullMasterNotesLabel"></div>
     <div class="multi-other-list" id="masterExportNoteList"></div>
     <button class="add-other-btn" onclick="addMasterExportNote()"><span data-t="s5addMasterExportNote"></span></button>
+    <div class="divider"></div>
+    <div class="sub-label" data-t="s5stemMasterRefLabel"></div>
+    <div class="check-list" id="masterRefFullChecks"></div>
   </div>
 
   <div class="nav-btns"><button class="btn-back" onclick="goStep(4)" data-t="btnBack"></button><button class="btn-next" onclick="advance(5)" data-t="btnNext"></button></div>
@@ -1264,7 +1267,7 @@ function toggleArr(key,idx,otherRevealId,isOther,rebuild){
 }
 
 function rebuildKey(key){
-  const map={glossary:['glossaryItems','glossaryTerms','glossary',null,false],drums:['drumsChecks','drumsOptions','drums',null,false],instr:['instrChecks','instrOptions','instr',null,false],vocals:['vocalChecks','vocalOptions','vocals',null,false],premix:['premixChecks','premixOptions','premix',null,false],vocalsTB:['vocalChecksTB','vocalOptions','vocalsTB',null,false],premixTB:['premixChecksTB','premixOptions','premixTB',null,false],naming:['namingChecks','namingOptions','naming',null,false],delivery:['deliveryChecks','deliveryOptions','delivery','deliveryOtherReveal',true],session:['sessionChecks','sessionOptions','session','sessionOtherReveal',true],stupid:['stupidChecks','stupidItems','stupid',null,false]};
+  const map={glossary:['glossaryItems','glossaryTerms','glossary',null,false],drums:['drumsChecks','drumsOptions','drums',null,false],instr:['instrChecks','instrOptions','instr',null,false],vocals:['vocalChecks','vocalOptions','vocals',null,false],premix:['premixChecks','premixOptions','premix',null,false],vocalsTB:['vocalChecksTB','vocalOptions','vocalsTB',null,false],premixTB:['premixChecksTB','premixOptions','premixTB',null,false],naming:['namingChecks','namingOptions','naming',null,false],delivery:['deliveryChecks','deliveryOptions','delivery','deliveryOtherReveal',true],session:['sessionChecks','sessionOptions','session','sessionOtherReveal',true],stupid:['stupidChecks','stupidItems','stupid',null,false],masterRef:['masterRefChecks','s5masterRefOptions','masterRef',null,false],masterRefFull:['masterRefFullChecks','s5masterRefOptions','masterRefFull',null,false]};
   const args=map[key];if(!args)return;
   if(key==='glossary'){buildGlossaryItems();return;}
   buildCheckListFromKey(...args);
@@ -2218,6 +2221,7 @@ function buildAll(){
   buildStemOtherList();buildNamingOtherList();buildDAWOtherList();
   buildMasterStemList();buildMasterStemNoteList();buildMasterExportNoteList();
   buildCheckListFromKey('masterRefChecks','s5masterRefOptions','masterRef',null,false);
+  buildCheckListFromKey('masterRefFullChecks','s5masterRefOptions','masterRefFull',null,false);
   updateMasteringSections();
   buildChecklist();updateContinue8();
 }
