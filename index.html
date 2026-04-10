@@ -988,6 +988,8 @@ it:{
 // Master DAW steps (for full mastering — export single mix file)
 // Loaded from data.json, admin can edit
 let MASTER_DAW_STEPS={en:{},it:{},es:{},fr:{},de:{},pt:{}};
+let TYPEBEAT_DAW_STEPS={en:{},it:{},es:{},fr:{},de:{},pt:{}};
+let STEMMASTER_DAW_STEPS={en:{},it:{},es:{},fr:{},de:{},pt:{}};
 
 const DAWS=[
   {id:'ableton',name:'Ableton Live',icon:'🎛️'},{id:'logic',name:'Logic Pro',icon:'🍎'},
@@ -1379,9 +1381,15 @@ function buildDAWConfirmSection(){
   if(!wrap)return;
   if(!fd.daws.length){wrap.innerHTML='';updateContinue8();return;}
 
-  const isFullMaster=fd.serviceType==='mastering'&&fd.masteringType==='fullmaster';
-  const stepSource=isFullMaster?(MASTER_DAW_STEPS[lang]||MASTER_DAW_STEPS.en):( DAW_STEPS[lang]||DAW_STEPS.en);
-  const stepFallback=isFullMaster?MASTER_DAW_STEPS.en:DAW_STEPS.en;
+  function getDAWSource(l){
+    if(fd.serviceType==='mastering'){
+      if(fd.masteringType==='fullmaster') return {src:MASTER_DAW_STEPS[l]||MASTER_DAW_STEPS.en, fb:MASTER_DAW_STEPS.en};
+      return {src:STEMMASTER_DAW_STEPS[l]||STEMMASTER_DAW_STEPS.en, fb:STEMMASTER_DAW_STEPS.en};
+    }
+    if(fd.trackType==='typebeat') return {src:TYPEBEAT_DAW_STEPS[l]||TYPEBEAT_DAW_STEPS.en, fb:TYPEBEAT_DAW_STEPS.en};
+    return {src:DAW_STEPS[l]||DAW_STEPS.en, fb:DAW_STEPS.en};
+  }
+  const {src:stepSource, fb:stepFallback}=getDAWSource(lang);
   wrap.innerHTML=fd.daws.map(id=>{
     const d=DAWS.find(x=>x.id===id);
     const dawSteps=(stepSource[id]||stepFallback[id]||[]).filter(s=>s);
@@ -1422,10 +1430,16 @@ function buildDAWConfirmSection(){
 function confirmDAW(id,yes){
   fd.dawConfirmed[id]=yes;
   if(!yes&&!fd.dawCustomSteps[id]){
-    const isFM=fd.serviceType==='mastering'&&fd.masteringType==='fullmaster';
-    const src=isFM?(MASTER_DAW_STEPS[lang]||MASTER_DAW_STEPS.en):(DAW_STEPS[lang]||DAW_STEPS.en);
-    const fallback=isFM?MASTER_DAW_STEPS.en:DAW_STEPS.en;
-    fd.dawCustomSteps[id]=(src[id]||fallback[id]||[]).filter(s=>s).join('\n');
+    let src,fb;
+    if(fd.serviceType==='mastering'){
+      if(fd.masteringType==='fullmaster'){src=MASTER_DAW_STEPS[lang]||MASTER_DAW_STEPS.en;fb=MASTER_DAW_STEPS.en;}
+      else{src=STEMMASTER_DAW_STEPS[lang]||STEMMASTER_DAW_STEPS.en;fb=STEMMASTER_DAW_STEPS.en;}
+    } else if(fd.trackType==='typebeat'){
+      src=TYPEBEAT_DAW_STEPS[lang]||TYPEBEAT_DAW_STEPS.en;fb=TYPEBEAT_DAW_STEPS.en;
+    } else {
+      src=DAW_STEPS[lang]||DAW_STEPS.en;fb=DAW_STEPS.en;
+    }
+    fd.dawCustomSteps[id]=(src[id]||fb[id]||[]).filter(s=>s).join('\n');
   }
   buildDAWConfirmSection();autoSave();
 }
@@ -2293,6 +2307,18 @@ document.addEventListener('DOMContentLoaded',()=>{
         Object.keys(d.masterDAWSteps).forEach(l=>{
           if(!MASTER_DAW_STEPS[l])MASTER_DAW_STEPS[l]={};
           Object.assign(MASTER_DAW_STEPS[l],d.masterDAWSteps[l]);
+        });
+      }
+      if(d.typebeatDAWSteps){
+        Object.keys(d.typebeatDAWSteps).forEach(l=>{
+          if(!TYPEBEAT_DAW_STEPS[l])TYPEBEAT_DAW_STEPS[l]={};
+          Object.assign(TYPEBEAT_DAW_STEPS[l],d.typebeatDAWSteps[l]);
+        });
+      }
+      if(d.stemMasterDAWSteps){
+        Object.keys(d.stemMasterDAWSteps).forEach(l=>{
+          if(!STEMMASTER_DAW_STEPS[l])STEMMASTER_DAW_STEPS[l]={};
+          Object.assign(STEMMASTER_DAW_STEPS[l],d.stemMasterDAWSteps[l]);
         });
       }
       ['drumsOptions','instrOptions','vocalOptions','premixOptions','stupidItems','glossaryTerms'].forEach(key=>{
