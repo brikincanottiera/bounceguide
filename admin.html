@@ -108,6 +108,7 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
 .toast.error{background:var(--warn);color:#fff}
 .toast.show{opacity:1}
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -165,6 +166,9 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
       <button class="nav-btn" onclick="showSection('glossary')" id="nav-glossary">
         <span class="nav-icon">📖</span> Glossario
       </button>
+      <button class="nav-btn" onclick="showSection('masterdaw')" id="nav-masterdaw">
+        <span class="nav-icon">💿</span> Guide DAW Mastering
+      </button>
     </div>
 
     <!-- CONTENT -->
@@ -208,6 +212,19 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
         <div id="stupidEditor"></div>
       </div>
 
+      <!-- MASTER DAW GUIDES -->
+      <div class="section" id="section-masterdaw">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Guide DAW Mastering</div>
+            <div class="section-desc">Istruzioni per l'export del mix stereo finale. Appaiono solo quando il cliente sceglie "Mastering" normale.</div>
+          </div>
+        </div>
+        <div class="lang-tabs" id="masterDawLangTabs"></div>
+        <div class="daw-tabs" id="masterDawTabs"></div>
+        <div id="masterDawEditor"></div>
+      </div>
+
       <!-- GLOSSARIO -->
       <div class="section" id="section-glossary">
         <div class="section-header">
@@ -249,6 +266,8 @@ const DAWS = [
   {id:'bitwig',name:'Bitwig'},
   {id:'garageband',name:'GarageBand'},
 ];
+let masterDawLang = 'en', masterDawId = 'ableton';
+
 const STEM_CATS = [
   {id:'drumsOptions',name:'🥁 Drums'},
   {id:'instrOptions',name:'🎹 Strumenti'},
@@ -361,6 +380,7 @@ function showSection(id) {
   document.getElementById('nav-' + id).classList.add('active');
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-' + id).classList.add('active');
+  if(id === 'masterdaw') buildMasterDawEditor();
 }
 
 // ── LANG TABS BUILDER ─────────────────────────────────
@@ -656,6 +676,79 @@ function copyFromEnGlossary() {
 // ── UTILS ─────────────────────────────────────────────
 function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══════════════════════════════════════════════════════
+// MASTER DAW GUIDES EDITOR
+// ══════════════════════════════════════════════════════
+function buildMasterDawEditor() {
+  buildLangTabs('masterDawLangTabs', masterDawLang, 'selectMasterDawLang');
+  
+  const dawTabsEl = document.getElementById('masterDawTabs');
+  dawTabsEl.innerHTML = DAWS.map(d => `
+    <button class="daw-tab ${d.id===masterDawId?'active':''}" onclick="selectMasterDaw('${d.id}')">${d.name}</button>
+  `).join('');
+
+  renderMasterDawSteps();
+}
+
+function selectMasterDawLang(l) { masterDawLang = l; buildMasterDawEditor(); }
+function selectMasterDaw(id) { masterDawId = id; buildMasterDawEditor(); }
+
+function renderMasterDawSteps() {
+  if (!data.masterDAWSteps) data.masterDAWSteps = {};
+  if (!data.masterDAWSteps[masterDawLang]) data.masterDAWSteps[masterDawLang] = {};
+  if (!data.masterDAWSteps[masterDawLang][masterDawId]) data.masterDAWSteps[masterDawLang][masterDawId] = [];
+  
+  const steps = data.masterDAWSteps[masterDawLang][masterDawId];
+  const el = document.getElementById('masterDawEditor');
+  
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--t2)">${DAWS.find(d=>d.id===masterDawId)?.name} — ${LANG_NAMES[masterDawLang]} — <span style="color:var(--acc)">Mastering Normale</span></div>
+      ${masterDawLang!=='en'&&masterDawLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyMasterFromEn()">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list" id="masterDawStepsList">
+      ${steps.map((s,i) => renderMasterDawStep(s,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addMasterDawStep()">+ Aggiungi step</button>
+  `;
+}
+
+function renderMasterDawStep(text, i) {
+  return `<div class="item-row" id="masterDawStep_${i}">
+    <span class="item-num">${i+1}</span>
+    <div class="fields">
+      <textarea class="step-textarea" oninput="updateMasterDawStep(${i},this.value)" placeholder="Descrivi questo step...">${escHtml(text)}</textarea>
+    </div>
+    <button class="btn btn-danger" onclick="removeMasterDawStep(${i})">✕</button>
+  </div>`;
+}
+
+function updateMasterDawStep(i, val) {
+  data.masterDAWSteps[masterDawLang][masterDawId][i] = val;
+  markChanged();
+}
+
+function addMasterDawStep() {
+  if (!data.masterDAWSteps[masterDawLang][masterDawId]) data.masterDAWSteps[masterDawLang][masterDawId] = [];
+  data.masterDAWSteps[masterDawLang][masterDawId].push('');
+  renderMasterDawSteps();
+  markChanged();
+}
+
+function removeMasterDawStep(i) {
+  data.masterDAWSteps[masterDawLang][masterDawId].splice(i, 1);
+  renderMasterDawSteps();
+  markChanged();
+}
+
+function copyMasterFromEn() {
+  if (!data.masterDAWSteps?.en?.[masterDawId]) return;
+  data.masterDAWSteps[masterDawLang][masterDawId] = [...data.masterDAWSteps.en[masterDawId]];
+  renderMasterDawSteps();
+  markChanged();
+  showToast('Copiato da EN, traducilo ora!', 'success');
 }
 
 function buildAllEditors() {
