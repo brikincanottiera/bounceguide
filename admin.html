@@ -85,12 +85,21 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
 
 /* ITEMS LIST */
 .items-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.item-row{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm)}
+.item-row{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm);cursor:grab;transition:all 0.15s;user-select:none}
+.item-row:hover{border-color:var(--border2)}
+.item-row.dragging{opacity:0.4;border-color:var(--acc)}
+.item-row.drag-over{border-color:var(--acc);background:var(--acc-dim)}
+.drag-handle{color:var(--t3);cursor:grab;font-size:16px;padding-top:2px;flex-shrink:0}
 .item-row .fields{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
 .item-row input{background:var(--bg3)}
 .item-num{font-size:11px;font-weight:700;color:var(--acc);flex-shrink:0;padding-top:3px;min-width:20px}
 .step-textarea{min-height:60px}
 .add-btn{padding:8px 16px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.drag-handle{cursor:grab;color:var(--t3);font-size:16px;padding:2px 6px;flex-shrink:0;user-select:none;align-self:flex-start;padding-top:6px}
+.drag-handle:active{cursor:grabbing}
+.item-row{transition:opacity 0.15s,border-color 0.15s}
+.item-row.dragging{opacity:0.4;border-color:var(--acc)}
+.item-row.drag-over{border-color:var(--acc);background:var(--acc-dim)}
 .add-btn:hover{color:var(--acc);border-color:var(--acc);background:var(--acc-dim)}
 .wet-toggle{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2);cursor:pointer;user-select:none}
 .wet-cb{width:14px;height:14px;border-radius:3px;border:0.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
@@ -464,13 +473,60 @@ function renderDawSteps() {
 }
 
 function renderDawStep(text, i) {
-  return `<div class="item-row" id="dawStep_${i}">
+  return `<div class="item-row" id="dawStep_${i}" draggable="true"
+    ondragstart="dawDragStart(event,'daw',${i})"
+    ondragover="dawDragOver(event,${i})"
+    ondrop="dawDrop(event,'daw',${i})"
+    ondragend="dawDragEnd()">
+    <span class="drag-handle" title="Trascina per riordinare">⠿</span>
     <span class="item-num">${i+1}</span>
     <div class="fields">
       <textarea class="step-textarea" oninput="updateDawStep(${i},this.value)" placeholder="Descrivi questo step...">${escHtml(text)}</textarea>
     </div>
     <button class="btn btn-danger" onclick="removeDawStep(${i})">✕</button>
   </div>`;
+}
+
+// ── DRAG & DROP FOR DAW STEPS ─────────────────────────────
+let _dragSrcIdx = null;
+let _dragContext = null;
+
+function dawDragStart(e, ctx, i) {
+  _dragSrcIdx = i;
+  _dragContext = ctx;
+  setTimeout(() => {
+    const rows = document.querySelectorAll(`[id^="${ctx}Step_"]`);
+    if(rows[i]) rows[i].classList.add('dragging');
+  }, 0);
+}
+
+function dawDragOver(e, i) {
+  e.preventDefault();
+  const rows = document.querySelectorAll(`[id^="${_dragContext}Step_"]`);
+  rows.forEach((el, j) => el.classList.toggle('drag-over', j === i && i !== _dragSrcIdx));
+}
+
+function dawDrop(e, ctx, i) {
+  e.preventDefault();
+  if (_dragSrcIdx === null || _dragSrcIdx === i) return;
+  let arr;
+  if (ctx === 'daw') arr = data.dawSteps[dawLang][dawId];
+  else if (ctx === 'tb') arr = data.typebeatDAWSteps[dawTbLang][dawTbId];
+  else if (ctx === 'sm') arr = data.stemMasterDAWSteps[dawSmLang][dawSmId];
+  else if (ctx === 'md') arr = data.masterDAWSteps[masterDawLang][masterDawId];
+  if (!arr) return;
+  const moved = arr.splice(_dragSrcIdx, 1)[0];
+  arr.splice(i, 0, moved);
+  markChanged();
+  if (ctx === 'daw') renderDawSteps();
+  else if (ctx === 'tb') buildDawTbEditor();
+  else if (ctx === 'sm') buildDawSmEditor();
+  else if (ctx === 'md') renderMasterDawSteps();
+}
+
+function dawDragEnd() {
+  _dragSrcIdx = null;
+  document.querySelectorAll('.item-row').forEach(el => el.classList.remove('dragging', 'drag-over'));
 }
 
 function updateDawStep(i, val) {
@@ -608,7 +664,12 @@ function renderStupidItems() {
     </div>
     <div class="items-list">
       ${items.map((item,i) => `
-        <div class="item-row">
+        <div class="item-row" draggable="true"
+          ondragstart="onAdminDragStart(event,${i},'stupid',{})"
+          ondragover="onAdminDragOver(event,${i})"
+          ondrop="onAdminDropStupid(${i})"
+          ondragend="onAdminDragEnd()">
+          <span class="drag-handle">⠿</span>
           <span class="item-num">${i+1}</span>
           <div class="fields">
             <input type="text" value="${escHtml(item.label||'')}" placeholder="Errore (es. Esportare con Export All Tracks)" oninput="updateStupidItem(${i},'label',this.value)">
@@ -710,6 +771,58 @@ function copyFromEnGlossary() {
 }
 
 // ── UTILS ─────────────────────────────────────────────
+// ── DRAG & DROP for step lists ────────────────────────
+let _adminDragSrc=null, _adminDragKey=null, _adminDragCtx=null;
+
+function onAdminDragStart(e, i, key, ctx){
+  _adminDragSrc=i; _adminDragKey=key; _adminDragCtx=ctx;
+  setTimeout(()=>e.target.closest('.item-row')?.classList.add('dragging'),0);
+}
+function onAdminDragOver(e, i){
+  e.preventDefault();
+  document.querySelectorAll('.item-row').forEach((el,j)=>{
+    el.classList.toggle('drag-over', j===i && i!==_adminDragSrc);
+  });
+}
+function onAdminDrop(i, key, ctx, rebuildFn){
+  document.querySelectorAll('.item-row').forEach(el=>el.classList.remove('dragging','drag-over'));
+  if(_adminDragSrc===null||_adminDragSrc===i)return;
+  // Reorder the array
+  const arr=getAdminArr(key, ctx);
+  const moved=arr.splice(_adminDragSrc,1)[0];
+  arr.splice(i,0,moved);
+  setAdminArr(key, ctx, arr);
+  markChanged();
+  rebuildFn();
+}
+function onAdminDropStupid(i){
+  document.querySelectorAll('.item-row').forEach(el=>el.classList.remove('dragging','drag-over'));
+  if(_adminDragSrc===null||_adminDragSrc===i)return;
+  const moved=data.stupidItems[stupidLang].splice(_adminDragSrc,1)[0];
+  data.stupidItems[stupidLang].splice(i,0,moved);
+  markChanged();
+  renderStupidItems();
+}
+function onAdminDragEnd(){
+  _adminDragSrc=null;
+  document.querySelectorAll('.item-row').forEach(el=>el.classList.remove('dragging','drag-over'));
+}
+
+function getAdminArr(key, ctx){
+  // ctx: {dataKey, lang, dawId} for DAW steps, or {section, lang} for others
+  if(ctx.dataKey){
+    return (data[ctx.dataKey]?.[ctx.lang]?.[ctx.dawId]) || [];
+  }
+  return [];
+}
+function setAdminArr(key, ctx, arr){
+  if(ctx.dataKey){
+    if(!data[ctx.dataKey])data[ctx.dataKey]={};
+    if(!data[ctx.dataKey][ctx.lang])data[ctx.dataKey][ctx.lang]={};
+    data[ctx.dataKey][ctx.lang][ctx.dawId]=arr;
+  }
+}
+
 function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -734,11 +847,19 @@ function buildGenericDawEditor(dataKey, langVar, setLangFn, idVar, setIdFn, lang
       ${langVar!=='en'&&langVar!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyGenericDawFromEn('${dataKey}','${idVar}','${setLangFn}')">Copia da EN</button>`:''}
     </div>
     <div class="items-list">
-      ${steps.map((s,i) => `<div class="item-row">
-        <span class="item-num">${i+1}</span>
-        <div class="fields"><textarea class="step-textarea" oninput="updateGenericDawStep('${dataKey}','${langVar}','${idVar}',${i},this.value)">${escHtml(s)}</textarea></div>
-        <button class="btn btn-danger" onclick="removeGenericDawStep('${dataKey}','${langVar}','${idVar}',${i})">✕</button>
-      </div>`).join('')}
+      ${steps.map((s,i) => {
+        const ctx = dataKey==='typebeatDAWSteps'?'tb':dataKey==='stemMasterDAWSteps'?'sm':'md';
+        return `<div class="item-row" id="${ctx}Step_${i}" draggable="true"
+          ondragstart="dawDragStart(event,'${ctx}',${i})"
+          ondragover="dawDragOver(event,${i})"
+          ondrop="dawDrop(event,'${ctx}',${i})"
+          ondragend="dawDragEnd()">
+          <span class="drag-handle">⠿</span>
+          <span class="item-num">${i+1}</span>
+          <div class="fields"><textarea class="step-textarea" oninput="updateGenericDawStep('${dataKey}','${langVar}','${idVar}',${i},this.value)">${escHtml(s)}</textarea></div>
+          <button class="btn btn-danger" onclick="removeGenericDawStep('${dataKey}','${langVar}','${idVar}',${i})">✕</button>
+        </div>`;
+      }).join('')}
     </div>
     <button class="add-btn" onclick="addGenericDawStep('${dataKey}','${langVar}','${idVar}')">+ Aggiungi step</button>
   `;
@@ -796,7 +917,12 @@ function renderMasterDawSteps() {
 }
 
 function renderMasterDawStep(text, i) {
-  return `<div class="item-row" id="masterDawStep_${i}">
+  return `<div class="item-row" id="mdStep_${i}" draggable="true"
+    ondragstart="dawDragStart(event,'md',${i})"
+    ondragover="dawDragOver(event,${i})"
+    ondrop="dawDrop(event,'md',${i})"
+    ondragend="dawDragEnd()">
+    <span class="drag-handle">⠿</span>
     <span class="item-num">${i+1}</span>
     <div class="fields">
       <textarea class="step-textarea" oninput="updateMasterDawStep(${i},this.value)" placeholder="Descrivi questo step...">${escHtml(text)}</textarea>
