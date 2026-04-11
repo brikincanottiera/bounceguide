@@ -21,12 +21,14 @@
       ],
       "flstudio": [
         "Open your project in FL Studio.",
-        "Make sure each instrument has its own dedicated Mixer channel.",
-        "Go to File > Export > Project bones (Stems).",
-        "Set Quality: 32-bit float or 24-bit | Sample Rate as requested.",
-        "Choose your destination folder and click Accept.",
-        "FL Studio exports each Mixer channel as a separate file.",
-        "Verify each exported file sounds correct when played alone."
+        "Make sure each instrument/vocal has its own dedicated Mixer channel.",
+        "Go to File > Export > Wav.",
+        "Save the files in the designated folder (renamed as indicated), following the previously given instructions on how to rename files (adding a _ at the end allows you to write the track name at the end, the only way to get it written correctly).",
+        "Project type -> Full Song, Leave Reminder.",
+        "Audio format -> As per the instructions given previously.",
+        "Quality -> Resampling - The higher the better -> Select HQ for all plugins and Disable maximum polyphony.",
+        "Miscellaneous -> Select ONLY: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (review this section carefully, and ask if unsure), Save playlist marker (optional).",
+        "Press Start."
       ],
       "protools": [
         "Open your session in Pro Tools.",
