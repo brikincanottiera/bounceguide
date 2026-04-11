@@ -140,6 +140,7 @@
       "reaper": [
         "Apri il progetto di REAPER.",
         "Rinomina le tracce da esportare.",
+        "Seleziona le tracce da esportare.",
         "Vai su File > Render (o premi Ctrl+Alt+R o Command+Alt+R).",
         "Imposta Source su \"Stems selected tracks\".",
         "Imposta i bounds su \"Entire project\".",
