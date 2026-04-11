@@ -74,22 +74,6 @@ The PDF is generated in the language selected by the user. All sections are tran
 
 ---
 
-## Admin Panel
-
-Accessible at `/admin`, it lets you edit everything without touching the code:
-
-- DAW guides for each service type and each language, with bulk import to paste all instructions at once
-- YouTube tutorial links for each DAW and each service type
-- Stupidity Check separate for each service type
-- Pre-send checklist separate for each service type
-- Stem options (drums, bass, instruments, vocals, premix)
-- Glossary
-- Drag and drop to reorder items
-
-Changes are saved directly to GitHub and Vercel redeploys in about 30 seconds.
-
----
-
 ## Tech stack
 
 - Vanilla HTML, CSS and JavaScript
