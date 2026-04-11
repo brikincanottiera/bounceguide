@@ -252,9 +252,10 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
         <div class="section-header">
           <div>
             <div class="section-title">Stupidity Check</div>
-            <div class="section-desc">Errori comuni dei clienti. Appaiono come avvisi nel PDF.</div>
+            <div class="section-desc">Gli errori classici dei clienti, separati per tipo di servizio. Appaiono nel PDF come sezione di avviso.</div>
           </div>
         </div>
+        <div class="service-tabs" id="stupidServiceTabs"></div>
         <div class="lang-tabs" id="stupidLangTabs"></div>
         <div id="stupidEditor"></div>
       </div>
@@ -282,6 +283,32 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
         </div>
         <div class="lang-tabs" id="glossaryLangTabs"></div>
         <div id="glossaryEditor"></div>
+      </div>
+
+      <!-- CHECKLIST PER TIPO -->
+      <div class="section" id="section-checklist">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Checklist Pre-invio</div>
+            <div class="section-desc">La checklist che il cliente spunta prima di inviare. Separata per tipo di servizio.</div>
+          </div>
+        </div>
+        <div class="service-tabs" id="checklistServiceTabs"></div>
+        <div class="lang-tabs" id="checklistLangTabs"></div>
+        <div id="checklistEditor"></div>
+      </div>
+
+      <!-- TUTORIAL VIDEO DAW -->
+      <div class="section" id="section-tutorials">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Tutorial Video DAW</div>
+            <div class="section-desc">Link YouTube per ogni DAW per tipo di servizio. Pre-caricati nel form, l'utente può cambiarli.</div>
+          </div>
+        </div>
+        <div class="service-tabs" id="tutorialServiceTabs"></div>
+        <div class="daw-tabs" id="tutorialDawTabs"></div>
+        <div id="tutorialEditor"></div>
       </div>
 
     </div>
@@ -1077,6 +1104,8 @@ function buildAllEditors() {
   buildStemsEditor();
   buildStupidEditor();
   buildGlossaryEditor();
+  buildChecklistEditor();
+  buildTutorialEditor();
 }
 
 // ── INIT ──────────────────────────────────────────────
