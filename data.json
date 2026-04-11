@@ -56,15 +56,13 @@
         "Studio One exports each stem automatically."
       ],
       "reaper": [
-        "Open your project in REAPER.\n",
-        "Rename the tracks you want to export.",
-        "Go to File > Render (or press Ctrl+Alt+R or Command+Alt+R).",
-        "Set Source to \"Stems selected tracks\".",
-        "Set the bounds to \"Entire project\".",
-        "Set Format/Sample Rate/Bit Depth as requested.",
-        "Set the output folder and filename pattern (use $track to display the track names as you have renamed them in your session, then fill in the rest as per the instructions).",
-        "Click Render files.",
-        "Click Render files."
+        "Open your project in REAPER.",
+        "Go to File > Render (or press Ctrl+Alt+R).",
+        "Set Render what to Stems (selected tracks).",
+        "Set bounds to Entire project.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Set output folder and filename pattern (use $track for track name).",
+        "Click Render X files."
       ],
       "bitwig": [
         "Open your project in Bitwig Studio.",
@@ -168,58 +166,10 @@
         "Clicca Export, salva con un nome chiaro e ripeti per ogni traccia."
       ]
     },
-    "es": {
-      "reaper": [
-        "Abre el proyecto en REAPER.",
-        "Renombra las pistas que vas a exportar.",
-        "Ve a File > Render (o pulsa Ctrl+Alt+R o Command+Alt+R).",
-        "Establece Source en \"Stems selected tracks\".",
-        "Establece los bounds en \"Entire project\".",
-        "Establece Formato/Sample Rate/Bit Depth como se ha pedido.",
-        "Establece la carpeta de salida y el patrón de nombre de archivo (usa $track para que aparezca el nombre de las pistas tal como las has renombrado en tu sesión, luego completa el resto según las instrucciones).\n",
-        "Haz clic en \"Tracks with only mono media to mono files\".",
-        "Haz clic en Render files."
-      ]
-    },
-    "fr": {
-      "reaper": [
-        "Ouvre ton projet dans REAPER.",
-        "Renomme les pistes à exporter.",
-        "Va dans File > Render (ou appuie sur Ctrl+Alt+R ou Command+Alt+R).",
-        "Règle Source sur \"Stems selected tracks\".",
-        "Règle les bounds sur \"Entire project\".",
-        "Règle le Format/Sample Rate/Bit Depth comme demandé.",
-        "Règle le dossier de sortie et le modèle de nom de fichier (utilise $track pour afficher le nom des pistes telles que tu les as renommées dans ta session, puis complète le reste selon les instructions).",
-        "Clique sur \"Tracks with only mono media to mono files\".",
-        "Clique sur Render files."
-      ]
-    },
-    "de": {
-      "reaper": [
-        "Öffne dein Projekt in REAPER.",
-        "Benenne die zu exportierenden Spuren um.",
-        "Gehe zu File > Render (oder drücke Ctrl+Alt+R oder Command+Alt+R).",
-        "Stelle Source auf \"Stems selected tracks\".",
-        "Stelle die Bounds auf \"Entire project\".",
-        "Stelle Format/Sample Rate/Bit Depth wie angefordert ein.",
-        "Stelle den Ausgabeordner und das Dateinamenmuster ein (verwende $track um den Namen der Spuren so anzuzeigen wie du sie in deiner Session umbenannt hast, dann fülle den Rest gemäß den Anweisungen aus).\n",
-        "Klicke auf \"Tracks with only mono media to mono files\".",
-        "Klicke auf Render files"
-      ]
-    },
-    "pt": {
-      "reaper": [
-        "Abre o projeto no REAPER.",
-        "Renomeie as faixas que vai exportar.",
-        "Vá em File > Render (ou pressione Ctrl+Alt+R ou Command+Alt+R).",
-        "Defina Source como \"Stems selected tracks\".",
-        "Defina os bounds como \"Entire project\".",
-        "Defina o Formato/Sample Rate/Bit Depth conforme solicitado.",
-        "Defina a pasta de saída e o padrão de nome de arquivo (use $track para exibir o nome das faixas como você as renomeou na sua sessão, depois preencha o restante conforme as instruções).",
-        "Clique em \"Tracks with only mono media to mono files\".",
-        "Clique em Render files."
-      ]
-    }
+    "es": {},
+    "fr": {},
+    "de": {},
+    "pt": {}
   },
   "stupidItems": {
     "en": [
@@ -855,10 +805,6 @@
       {
         "label": "Export synths DRY — no effects, raw sound only",
         "sub": "No reverb, no delay, no saturation — pure output of the instrument"
-      },
-      {
-        "label": "Export 808/sub bass as a separate file",
-        "sub": "The low end needs individual treatment — never group it with other instruments"
       }
     ],
     "it": [
@@ -870,10 +816,6 @@
       {
         "label": "Esporta synth DRY — senza effetti, solo il suono grezzo",
         "sub": "Nessun riverbero, nessun delay, nessuna saturazione — output puro dello strumento"
-      },
-      {
-        "label": "Esporta l'808/sub basso come file separato",
-        "sub": "Il low end ha bisogno di trattamento individuale — non raggrupparlo con altri strumenti"
       }
     ],
     "es": [
@@ -885,10 +827,6 @@
       {
         "label": "Exportar synths DRY — sin efectos, solo el sonido crudo",
         "sub": "Sin reverb, sin delay, sin saturación"
-      },
-      {
-        "label": "Exportar 808/sub bass como archivo separado",
-        "sub": "El low end necesita tratamiento individual"
       }
     ],
     "fr": [
@@ -900,10 +838,6 @@
       {
         "label": "Exporter synths DRY — sans effets, son brut uniquement",
         "sub": "Sans reverb, sans delay, sans saturation"
-      },
-      {
-        "label": "Exporter 808/sub bass comme fichier séparé",
-        "sub": "Le bas du spectre nécessite un traitement individuel"
       }
     ],
     "de": [
@@ -915,10 +849,6 @@
       {
         "label": "Synths DRY exportieren — ohne Effekte, nur roher Sound",
         "sub": "Kein Reverb, kein Delay, keine Saturation"
-      },
-      {
-        "label": "808/Sub-Bass als separate Datei exportieren",
-        "sub": "Der Tiefbass braucht individuelle Behandlung"
       }
     ],
     "pt": [
@@ -930,10 +860,6 @@
       {
         "label": "Exportar synths DRY — sem efeitos, apenas som bruto",
         "sub": "Sem reverb, sem delay, sem saturação"
-      },
-      {
-        "label": "Exportar 808/sub bass como arquivo separado",
-        "sub": "O baixo precisa de tratamento individual"
       }
     ]
   },
