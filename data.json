@@ -866,139 +866,139 @@
   "vocalOptions": {
     "en": [
       {
-        "label": "DRY — completely raw, no effects, no pitch correction",
+        "label": "DRY - completely raw, no effects, no pitch correction",
         "sub": "The voice exactly as recorded"
       },
       {
-        "label": "DRY + Pitch correction — clean voice with Melodyne or Autotune applied",
+        "label": "DRY + Pitch correction - clean voice with Melodyne or Autotune applied",
         "sub": "No reverb, delay or distortion. The most common request."
       },
       {
-        "label": "WET — ONLY for artistic sound design parts",
+        "label": "WET - ONLY for artistic sound design parts",
         "sub": "Send WET exclusively for parts where the effect IS the sound. Do NOT send the entire vocal WET.",
         "isWet": true
       },
       {
         "label": "Export each vocal part as a separate file",
-        "sub": "Lead vocal, harmonies, adlibs, doubles — one file for each"
+        "sub": "Lead vocal, harmonies, adlibs, doubles - one file for each"
       },
       {
-        "label": "Export only the final compiled version — delete unused takes before sending",
+        "label": "Export only the final compiled version - delete unused takes before sending",
         "sub": "I only need the final performance"
       }
     ],
     "it": [
       {
-        "label": "DRY — completamente grezzo, senza effetti, senza correzione intonazione",
+        "label": "DRY - completamente grezzo, senza effetti, senza correzione intonazione",
         "sub": "La voce esattamente come registrata"
       },
       {
-        "label": "DRY + Correzione intonazione — voce pulita con Melodyne o Autotune applicato",
+        "label": "DRY + Correzione intonazione - voce pulita con Melodyne o Autotune applicato",
         "sub": "Senza riverbero, delay o distorsione. La richiesta piu comune."
       },
       {
-        "label": "WET — SOLO per parti usate come sound design artistico",
+        "label": "WET - SOLO per parti usate come sound design artistico",
         "sub": "Invia WET esclusivamente per le parti in cui l'effetto E' il suono. NON inviare tutta la voce WET.",
         "isWet": true
       },
       {
         "label": "Esporta ogni parte vocale come file separato",
-        "sub": "Voce principale, armonie, adlib, doppie — un file per ciascuna"
+        "sub": "Voce principale, armonie, adlib, doppie - un file per ciascuna"
       },
       {
-        "label": "Esporta solo la versione finale compilata — elimina i take non utilizzati prima di inviare",
+        "label": "Esporta solo la versione finale compilata - elimina i take non utilizzati prima di inviare",
         "sub": "Ho bisogno solo della performance finale"
       }
     ],
     "es": [
       {
-        "label": "DRY — completamente crudo, sin efectos, sin corrección de tono",
+        "label": "DRY - completamente crudo, sin efectos, sin corrección de tono",
         "sub": "La voz exactamente como fue grabada"
       },
       {
-        "label": "DRY + Corrección de tono — voz limpia con Melodyne o Autotune aplicado",
+        "label": "DRY + Corrección de tono - voz limpia con Melodyne o Autotune aplicado",
         "sub": "Sin reverb, delay ni distorsión. La solicitud más común."
       },
       {
-        "label": "WET — SOLO para partes de sound design artístico",
+        "label": "WET - SOLO para partes de sound design artístico",
         "sub": "Solo para partes donde el efecto ES el sonido. NO enviar la voz completa WET.",
         "isWet": true
       },
       {
         "label": "Exportar cada parte vocal como archivo separado",
-        "sub": "Voz principal, armonías, adlibs, dobles — un archivo para cada una"
+        "sub": "Voz principal, armonías, adlibs, dobles - un archivo para cada una"
       },
       {
-        "label": "Exportar solo la versión final compilada — eliminar takes no usados antes de enviar",
+        "label": "Exportar solo la versión final compilada - eliminar takes no usados antes de enviar",
         "sub": "Solo necesito la interpretación final"
       }
     ],
     "fr": [
       {
-        "label": "DRY — complètement brut, sans effets, sans correction de tonalité",
+        "label": "DRY - complètement brut, sans effets, sans correction de tonalité",
         "sub": "La voix exactement comme enregistrée"
       },
       {
-        "label": "DRY + Correction de tonalité — voix propre avec Melodyne ou Autotune",
+        "label": "DRY + Correction de tonalité - voix propre avec Melodyne ou Autotune",
         "sub": "Sans reverb, delay ni distorsion. La demande la plus courante."
       },
       {
-        "label": "WET — UNIQUEMENT pour les parties de sound design artistique",
+        "label": "WET - UNIQUEMENT pour les parties de sound design artistique",
         "sub": "Seulement pour les parties où l'effet EST le son. NE PAS envoyer toute la voix WET.",
         "isWet": true
       },
       {
         "label": "Exporter chaque partie vocale comme fichier séparé",
-        "sub": "Voix principale, harmonies, adlibs, doubles — un fichier pour chacune"
+        "sub": "Voix principale, harmonies, adlibs, doubles - un fichier pour chacune"
       },
       {
-        "label": "Exporter seulement la version finale compilée — supprimer les takes non utilisés avant d'envoyer",
+        "label": "Exporter seulement la version finale compilée - supprimer les takes non utilisés avant d'envoyer",
         "sub": "J'ai seulement besoin de la performance finale"
       }
     ],
     "de": [
       {
-        "label": "DRY — komplett roh, ohne Effekte, ohne Tonhöhenkorrektur",
+        "label": "DRY - komplett roh, ohne Effekte, ohne Tonhöhenkorrektur",
         "sub": "Die Stimme genau wie aufgenommen"
       },
       {
-        "label": "DRY + Tonhöhenkorrektur — saubere Stimme mit Melodyne oder Autotune",
+        "label": "DRY + Tonhöhenkorrektur - saubere Stimme mit Melodyne oder Autotune",
         "sub": "Kein Reverb, Delay oder Verzerrung. Häufigste Anforderung."
       },
       {
-        "label": "WET — NUR für künstlerische Sound-Design-Teile",
+        "label": "WET - NUR für künstlerische Sound-Design-Teile",
         "sub": "Nur senden wo der Effekt DER Sound ist. NICHT die gesamte Stimme WET senden.",
         "isWet": true
       },
       {
         "label": "Jeden Gesangspart als separate Datei exportieren",
-        "sub": "Hauptgesang, Harmonien, Adlibs, Doubles — je eine Datei"
+        "sub": "Hauptgesang, Harmonien, Adlibs, Doubles - je eine Datei"
       },
       {
-        "label": "Nur die finale kompilierte Version exportieren — unbenutzte Takes vorher löschen",
+        "label": "Nur die finale kompilierte Version exportieren - unbenutzte Takes vorher löschen",
         "sub": "Ich brauche nur die finale Performance"
       }
     ],
     "pt": [
       {
-        "label": "DRY — completamente cru, sem efeitos, sem correção de afinação",
+        "label": "DRY - completamente cru, sem efeitos, sem correção de afinação",
         "sub": "A voz exatamente como gravada"
       },
       {
-        "label": "DRY + Correção de afinação — voz limpa com Melodyne ou Autotune aplicado",
+        "label": "DRY + Correção de afinação - voz limpa com Melodyne ou Autotune aplicado",
         "sub": "Sem reverb, delay ou distorção. O pedido mais comum."
       },
       {
-        "label": "WET — APENAS para partes de sound design artístico",
+        "label": "WET - APENAS para partes de sound design artístico",
         "sub": "Apenas para partes onde o efeito É o som. NÃO enviar o vocal inteiro WET.",
         "isWet": true
       },
       {
         "label": "Exportar cada parte vocal como arquivo separado",
-        "sub": "Vocal principal, harmonias, adlibs, dobras — um arquivo para cada"
+        "sub": "Vocal principal, harmonias, adlibs, dobras - um arquivo para cada"
       },
       {
-        "label": "Exportar apenas a versão final compilada — excluir takes não utilizados antes de enviar",
+        "label": "Exportar apenas a versão final compilada - excluir takes não utilizados antes de enviar",
         "sub": "Só preciso da performance final"
       }
     ]
