@@ -500,6 +500,11 @@ function renderDawSteps() {
       <div style="font-size:12px;color:var(--t2)">${DAWS.find(d=>d.id===dawId)?.name} — ${LANG_NAMES[dawLang]}</div>
       ${dawLang!=='en'&&dawLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyFromEn('daw')">Copia da EN</button>`:''}
     </div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--t2);margin-bottom:6px">Incolla le istruzioni (una per riga) e clicca Importa:</div>
+      <textarea id="dawBulkImport" rows="5" placeholder="Apri il progetto...&#10;Vai su File > Render..." style="width:100%;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--t1);padding:8px;font-size:12px;resize:vertical;box-sizing:border-box"></textarea>
+      <button class="btn btn-secondary btn-sm" style="margin-top:6px" onclick="bulkImportDaw()">↓ Importa come tiles</button>
+    </div>
     <div class="items-list" id="dawStepsList">
       ${steps.map((s,i) => renderDawStep(s,i)).join('')}
     </div>
@@ -567,6 +572,33 @@ function dawDragEnd() {
 function updateDawStep(i, val) {
   data.dawSteps[dawLang][dawId][i] = val;
   markChanged();
+}
+
+function bulkImportDaw(){
+  const ta=document.getElementById('dawBulkImport');
+  if(!ta)return;
+  const lines=ta.value.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+  if(!lines.length)return;
+  if(!data.dawSteps[dawLang])data.dawSteps[dawLang]={};
+  if(!data.dawSteps[dawLang][dawId])data.dawSteps[dawLang][dawId]=[];
+  data.dawSteps[dawLang][dawId]=[...data.dawSteps[dawLang][dawId],...lines];
+  ta.value='';
+  renderDawSteps();markChanged();
+  showToast(`${lines.length} step importati!`,'success');
+}
+
+function bulkImportGeneric(dataKey,langVar,idVar,rebuildFn){
+  const ta=document.getElementById('genericBulkImport');
+  if(!ta)return;
+  const lines=ta.value.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+  if(!lines.length)return;
+  if(!data[dataKey])data[dataKey]={};
+  if(!data[dataKey][langVar])data[dataKey][langVar]={};
+  if(!data[dataKey][langVar][idVar])data[dataKey][langVar][idVar]=[];
+  data[dataKey][langVar][idVar]=[...data[dataKey][langVar][idVar],...lines];
+  ta.value='';
+  rebuildFn();markChanged();
+  showToast(`${lines.length} step importati!`,'success');
 }
 
 function addDawStep() {
@@ -947,6 +979,11 @@ function renderMasterDawSteps() {
       <div style="font-size:12px;color:var(--t2)">${DAWS.find(d=>d.id===masterDawId)?.name} — ${LANG_NAMES[masterDawLang]} — <span style="color:var(--acc)">Mastering Normale</span></div>
       ${masterDawLang!=='en'&&masterDawLang!=='it'?`<button class="btn btn-secondary btn-sm" onclick="copyMasterFromEn()">Copia da EN</button>`:''}
     </div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--t2);margin-bottom:6px">Incolla tutte le istruzioni qui sotto (una per riga) e clicca Importa:</div>
+      <textarea id="masterDawBulkImport" rows="6" placeholder="Apri il progetto...&#10;Bypassa tutti i plugin..." style="width:100%;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--t1);padding:8px;font-size:12px;resize:vertical;box-sizing:border-box"></textarea>
+      <button class="btn btn-secondary btn-sm" style="margin-top:6px" onclick="bulkImportMasterDaw()">↓ Importa come tiles</button>
+    </div>
     <div class="items-list" id="masterDawStepsList">
       ${steps.map((s,i) => renderMasterDawStep(s,i)).join('')}
     </div>
@@ -972,6 +1009,20 @@ function renderMasterDawStep(text, i) {
 function updateMasterDawStep(i, val) {
   data.masterDAWSteps[masterDawLang][masterDawId][i] = val;
   markChanged();
+}
+
+function bulkImportMasterDaw(){
+  const ta=document.getElementById('masterDawBulkImport');
+  if(!ta)return;
+  const lines=ta.value.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+  if(!lines.length)return;
+  if(!data.masterDAWSteps)data.masterDAWSteps={};
+  if(!data.masterDAWSteps[masterDawLang])data.masterDAWSteps[masterDawLang]={};
+  if(!data.masterDAWSteps[masterDawLang][masterDawId])data.masterDAWSteps[masterDawLang][masterDawId]=[];
+  data.masterDAWSteps[masterDawLang][masterDawId]=[...data.masterDAWSteps[masterDawLang][masterDawId],...lines];
+  ta.value='';
+  renderMasterDawSteps();markChanged();
+  showToast(`${lines.length} step importati!`,'success');
 }
 
 function addMasterDawStep() {
