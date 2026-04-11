@@ -75,6 +75,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .progress-wrap{padding:9px 32px;border-bottom:0.5px solid var(--border)}
 .progress-label{font-size:10px;color:var(--t2);margin-bottom:4px;display:flex;justify-content:space-between}
 .progress-bar-bg{height:3px;background:var(--border2);border-radius:2px;overflow:hidden}
+.step-counter-mobile{display:none;font-size:12px;color:var(--t2);text-align:center;padding:6px 0;font-weight:600}
+.scroll-top-btn{display:none;position:fixed;bottom:80px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--acc);border:none;color:#000;font-size:18px;cursor:pointer;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3);align-items:center;justify-content:center}
+@media(max-width:700px){.step-counter-mobile{display:block}.scroll-top-btn{display:flex}}
 .progress-bar-fill{height:100%;background:var(--acc);border-radius:2px;transition:width 0.4s ease}
 
 main{flex:1;display:grid;grid-template-columns:256px 1fr;align-items:start}
@@ -589,7 +592,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="section-title" data-t="s6title"></div>
   <div class="section-desc" data-t="s6desc"></div>
   <div class="info-box"><div class="info-box-title" data-t="s6whyTitle"></div><p data-t="s6whyText"></p></div>
-  <div class="field-group"><label class="field-label" data-t="s6exLabel"></label><input type="text" id="namingExample" placeholder="SongName_Kick_01" oninput="autoSave()"></div>
+  <div class="field-group"><label class="field-label" data-t="s6exLabel"></label><input type="text" id="namingExample" placeholder="SongName_Kick_01" style="font-family:monospace" oninput="autoSave()"></div>
   <div class="check-list" id="namingChecks"></div>
   <div class="multi-other-list" id="namingOtherList"></div>
   <button class="add-other-btn" onclick="addNamingOther()" data-t="s6addOther"></button>
@@ -1140,6 +1143,8 @@ function buildStepsNav(){
     const filled=getStepFilled(n);
     return`<button class="step-btn${done?' done':''}${active?' active':''}${filled&&!active?' filled':''}" onclick="goStep(${n})"><span class="step-num">${done&&filled?'✓':n}</span>${lb}</button>`;
   }).join('');
+  const counter=document.getElementById('stepCounterMobile');
+  if(counter)counter.textContent=`Step ${currentStep} / ${TOTAL}`;
 }
 
 function goStep(n){
@@ -1163,6 +1168,11 @@ function finishForm(){
   document.getElementById('generateBtn').disabled=false;
   if(document.getElementById('previewBtn'))document.getElementById('previewBtn').disabled=false;
   buildChecklist();
+  // Scroll to PDF buttons on mobile
+  setTimeout(()=>{
+    const btn=document.getElementById('previewBtn');
+    if(btn){const top=btn.getBoundingClientRect().top+window.scrollY-20;window.scrollTo({top,behavior:'smooth'});}
+  },100);
 }
 
 // ═══════════════════════════════════════════
@@ -1479,8 +1489,15 @@ function updateContinue8(){
   const note=document.getElementById('daw8LockedNote');
   if(!btn)return;
   const allConfirmed=fd.daws.length===0||fd.daws.every(id=>fd.dawConfirmed[id]===true);
+  const pending=fd.daws.filter(id=>fd.dawConfirmed[id]!==true);
   btn.disabled=!allConfirmed;
-  if(note)note.style.display=(!allConfirmed&&fd.daws.length>0)?'block':'none';
+  if(note){
+    note.style.display=(!allConfirmed&&fd.daws.length>0)?'block':'none';
+    if(pending.length>0){
+      const names=pending.map(id=>DAWS.find(d=>d.id===id)?.name||id).join(', ');
+      note.textContent=(lang==='it'?`Conferma le istruzioni per: ${names}`:`Please confirm instructions for: ${names}`);
+    }
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -1743,10 +1760,19 @@ function previewPDF(){
   setTimeout(()=>{
     try {
       _pdfDocForDownload = buildPDFDoc();
-      const dataUri = _pdfDocForDownload.output('datauristring');
-      body.innerHTML = `<iframe src="${dataUri}" style="width:100%;height:70vh;border:none"></iframe>`;
+      const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+      if(isSafari||isIOS){
+        // Safari can't render data URI in iframe — use blob URL
+        const blob=_pdfDocForDownload.output('blob');
+        const url=URL.createObjectURL(blob);
+        body.innerHTML=`<iframe src="${url}" style="width:100%;height:70vh;border:none" onload="URL.revokeObjectURL('${url}')"></iframe>`;
+      } else {
+        const dataUri=_pdfDocForDownload.output('datauristring');
+        body.innerHTML=`<iframe src="${dataUri}" style="width:100%;height:70vh;border:none"></iframe>`;
+      }
     } catch(e) {
-      body.innerHTML = `<div class="pdf-modal-loading" style="color:var(--warn-text)">Errore nella generazione: ${e.message}</div>`;
+      body.innerHTML=`<div class="pdf-modal-loading" style="color:var(--warn-text)">Errore nella generazione: ${e.message}</div>`;
     }
   }, 50);
 }
@@ -2479,6 +2505,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     <button onclick="acceptCookie()" style="padding:7px 16px;border-radius:var(--radius-sm);border:none;background:var(--acc);color:#000;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit" id="cookieAccept"></button>
   </div>
 </div>
+
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Torna su">↑</button>
 
 <!-- VALIDATION MODAL -->
 <div class="val-modal" id="valModal">
