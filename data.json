@@ -1569,5 +1569,317 @@
         "sub": "Identique au précédent mais sans aucune piste vocale"
       }
     ]
+  },
+  "dawTutorials": {
+    "mix": {
+      "ableton": "",
+      "logic": "",
+      "flstudio": "",
+      "protools": "",
+      "cubase": "",
+      "studioone": "",
+      "reaper": "",
+      "bitwig": "",
+      "garageband": ""
+    },
+    "typebeat": {
+      "ableton": "",
+      "logic": "",
+      "flstudio": "",
+      "protools": "",
+      "cubase": "",
+      "studioone": "",
+      "reaper": "",
+      "bitwig": "",
+      "garageband": ""
+    },
+    "stemmaster": {
+      "ableton": "",
+      "logic": "",
+      "flstudio": "",
+      "protools": "",
+      "cubase": "",
+      "studioone": "",
+      "reaper": "",
+      "bitwig": "",
+      "garageband": ""
+    },
+    "master": {
+      "ableton": "",
+      "logic": "",
+      "flstudio": "",
+      "protools": "",
+      "cubase": "",
+      "studioone": "",
+      "reaper": "",
+      "bitwig": "",
+      "garageband": ""
+    }
+  },
+  "stupidByType": {
+    "mix": {
+      "en": [
+        {
+          "label": "Export with 'Export All Tracks' or equivalent",
+          "sub": "Often includes bus tracks or MIDI — always export each stem individually"
+        },
+        {
+          "label": "Leave the limiter or maximizer on the master bus active",
+          "sub": "The stems will be pre-compressed and I cannot fix that"
+        },
+        {
+          "label": "Normalize files before exporting",
+          "sub": "Normalization changes the relative levels — I need your balance as-is"
+        },
+        {
+          "label": "Send MP3 when WAV or AIFF is available",
+          "sub": "MP3 permanently removes audio information"
+        },
+        {
+          "label": "All files must start from the same point (bar 1, beat 1)",
+          "sub": "If stems start at different positions nothing aligns in the session"
+        },
+        {
+          "label": "Send the files and then say 'I changed the chorus'",
+          "sub": "Files sent must be final — no changes after sending"
+        },
+        {
+          "label": "Send a single stereo file with everything mixed together",
+          "sub": "That is a mix, not stems"
+        },
+        {
+          "label": "Export MONO what is mono, STEREO what is stereo",
+          "sub": "If your DAW allows it, of course"
+        }
+      ],
+      "it": [
+        {
+          "label": "Esportare con 'Export All Tracks' o equivalente",
+          "sub": "Spesso include tracce bus o MIDI, bisogna esportare sempre ogni stem singolarmente"
+        },
+        {
+          "label": "Lasciare il limiter o maximizer sul master bus attivo",
+          "sub": "Gli stem saranno pre-compressi e non posso rimediare"
+        },
+        {
+          "label": "Normalizzare i file prima di esportare",
+          "sub": "La normalizzazione cambia i livelli relativi, io voglio il tuo balance"
+        },
+        {
+          "label": "Inviare MP3 quando WAV o AIFF è disponibile",
+          "sub": "L'MP3 rimuove permanentemente informazioni audio"
+        },
+        {
+          "label": "I file devono tutti partire dallo stesso punto (battuta 1, tempo 1)",
+          "sub": "Se gli stem partono da posizioni diverse, niente si allinea in sessione"
+        },
+        {
+          "label": "Inviare i file e poi dire 'ho cambiato il ritornello'",
+          "sub": "I file inviati devono essere definitivi, nessuna modifica dopo l'invio"
+        },
+        {
+          "label": "Inviare un unico file stereo con tutto mixato insieme",
+          "sub": "Quello è un mix, non degli stem"
+        },
+        {
+          "label": "Esporta MONO quello che è mono, STEREO quello che è stereo",
+          "sub": "Se la tua DAW te lo consente, ovviamente"
+        }
+      ],
+      "es": [
+        {
+          "label": "Exportar con 'Export All Tracks' o equivalente",
+          "sub": "Suele incluir pistas de bus o MIDI — exportar siempre cada stem individualmente"
+        },
+        {
+          "label": "Dejar el limitador o maximizador del master bus activo",
+          "sub": "Los stems estarán pre-comprimidos y no podré remediarlo"
+        },
+        {
+          "label": "Normalizar los archivos antes de exportar",
+          "sub": "La normalización cambia los niveles relativos — necesito tu balance tal cual"
+        },
+        {
+          "label": "Enviar MP3 cuando WAV o AIFF está disponible",
+          "sub": "El MP3 elimina permanentemente información de audio"
+        },
+        {
+          "label": "Todos los archivos deben partir del mismo punto (compás 1, tiempo 1)",
+          "sub": "Si los stems parten de posiciones distintas nada se alinea en la sesión"
+        },
+        {
+          "label": "Enviar los archivos y luego decir 'cambié el estribillo'",
+          "sub": "Los archivos enviados deben ser definitivos — sin cambios después del envío"
+        },
+        {
+          "label": "Enviar un único archivo estéreo con todo mezclado",
+          "sub": "Eso es un mix, no stems"
+        },
+        {
+          "label": "Exportar MONO lo que es mono, ESTÉREO lo que es estéreo",
+          "sub": "Si tu DAW te lo permite, claro"
+        }
+      ],
+      "fr": [
+        {
+          "label": "Exporter avec 'Export All Tracks' ou équivalent",
+          "sub": "Inclut souvent des pistes de bus ou MIDI — toujours exporter chaque stem individuellement"
+        },
+        {
+          "label": "Laisser le limiteur ou maximiseur du master bus actif",
+          "sub": "Les stems seront pré-compressés et je ne pourrai pas y remédier"
+        },
+        {
+          "label": "Normaliser les fichiers avant d'exporter",
+          "sub": "La normalisation change les niveaux relatifs — j'ai besoin de ton balance tel quel"
+        },
+        {
+          "label": "Envoyer des MP3 quand WAV ou AIFF est disponible",
+          "sub": "Le MP3 supprime définitivement des informations audio"
+        },
+        {
+          "label": "Tous les fichiers doivent partir du même point (mesure 1, temps 1)",
+          "sub": "Si les stems partent de positions différentes rien ne s'aligne dans la session"
+        },
+        {
+          "label": "Envoyer les fichiers puis dire 'j'ai changé le refrain'",
+          "sub": "Les fichiers envoyés doivent être définitifs — aucune modification après l'envoi"
+        },
+        {
+          "label": "Envoyer un seul fichier stéréo avec tout mixé ensemble",
+          "sub": "C'est un mix, pas des stems"
+        },
+        {
+          "label": "Exporter en MONO ce qui est mono, en STÉRÉO ce qui est stéréo",
+          "sub": "Si ta DAW te le permet bien sûr"
+        }
+      ],
+      "de": [
+        {
+          "label": "Mit 'Export All Tracks' oder Ähnlichem exportieren",
+          "sub": "Enthält oft Bus-Spuren oder MIDI — immer jeden Stem einzeln exportieren"
+        },
+        {
+          "label": "Den Limiter oder Maximizer auf dem Master Bus aktiv lassen",
+          "sub": "Die Stems werden vorkomprimiert und ich kann das nicht rückgängig machen"
+        },
+        {
+          "label": "Dateien vor dem Export normalisieren",
+          "sub": "Die Normalisierung ändert die relativen Pegel — ich brauche deine Balance so wie sie ist"
+        },
+        {
+          "label": "MP3 senden wenn WAV oder AIFF verfügbar ist",
+          "sub": "MP3 entfernt dauerhaft Audioinformationen"
+        },
+        {
+          "label": "Alle Dateien müssen vom gleichen Punkt starten (Takt 1, Zählzeit 1)",
+          "sub": "Wenn Stems an verschiedenen Positionen beginnen passt nichts zusammen"
+        },
+        {
+          "label": "Die Dateien senden und dann sagen 'ich habe den Refrain geändert'",
+          "sub": "Gesendete Dateien müssen endgültig sein — keine Änderungen nach dem Senden"
+        },
+        {
+          "label": "Eine einzelne Stereodatei mit allem zusammen gemischt senden",
+          "sub": "Das ist ein Mix, keine Stems"
+        },
+        {
+          "label": "MONO exportieren was mono ist, STEREO was stereo ist",
+          "sub": "Wenn deine DAW das erlaubt natürlich"
+        }
+      ],
+      "pt": [
+        {
+          "label": "Exportar com 'Export All Tracks' ou equivalente",
+          "sub": "Frequentemente inclui faixas de bus ou MIDI — sempre exportar cada stem individualmente"
+        },
+        {
+          "label": "Deixar o limitador ou maximizador do master bus ativo",
+          "sub": "Os stems ficarão pré-comprimidos e não poderei remediar"
+        },
+        {
+          "label": "Normalizar os arquivos antes de exportar",
+          "sub": "A normalização muda os níveis relativos — preciso do seu balance como está"
+        },
+        {
+          "label": "Enviar MP3 quando WAV ou AIFF está disponível",
+          "sub": "O MP3 remove permanentemente informações de áudio"
+        },
+        {
+          "label": "Todos os arquivos devem partir do mesmo ponto (compasso 1, tempo 1)",
+          "sub": "Se os stems partem de posições diferentes nada se alinha na sessão"
+        },
+        {
+          "label": "Enviar os arquivos e depois dizer 'mudei o refrão'",
+          "sub": "Os arquivos enviados devem ser definitivos — sem alterações após o envio"
+        },
+        {
+          "label": "Enviar um único arquivo estéreo com tudo mixado junto",
+          "sub": "Isso é um mix, não stems"
+        },
+        {
+          "label": "Exportar MONO o que é mono, ESTÉREO o que é estéreo",
+          "sub": "Se a sua DAW permitir claro"
+        }
+      ]
+    },
+    "typebeat": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    },
+    "stemmaster": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    },
+    "master": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    }
+  },
+  "checklistByType": {
+    "mix": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    },
+    "typebeat": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    },
+    "stemmaster": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    },
+    "master": {
+      "en": [],
+      "it": [],
+      "es": [],
+      "fr": [],
+      "de": [],
+      "pt": []
+    }
   }
 }
