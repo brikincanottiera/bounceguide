@@ -170,7 +170,20 @@
         "Clicca Export, salva con un nome chiaro e ripeti per ogni traccia."
       ]
     },
-    "es": {},
+    "es": {
+      "reaper": [
+        "Abre el proyecto en REAPER.",
+        "Renombra las pistas que vas a exportar.",
+        "Selecciona las pistas a exportar.",
+        "Ve a File > Render (o pulsa Ctrl+Alt+R o Command+Alt+R).",
+        "Establece Source en \"Stems selected tracks\".",
+        "Establece los bounds en \"Entire project\".",
+        "Establece Formato/Sample Rate/Bit Depth como se ha pedido.",
+        "Establece la carpeta de salida y el patrón de nombre (usa $track para el nombre de las pistas tal como las renombraste, luego completa el resto según las instrucciones).",
+        "Haz clic en \"Tracks with only mono media to mono files\".",
+        "Haz clic en Render files."
+      ]
+    },
     "fr": {},
     "de": {},
     "pt": {}
