@@ -679,392 +679,6 @@
       }
     ]
   },
-  "drumsOptions": {
-    "en": [
-      {
-        "label": "Export all drums WET — with all effects active",
-        "sub": "Sidechain, compression, saturation, reverb — everything that makes them sound as they do in the demo",
-        "isWet": true
-      },
-      {
-        "label": "Export all drums DRY — completely raw, no effects",
-        "sub": "No compression, no sidechain, no saturation — pure raw sounds from sampler or plugin"
-      },
-      {
-        "label": "Export each drum element as a separate file",
-        "sub": "Kick, snare, hi-hats, claps, percussion — one file each"
-      },
-      {
-        "label": "Grouping all drums in one file is acceptable if individual export is not possible",
-        "sub": "Let me know if this is the case"
-      }
-    ],
-    "it": [
-      {
-        "label": "Esporta tutti i drums WET — con tutti gli effetti attivi",
-        "sub": "Sidechain, compressione, saturazione, riverbero — tutto quello che li fa suonare come nel demo",
-        "isWet": true
-      },
-      {
-        "label": "Esporta tutti i drums DRY — completamente grezzi, senza effetti",
-        "sub": "Nessuna compressione, nessun sidechain, nessuna saturazione — suoni puri dal sampler o plugin"
-      },
-      {
-        "label": "Esporta ogni elemento dei drums come file separato",
-        "sub": "Cassa, rullante, hi-hat, clap, percussioni — un file ciascuno"
-      },
-      {
-        "label": "Raggruppare i drums in un unico file e accettabile se l'export individuale non e possibile",
-        "sub": "Comunicamelo se e questo il caso"
-      }
-    ],
-    "es": [
-      {
-        "label": "Exportar todos los drums WET — con todos los efectos activos",
-        "sub": "Sidechain, compresión, saturación, reverb",
-        "isWet": true
-      },
-      {
-        "label": "Exportar todos los drums DRY — completamente crudos, sin efectos",
-        "sub": "Sin compresión, sin sidechain — sonidos puros del sampler o plugin"
-      },
-      {
-        "label": "Exportar cada elemento de batería como archivo separado",
-        "sub": "Bombo, caja, hi-hats, claps — un archivo cada uno"
-      },
-      {
-        "label": "Agrupar drums en un archivo es aceptable si el export individual no es posible",
-        "sub": "Avísame si es el caso"
-      }
-    ],
-    "fr": [
-      {
-        "label": "Exporter tous les drums WET — avec tous les effets actifs",
-        "sub": "Sidechain, compression, saturation, reverb",
-        "isWet": true
-      },
-      {
-        "label": "Exporter tous les drums DRY — complètement bruts, sans effets",
-        "sub": "Sans compression, sans sidechain — sons purs du sampler ou du plugin"
-      },
-      {
-        "label": "Exporter chaque élément de batterie comme fichier séparé",
-        "sub": "Grosse caisse, caisse claire, hi-hats, claps — un fichier chacun"
-      },
-      {
-        "label": "Regrouper les drums dans un fichier est acceptable si l'export individuel n'est pas possible",
-        "sub": "Fais-le moi savoir si c'est le cas"
-      }
-    ],
-    "de": [
-      {
-        "label": "Alle Drums WET exportieren — mit allen aktiven Effekten",
-        "sub": "Sidechain, Kompression, Saturation, Reverb",
-        "isWet": true
-      },
-      {
-        "label": "Alle Drums DRY exportieren — komplett roh, ohne Effekte",
-        "sub": "Keine Kompression, kein Sidechain — reine Sounds aus Sampler oder Plugin"
-      },
-      {
-        "label": "Jedes Drum-Element als separate Datei exportieren",
-        "sub": "Kick, Snare, Hi-Hats, Claps — je eine Datei"
-      },
-      {
-        "label": "Alle Drums in einer Datei zusammenzufassen ist akzeptabel wenn Einzelexport nicht möglich ist",
-        "sub": "Informiere mich wenn das der Fall ist"
-      }
-    ],
-    "pt": [
-      {
-        "label": "Exportar todos os drums WET — com todos os efeitos ativos",
-        "sub": "Sidechain, compressão, saturação, reverb",
-        "isWet": true
-      },
-      {
-        "label": "Exportar todos os drums DRY — completamente crus, sem efeitos",
-        "sub": "Sem compressão, sem sidechain — sons puros do sampler ou plugin"
-      },
-      {
-        "label": "Exportar cada elemento da bateria como arquivo separado",
-        "sub": "Bumbo, caixa, hi-hats, claps — um arquivo cada"
-      },
-      {
-        "label": "Agrupar drums em um arquivo é aceitável se o export individual não for possível",
-        "sub": "Me avise se for o caso"
-      }
-    ]
-  },
-  "instrOptions": {
-    "en": [
-      {
-        "label": "Export synths and instruments WET — with all sound design effects",
-        "sub": "Effects that define the sound: distortion, creative reverb, chorus, phaser, etc.",
-        "isWet": true
-      },
-      {
-        "label": "Export synths DRY — no effects, raw sound only",
-        "sub": "No reverb, no delay, no saturation — pure output of the instrument"
-      }
-    ],
-    "it": [
-      {
-        "label": "Esporta synth e strumenti WET — con tutti gli effetti di sound design",
-        "sub": "Gli effetti che definiscono il suono: distorsione, riverbero creativo, chorus, phaser, ecc.",
-        "isWet": true
-      },
-      {
-        "label": "Esporta synth DRY — senza effetti, solo il suono grezzo",
-        "sub": "Nessun riverbero, nessun delay, nessuna saturazione — output puro dello strumento"
-      }
-    ],
-    "es": [
-      {
-        "label": "Exportar synths e instrumentos WET — con todos los efectos de sound design",
-        "sub": "Efectos que definen el sonido: distorsión, reverb creativo, chorus, phaser, etc.",
-        "isWet": true
-      },
-      {
-        "label": "Exportar synths DRY — sin efectos, solo el sonido crudo",
-        "sub": "Sin reverb, sin delay, sin saturación"
-      }
-    ],
-    "fr": [
-      {
-        "label": "Exporter synths et instruments WET — avec tous les effets de sound design",
-        "sub": "Effets qui définissent le son: distorsion, reverb créatif, chorus, phaser, etc.",
-        "isWet": true
-      },
-      {
-        "label": "Exporter synths DRY — sans effets, son brut uniquement",
-        "sub": "Sans reverb, sans delay, sans saturation"
-      }
-    ],
-    "de": [
-      {
-        "label": "Synths und Instrumente WET exportieren — mit allen Sound-Design-Effekten",
-        "sub": "Effekte die den Sound definieren: Verzerrung, kreativer Reverb, Chorus, Phaser, etc.",
-        "isWet": true
-      },
-      {
-        "label": "Synths DRY exportieren — ohne Effekte, nur roher Sound",
-        "sub": "Kein Reverb, kein Delay, keine Saturation"
-      }
-    ],
-    "pt": [
-      {
-        "label": "Exportar synths e instrumentos WET — com todos os efeitos de sound design",
-        "sub": "Efeitos que definem o som: distorção, reverb criativo, chorus, phaser, etc.",
-        "isWet": true
-      },
-      {
-        "label": "Exportar synths DRY — sem efeitos, apenas som bruto",
-        "sub": "Sem reverb, sem delay, sem saturação"
-      }
-    ]
-  },
-  "vocalOptions": {
-    "en": [
-      {
-        "label": "DRY - completely raw, no effects, no pitch correction",
-        "sub": "The voice exactly as recorded"
-      },
-      {
-        "label": "DRY + Pitch correction - clean voice with Melodyne or Autotune applied",
-        "sub": "No reverb, delay or distortion. The most common request."
-      },
-      {
-        "label": "WET - ONLY for artistic sound design parts",
-        "sub": "Send WET exclusively for parts where the effect IS the sound. Do NOT send the entire vocal WET.",
-        "isWet": true
-      },
-      {
-        "label": "Export each vocal part as a separate file",
-        "sub": "Lead vocal, harmonies, adlibs, doubles - one file for each"
-      },
-      {
-        "label": "Export only the final compiled version - delete unused takes before sending",
-        "sub": "I only need the final performance"
-      }
-    ],
-    "it": [
-      {
-        "label": "DRY - completamente grezzo, senza effetti, senza correzione intonazione",
-        "sub": "La voce esattamente come registrata"
-      },
-      {
-        "label": "DRY + Correzione intonazione - voce pulita con Melodyne o Autotune applicato",
-        "sub": "Senza riverbero, delay o distorsione. La richiesta piu comune."
-      },
-      {
-        "label": "WET - SOLO per parti usate come sound design artistico",
-        "sub": "Invia WET esclusivamente per le parti in cui l'effetto E' il suono. NON inviare tutta la voce WET.",
-        "isWet": true
-      },
-      {
-        "label": "Esporta ogni parte vocale come file separato",
-        "sub": "Voce principale, armonie, adlib, doppie - un file per ciascuna"
-      },
-      {
-        "label": "Esporta solo la versione finale compilata - elimina i take non utilizzati prima di inviare",
-        "sub": "Ho bisogno solo della performance finale"
-      }
-    ],
-    "es": [
-      {
-        "label": "DRY - completamente crudo, sin efectos, sin corrección de tono",
-        "sub": "La voz exactamente como fue grabada"
-      },
-      {
-        "label": "DRY + Corrección de tono - voz limpia con Melodyne o Autotune aplicado",
-        "sub": "Sin reverb, delay ni distorsión. La solicitud más común."
-      },
-      {
-        "label": "WET - SOLO para partes de sound design artístico",
-        "sub": "Solo para partes donde el efecto ES el sonido. NO enviar la voz completa WET.",
-        "isWet": true
-      },
-      {
-        "label": "Exportar cada parte vocal como archivo separado",
-        "sub": "Voz principal, armonías, adlibs, dobles - un archivo para cada una"
-      },
-      {
-        "label": "Exportar solo la versión final compilada - eliminar takes no usados antes de enviar",
-        "sub": "Solo necesito la interpretación final"
-      }
-    ],
-    "fr": [
-      {
-        "label": "DRY - complètement brut, sans effets, sans correction de tonalité",
-        "sub": "La voix exactement comme enregistrée"
-      },
-      {
-        "label": "DRY + Correction de tonalité - voix propre avec Melodyne ou Autotune",
-        "sub": "Sans reverb, delay ni distorsion. La demande la plus courante."
-      },
-      {
-        "label": "WET - UNIQUEMENT pour les parties de sound design artistique",
-        "sub": "Seulement pour les parties où l'effet EST le son. NE PAS envoyer toute la voix WET.",
-        "isWet": true
-      },
-      {
-        "label": "Exporter chaque partie vocale comme fichier séparé",
-        "sub": "Voix principale, harmonies, adlibs, doubles - un fichier pour chacune"
-      },
-      {
-        "label": "Exporter seulement la version finale compilée - supprimer les takes non utilisés avant d'envoyer",
-        "sub": "J'ai seulement besoin de la performance finale"
-      }
-    ],
-    "de": [
-      {
-        "label": "DRY - komplett roh, ohne Effekte, ohne Tonhöhenkorrektur",
-        "sub": "Die Stimme genau wie aufgenommen"
-      },
-      {
-        "label": "DRY + Tonhöhenkorrektur - saubere Stimme mit Melodyne oder Autotune",
-        "sub": "Kein Reverb, Delay oder Verzerrung. Häufigste Anforderung."
-      },
-      {
-        "label": "WET - NUR für künstlerische Sound-Design-Teile",
-        "sub": "Nur senden wo der Effekt DER Sound ist. NICHT die gesamte Stimme WET senden.",
-        "isWet": true
-      },
-      {
-        "label": "Jeden Gesangspart als separate Datei exportieren",
-        "sub": "Hauptgesang, Harmonien, Adlibs, Doubles - je eine Datei"
-      },
-      {
-        "label": "Nur die finale kompilierte Version exportieren - unbenutzte Takes vorher löschen",
-        "sub": "Ich brauche nur die finale Performance"
-      }
-    ],
-    "pt": [
-      {
-        "label": "DRY - completamente cru, sem efeitos, sem correção de afinação",
-        "sub": "A voz exatamente como gravada"
-      },
-      {
-        "label": "DRY + Correção de afinação - voz limpa com Melodyne ou Autotune aplicado",
-        "sub": "Sem reverb, delay ou distorção. O pedido mais comum."
-      },
-      {
-        "label": "WET - APENAS para partes de sound design artístico",
-        "sub": "Apenas para partes onde o efeito É o som. NÃO enviar o vocal inteiro WET.",
-        "isWet": true
-      },
-      {
-        "label": "Exportar cada parte vocal como arquivo separado",
-        "sub": "Vocal principal, harmonias, adlibs, dobras - um arquivo para cada"
-      },
-      {
-        "label": "Exportar apenas a versão final compilada - excluir takes não utilizados antes de enviar",
-        "sub": "Só preciso da performance final"
-      }
-    ]
-  },
-  "premixOptions": {
-    "en": [
-      {
-        "label": "Include a stereo premix of the full project",
-        "sub": "Bounce of the complete song exactly as you hear it, all effects active"
-      },
-      {
-        "label": "Include an instrumental premix (no vocals)",
-        "sub": "Same as above but without any vocal tracks"
-      }
-    ],
-    "it": [
-      {
-        "label": "Includi un premix stereo del progetto completo",
-        "sub": "Bounce della canzone completa esattamente come la ascolti, tutti gli effetti attivi"
-      },
-      {
-        "label": "Includi un premix strumentale (senza voci)",
-        "sub": "Come sopra ma senza nessuna traccia vocale"
-      }
-    ],
-    "es": [
-      {
-        "label": "Incluir un premix estéreo del proyecto completo",
-        "sub": "Bounce de la canción completa exactamente como la escuchas, todos los efectos activos"
-      },
-      {
-        "label": "Incluir un premix instrumental (sin voces)",
-        "sub": "Igual que el anterior pero sin ninguna pista vocal"
-      }
-    ],
-    "fr": [
-      {
-        "label": "Inclure un premix stéréo du projet complet",
-        "sub": "Bounce de la chanson complète exactement comme tu l'entends, tous les effets actifs"
-      },
-      {
-        "label": "Inclure un premix instrumental (sans voix)",
-        "sub": "Identique au précédent mais sans aucune piste vocale"
-      }
-    ],
-    "de": [
-      {
-        "label": "Einen Stereo-Premix des gesamten Projekts einschließen",
-        "sub": "Bounce des vollständigen Songs genau wie du ihn hörst, alle Effekte aktiv"
-      },
-      {
-        "label": "Einen instrumentalen Premix einschließen (ohne Gesang)",
-        "sub": "Wie oben aber ohne Gesangsspuren"
-      }
-    ],
-    "pt": [
-      {
-        "label": "Incluir um premix estéreo do projeto completo",
-        "sub": "Bounce da música completa exatamente como você ouve, todos os efeitos ativos"
-      },
-      {
-        "label": "Incluir um premix instrumental (sem vocais)",
-        "sub": "Igual ao anterior mas sem nenhuma faixa vocal"
-      }
-    ]
-  },
   "masterDAWSteps": {
     "en": {
       "ableton": [
@@ -1553,5 +1167,407 @@
     "fr": {},
     "de": {},
     "pt": {}
+  },
+  "vocalOptions": {
+    "en": [
+      {
+        "label": "DRY - completely raw, no effects, no pitch correction",
+        "sub": "The voice exactly as recorded, with nothing applied"
+      },
+      {
+        "label": "DRY + Pitch correction - clean voice with Melodyne or Autotune applied",
+        "sub": "No reverb, no delay, no distortion, just the voice with pitch correction. Most common request."
+      },
+      {
+        "label": "WET - ONLY for artistic sound design parts",
+        "sub": "Send WET exclusively for parts where the effect IS the sound (heavily distorted voice, vocoder, radio effect). Do NOT send the entire vocal WET.",
+        "isWet": true
+      },
+      {
+        "label": "Export each vocal part separately",
+        "sub": "Lead vocal, harmonies, adlibs, doubles, one file each"
+      },
+      {
+        "label": "Export only the final comped version, delete unused takes before sending",
+        "sub": "I only need the final performance"
+      }
+    ],
+    "es": [
+      {
+        "label": "DRY - completamente crudo, sin efectos, sin correccion de tono",
+        "sub": "La voz exactamente como fue grabada"
+      },
+      {
+        "label": "DRY + Correccion de tono - voz limpia con Melodyne o Autotune aplicado",
+        "sub": "Sin reverb, delay ni distorsion. La solicitud mas comun."
+      },
+      {
+        "label": "WET - SOLO para partes de sound design artistico",
+        "sub": "Solo para partes donde el efecto ES el sonido. NO enviar la voz completa WET.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar cada parte vocal como archivo separado",
+        "sub": "Voz principal, armonias, adlibs, dobles, un archivo por cada una"
+      },
+      {
+        "label": "Exportar solo la version final compilada, eliminar takes no usados antes de enviar",
+        "sub": "Solo necesito la interpretacion final"
+      }
+    ],
+    "de": [
+      {
+        "label": "DRY - komplett roh, ohne Effekte, ohne Tonhohenkorrektur",
+        "sub": "Die Stimme genau wie aufgenommen"
+      },
+      {
+        "label": "DRY + Tonhohenkorrektur - saubere Stimme mit Melodyne oder Autotune",
+        "sub": "Kein Reverb, Delay oder Verzerrung. Haufigste Anforderung."
+      },
+      {
+        "label": "WET - NUR fur kunstlerische Sound-Design-Teile",
+        "sub": "Nur senden wo der Effekt DER Sound ist. NICHT die gesamte Stimme WET senden.",
+        "isWet": true
+      },
+      {
+        "label": "Jeden Gesangspart als separate Datei exportieren",
+        "sub": "Hauptgesang, Harmonien, Adlibs, Doubles, je eine Datei"
+      },
+      {
+        "label": "Nur die finale kompilierte Version exportieren, unbenutzte Takes vorher loschen",
+        "sub": "Ich brauche nur die finale Performance"
+      }
+    ],
+    "pt": [
+      {
+        "label": "DRY - completamente cru, sem efeitos, sem correcao de afinacao",
+        "sub": "A voz exatamente como gravada"
+      },
+      {
+        "label": "DRY + Correcao de afinacao - voz limpia com Melodyne ou Autotune aplicado",
+        "sub": "Sem reverb, delay ou distorcao. O pedido mais comum."
+      },
+      {
+        "label": "WET - APENAS para partes de sound design artistico",
+        "sub": "Apenas para partes onde o efeito E o som. NAO enviar o vocal inteiro WET.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar cada parte vocal como arquivo separado",
+        "sub": "Vocal principal, harmonias, adlibs, dobras, um arquivo para cada"
+      },
+      {
+        "label": "Exportar apenas a versao final compilada, excluir takes nao utilizados antes de enviar",
+        "sub": "So preciso da performance final"
+      }
+    ],
+    "it": [
+      {
+        "label": "DRY - completamente grezzo, senza effetti, senza correzione intonazione",
+        "sub": "La voce esattamente come registrata, con nulla applicato"
+      },
+      {
+        "label": "DRY + Correzione intonazione - voce pulita con Melodyne o Autotune applicato",
+        "sub": "Nessun riverbero, delay o distorsione, solo la voce con il tuning. La richiesta più comune."
+      },
+      {
+        "label": "WET - SOLO per parti usate come sound design artistico",
+        "sub": "Invia WET esclusivamente per le parti in cui l'effetto E' il suono (voce fortemente distorta, vocoder, effetto radio). NON inviare tutta la voce WET.",
+        "isWet": true
+      },
+      {
+        "label": "Esporta ogni parte vocale come file separato",
+        "sub": "Voce principale, armonie, adlib, doppie, un file per ognuna"
+      },
+      {
+        "label": "Esporta solo la versione finale compilata, elimina i take non usati prima di inviare",
+        "sub": "Ho bisogno solo della performance finale"
+      }
+    ],
+    "fr": [
+      {
+        "label": "DRY - complètement brut, sans effets, sans correction de tonalité",
+        "sub": "La voix exactement comme enregistrée"
+      },
+      {
+        "label": "DRY + Correction de tonalité - voix propre avec Melodyne ou Autotune appliqué",
+        "sub": "Sans reverb, delay ni distorsion. La demande la plus courante."
+      },
+      {
+        "label": "WET - UNIQUEMENT pour les parties de sound design artistique",
+        "sub": "Seulement pour les parties où l'effet EST le son. NE PAS envoyer toute la voix WET.",
+        "isWet": true
+      },
+      {
+        "label": "Exporter chaque partie vocale comme fichier séparé",
+        "sub": "Voix principale, harmonies, adlibs, doubles, un fichier pour chacune"
+      },
+      {
+        "label": "Exporter seulement la version finale compilée, supprimer les takes non utilisés avant d'envoyer",
+        "sub": "J'ai seulement besoin de la performance finale"
+      }
+    ]
+  },
+  "drumsOptions": {
+    "en": [
+      {
+        "label": "Export all drums WET, with all effects active",
+        "sub": "Sidechain, compression, saturation, reverb, everything that makes them sound as they do in the demo",
+        "isWet": true
+      },
+      {
+        "label": "Export all drums DRY, completely raw, no effects",
+        "sub": "No compression, no sidechain, no saturation, pure raw sounds"
+      },
+      {
+        "label": "Export each drum element as a separate file",
+        "sub": "Kick, snare, hi-hats, claps, percussion, one file each"
+      },
+      {
+        "label": "Grouping all drums in one file is acceptable if individual export is not possible",
+        "sub": "Let me know if this is the case"
+      }
+    ],
+    "es": [
+      {
+        "label": "Exportar todos los drums WET, con todos los efectos activos",
+        "sub": "Sidechain, compresion, saturacion, reverb",
+        "isWet": true
+      },
+      {
+        "label": "Exportar todos los drums DRY, completamente crudos, sin efectos",
+        "sub": "Sin compresion, sin sidechain, sonidos puros del sampler o plugin"
+      },
+      {
+        "label": "Exportar cada elemento de bateria como archivo separado",
+        "sub": "Bombo, caja, hi-hats, claps, un archivo cada uno"
+      },
+      {
+        "label": "Agrupar drums en un archivo es aceptable si el export individual no es posible",
+        "sub": "Avisame si es el caso"
+      }
+    ],
+    "de": [
+      {
+        "label": "Alle Drums WET exportieren, mit allen aktiven Effekten",
+        "sub": "Sidechain, Kompression, Saturation, Reverb",
+        "isWet": true
+      },
+      {
+        "label": "Alle Drums DRY exportieren, komplett roh, ohne Effekte",
+        "sub": "Keine Kompression, kein Sidechain, reine Sounds aus Sampler oder Plugin"
+      },
+      {
+        "label": "Jedes Drum-Element als separate Datei exportieren",
+        "sub": "Kick, Snare, Hi-Hats, Claps, je eine Datei"
+      },
+      {
+        "label": "Alle Drums in einer Datei zusammenzufassen ist akzeptabel wenn Einzelexport nicht moglich ist",
+        "sub": "Informiere mich wenn das der Fall ist"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Exportar todos os drums WET, com todos os efeitos ativos",
+        "sub": "Sidechain, compressao, saturacao, reverb",
+        "isWet": true
+      },
+      {
+        "label": "Exportar todos os drums DRY, completamente crus, sem efeitos",
+        "sub": "Sem compressao, sem sidechain, sons puros do sampler ou plugin"
+      },
+      {
+        "label": "Exportar cada elemento da bateria como arquivo separado",
+        "sub": "Bumbo, caixa, hi-hats, claps, um arquivo cada"
+      },
+      {
+        "label": "Agrupar drums em um arquivo e aceitavel se o export individual nao for possivel",
+        "sub": "Me avise se for o caso"
+      }
+    ],
+    "it": [
+      {
+        "label": "Esporta tutti i drums WET, con tutti gli effetti attivi",
+        "sub": "Sidechain, compressione, saturazione, riverbero, tutto quello che li fa suonare come nel demo",
+        "isWet": true
+      },
+      {
+        "label": "Esporta tutti i drums DRY, completamente grezzi, senza effetti",
+        "sub": "Nessuna compressione, nessun sidechain, nessuna saturazione, suoni puri dal sampler o plugin"
+      },
+      {
+        "label": "Esporta ogni elemento dei drums come file separato",
+        "sub": "Cassa, rullante, hi-hat, clap, percussioni, un file ciascuno"
+      },
+      {
+        "label": "Raggruppare i drums in un unico file è accettabile se l'export individuale non è possibile",
+        "sub": "Comunicamelo se è questo il caso"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Exporter tous les drums WET, avec tous les effets actifs",
+        "sub": "Sidechain, compression, saturation, reverb",
+        "isWet": true
+      },
+      {
+        "label": "Exporter tous les drums DRY, complètement bruts, sans effets",
+        "sub": "Sans compression, sans sidechain, sons purs du sampler ou du plugin"
+      },
+      {
+        "label": "Exporter chaque élément de batterie comme fichier séparé",
+        "sub": "Grosse caisse, caisse claire, hi-hats, claps, un fichier chacun"
+      },
+      {
+        "label": "Regrouper les drums dans un fichier est acceptable si l'export individuel n'est pas possible",
+        "sub": "Fais-le moi savoir si c'est le cas"
+      }
+    ]
+  },
+  "instrOptions": {
+    "en": [
+      {
+        "label": "Export synths and instruments WET, with all sound design effects",
+        "sub": "Effects that define the \"sound\": distortion, creative reverb, chorus, phaser, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Export synths DRY, without effects, raw sound only",
+        "sub": "No reverb, no delay, no saturation, pure instrument output"
+      }
+    ],
+    "it": [
+      {
+        "label": "Esporta synth e strumenti WET, con tutti gli effetti di sound design",
+        "sub": "Gli effetti che definiscono il \"suono\": distorsione, riverbero creativo, chorus, phaser, ecc.",
+        "isWet": true
+      },
+      {
+        "label": "Esporta synth DRY, senza effetti, solo il suono grezzo",
+        "sub": "Nessun riverbero, nessun delay, nessuna saturazione, output puro dello strumento"
+      }
+    ],
+    "es": [
+      {
+        "label": "Exportar synths e instrumentos WET, con todos los efectos de sound design",
+        "sub": "Efectos que definen el \"sonido\": distorsion, reverb creativo, chorus, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar synths DRY, sin efectos, solo el sonido crudo",
+        "sub": "Sin reverb, sin delay, sin saturacion"
+      },
+      {
+        "label": "Exportar 808/sub bass como archivo separado",
+        "sub": "El bajo necesita tratamiento individual"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Exporter synths et instruments WET, avec tous les effets de sound design",
+        "sub": "Effets qui definissent le \"son\": distorsion, reverb creatif, chorus, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Exporter synths DRY, sans effets, son brut uniquement",
+        "sub": "Sans reverb, sans delay, sans saturation"
+      },
+      {
+        "label": "Exporter 808/sub bass comme fichier separe",
+        "sub": "Le bas du spectre necessite un traitement individuel"
+      }
+    ],
+    "de": [
+      {
+        "label": "Synths und Instrumente WET exportieren, mit allen Sound-Design-Effekten",
+        "sub": "Effekte die den Sound \"definieren\": Verzerrung, kreativer Reverb, Chorus, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Synths DRY exportieren, ohne Effekte, nur roher Sound",
+        "sub": "Kein Reverb, kein Delay, keine Saturation"
+      },
+      {
+        "label": "808/Sub-Bass als separate Datei exportieren",
+        "sub": "Der Tiefbass braucht individuelle Behandlung"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Exportar synths e instrumentos WET, com todos os efeitos de sound design",
+        "sub": "Efeitos que definem o \"som\": distorcao, reverb criativo, chorus, etc.",
+        "isWet": true
+      },
+      {
+        "label": "Exportar synths DRY, sem efeitos, apenas som bruto",
+        "sub": "Sem reverb, sem delay, sem saturacao"
+      },
+      {
+        "label": "Exportar 808/sub bass como arquivo separado",
+        "sub": "O baixo precisa de tratamento individual"
+      }
+    ]
+  },
+  "premixOptions": {
+    "en": [
+      {
+        "label": "Include a stereo premix of the full project",
+        "sub": "Bounce the full song exactly as you hear it, all effects and master chain active, this is the reference I use"
+      },
+      {
+        "label": "Include an instrumental premix (no vocals)",
+        "sub": "Same as above but with all vocal tracks removed"
+      }
+    ],
+    "es": [
+      {
+        "label": "Incluir un premix estereo del proyecto completo",
+        "sub": "Bounce de la cancion completa exactamente como la escuchas, todos los efectos activos"
+      },
+      {
+        "label": "Incluir un premix instrumental (sin voces)",
+        "sub": "Igual que el anterior pero sin ninguna pista vocal"
+      }
+    ],
+    "de": [
+      {
+        "label": "Einen Stereo-Premix des gesamten Projekts einschliessen",
+        "sub": "Bounce des vollstandigen Songs genau wie du ihn horst, alle Effekte aktiv"
+      },
+      {
+        "label": "Einen instrumentalen Premix einschliessen (ohne Gesang)",
+        "sub": "Wie oben aber ohne Gesangsspuren"
+      }
+    ],
+    "pt": [
+      {
+        "label": "Incluir um premix estereo do projeto completo",
+        "sub": "Bounce da musica completa exatamente como voce ouve, todos os efeitos ativos"
+      },
+      {
+        "label": "Incluir um premix instrumental (sem vocais)",
+        "sub": "Igual ao anterior mas sem nenhuma faixa vocal"
+      }
+    ],
+    "it": [
+      {
+        "label": "Includi un premix stereo del progetto completo",
+        "sub": "Fai il bounce del brano completo esattamente come lo ascolti tu, tutti gli effetti e la catena master attivi, questa è la reference che uso"
+      },
+      {
+        "label": "Includi un premix instrumental (senza voci)",
+        "sub": "Come sopra ma senza nessuna traccia vocale"
+      }
+    ],
+    "fr": [
+      {
+        "label": "Inclure un premix stéréo du projet complet",
+        "sub": "Bounce de la chanson complète exactement comme tu l'entends, tous les effets actifs"
+      },
+      {
+        "label": "Inclure un premix instrumental (sans voix)",
+        "sub": "Identique au précédent mais sans aucune piste vocale"
+      }
+    ]
   }
 }
