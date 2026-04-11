@@ -7,5 +7,10 @@
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/404", "destination": "/404.html" },
     { "source": "/data.json", "destination": "/api/getdata" }
-  ]
+  ],
+  "functions": {
+    "api/save.js": {
+      "memory": 256
+    }
+  }
 }
