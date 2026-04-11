@@ -2,6 +2,8 @@
 
 **bounceguide.xyz**
 
+[bounceguide.xyz](https://www.bounceguide.xyz/)
+
 BounceGuide is a free tool for mix and mastering engineers. It lets you create a professional PDF guide in minutes and send it to your clients, with all the instructions they need to send their files correctly.
 
 No more wrong files. No more back and forth.
