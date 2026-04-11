@@ -106,12 +106,14 @@
       ],
       "flstudio": [
         "Apri il progetto in FL Studio.",
-        "Assicurati che ogni strumento abbia il proprio canale Mixer dedicato.",
-        "Vai su File > Export > Project bones (Stems).",
-        "Imposta Qualita: 32-bit float o 24-bit | Sample Rate come richiesto.",
-        "Scegli la cartella di destinazione e clicca Accept.",
-        "FL Studio esportera ogni canale Mixer come file separato.",
-        "Verifica che ogni file esportato suoni correttamente riprodotto da solo."
+        "Assicurati che ogni strumento/voce abbia il proprio canale dedicato nel mixer.",
+        "Vai su File > Export > Wav.",
+        "Salva i file nella cartella designata (rinominata come indicato), seguendo le istruzioni date in precedenza su come rinominare i file (mettere un _ finale ti permette di scrivere il nome della traccia alla fine, unico modo possibile per rendere il tutto scritto bene).",
+        "Project type -> Full Song, Leave Reminder.",
+        "Formato audio -> Come da istruzioni date in precedenza.",
+        "Quality -> Resampling - Più alto è meglio è -> Seleziona HQ for all plugins e Disable maximum poliphony.",
+        "Miscellaneous -> Seleziona SOLAMENTE: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (riguardati bene la sezione a riguardo, e chiedi se non sei sicuro), Save playlist marker (opzionale).",
+        "Premi Start."
       ],
       "protools": [
         "Apri la sessione in Pro Tools.",
