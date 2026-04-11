@@ -622,22 +622,6 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="sub-label" data-t="s8otherDaw"></div>
   <div class="multi-other-list" id="dawOtherList"></div>
   <button class="add-other-btn" onclick="addDAWOther()" data-t="s8addOtherDaw"></button>
-  <div id="masterTutorialSection" style="display:none">
-    <div class="divider"></div>
-    <div class="toggle-row" id="masterTutorialToggle" onclick="toggleMasterTutorial()">
-      <div class="toggle-info">
-        <div class="toggle-title" data-t="s8tutorialTitle"></div>
-        <div class="toggle-sub" data-t="s8tutorialSub"></div>
-      </div>
-      <div class="toggle-switch"></div>
-    </div>
-    <div id="masterTutorialField" style="display:none">
-      <div class="field-group" style="margin-top:8px">
-        <label class="field-label" data-t="s8tutorialLinkLabel"></label>
-        <input type="url" id="masterTutorialUrl" data-t-ph="s8tutorialLinkPh" oninput="autoSave()">
-      </div>
-    </div>
-  </div>
   <div class="nav-btns">
     <button class="btn-back" onclick="goStep(7)" data-t="btnBack"></button>
     <button class="btn-next" id="advance8Btn" onclick="advance(8)" data-t="btnNext"></button>
@@ -988,6 +972,9 @@ it:{
 // Master DAW steps (for full mastering — export single mix file)
 // Loaded from data.json, admin can edit
 let MASTER_DAW_STEPS={en:{},it:{},es:{},fr:{},de:{},pt:{}};
+let DAW_TUTORIALS={mix:{},typebeat:{},stemmaster:{},master:{}};
+let STUPID_BY_TYPE={mix:{},typebeat:{},stemmaster:{},master:{}};
+let CHECKLIST_BY_TYPE={mix:{},typebeat:{},stemmaster:{},master:{}};
 let TYPEBEAT_DAW_STEPS={en:{},it:{},es:{},fr:{},de:{},pt:{}};
 let STEMMASTER_DAW_STEPS={en:{},it:{},es:{},fr:{},de:{},pt:{}};
 
@@ -1158,6 +1145,13 @@ function finishForm(){
 // ═══════════════════════════════════════════
 //  RADIO / SERVICE / TRACK TYPE
 // ═══════════════════════════════════════════
+function getServiceKey(){
+  if(fd.serviceType==='mastering'){
+    return fd.masteringType==='stemmaster'?'stemmaster':'master';
+  }
+  return fd.trackType==='typebeat'?'typebeat':'mix';
+}
+
 function selectRadio(el,group,val){
   el.closest('.radio-group').querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));
   el.classList.add('selected');fd[group]=val;
@@ -1219,6 +1213,8 @@ function updateMasteringSections(){
   const tutSec=document.getElementById('masterTutorialSection');
   if(tutSec)tutSec.style.display=isFullMaster?'block':'none';
   buildDAWGrid();
+  buildStupidChecks();
+  buildChecklist();
   buildCheckListFromKey('namingChecks','namingOptions','naming',null,false);
 }
 function selectTrackType(type){
@@ -1227,6 +1223,7 @@ function selectTrackType(type){
   document.getElementById('rb-typebeat').classList.toggle('selected',type==='typebeat');
   document.getElementById('stemsFullSection').style.display=type==='stems'?'block':'none';
   document.getElementById('typebeatSection').style.display=type==='typebeat'?'block':'none';
+  buildStupidChecks();buildChecklist();
 }
 function toggleFmtOther(el){
   el.closest('.radio-group').querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));
@@ -1370,8 +1367,13 @@ function toggleDAW(id){
     fd.daws.splice(pos,1);
     delete fd.dawConfirmed[id];
     delete fd.dawCustomSteps[id];
+    delete fd.dawYT[id];
   } else {
     fd.daws.push(id);
+    // Pre-fill tutorial from admin config
+    const svcKey=getServiceKey();
+    const adminUrl=(DAW_TUTORIALS[svcKey]||{})[id]||'';
+    if(adminUrl&&!fd.dawYT[id]) fd.dawYT[id]=adminUrl;
   }
   buildDAWGrid();autoSave();
 }
@@ -1463,11 +1465,14 @@ function updateContinue8(){
 // ═══════════════════════════════════════════
 function buildStupidChecks(){
   const el=document.getElementById('stupidChecks');if(!el)return;
-  const items=tArr('stupidItems');
+  const svcKey=getServiceKey();
+  // Use type-specific items if available, fallback to generic
+  const typeItems=(STUPID_BY_TYPE[svcKey]||{})[lang]||(STUPID_BY_TYPE[svcKey]||{}).en||[];
+  const items=typeItems.length>0?typeItems:tArr('stupidItems');
   el.innerHTML=items.map((item,i)=>`
     <div class="check-item${(fd.stupid||[]).includes(i)?' checked':''}" onclick="toggleArr('stupid',${i},null,false,true)">
       <div class="check-box">${checkSVG()}</div>
-      <div><div class="check-label">${item.label}</div><div class="check-sub">${item.sub}</div></div>
+      <div><div class="check-label">${item.label}</div><div class="check-sub">${item.sub||''}</div></div>
     </div>`).join('');
 }
 
@@ -1480,7 +1485,9 @@ let dragSrcIdx=null;
 
 function buildChecklist(){
   const el=document.getElementById('checklistPreview');if(!el)return;
-  const base=tArr('checklistBase');
+  const svcKey=getServiceKey();
+  const typeBase=(CHECKLIST_BY_TYPE[svcKey]||{})[lang]||(CHECKLIST_BY_TYPE[svcKey]||{}).en||[];
+  const base=typeBase.length>0?typeBase:tArr('checklistBase');
   const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
   const fmtItem=fmtVal?`${t('pdf_format_label')}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`:null;
   const baseItems=(fmtItem?[fmtItem,...base]:base).map(t=>({text:t,custom:false}));
@@ -2152,17 +2159,6 @@ function buildPDFDoc(){
     y+=3;
   });
 
-  // ── TUTORIAL (mastering only) ──
-  if(isFullMaster&&fd.masterTutorialEnabled){
-    const tutUrl=document.getElementById('masterTutorialUrl')?.value||'';
-    if(tutUrl){
-      secH(tl.pdf_sec_yt);
-      ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');
-      doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);
-      doc.text(tutUrl,M+4,y+6);y+=13;
-    }
-  }
-
   // ── STUPIDITY CHECK ──
   const stupidItems=tArr('stupidItems');
   const allStupid=[...fd.stupid.map(i=>stupidItems[i]).filter(Boolean),...fd.stupidOthers.filter(s=>s.label)];
@@ -2381,6 +2377,9 @@ document.addEventListener('DOMContentLoaded',()=>{
           if(arr&&arr.length>0&&T[l]){T[l][key]=arr;changed=true;}
         });
       });
+      if(d.dawTutorials) Object.assign(DAW_TUTORIALS, d.dawTutorials);
+      if(d.stupidByType) Object.assign(STUPID_BY_TYPE, d.stupidByType);
+      if(d.checklistByType) Object.assign(CHECKLIST_BY_TYPE, d.checklistByType);
       if(changed)buildAll();
     })
     .catch(()=>{});
