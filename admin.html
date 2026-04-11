@@ -178,6 +178,12 @@ textarea{resize:vertical;min-height:80px;font-family:'SF Mono','Fira Mono',monos
       <button class="nav-btn" onclick="showSection('stupid')" id="nav-stupid">
         <span class="nav-icon">⚠️</span> Stupidity Check
       </button>
+      <button class="nav-btn" onclick="showSection('checklist')" id="nav-checklist">
+        <span class="nav-icon">✅</span> Checklist Pre-invio
+      </button>
+      <button class="nav-btn" onclick="showSection('tutorials')" id="nav-tutorials">
+        <span class="nav-icon">🎬</span> Tutorial Video DAW
+      </button>
       <button class="nav-btn" onclick="showSection('glossary')" id="nav-glossary">
         <span class="nav-icon">📖</span> Glossario
       </button>
@@ -324,7 +330,7 @@ let hasChanges = false;
 let currentSection = 'daw';
 let dawLang = 'en', dawId = 'ableton';
 let stemsLang = 'en', stemsCat = 'drumsOptions';
-let stupidLang = 'en';
+let stupidLang = 'en', stupidSvcKey = 'mix';
 let glossaryLang = 'en';
 
 // ── AUTH ──────────────────────────────────────────────
@@ -426,6 +432,8 @@ function showSection(id) {
   if(id === 'masterdaw') buildMasterDawEditor();
   if(id === 'dawtb') buildDawTbEditor();
   if(id === 'dawsm') buildDawSmEditor();
+  if(id === 'checklist') buildChecklistEditor();
+  if(id === 'tutorials') buildTutorialEditor();
 }
 
 // ── LANG TABS BUILDER ─────────────────────────────────
@@ -645,16 +653,21 @@ function copyFromEnStems() {
 // STUPIDITY CHECK EDITOR
 // ══════════════════════════════════════════════════════
 function buildStupidEditor() {
+  buildServiceTabs('stupidServiceTabs', stupidSvcKey, 'selectStupidSvc');
   buildLangTabs('stupidLangTabs', stupidLang, 'selectStupidLang');
+  if(!data.stupidByType)data.stupidByType={mix:{},typebeat:{},stemmaster:{},master:{}};
+  if(!data.stupidByType[stupidSvcKey])data.stupidByType[stupidSvcKey]={};
   renderStupidItems();
 }
 
 function selectStupidLang(l) { stupidLang = l; buildStupidEditor(); }
+function selectStupidSvc(k) { stupidSvcKey = k; stupidLang = 'en'; buildStupidEditor(); }
 
 function renderStupidItems() {
-  if (!data.stupidItems) data.stupidItems = {};
-  if (!data.stupidItems[stupidLang]) data.stupidItems[stupidLang] = [];
-  const items = data.stupidItems[stupidLang];
+  if(!data.stupidByType)data.stupidByType={mix:{},typebeat:{},stemmaster:{},master:{}};
+  if(!data.stupidByType[stupidSvcKey])data.stupidByType[stupidSvcKey]={};
+  if(!data.stupidByType[stupidSvcKey][stupidLang])data.stupidByType[stupidSvcKey][stupidLang]=[];
+  const items = data.stupidByType[stupidSvcKey][stupidLang];
   const el = document.getElementById('stupidEditor');
 
   el.innerHTML = `
@@ -695,9 +708,8 @@ function addStupidItem() {
 }
 
 function removeStupidItem(i) {
-  data.stupidItems[stupidLang].splice(i, 1);
-  renderStupidItems();
-  markChanged();
+  data.stupidByType[stupidSvcKey][stupidLang].splice(i,1);
+  renderStupidItems();markChanged();
 }
 
 function copyFromEnStupid() {
@@ -798,10 +810,9 @@ function onAdminDrop(i, key, ctx, rebuildFn){
 function onAdminDropStupid(i){
   document.querySelectorAll('.item-row').forEach(el=>el.classList.remove('dragging','drag-over'));
   if(_adminDragSrc===null||_adminDragSrc===i)return;
-  const moved=data.stupidItems[stupidLang].splice(_adminDragSrc,1)[0];
-  data.stupidItems[stupidLang].splice(i,0,moved);
-  markChanged();
-  renderStupidItems();
+  const arr=data.stupidByType[stupidSvcKey][stupidLang];
+  const moved=arr.splice(_adminDragSrc,1)[0];arr.splice(i,0,moved);
+  markChanged();renderStupidItems();
 }
 function onAdminDragEnd(){
   _adminDragSrc=null;
@@ -955,6 +966,108 @@ function copyMasterFromEn() {
   renderMasterDawSteps();
   markChanged();
   showToast('Copiato da EN, traducilo ora!', 'success');
+}
+
+// ══════════════════════════════════════════════════════
+// SERVICE TYPE TABS BUILDER
+// ══════════════════════════════════════════════════════
+const SERVICE_TYPES=[{key:'mix',label:'Mix — Stem completi'},{key:'typebeat',label:'Mix — Type Beat'},{key:'stemmaster',label:'Stem Mastering'},{key:'master',label:'Mastering Normale'}];
+
+function buildServiceTabs(containerId, currentKey, onClickFn){
+  const el=document.getElementById(containerId);if(!el)return;
+  el.innerHTML=SERVICE_TYPES.map(s=>`
+    <button class="service-tab ${s.key===currentKey?'active':''}" onclick="${onClickFn}('${s.key}')">${s.label}</button>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// CHECKLIST PER TIPO EDITOR
+// ══════════════════════════════════════════════════════
+let clSvcKey='mix', clLang='en';
+
+function buildChecklistEditor(){
+  buildServiceTabs('checklistServiceTabs', clSvcKey, 'selectClSvc');
+  buildLangTabs('checklistLangTabs', clLang, 'selectClLang');
+  if(!data.checklistByType)data.checklistByType={mix:{},typebeat:{},stemmaster:{},master:{}};
+  if(!data.checklistByType[clSvcKey])data.checklistByType[clSvcKey]={};
+  if(!data.checklistByType[clSvcKey][clLang])data.checklistByType[clSvcKey][clLang]=[];
+  const items=data.checklistByType[clSvcKey][clLang];
+  const el=document.getElementById('checklistEditor');
+  el.innerHTML=`
+    <div style="font-size:12px;color:var(--t2);margin-bottom:10px">
+      ${SERVICE_TYPES.find(s=>s.key===clSvcKey)?.label} — ${LANG_NAMES[clLang]}
+      ${clLang!=='en'?`<button class="btn btn-secondary btn-sm" style="margin-left:8px" onclick="copyClFromEn()">Copia da EN</button>`:''}
+    </div>
+    <div class="items-list" id="clItemsList">
+      ${items.map((item,i)=>`
+        <div class="item-row" draggable="true"
+          ondragstart="onAdminDragStart(event,${i},'cl',{})"
+          ondragover="onAdminDragOver(event,${i})"
+          ondrop="onAdminDropCl(${i})"
+          ondragend="onAdminDragEnd()">
+          <span class="drag-handle">⠿</span>
+          <span class="item-num">${i+1}</span>
+          <div class="fields"><textarea class="step-textarea" oninput="updateClItem(${i},this.value)">${escHtml(item)}</textarea></div>
+          <button class="btn btn-danger" onclick="removeClItem(${i})">✕</button>
+        </div>`).join('')}
+    </div>
+    <button class="add-btn" onclick="addClItem()">+ Aggiungi voce</button>
+  `;
+}
+function selectClSvc(k){clSvcKey=k;buildChecklistEditor();}
+function selectClLang(l){clLang=l;buildChecklistEditor();}
+function updateClItem(i,v){data.checklistByType[clSvcKey][clLang][i]=v;markChanged();}
+function addClItem(){data.checklistByType[clSvcKey][clLang].push('');buildChecklistEditor();markChanged();}
+function removeClItem(i){data.checklistByType[clSvcKey][clLang].splice(i,1);buildChecklistEditor();markChanged();}
+function copyClFromEn(){data.checklistByType[clSvcKey][clLang]=[...(data.checklistByType[clSvcKey].en||[])];buildChecklistEditor();markChanged();showToast('Copiato da EN!','success');}
+function onAdminDropCl(i){
+  document.querySelectorAll('.item-row').forEach(el=>el.classList.remove('dragging','drag-over'));
+  if(_adminDragSrc===null||_adminDragSrc===i)return;
+  const arr=data.checklistByType[clSvcKey][clLang];
+  const moved=arr.splice(_adminDragSrc,1)[0];arr.splice(i,0,moved);
+  markChanged();buildChecklistEditor();
+}
+
+// ══════════════════════════════════════════════════════
+// TUTORIAL VIDEO DAW EDITOR
+// ══════════════════════════════════════════════════════
+let tutSvcKey='mix', tutDawId='ableton';
+
+function buildTutorialEditor(){
+  buildServiceTabs('tutorialServiceTabs', tutSvcKey, 'selectTutSvc');
+  const dawTabsEl=document.getElementById('tutorialDawTabs');
+  dawTabsEl.innerHTML=DAWS.map(d=>`
+    <button class="daw-tab ${d.id===tutDawId?'active':''}" onclick="selectTutDaw('${d.id}')">${d.name}</button>
+  `).join('');
+  if(!data.dawTutorials)data.dawTutorials={mix:{},typebeat:{},stemmaster:{},master:{}};
+  if(!data.dawTutorials[tutSvcKey])data.dawTutorials[tutSvcKey]={};
+  const currentUrl=data.dawTutorials[tutSvcKey][tutDawId]||'';
+  const el=document.getElementById('tutorialEditor');
+  const svcLabel=SERVICE_TYPES.find(s=>s.key===tutSvcKey)?.label;
+  const dawName=DAWS.find(d=>d.id===tutDawId)?.name;
+  el.innerHTML=`
+    <div style="font-size:12px;color:var(--t2);margin-bottom:10px">${svcLabel} — ${dawName}</div>
+    <div class="field-group">
+      <label class="field-label">Link tutorial YouTube</label>
+      <input type="url" placeholder="https://youtube.com/watch?v=..." value="${escHtml(currentUrl)}"
+        oninput="updateTutUrl(this.value)" style="width:100%">
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:6px">Questo link viene pre-caricato nel form per questa DAW. L'utente può confermarlo o inserirne uno suo.</div>
+  `;
+}
+function selectTutSvc(k){tutSvcKey=k;buildTutorialEditor();}
+function selectTutDaw(id){tutDawId=id;buildTutorialEditor();}
+function updateTutUrl(v){data.dawTutorials[tutSvcKey][tutDawId]=v;markChanged();}
+
+// Stupid drop handler update — also update buildAllEditors
+function onAdminDropStupidNew(i){
+  document.querySelectorAll('.item-row').forEach(el=>el.classList.remove('dragging','drag-over'));
+  if(_adminDragSrc===null||_adminDragSrc===i)return;
+  const lang=stupidLang;
+  const svcKey=stupidSvcKey||'mix';
+  const arr=useTypeStupid?(data.stupidByType?.[svcKey]?.[lang]||[]):(data.stupidItems?.[lang]||[]);
+  const moved=arr.splice(_adminDragSrc,1)[0];arr.splice(i,0,moved);
+  markChanged();renderStupidItems();
 }
 
 function buildAllEditors() {
