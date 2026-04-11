@@ -1063,7 +1063,26 @@ let _saveTimer=null;
 function autoSave(){
   buildStepsNav();
   updateProgress();
-  try{localStorage.setItem('bg_v5',JSON.stringify({accentColor:fd.accentColor,mixerName:document.getElementById('mixerName')?.value||''}));}catch(e){}
+  try{
+    const fields={
+      mixerName:document.getElementById('mixerName')?.value||'',
+      mixerEmail:document.getElementById('mixerEmail')?.value||'',
+      mixerWeb:document.getElementById('mixerWeb')?.value||'',
+      mixerPhone:document.getElementById('mixerPhone')?.value||'',
+      mixerMsg:document.getElementById('mixerMsg')?.value||'',
+      contactNote:document.getElementById('contactNote')?.value||'',
+      namingExample:document.getElementById('namingExample')?.value||'',
+      customLink:document.getElementById('customLink')?.value||'',
+      deliveryEmail:document.getElementById('deliveryEmail')?.value||'',
+      deliveryOtherText:document.getElementById('deliveryOtherText')?.value||'',
+      sessionOtherText:document.getElementById('sessionOtherText')?.value||'',
+      extraNotes:document.getElementById('extraNotes')?.value||'',
+      refYT:document.getElementById('refYT')?.value||'',
+      tcText:document.getElementById('tcText')?.value||'',
+      wetdryPhil:document.getElementById('wetdryPhil')?.value||'',
+    };
+    localStorage.setItem('bg_v5',JSON.stringify({fd,fields,tone,lang,accentColor:fd.accentColor}));
+  }catch(e){}
   const ind=document.getElementById('autosaveIndicator');
   if(ind){
     ind.classList.add('show');
@@ -1126,9 +1145,13 @@ function buildStepsNav(){
 function goStep(n){
   if(n<1||n>TOTAL)return;
   document.querySelectorAll('.form-section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(`step-${n}`).classList.add('active');
+  const sec=document.getElementById(`step-${n}`);
+  sec.classList.add('active');
   currentStep=n;buildStepsNav();
-  window.scrollTo({top:0,behavior:'smooth'});
+  // Scroll to section with offset for fixed header
+  const rect=sec.getBoundingClientRect();
+  const top=window.scrollY+rect.top-80;
+  window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
 }
 
 function advance(fromStep){
@@ -2336,13 +2359,61 @@ document.addEventListener('DOMContentLoaded',()=>{
     const saved=localStorage.getItem('bg_v5');
     if(saved){
       const p=JSON.parse(saved);
-      if(p.mixerName){const el=document.getElementById('mixerName');if(el)el.value=p.mixerName;}
+      // Restore fd state
+      if(p.fd){
+        // Merge saved fd into current fd (preserves defaults for new keys)
+        Object.keys(p.fd).forEach(k=>{if(k in fd)fd[k]=p.fd[k];});
+      }
+      // Legacy support
       if(p.accentColor){fd.accentColor=p.accentColor;updateAccent(p.accentColor);const el=document.getElementById('accentColor');if(el)el.value=p.accentColor;}
+      if(p.tone)tone=p.tone;
+      // Restore text fields after DOM is ready
+      if(p.fields){
+        const fmap=p.fields;
+        const set=(id,val)=>{const el=document.getElementById(id);if(el&&val)el.value=val;};
+        set('mixerName',fmap.mixerName);set('mixerEmail',fmap.mixerEmail);
+        set('mixerWeb',fmap.mixerWeb);set('mixerPhone',fmap.mixerPhone);
+        set('mixerMsg',fmap.mixerMsg);set('contactNote',fmap.contactNote);
+        set('namingExample',fmap.namingExample);set('customLink',fmap.customLink);
+        set('deliveryEmail',fmap.deliveryEmail);set('deliveryOtherText',fmap.deliveryOtherText);
+        set('sessionOtherText',fmap.sessionOtherText);set('extraNotes',fmap.extraNotes);
+        set('refYT',fmap.refYT);set('tcText',fmap.tcText);set('wetdryPhil',fmap.wetdryPhil);
+      }
     }
   }catch(e){}
   // Init UI — setLang updates buttons + content correctly
   setLang(lang);
   buildAll();
+  // Restore UI state that depends on fd
+  try{
+    const saved=localStorage.getItem('bg_v5');
+    if(saved){
+      const p=JSON.parse(saved);
+      if(p.fd){
+        // Restore toggles
+        if(p.fd.wetPhilEnabled){
+          document.getElementById('wetToggleRow')?.classList.add('on');
+          const wf=document.getElementById('wetPhilField');if(wf)wf.style.display='block';
+        }
+        if(p.fd.glossaryEnabled){
+          document.getElementById('glossaryToggle')?.classList.add('on');
+          const gc=document.getElementById('glossaryContent');if(gc)gc.style.display='block';
+        }
+        if(p.fd.tc){
+          document.getElementById('tcToggle')?.classList.add('checked');
+          const tf=document.getElementById('tcField');if(tf)tf.style.display='block';
+        }
+        if(p.fd.accentColor){updateAccent(p.fd.accentColor);const ac=document.getElementById('accentColor');if(ac)ac.value=p.fd.accentColor;}
+        if(p.fd.serviceType==='mastering'){
+          selectService('mastering');
+          if(p.fd.masteringType)selectMasteringType(p.fd.masteringType);
+        } else if(p.fd.trackType){
+          selectTrackType(p.fd.trackType);
+        }
+        if(p.tone)setTone(p.tone);
+      }
+    }
+  }catch(e){}
   // Load data.json in background — only overrides if non-empty
   fetch('/data.json?t=' + Date.now())
     .then(r=>r.ok?r.json():Promise.reject('not ok'))
