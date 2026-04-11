@@ -994,7 +994,7 @@ const TOTAL=9;
 const completedSteps=new Set();
 
 const fd={
-  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,customChecklist:[],masteringType:'stemmaster',masterStems:[],masterStemNotes:[],masterExportNotes:[],masterRef:[],masterRefFull:[],
+  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,customChecklist:[],masteringType:'stemmaster',masterStems:[],masterStemNotes:[],masterExportNotes:[],masterRef:[],masterRefFull:[],masterTutorialEnabled:false,
   serviceType:'mix',trackType:'stems',
   glossaryEnabled:false,glossary:[],glossaryOthers:[],
   drums:[],bass:[],instr:[],vocals:[],premix:[],vocalsTB:[],premixTB:[],beatTB:[],
@@ -2160,7 +2160,9 @@ function buildPDFDoc(){
   });
 
   // ── STUPIDITY CHECK ──
-  const stupidItems=tArr('stupidItems');
+  const svcKeyPDF=getServiceKey();
+  const typeStupidItems=(STUPID_BY_TYPE[svcKeyPDF]||{})[lang]||(STUPID_BY_TYPE[svcKeyPDF]||{}).en||[];
+  const stupidItems=typeStupidItems.length>0?typeStupidItems:tArr('stupidItems');
   const allStupid=[...fd.stupid.map(i=>stupidItems[i]).filter(Boolean),...fd.stupidOthers.filter(s=>s.label)];
   if(allStupid.length){
     if(y+40>H-16)np();
@@ -2181,7 +2183,8 @@ function buildPDFDoc(){
   }
 
   // ── CHECKLIST ──
-  const allCl=clItems.length>0?clItems.map(x=>x.text):(()=>{const base=tArr('checklistBase');return fmtVal?[`${tl.pdf_format_label}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`,...base]:base;})();
+  const typeClBase=(CHECKLIST_BY_TYPE[svcKeyPDF]||{})[lang]||(CHECKLIST_BY_TYPE[svcKeyPDF]||{}).en||[];
+  const allCl=clItems.length>0?clItems.map(x=>x.text):(()=>{const base=typeClBase.length>0?typeClBase:tArr('checklistBase');return fmtVal?[`${tl.pdf_format_label}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`,...base]:base;})();
   if(y+40>H-16)np();
   secH(tl.pdf_sec_checklist);
   ck(7);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(60,60,60);
