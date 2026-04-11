@@ -186,6 +186,17 @@
         "Establece la carpeta de salida y el patrón de nombre (usa $track para el nombre de las pistas tal como las renombraste, luego completa el resto según las instrucciones).",
         "Haz clic en \"Tracks with only mono media to mono files\".",
         "Haz clic en Render files."
+      ],
+      "flstudio": [
+        "Abre el proyecto en FL Studio.",
+        "Asegúrate de que cada instrumento/voz tenga su propio canal dedicado en el mixer.",
+        "Ve a File > Export > Wav.",
+        "Guarda los archivos en la carpeta designada (renombrada según las indicaciones), siguiendo las instrucciones dadas anteriormente para renombrar los archivos (añadir un _ al final te permite escribir el nombre de la pista al final, única forma de que quede bien escrito).",
+        "Project type -> Full Song, Leave Reminder.",
+        "Formato de audio -> Según las instrucciones dadas anteriormente.",
+        "Quality -> Resampling - Cuanto más alto mejor -> Selecciona HQ for all plugins y Disable maximum polyphony.",
+        "Miscellaneous -> Selecciona SOLO: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (revisa bien esta sección y pregunta si no estás seguro), Save playlist marker (opcional).",
+        "Pulsa Start."
       ]
     },
     "fr": {
