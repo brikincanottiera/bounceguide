@@ -2341,8 +2341,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(p.accentColor){fd.accentColor=p.accentColor;updateAccent(p.accentColor);const el=document.getElementById('accentColor');if(el)el.value=p.accentColor;}
     }
   }catch(e){}
-  // Init UI with inline defaults
-  applyT();
+  // Init UI — setLang updates buttons + content correctly
+  setLang(lang);
   buildAll();
   // Load data.json in background — only overrides if non-empty
   fetch('/data.json?t=' + Date.now())
