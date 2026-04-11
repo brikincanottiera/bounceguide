@@ -184,9 +184,48 @@
         "Haz clic en Render files."
       ]
     },
-    "fr": {},
-    "de": {},
-    "pt": {}
+    "fr": {
+      "reaper": [
+        "Ouvre ton projet dans REAPER.",
+        "Renomme les pistes à exporter.",
+        "Sélectionne les pistes à exporter.",
+        "Va dans File > Render (ou appuie sur Ctrl+Alt+R ou Command+Alt+R).",
+        "Règle Source sur \"Stems selected tracks\".",
+        "Règle les bounds sur \"Entire project\".",
+        "Règle le Format/Sample Rate/Bit Depth comme demandé.",
+        "Règle le dossier de sortie et le modèle de nom (utilise $track pour afficher le nom des pistes telles que tu les as renommées, puis complète le reste selon les instructions).",
+        "Clique sur \"Tracks with only mono media to mono files\".",
+        "Clique sur Render files."
+      ]
+    },
+    "de": {
+      "reaper": [
+        "Öffne dein Projekt in REAPER.",
+        "Benenne die zu exportierenden Spuren um.",
+        "Wähle die zu exportierenden Spuren aus.",
+        "Gehe zu File > Render (oder drücke Ctrl+Alt+R oder Command+Alt+R).",
+        "Stelle Source auf \"Stems selected tracks\".",
+        "Stelle die Bounds auf \"Entire project\".",
+        "Stelle Format/Sample Rate/Bit Depth wie angefordert ein.",
+        "Stelle den Ausgabeordner und das Dateinamenmuster ein (verwende $track für den Spurnamen wie du ihn umbenannt hast, dann fülle den Rest gemäß den Anweisungen aus).",
+        "Klicke auf \"Tracks with only mono media to mono files\".",
+        "Klicke auf Render files."
+      ]
+    },
+    "pt": {
+      "reaper": [
+        "Abre o projeto no REAPER.",
+        "Renomeie as faixas que vai exportar.",
+        "Selecione as faixas a exportar.",
+        "Vá em File > Render (ou pressione Ctrl+Alt+R ou Command+Alt+R).",
+        "Defina Source como \"Stems selected tracks\".",
+        "Defina os bounds como \"Entire project\".",
+        "Defina o Formato/Sample Rate/Bit Depth conforme solicitado.",
+        "Defina a pasta de saída e o padrão de nome (use $track para exibir o nome das faixas como você as renomeou, depois preencha o restante conforme as instruções).",
+        "Clique em \"Tracks with only mono media to mono files\".",
+        "Clique em Render files."
+      ]
+    }
   },
   "stupidItems": {
     "en": [
