@@ -1670,7 +1670,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 function isInAppBrowser(){
   const ua=navigator.userAgent||'';
-  return /Instagram|FBAN|FBAV|Twitter|TikTok|musical_ly|Snapchat|LinkedInApp|WhatsApp|Line\/|KAKAOTALK|NAVER|MicroMessenger/.test(ua);
+  // Check common in-app browser identifiers
+  if(/Instagram|FBAN|FBIOS|FBAV|FB_IAB|musical_ly|TikTok|Snapchat|LinkedInApp|WhatsApp|Line\/|KAKAOTALK|NAVER|MicroMessenger|GSA|YaBrowser|Twitter\/|Pinterest/.test(ua)) return true;
+  // YouTube web app on mobile uses wv (WebView) flag
+  if(/wv/.test(ua) && /Android/.test(ua)) return true;
+  // iOS WebView (no Safari in UA but has AppleWebKit)
+  if(/iPhone|iPad/.test(ua) && !/Safari/.test(ua) && /AppleWebKit/.test(ua)) return true;
+  return false;
 }
 
 function showInAppModal(){
