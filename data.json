@@ -236,6 +236,17 @@
         "Stelle den Ausgabeordner und das Dateinamenmuster ein (verwende $track für den Spurnamen wie du ihn umbenannt hast, dann fülle den Rest gemäß den Anweisungen aus).",
         "Klicke auf \"Tracks with only mono media to mono files\".",
         "Klicke auf Render files."
+      ],
+      "flstudio": [
+        "Öffne dein Projekt in FL Studio.",
+        "Stelle sicher, dass jedes Instrument/jede Stimme einen eigenen dedizierten Mixer-Kanal hat.",
+        "Gehe zu File > Export > Wav.",
+        "Speichere die Dateien im vorgesehenen Ordner (umbenannt wie angegeben), gemäß den zuvor gegebenen Anweisungen zur Umbenennung (ein _ am Ende ermöglicht es, den Spurnamen am Ende zu schreiben, die einzige Möglichkeit für eine korrekte Benennung).",
+        "Project type -> Full Song, Leave Reminder.",
+        "Audioformat -> Wie in den zuvor gegebenen Anweisungen angegeben.",
+        "Quality -> Resampling - Je höher desto besser -> Wähle HQ for all plugins und Disable maximum polyphony.",
+        "Miscellaneous -> Wähle NUR: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (lies diesen Abschnitt sorgfältig und frage bei Unsicherheit), Save playlist marker (optional).",
+        "Drücke Start."
       ]
     },
     "pt": {
@@ -250,6 +261,17 @@
         "Defina a pasta de saída e o padrão de nome (use $track para exibir o nome das faixas como você as renomeou, depois preencha o restante conforme as instruções).",
         "Clique em \"Tracks with only mono media to mono files\".",
         "Clique em Render files."
+      ],
+      "flstudio": [
+        "Abre o projeto no FL Studio.",
+        "Certifica-te de que cada instrumento/voz tem o seu próprio canal dedicado no mixer.",
+        "Vai a File > Export > Wav.",
+        "Guarda os ficheiros na pasta designada (renomeada conforme indicado), seguindo as instruções dadas anteriormente para renomear os ficheiros (adicionar um _ no final permite escrever o nome da faixa no final, única forma de ficar corretamente escrito).",
+        "Project type -> Full Song, Leave Reminder.",
+        "Formato de áudio -> Conforme as instruções dadas anteriormente.",
+        "Quality -> Resampling - Quanto mais alto melhor -> Seleciona HQ for all plugins e Disable maximum polyphony.",
+        "Miscellaneous -> Seleciona APENAS: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (revê bem esta secção e pergunta se não tiveres a certeza), Save playlist marker (opcional).",
+        "Prime Start."
       ]
     }
   },
