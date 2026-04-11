@@ -57,12 +57,15 @@
       ],
       "reaper": [
         "Open your project in REAPER.",
-        "Go to File > Render (or press Ctrl+Alt+R).",
-        "Set Render what to Stems (selected tracks).",
-        "Set bounds to Entire project.",
-        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
-        "Set output folder and filename pattern (use $track for track name).",
-        "Click Render X files."
+        "Rename the tracks you want to export.",
+        "Select the tracks to export.",
+        "Go to File > Render (or press Ctrl+Alt+R or Command+Alt+R).",
+        "Set Source to \"Stems selected tracks\".",
+        "Set the bounds to \"Entire project\".",
+        "Set Format/Sample Rate/Bit Depth as requested.",
+        "Set the output folder and filename pattern (use $track to display the track names as you renamed them in your session, then fill in the rest as per the instructions).",
+        "Click \"Tracks with only mono media to mono files\".",
+        "Click Render files."
       ],
       "bitwig": [
         "Open your project in Bitwig Studio.",
