@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bounceguide.xyz/sitemap.xml
+
+# Block admin panel from indexing
+Disallow: /admin
