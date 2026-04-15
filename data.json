@@ -21,14 +21,12 @@
       ],
       "flstudio": [
         "Open your project in FL Studio.",
-        "Make sure each instrument/vocal has its own dedicated Mixer channel.",
-        "Go to File > Export > Wav.",
-        "Save the files in the designated folder (renamed as indicated), following the previously given instructions on how to rename files (adding a _ at the end allows you to write the track name at the end, the only way to get it written correctly).",
-        "Project type -> Full Song, Leave Reminder.",
-        "Audio format -> As per the instructions given previously.",
-        "Quality -> Resampling - The higher the better -> Select HQ for all plugins and Disable maximum polyphony.",
-        "Miscellaneous -> Select ONLY: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (review this section carefully, and ask if unsure), Save playlist marker (optional).",
-        "Press Start."
+        "Make sure each instrument has its own dedicated Mixer channel.",
+        "Go to File > Export > Project bones (Stems).",
+        "Set Quality: 32-bit float or 24-bit | Sample Rate as requested.",
+        "Choose your destination folder and click Accept.",
+        "FL Studio exports each Mixer channel as a separate file.",
+        "Verify each exported file sounds correct when played alone."
       ],
       "protools": [
         "Open your session in Pro Tools.",
@@ -59,15 +57,12 @@
       ],
       "reaper": [
         "Open your project in REAPER.",
-        "Rename the tracks you want to export.",
-        "Select the tracks to export.",
-        "Go to File > Render (or press Ctrl+Alt+R or Command+Alt+R).",
-        "Set Source to \"Stems selected tracks\".",
-        "Set the bounds to \"Entire project\".",
-        "Set Format/Sample Rate/Bit Depth as requested.",
-        "Set the output folder and filename pattern (use $track to display the track names as you renamed them in your session, then fill in the rest as per the instructions).",
-        "Click \"Tracks with only mono media to mono files\".",
-        "Click Render files."
+        "Go to File > Render (or press Ctrl+Alt+R).",
+        "Set Render what to Stems (selected tracks).",
+        "Set bounds to Entire project.",
+        "Set Format: WAV | Sample Rate and Bit Depth as requested.",
+        "Set output folder and filename pattern (use $track for track name).",
+        "Click Render X files."
       ],
       "bitwig": [
         "Open your project in Bitwig Studio.",
@@ -108,14 +103,12 @@
       ],
       "flstudio": [
         "Apri il progetto in FL Studio.",
-        "Assicurati che ogni strumento/voce abbia il proprio canale dedicato nel mixer.",
-        "Vai su File > Export > Wav.",
-        "Salva i file nella cartella designata (rinominata come indicato), seguendo le istruzioni date in precedenza su come rinominare i file (mettere un _ finale ti permette di scrivere il nome della traccia alla fine, unico modo possibile per rendere il tutto scritto bene).",
-        "Project type -> Full Song, Leave Reminder.",
-        "Formato audio -> Come da istruzioni date in precedenza.",
-        "Quality -> Resampling - Più alto è meglio è -> Seleziona HQ for all plugins e Disable maximum poliphony.",
-        "Miscellaneous -> Seleziona SOLAMENTE: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (riguardati bene la sezione a riguardo, e chiedi se non sei sicuro), Save playlist marker (opzionale).",
-        "Premi Start."
+        "Assicurati che ogni strumento abbia il proprio canale Mixer dedicato.",
+        "Vai su File > Export > Project bones (Stems).",
+        "Imposta Qualita: 32-bit float o 24-bit | Sample Rate come richiesto.",
+        "Scegli la cartella di destinazione e clicca Accept.",
+        "FL Studio esportera ogni canale Mixer come file separato.",
+        "Verifica che ogni file esportato suoni correttamente riprodotto da solo."
       ],
       "protools": [
         "Apri la sessione in Pro Tools.",
@@ -147,7 +140,6 @@
       "reaper": [
         "Apri il progetto di REAPER.",
         "Rinomina le tracce da esportare.",
-        "Seleziona le tracce da esportare.",
         "Vai su File > Render (o premi Ctrl+Alt+R o Command+Alt+R).",
         "Imposta Source su \"Stems selected tracks\".",
         "Imposta i bounds su \"Entire project\".",
@@ -174,106 +166,10 @@
         "Clicca Export, salva con un nome chiaro e ripeti per ogni traccia."
       ]
     },
-    "es": {
-      "reaper": [
-        "Abre el proyecto en REAPER.",
-        "Renombra las pistas que vas a exportar.",
-        "Selecciona las pistas a exportar.",
-        "Ve a File > Render (o pulsa Ctrl+Alt+R o Command+Alt+R).",
-        "Establece Source en \"Stems selected tracks\".",
-        "Establece los bounds en \"Entire project\".",
-        "Establece Formato/Sample Rate/Bit Depth como se ha pedido.",
-        "Establece la carpeta de salida y el patrón de nombre (usa $track para el nombre de las pistas tal como las renombraste, luego completa el resto según las instrucciones).",
-        "Haz clic en \"Tracks with only mono media to mono files\".",
-        "Haz clic en Render files."
-      ],
-      "flstudio": [
-        "Abre el proyecto en FL Studio.",
-        "Asegúrate de que cada instrumento/voz tenga su propio canal dedicado en el mixer.",
-        "Ve a File > Export > Wav.",
-        "Guarda los archivos en la carpeta designada (renombrada según las indicaciones), siguiendo las instrucciones dadas anteriormente para renombrar los archivos (añadir un _ al final te permite escribir el nombre de la pista al final, única forma de que quede bien escrito).",
-        "Project type -> Full Song, Leave Reminder.",
-        "Formato de audio -> Según las instrucciones dadas anteriormente.",
-        "Quality -> Resampling - Cuanto más alto mejor -> Selecciona HQ for all plugins y Disable maximum polyphony.",
-        "Miscellaneous -> Selecciona SOLO: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (revisa bien esta sección y pregunta si no estás seguro), Save playlist marker (opcional).",
-        "Pulsa Start."
-      ]
-    },
-    "fr": {
-      "reaper": [
-        "Ouvre ton projet dans REAPER.",
-        "Renomme les pistes à exporter.",
-        "Sélectionne les pistes à exporter.",
-        "Va dans File > Render (ou appuie sur Ctrl+Alt+R ou Command+Alt+R).",
-        "Règle Source sur \"Stems selected tracks\".",
-        "Règle les bounds sur \"Entire project\".",
-        "Règle le Format/Sample Rate/Bit Depth comme demandé.",
-        "Règle le dossier de sortie et le modèle de nom (utilise $track pour afficher le nom des pistes telles que tu les as renommées, puis complète le reste selon les instructions).",
-        "Clique sur \"Tracks with only mono media to mono files\".",
-        "Clique sur Render files."
-      ],
-      "flstudio": [
-        "Ouvre ton projet dans FL Studio.",
-        "Assure-toi que chaque instrument/voix a son propre canal dédié dans le mixer.",
-        "Va dans File > Export > Wav.",
-        "Sauvegarde les fichiers dans le dossier désigné (renommé comme indiqué), en suivant les instructions données précédemment pour renommer les fichiers (ajouter un _ à la fin te permet d'écrire le nom de la piste à la fin, seul moyen d'obtenir un résultat correct).",
-        "Project type -> Full Song, Leave Reminder.",
-        "Format audio -> Comme indiqué dans les instructions précédentes.",
-        "Quality -> Resampling - Plus c'est élevé mieux c'est -> Sélectionne HQ for all plugins et Disable maximum polyphony.",
-        "Miscellaneous -> Sélectionne UNIQUEMENT: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (relis bien cette section et demande si tu n'es pas sûr), Save playlist marker (optionnel).",
-        "Appuie sur Start."
-      ]
-    },
-    "de": {
-      "reaper": [
-        "Öffne dein Projekt in REAPER.",
-        "Benenne die zu exportierenden Spuren um.",
-        "Wähle die zu exportierenden Spuren aus.",
-        "Gehe zu File > Render (oder drücke Ctrl+Alt+R oder Command+Alt+R).",
-        "Stelle Source auf \"Stems selected tracks\".",
-        "Stelle die Bounds auf \"Entire project\".",
-        "Stelle Format/Sample Rate/Bit Depth wie angefordert ein.",
-        "Stelle den Ausgabeordner und das Dateinamenmuster ein (verwende $track für den Spurnamen wie du ihn umbenannt hast, dann fülle den Rest gemäß den Anweisungen aus).",
-        "Klicke auf \"Tracks with only mono media to mono files\".",
-        "Klicke auf Render files."
-      ],
-      "flstudio": [
-        "Öffne dein Projekt in FL Studio.",
-        "Stelle sicher, dass jedes Instrument/jede Stimme einen eigenen dedizierten Mixer-Kanal hat.",
-        "Gehe zu File > Export > Wav.",
-        "Speichere die Dateien im vorgesehenen Ordner (umbenannt wie angegeben), gemäß den zuvor gegebenen Anweisungen zur Umbenennung (ein _ am Ende ermöglicht es, den Spurnamen am Ende zu schreiben, die einzige Möglichkeit für eine korrekte Benennung).",
-        "Project type -> Full Song, Leave Reminder.",
-        "Audioformat -> Wie in den zuvor gegebenen Anweisungen angegeben.",
-        "Quality -> Resampling - Je höher desto besser -> Wähle HQ for all plugins und Disable maximum polyphony.",
-        "Miscellaneous -> Wähle NUR: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (lies diesen Abschnitt sorgfältig und frage bei Unsicherheit), Save playlist marker (optional).",
-        "Drücke Start."
-      ]
-    },
-    "pt": {
-      "reaper": [
-        "Abre o projeto no REAPER.",
-        "Renomeie as faixas que vai exportar.",
-        "Selecione as faixas a exportar.",
-        "Vá em File > Render (ou pressione Ctrl+Alt+R ou Command+Alt+R).",
-        "Defina Source como \"Stems selected tracks\".",
-        "Defina os bounds como \"Entire project\".",
-        "Defina o Formato/Sample Rate/Bit Depth conforme solicitado.",
-        "Defina a pasta de saída e o padrão de nome (use $track para exibir o nome das faixas como você as renomeou, depois preencha o restante conforme as instruções).",
-        "Clique em \"Tracks with only mono media to mono files\".",
-        "Clique em Render files."
-      ],
-      "flstudio": [
-        "Abre o projeto no FL Studio.",
-        "Certifica-te de que cada instrumento/voz tem o seu próprio canal dedicado no mixer.",
-        "Vai a File > Export > Wav.",
-        "Guarda os ficheiros na pasta designada (renomeada conforme indicado), seguindo as instruções dadas anteriormente para renomear os ficheiros (adicionar um _ no final permite escrever o nome da faixa no final, única forma de ficar corretamente escrito).",
-        "Project type -> Full Song, Leave Reminder.",
-        "Formato de áudio -> Conforme as instruções dadas anteriormente.",
-        "Quality -> Resampling - Quanto mais alto melhor -> Seleciona HQ for all plugins e Disable maximum polyphony.",
-        "Miscellaneous -> Seleciona APENAS: Split Mixer tracks, Trim PDC Silence, Save Tempo Information, Enable Insert Effects (revê bem esta secção e pergunta se não tiveres a certeza), Save playlist marker (opcional).",
-        "Prime Start."
-      ]
-    }
+    "es": {},
+    "fr": {},
+    "de": {},
+    "pt": {}
   },
   "stupidItems": {
     "en": [
@@ -1376,7 +1272,7 @@
       },
       {
         "label": "WET - SOLO per parti usate come sound design artistico",
-        "sub": "Invia WET esclusivamente per le parti in cui l'effetto E' il suono (voce fortemente distorta, vocoder, effetto radio). NON inviare tutta la voce WET.",
+        "sub": "Invia WET esclusivamente per le parti in cui l&#39;effetto E&#39; il suono (voce fortemente distorta, vocoder, effetto radio). NON inviare tutta la voce WET.",
         "isWet": true
       },
       {
@@ -1399,7 +1295,7 @@
       },
       {
         "label": "WET - UNIQUEMENT pour les parties de sound design artistique",
-        "sub": "Seulement pour les parties où l'effet EST le son. NE PAS envoyer toute la voix WET.",
+        "sub": "Seulement pour les parties où l&#39;effet EST le son. NE PAS envoyer toute la voix WET.",
         "isWet": true
       },
       {
