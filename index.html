@@ -226,6 +226,11 @@ input[type=color]{width:38px;height:32px;padding:2px 3px;cursor:pointer;border-r
 .cl-drag{font-size:14px;color:var(--t3);cursor:grab;flex-shrink:0}
 .cl-remove{padding:2px 6px;border-radius:4px;border:none;background:transparent;color:var(--t3);cursor:pointer;font-size:11px;flex-shrink:0;transition:color 0.15s}
 .cl-remove:hover{color:var(--warn-text)}
+.cl-arrows{display:none}
+.cl-arr-btn{width:28px;height:24px;border:0.5px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--t2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all 0.1s}
+.cl-arr-btn:active{background:var(--acc-dim)}
+.cl-arr-btn:disabled{opacity:0.25;cursor:default}
+@media(max-width:700px){.cl-arrows{display:flex;flex-direction:column;gap:2px;flex-shrink:0}}
 .cl-custom-row{display:flex;gap:7px;margin-top:6px;align-items:center}
 .cl-custom-input{flex:1;padding:7px 10px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--t1);font-size:16px;font-family:inherit;outline:none}
 .cl-custom-input:focus{border-color:var(--acc)}
