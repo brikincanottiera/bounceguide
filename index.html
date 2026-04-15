@@ -461,7 +461,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
 </div>
 
 <!-- S3: Glossary -->
-<div class="form-section" id="step-3">
+<div class="form-section" id="step-7">
   <div class="section-title" data-t="s3title"></div>
   <div class="section-desc" data-t="s3desc"></div>
   <div class="toggle-row" id="glossaryToggle" onclick="toggleGlossary()">
@@ -474,11 +474,11 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     <div class="multi-other-list" id="glossaryOtherList"></div>
     <button class="add-other-btn" onclick="addGlossaryOther()" data-t="s3addOther"></button>
   </div>
-  <div class="nav-btns"><button class="btn-back" onclick="goStep(2)" data-t="btnBack"></button><button class="btn-next" onclick="advance(3)" data-t="btnNext"></button></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(6)" data-t="btnBack"></button><button class="btn-next" onclick="advance(7)" data-t="btnNext"></button></div>
 </div>
 
 <!-- S4: Format -->
-<div class="form-section" id="step-4">
+<div class="form-section" id="step-5">
   <div class="section-title" data-t="s4title"></div>
   <div class="section-desc" data-t="s4desc"></div>
   <div class="info-box"><div class="info-box-title" data-t="s4whyTitle"></div><p data-t="s4whyText"></p></div>
@@ -503,11 +503,11 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     <div class="radio-item" onclick="selectRadio(this,'bd','32-bit float')"><div class="radio-dot"></div><span class="radio-label">32-bit float</span></div>
     <div class="radio-item" onclick="selectRadio(this,'bd','16-bit')"><div class="radio-dot"></div><div><div class="radio-label">16-bit</div><div class="radio-sub" data-t="s4bd16Sub"></div></div></div>
   </div>
-  <div class="nav-btns"><button class="btn-back" onclick="goStep(3)" data-t="btnBack"></button><button class="btn-next" onclick="advance(4)" data-t="btnNext"></button></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(4)" data-t="btnBack"></button><button class="btn-next" onclick="advance(5)" data-t="btnNext"></button></div>
 </div>
 
 <!-- S5: Stems -->
-<div class="form-section" id="step-5">
+<div class="form-section" id="step-3">
   <div class="section-title" data-t="s5title"></div>
   <div class="section-desc" data-t="s5desc"></div>
   <div class="toggle-row" id="wetToggleRow" onclick="toggleWetPhil()">
@@ -584,11 +584,11 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
     <div class="check-list" id="masterRefFullChecks"></div>
   </div>
 
-  <div class="nav-btns"><button class="btn-back" onclick="goStep(4)" data-t="btnBack"></button><button class="btn-next" onclick="advance(5)" data-t="btnNext"></button></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(2)" data-t="btnBack"></button><button class="btn-next" onclick="advance(3)" data-t="btnNext"></button></div>
 </div>
 
 <!-- S6: Naming -->
-<div class="form-section" id="step-6">
+<div class="form-section" id="step-4">
   <div class="section-title" data-t="s6title"></div>
   <div class="section-desc" data-t="s6desc"></div>
   <div class="info-box"><div class="info-box-title" data-t="s6whyTitle"></div><p data-t="s6whyText"></p></div>
@@ -596,11 +596,11 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="check-list" id="namingChecks"></div>
   <div class="multi-other-list" id="namingOtherList"></div>
   <button class="add-other-btn" onclick="addNamingOther()" data-t="s6addOther"></button>
-  <div class="nav-btns"><button class="btn-back" onclick="goStep(5)" data-t="btnBack"></button><button class="btn-next" onclick="advance(6)" data-t="btnNext"></button></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(3)" data-t="btnBack"></button><button class="btn-next" onclick="advance(4)" data-t="btnNext"></button></div>
 </div>
 
 <!-- S7: Delivery -->
-<div class="form-section" id="step-7">
+<div class="form-section" id="step-6">
   <div class="section-title" data-t="s7title"></div>
   <div class="section-desc" data-t="s7desc"></div>
   <div class="sub-label" data-t="s7delivLabel"></div>
@@ -612,7 +612,7 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
   <div class="sub-label" data-t="s7sessionLabel"></div>
   <div class="check-list" id="sessionChecks"></div>
   <div id="sessionOtherReveal" class="other-reveal"><input type="text" id="sessionOtherText" data-t-ph="s7otherSessionPh" oninput="autoSave()"></div>
-  <div class="nav-btns"><button class="btn-back" onclick="goStep(6)" data-t="btnBack"></button><button class="btn-next" onclick="advance(7)" data-t="btnNext"></button></div>
+  <div class="nav-btns"><button class="btn-back" onclick="goStep(5)" data-t="btnBack"></button><button class="btn-next" onclick="advance(6)" data-t="btnNext"></button></div>
 </div>
 
 <!-- S8: DAW Guides -->
@@ -1110,25 +1110,25 @@ function resetAll(){
 // ═══════════════════════════════════════════
 //  NAV
 // ═══════════════════════════════════════════
-const stepLabels={en:['Details','Service','Glossary','Format','Stems','Naming','Delivery','DAW Guides','Checklist'],it:['Dati','Servizio','Glossario','Formato','Stem','Nomenclatura','Invio','Guide DAW','Checklist'],es:['Datos','Servicio','Glosario','Formato','Stems','Nomenclatura','Envio','DAW','Checklist'],fr:['Donnees','Service','Glossaire','Format','Stems','Nommage','Envoi','DAW','Checklist'],de:['Daten','Service','Glossar','Format','Stems','Benennung','Senden','DAW','Checkliste'],pt:['Dados','Servico','Glossario','Formato','Stems','Nomenclatura','Envio','DAW','Checklist']};
+const stepLabels={en:['Details','Service','Stems','Naming','Format','Delivery','Glossary','DAW Guides','Checklist'],it:['Dati','Servizio','Stem','Nomenclatura','Formato','Invio','Glossario','Guide DAW','Checklist'],es:['Datos','Servicio','Stems','Nomenclatura','Formato','Envio','Glosario','DAW','Checklist'],fr:['Donnees','Service','Stems','Nommage','Format','Envoi','Glossaire','DAW','Checklist'],de:['Daten','Service','Stems','Benennung','Format','Senden','Glossar','DAW','Checkliste'],pt:['Dados','Servico','Stems','Nomenclatura','Formato','Envio','Glossario','DAW','Checklist']};
 
 function getStepFilled(n){
   switch(n){
     case 1: return !!(document.getElementById('mixerName')?.value||fd.logoBase64);
     case 2: return !!fd.serviceType;
-    case 3: return fd.glossaryEnabled?fd.glossary.length>0:true;
-    case 4: return !!fd.format;
-    case 5: {
+    case 3: {
       if(fd.serviceType==='mastering'){
         if(fd.masteringType==='stemmaster') return (fd.masterStems||[]).filter(s=>s.title).length>0;
-        return (fd.masterExportNotes||[]).length>0||true; // full mastering always ok
+        return (fd.masterExportNotes||[]).length>0||true;
       }
       return fd.trackType==='typebeat'
         ?(fd.vocalsTB.length+fd.premixTB.length>0)
         :(fd.drums.length+fd.instr.length+fd.vocals.length+fd.premix.length>0);
     }
-    case 6: return fd.naming.length>0||fd.namingOthers.filter(x=>x.title).length>0;
-    case 7: return fd.delivery.length>0;
+    case 4: return fd.naming.length>0||fd.namingOthers.filter(x=>x.title).length>0;
+    case 5: return !!fd.format;
+    case 6: return fd.delivery.length>0;
+    case 7: return fd.glossaryEnabled?fd.glossary.length>0:true;
     case 8: return fd.daws.length>0;
     case 9: return true;
     default: return false;
@@ -1550,6 +1550,10 @@ function renderChecklist(){
         ontouchend="onClTouchEnd(event)">⠿</span>
       <div class="cl-dot">v</div>
       <div class="cl-text">${item.text}</div>
+      <div class="cl-arrows">
+        <button class="cl-arr-btn" onclick="moveClItem(${i},-1)" ${i===0?'disabled':''}>↑</button>
+        <button class="cl-arr-btn" onclick="moveClItem(${i},1)" ${i===clItems.length-1?'disabled':''}>↓</button>
+      </div>
       <button class="cl-remove" onclick="removeClItem(${i})" title="Rimuovi">✕</button>
     </div>`).join('');
 }
@@ -1562,6 +1566,16 @@ function addCustomCl(){
   fd.customChecklist.push(val);
   inp.value='';
   buildChecklist();
+  autoSave();
+}
+
+function moveClItem(i, dir){
+  const newIdx = i + dir;
+  if(newIdx < 0 || newIdx >= clItems.length) return;
+  const moved = clItems.splice(i, 1)[0];
+  clItems.splice(newIdx, 0, moved);
+  fd.customChecklist = clItems.filter(x=>x.custom).map(x=>x.text);
+  renderChecklist();
   autoSave();
 }
 
@@ -1733,7 +1747,7 @@ function validateAndGenerate(){
 function getWarnings(){
   const tl=T[lang]||T.en;
   const warns=[];
-  if(!fd.format) warns.push({text:tl.valWarnFormat,step:4});
+  if(!fd.format) warns.push({text:tl.valWarnFormat,step:5});
   let hasStems=true;
   if(fd.serviceType==='mix'){
     hasStems=fd.trackType==='stems'
@@ -1742,11 +1756,11 @@ function getWarnings(){
   } else if(fd.masteringType==='stemmaster'){
     hasStems=(fd.masterStems||[]).filter(s=>s.title).length>0;
   }
-  if(!hasStems) warns.push({text:tl.valWarnStems,step:5});
+  if(!hasStems) warns.push({text:tl.valWarnStems,step:3});
   if(!fd.naming.length&&!fd.namingOthers.filter(n=>n.title).length)
-    warns.push({text:tl.valWarnNaming,step:6});
+    warns.push({text:tl.valWarnNaming,step:4});
   if(!fd.delivery.length)
-    warns.push({text:tl.valWarnDelivery,step:7});
+    warns.push({text:tl.valWarnDelivery,step:6});
   return warns;
 }
 
