@@ -8,6 +8,21 @@
     { "source": "/404", "destination": "/404.html" },
     { "source": "/data.json", "destination": "/api/getdata" }
   ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain" }
+      ]
+    }
+  ],
   "functions": {
     "api/save.js": {
       "memory": 256
