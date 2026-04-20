@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+module.exports = (req, res) => {
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
@@ -25,4 +28,5 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-</urlset>
+</urlset>`);
+};
