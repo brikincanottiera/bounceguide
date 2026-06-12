@@ -14,6 +14,14 @@
 <meta name="language" content="en, it, es, fr, de, pt">
 <meta name="category" content="Music Production, Audio Engineering, Mixing, Mastering">
 <link rel="canonical" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="en" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="it" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="es" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="fr" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="de" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="pt" href="https://bounceguide.xyz/">
+<link rel="alternate" hreflang="x-default" href="https://bounceguide.xyz/">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -21,6 +29,9 @@
 <meta property="og:title" content="BounceGuide — Free Stem Export Guide Generator for Mix &amp; Mastering Engineers">
 <meta property="og:description" content="Stop receiving wrong files from clients. Generate a professional PDF guide in seconds — stems, WAV settings, DAW instructions, file naming, WET/DRY. Free for mix and mastering engineers.">
 <meta property="og:image" content="https://bounceguide.xyz/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BounceGuide — free stem export guide generator for mix and mastering engineers">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="es_ES">
@@ -63,6 +74,54 @@
   },
   "keywords": "stem export, mix engineer, mastering, audio files, WAV export, file naming, WET DRY, DAW guide, Ableton, FL Studio, Logic Pro, REAPER, Pro Tools",
   "screenshot": "https://bounceguide.xyz/og-image.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I send stems to a mix engineer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Export each track as an individual WAV file (24-bit, at the sample rate your engineer requests), starting from bar 1 with the master bus chain bypassed. Name every file clearly, include a stereo premix as reference, and follow the WET/DRY guidelines your engineer provides. BounceGuide lets engineers generate a complete PDF guide with these exact instructions for their clients."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between WET and DRY stems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WET stems are exported with all creative effects active (reverb, delay, distortion, sidechain, autotune). DRY stems are exported with no effects, just the raw sound. Sound design effects that define the character usually stay WET, while mixing effects are removed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What format should stems be exported in?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WAV or AIFF at 24-bit is the professional standard. Use the sample rate of your project or what your engineer requests, commonly 44.1 kHz or 48 kHz. Never send MP3 for mixing or mastering, since it permanently removes audio data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is BounceGuide free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. BounceGuide is completely free, requires no account, and generates the PDF entirely in your browser. Nothing is uploaded to any server."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which DAWs does BounceGuide cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BounceGuide includes step-by-step stem export instructions for Ableton Live, Logic Pro, FL Studio, Pro Tools, Cubase, Studio One, REAPER, Bitwig Studio and GarageBand, in six languages."
+      }
+    }
+  ]
 }
 </script>
 <style>
@@ -401,14 +460,14 @@ footer{padding:11px 32px;border-top:0.5px solid var(--border);display:flex;align
 
 <div class="hero" style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap">
   <div style="flex:1;min-width:0">
-    <div class="hero-tag" data-t="heroTag"></div>
-    <h1 data-t="heroTitle"></h1>
-    <p class="hero-desc" data-t="heroDesc"></p>
+    <div class="hero-tag" data-t="heroTag">Dear <strong>mix/master engineer</strong></div>
+    <h1 data-t="heroTitle">Stop receiving wrong files from your clients</h1>
+    <p class="hero-desc" data-t="heroDesc">Set your requirements once. BounceGuide generates a professional PDF stem export guide in your language — file formats, WET/DRY guidelines, file naming, DAW export instructions — no more back-and-forth, no more mistakes.</p>
     <div class="hero-features">
-      <span class="hero-feat" data-t="hf1"></span>
-      <span class="hero-feat" data-t="hf2"></span>
-      <span class="hero-feat" data-t="hf3"></span>
-      <span class="hero-feat" data-t="hf4"></span>
+      <span class="hero-feat" data-t="hf1">6 languages</span>
+      <span class="hero-feat" data-t="hf2">DAW step-by-step guides</span>
+      <span class="hero-feat" data-t="hf3">Auto-saved</span>
+      <span class="hero-feat" data-t="hf4">PDF on demand</span>
     </div>
   </div>
   <div class="hero-kofi">
@@ -891,7 +950,7 @@ it:{
 
 // ── SPANISH ──────────────────────────────────────────────────
 T.es={
-  heroTag:'Querido <strong>mix/master engineer</strong>',heroTitle:'Deja de recibir archivos incorrectos',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',previewBtn:'Vista previa PDF',generateBtn:'Descargar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',savedLabel:'Guardado',valTitle:'Antes de generar el PDF',valSubtitle:'Encontramos algunas cosas que vale la pena revisar. Puedes continuar de todas formas o volver a completarlas.',valWarnFormat:'Ningun formato de archivo seleccionado (paso 4)',valWarnStems:'Ninguna opcion de stem seleccionada (paso 5)',valWarnNaming:'Ninguna regla de nomenclatura seleccionada (paso 6)',valWarnDelivery:'Ninguna plataforma de envio seleccionada (paso 7)',valOkAll:'Todo parece estar bien!',valCancel:'Volver atras',valProceed:'Generar de todas formas',valGoTo:'Ir al paso',cookieText:'Este sitio no usa cookies de seguimiento. Solo guardamos tus preferencias localmente en tu dispositivo.',cookieLearnMore:'Politica de privacidad',cookieAccept:'Entendido',inAppTitle:'Abrir no navegador',inAppMsg:'Você está usando o navegador interno de um app (Instagram, TikTok, etc.). Seus dados não serão salvos e o download do PDF pode não funcionar. Copie o link e abra no Safari ou Chrome.',inAppCopy:'Copiar link',inAppCopied:'Link copiado!',inAppDismiss:'Entendi, continuar mesmo assim',inAppTitle:'Abre en tu navegador',inAppMsg:'Estás usando el navegador interno de una app (Instagram, TikTok, etc.). Tus datos no se guardarán y la descarga del PDF puede no funcionar. Copia el enlace y ábrelo en Safari o Chrome.',inAppCopy:'Copiar enlace',inAppCopied:'Enlace copiado!',inAppDismiss:'Entendido, continuar de todas formas',kofiTitle:'Invítame a un café',kofiSub:'Si BounceGuide te ahorró tiempo,\nconsideraun pequeño apoyo',
+  heroTag:'Querido <strong>mix/master engineer</strong>',heroTitle:'Deja de recibir archivos incorrectos',heroDesc:'Configura tus requisitos una vez. BounceGuide genera un PDF profesional en tu idioma.',hf1:'6 idiomas',hf2:'Guias DAW paso a paso',hf3:'Guardado automatico',hf4:'PDF cuando quieras',progressLabel:'Progreso de la guia',toneLabel:'Tono del PDF',toneFormal:'Formal',toneInformal:'Amigable',previewBtn:'Vista previa PDF',generateBtn:'Descargar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Empezar de nuevo',savedLabel:'Guardado',valTitle:'Antes de generar el PDF',valSubtitle:'Encontramos algunas cosas que vale la pena revisar. Puedes continuar de todas formas o volver a completarlas.',valWarnFormat:'Ningun formato de archivo seleccionado (paso 4)',valWarnStems:'Ninguna opcion de stem seleccionada (paso 5)',valWarnNaming:'Ninguna regla de nomenclatura seleccionada (paso 6)',valWarnDelivery:'Ninguna plataforma de envio seleccionada (paso 7)',valOkAll:'Todo parece estar bien!',valCancel:'Volver atras',valProceed:'Generar de todas formas',valGoTo:'Ir al paso',cookieText:'Este sitio no usa cookies de seguimiento. Solo guardamos tus preferencias localmente en tu dispositivo.',cookieLearnMore:'Politica de privacidad',cookieAccept:'Entendido',inAppTitle:'Abre en tu navegador',inAppMsg:'Estás usando el navegador interno de una app (Instagram, TikTok, etc.). Tus datos no se guardarán y la descarga del PDF puede no funcionar. Copia el enlace y ábrelo en Safari o Chrome.',inAppCopy:'Copiar enlace',inAppCopied:'Enlace copiado!',inAppDismiss:'Entendido, continuar de todas formas',s10title:'Orden de los pasos',s10desc:'Arrastra o usa las flechas para reordenar los pasos en la guia PDF. Tus clientes los seguiran en el orden que establezcas aqui.',kofiTitle:'Invítame a un café',kofiSub:'Si BounceGuide te ahorró tiempo,\nconsideraun pequeño apoyo',
   s1title:'Tus datos y marca',s1desc:'Aparece en la parte superior del PDF que recibe el cliente.',s1name:'Nombre / Estudio',s1namePh:'Carlos Lopez Mezcla',s1email:'Email',s1emailPh:'carlos@mezcla.com',s1web:'Sitio web (opcional)',s1webPh:'https://mezcla.com',s1phone:'Telefono / WhatsApp',s1phonePh:'+34 600 000 000',s1logo:'Tu logo (PNG, JPG)',s1logoHint:'Haz clic para cargar, aparece en el encabezado del PDF',s1color:'Color de acento del PDF',s1colorHint:'Usado en los encabezados de seccion',s1msg:'Mensaje de apertura',s1msgPh:'Gracias por confiarme tu musica. Lee esto con atencion antes de enviar nada.',s1contactNote:'Nota de contacto al final del documento',s1contactNotePh:'Dudas? Escribeme antes de enviar.',
   s2title:'Tipo de servicio',s2desc:'Determina los requisitos a configurar.',s2mix:'Mezcla',s2mixDesc:'El cliente te envia stems para mezclar.',s2master:'Mastering',s2masterDesc:'El cliente te envia un mix estereo terminado.',s2trackTypeLabel:'Que envia el cliente?',s2stems:'Stems instrumentales completos',s2stemsSub:'Archivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Un solo archivo para la base, el cliente solo exporta las voces.',
   s3title:'Glosario',s3desc:'Glosario opcional de terminos en lenguaje sencillo, incluido en el PDF para clientes no tecnicos.',s3toggleTitle:'Incluir glosario en el PDF',s3toggleSub:'Recomendado para clientes sin conocimientos tecnicos',s3infoTitle:'Como funciona',s3infoText:'Selecciona los terminos que quieres explicar. Apareceran al inicio del PDF.',s3addOther:'+ Anadir termino personalizado',
@@ -917,7 +976,7 @@ T.es={
 
 // ── FRENCH ───────────────────────────────────────────────────
 T.fr={
-  heroTag:'Cher <strong>mix/master engineer</strong>',heroTitle:'Arrete de recevoir des fichiers incorrects',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',previewBtn:'Apercu PDF',generateBtn:'Telecharger PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',savedLabel:'Sauvegarde',valTitle:'Avant de generer le PDF',valSubtitle:'Nous avons trouve quelques points a verifier. Tu peux continuer quand meme ou revenir en arriere pour les completer.',valWarnFormat:'Aucun format de fichier selectionne (etape 4)',valWarnStems:'Aucune option de stem selectionnee (etape 5)',valWarnNaming:'Aucune regle de nommage selectionnee (etape 6)',valWarnDelivery:'Aucune plateforme de livraison selectionnee (etape 7)',valOkAll:'Tout semble en ordre!',valCancel:'Retourner en arriere',valProceed:'Generer quand meme',valGoTo:'Aller a l\'etape',cookieText:'Ce site n\'utilise pas de cookies de suivi. Nous sauvegardons uniquement tes preferences localement sur ton appareil.',cookieLearnMore:'Politique de confidentialite',cookieAccept:'Compris',inAppTitle:'Ouvre dans ton navigateur',inAppMsg:'Tu utilises le navigateur intégré d une app (Instagram, TikTok, etc.). Tes données ne seront pas sauvegardées et le téléchargement du PDF pourrait ne pas fonctionner. Copie le lien et ouvre-le dans Safari ou Chrome.',inAppCopy:'Copier le lien',inAppCopied:'Lien copié!',inAppDismiss:'Compris, continuer quand même',kofiTitle:'Offre-moi un café',kofiSub:'Si BounceGuide t\'a fait gagner du temps,\nconsidèreun petit soutien',
+  heroTag:'Cher <strong>mix/master engineer</strong>',heroTitle:'Arrete de recevoir des fichiers incorrects',heroDesc:'Configure tes exigences une fois. BounceGuide genere un PDF professionnel dans ta langue.',hf1:'6 langues',hf2:'Guides DAW etape par etape',hf3:'Sauvegarde automatique',hf4:'PDF a la demande',progressLabel:'Progression du guide',toneLabel:'Ton du PDF',toneFormal:'Formel',toneInformal:'Amical',previewBtn:'Apercu PDF',generateBtn:'Telecharger PDF',copyBtn:'Copier pour WhatsApp / Email',resetBtn:'Recommencer',savedLabel:'Sauvegarde',valTitle:'Avant de generer le PDF',valSubtitle:'Nous avons trouve quelques points a verifier. Tu peux continuer quand meme ou revenir en arriere pour les completer.',valWarnFormat:'Aucun format de fichier selectionne (etape 4)',valWarnStems:'Aucune option de stem selectionnee (etape 5)',valWarnNaming:'Aucune regle de nommage selectionnee (etape 6)',valWarnDelivery:'Aucune plateforme de livraison selectionnee (etape 7)',valOkAll:'Tout semble en ordre!',valCancel:'Retourner en arriere',valProceed:'Generer quand meme',valGoTo:'Aller a l\'etape',cookieText:'Ce site n\'utilise pas de cookies de suivi. Nous sauvegardons uniquement tes preferences localement sur ton appareil.',cookieLearnMore:'Politique de confidentialite',cookieAccept:'Compris',inAppTitle:'Ouvre dans ton navigateur',inAppMsg:'Tu utilises le navigateur intégré d une app (Instagram, TikTok, etc.). Tes données ne seront pas sauvegardées et le téléchargement du PDF pourrait ne pas fonctionner. Copie le lien et ouvre-le dans Safari ou Chrome.',inAppCopy:'Copier le lien',inAppCopied:'Lien copié!',inAppDismiss:'Compris, continuer quand même',s10title:'Ordre des etapes',s10desc:'Glisse ou utilise les fleches pour reordonner les etapes dans le guide PDF. Tes clients les suivront dans l ordre que tu definis ici.',kofiTitle:'Offre-moi un café',kofiSub:'Si BounceGuide t\'a fait gagner du temps,\nconsidèreun petit soutien',
   s1title:'Tes coordonnees et marque',s1desc:'Apparait en haut du PDF que recoivent tes clients.',s1name:'Nom / Studio',s1namePh:'Jean Dupont Mixage',s1email:'Email',s1emailPh:'jean@mixage.com',s1web:'Site web (optionnel)',s1webPh:'https://mixage.com',s1phone:'Telephone / WhatsApp',s1phonePh:'+33 6 00 00 00 00',s1logo:'Ton logo (PNG, JPG)',s1logoHint:'Cliquer pour charger, apparait dans le PDF',s1color:'Couleur accent du PDF',s1colorHint:'Utilisee pour les en-tetes de section',s1msg:'Message d\'ouverture',s1msgPh:'Merci de me confier ta musique. Lis ceci attentivement avant d\'envoyer quoi que ce soit.',s1contactNote:'Note de contact en fin de document',s1contactNotePh:'Un doute? Ecris-moi avant d\'envoyer.',
   s2title:'Type de service',s2desc:'Determine les exigences a configurer.',s2mix:'Mixage',s2mixDesc:'Le client t\'envoie des stems pour mixer.',s2master:'Mastering',s2masterDesc:'Le client t\'envoie un mix stereo termine.',s2trackTypeLabel:'Que le client envoie-t-il?',s2stems:'Stems instrumentaux complets',s2stemsSub:'Fichiers separes par instrument.',s2typebeat:'Type beat / instrumental unique',s2typebeatSub:'Un seul fichier pour la base, le client exporte seulement les voix.',
   s3title:'Glossaire',s3desc:'Glossaire optionnel de termes en langage simple, inclus dans le PDF pour les clients non techniques.',s3toggleTitle:'Inclure le glossaire dans le PDF',s3toggleSub:'Recommande pour les clients non techniques',s3infoTitle:'Comment ca fonctionne',s3infoText:'Selectionne les termes a expliquer. Ils apparaissent au debut du PDF.',s3addOther:'+ Ajouter un terme personnalise',
@@ -943,7 +1002,7 @@ T.fr={
 
 // ── GERMAN ───────────────────────────────────────────────────
 T.de={
-  heroTag:'Lieber <strong>mix/master engineer</strong>',heroTitle:'Hore auf falsche Dateien zu erhalten',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',previewBtn:'PDF Vorschau',generateBtn:'PDF herunterladen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',savedLabel:'Gespeichert',valTitle:'Vor der PDF-Erstellung',valSubtitle:'Wir haben einige Dinge gefunden die es wert sind zu prufen. Du kannst trotzdem fortfahren oder zuruck gehen um sie zu vervollstandigen.',valWarnFormat:'Kein Dateiformat ausgewahlt (Schritt 4)',valWarnStems:'Keine Stem-Option ausgewahlt (Schritt 5)',valWarnNaming:'Keine Benennungsregel ausgewahlt (Schritt 6)',valWarnDelivery:'Keine Lieferplattform ausgewahlt (Schritt 7)',valOkAll:'Alles sieht gut aus!',valCancel:'Zuruck gehen',valProceed:'Trotzdem generieren',valGoTo:'Gehe zu Schritt',cookieText:'Diese Website verwendet keine Tracking-Cookies. Wir speichern nur deine Einstellungen lokal auf deinem Gerat.',cookieLearnMore:'Datenschutzrichtlinie',cookieAccept:'Verstanden',inAppTitle:'Im Browser öffnen',inAppMsg:'Du verwendest den eingebetteten Browser einer App (Instagram, TikTok, usw.). Deine Daten werden nicht gespeichert und der PDF-Download funktioniert möglicherweise nicht. Kopiere den Link und öffne ihn in Safari oder Chrome.',inAppCopy:'Link kopieren',inAppCopied:'Link kopiert!',inAppDismiss:'Verstanden, trotzdem fortfahren',kofiTitle:'Kauf mir einen Kaffee',kofiSub:'Wenn BounceGuide dir Zeit gespart hat,\ndenk an eine kleine Unterstützung',
+  heroTag:'Lieber <strong>mix/master engineer</strong>',heroTitle:'Hore auf falsche Dateien zu erhalten',heroDesc:'Konfiguriere deine Anforderungen einmal. BounceGuide erstellt ein professionelles PDF in deiner Sprache.',hf1:'6 Sprachen',hf2:'DAW-Schritt-fur-Schritt-Anleitungen',hf3:'Automatisches Speichern',hf4:'PDF auf Abruf',progressLabel:'Fortschritt des Leitfadens',toneLabel:'PDF-Ton',toneFormal:'Formell',toneInformal:'Freundlich',previewBtn:'PDF Vorschau',generateBtn:'PDF herunterladen',copyBtn:'Fur WhatsApp / Email kopieren',resetBtn:'Neu beginnen',savedLabel:'Gespeichert',valTitle:'Vor der PDF-Erstellung',valSubtitle:'Wir haben einige Dinge gefunden die es wert sind zu prufen. Du kannst trotzdem fortfahren oder zuruck gehen um sie zu vervollstandigen.',valWarnFormat:'Kein Dateiformat ausgewahlt (Schritt 4)',valWarnStems:'Keine Stem-Option ausgewahlt (Schritt 5)',valWarnNaming:'Keine Benennungsregel ausgewahlt (Schritt 6)',valWarnDelivery:'Keine Lieferplattform ausgewahlt (Schritt 7)',valOkAll:'Alles sieht gut aus!',valCancel:'Zuruck gehen',valProceed:'Trotzdem generieren',valGoTo:'Gehe zu Schritt',cookieText:'Diese Website verwendet keine Tracking-Cookies. Wir speichern nur deine Einstellungen lokal auf deinem Gerat.',cookieLearnMore:'Datenschutzrichtlinie',cookieAccept:'Verstanden',inAppTitle:'Im Browser öffnen',inAppMsg:'Du verwendest den eingebetteten Browser einer App (Instagram, TikTok, usw.). Deine Daten werden nicht gespeichert und der PDF-Download funktioniert möglicherweise nicht. Kopiere den Link und öffne ihn in Safari oder Chrome.',inAppCopy:'Link kopieren',inAppCopied:'Link kopiert!',inAppDismiss:'Verstanden, trotzdem fortfahren',s10title:'Reihenfolge der Schritte',s10desc:'Ziehe oder verwende die Pfeile um die Schritte im PDF-Leitfaden neu zu ordnen. Deine Kunden folgen ihnen in der Reihenfolge die du hier festlegst.',kofiTitle:'Kauf mir einen Kaffee',kofiSub:'Wenn BounceGuide dir Zeit gespart hat,\ndenk an eine kleine Unterstützung',
   s1title:'Deine Daten und Marke',s1desc:'Erscheint oben im PDF das der Kunde erhalt.',s1name:'Name / Studio',s1namePh:'Hans Muller Mixing',s1email:'Email',s1emailPh:'hans@mixing.com',s1web:'Website (optional)',s1webPh:'https://mixing.com',s1phone:'Telefon / WhatsApp',s1phonePh:'+49 160 000 0000',s1logo:'Dein Logo (PNG, JPG)',s1logoHint:'Klicken zum Hochladen, erscheint im PDF-Header',s1color:'PDF-Akzentfarbe',s1colorHint:'Wird fur Abschnitts-Header verwendet',s1msg:'Begrussung',s1msgPh:'Danke dass du mir deine Musik anvertraust. Bitte lies das sorgfaltig bevor du etwas sendest.',s1contactNote:'Kontakthinweis am Ende des Dokuments',s1contactNotePh:'Unsicher? Schreib mir vor dem Senden.',
   s2title:'Art des Services',s2desc:'Bestimmt welche Anforderungen konfiguriert werden.',s2mix:'Mixing',s2mixDesc:'Der Kunde schickt dir Stems zum Mixen.',s2master:'Mastering',s2masterDesc:'Der Kunde schickt dir einen fertigen Stereo-Mix.',s2trackTypeLabel:'Was schickt der Kunde?',s2stems:'Vollstandige instrumentale Stems',s2stemsSub:'Separate Dateien pro Instrument.',s2typebeat:'Type Beat / einzelne Instrumentaldatei',s2typebeatSub:'Eine Datei fur den Beat, der Kunde exportiert nur die Vocals.',
   s3title:'Glossar',s3desc:'Optionales Glossar mit Begriffen in einfacher Sprache, im PDF enthalten fur nicht-technische Kunden.',s3toggleTitle:'Glossar im PDF einschliessen',s3toggleSub:'Empfohlen fur technisch unerfahrene Kunden',s3infoTitle:'Wie es funktioniert',s3infoText:'Wahle die Begriffe aus die du erklaren mochtest. Sie erscheinen am Anfang des PDFs.',s3addOther:'+ Benutzerdefinierten Begriff hinzufugen',
@@ -969,7 +1028,7 @@ T.de={
 
 // ── PORTUGUESE ───────────────────────────────────────────────
 T.pt={
-  heroTag:'Caro <strong>mix/master engineer</strong>',heroTitle:'Para de receber arquivos errados',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',previewBtn:'Visualizar PDF',generateBtn:'Baixar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',savedLabel:'Salvo',valTitle:'Antes de gerar o PDF',valSubtitle:'Encontramos algumas coisas que vale a pena verificar. Voce pode prosseguir mesmo assim ou voltar para completa-las.',valWarnFormat:'Nenhum formato de arquivo selecionado (etapa 4)',valWarnStems:'Nenhuma opcao de stem selecionada (etapa 5)',valWarnNaming:'Nenhuma regra de nomenclatura selecionada (etapa 6)',valWarnDelivery:'Nenhuma plataforma de entrega selecionada (etapa 7)',valOkAll:'Tudo parece estar bem!',valCancel:'Voltar',valProceed:'Gerar mesmo assim',valGoTo:'Ir para a etapa',cookieText:'Este site nao usa cookies de rastreamento. Salvamos apenas suas preferencias localmente no seu dispositivo.',cookieLearnMore:'Politica de privacidade',cookieAccept:'Entendido',inAppTitle:'Abrir no navegador',inAppMsg:'Você está usando o navegador interno de um app (Instagram, TikTok, etc.). Seus dados não serão salvos e o download do PDF pode não funcionar. Copie o link e abra no Safari ou Chrome.',inAppCopy:'Copiar link',inAppCopied:'Link copiado!',inAppDismiss:'Entendi, continuar mesmo assim',kofiTitle:'Me paga um café',kofiSub:'Se BounceGuide te economizou tempo,\nconsidereum pequeno apoio',
+  heroTag:'Caro <strong>mix/master engineer</strong>',heroTitle:'Para de receber arquivos errados',heroDesc:'Configure seus requisitos uma vez. BounceGuide gera um PDF profissional no seu idioma.',hf1:'6 idiomas',hf2:'Guias DAW passo a passo',hf3:'Salvamento automatico',hf4:'PDF quando quiser',progressLabel:'Progresso do guia',toneLabel:'Tom do PDF',toneFormal:'Formal',toneInformal:'Amigavel',previewBtn:'Visualizar PDF',generateBtn:'Baixar PDF',copyBtn:'Copiar para WhatsApp / Email',resetBtn:'Comecar novamente',savedLabel:'Salvo',valTitle:'Antes de gerar o PDF',valSubtitle:'Encontramos algumas coisas que vale a pena verificar. Voce pode prosseguir mesmo assim ou voltar para completa-las.',valWarnFormat:'Nenhum formato de arquivo selecionado (etapa 4)',valWarnStems:'Nenhuma opcao de stem selecionada (etapa 5)',valWarnNaming:'Nenhuma regra de nomenclatura selecionada (etapa 6)',valWarnDelivery:'Nenhuma plataforma de entrega selecionada (etapa 7)',valOkAll:'Tudo parece estar bem!',valCancel:'Voltar',valProceed:'Gerar mesmo assim',valGoTo:'Ir para a etapa',cookieText:'Este site nao usa cookies de rastreamento. Salvamos apenas suas preferencias localmente no seu dispositivo.',cookieLearnMore:'Politica de privacidade',cookieAccept:'Entendido',inAppTitle:'Abrir no navegador',inAppMsg:'Você está usando o navegador interno de um app (Instagram, TikTok, etc.). Seus dados não serão salvos e o download do PDF pode não funcionar. Copie o link e abra no Safari ou Chrome.',inAppCopy:'Copiar link',inAppCopied:'Link copiado!',inAppDismiss:'Entendi, continuar mesmo assim',s10title:'Ordem dos passos',s10desc:'Arraste ou use as setas para reordenar os passos no guia PDF. Seus clientes vao segui-los na ordem que voce definir aqui.',kofiTitle:'Me paga um café',kofiSub:'Se BounceGuide te economizou tempo,\nconsidereum pequeno apoio',
   s1title:'Seus dados e marca',s1desc:'Aparece no topo do PDF que o cliente recebe.',s1name:'Nome / Estudio',s1namePh:'Carlos Silva Mixagem',s1email:'Email',s1emailPh:'carlos@mixagem.com',s1web:'Site (opcional)',s1webPh:'https://mixagem.com',s1phone:'Telefone / WhatsApp',s1phonePh:'+55 11 90000 0000',s1logo:'Seu logo (PNG, JPG)',s1logoHint:'Clique para carregar, aparece no PDF',s1color:'Cor de destaque do PDF',s1colorHint:'Usada nos cabecalhos de secao',s1msg:'Mensagem de abertura',s1msgPh:'Obrigado por confiar sua musica a mim. Leia isso com atencao antes de enviar qualquer coisa.',s1contactNote:'Nota de contato no final do documento',s1contactNotePh:'Duvidas? Me escreva antes de enviar.',
   s2title:'Tipo de servico',s2desc:'Determina os requisitos a configurar.',s2mix:'Mixagem',s2mixDesc:'O cliente te envia stems para mixar.',s2master:'Mastering',s2masterDesc:'O cliente te envia um mix estereo pronto.',s2trackTypeLabel:'O que o cliente esta enviando?',s2stems:'Stems instrumentais completos',s2stemsSub:'Arquivos separados por instrumento.',s2typebeat:'Type beat / instrumental unico',s2typebeatSub:'Um unico arquivo para a base, o cliente so exporta os vocais.',
   s3title:'Glossario',s3desc:'Glossario opcional de termos em linguagem simples, incluido no PDF para clientes nao tecnicos.',s3toggleTitle:'Incluir glossario no PDF',s3toggleSub:'Recomendado para clientes sem conhecimento tecnico',s3infoTitle:'Como funciona',s3infoText:'Selecione os termos que quer explicar. Aparecerao no inicio do PDF.',s3addOther:'+ Adicionar termo personalizado',
@@ -1046,7 +1105,7 @@ const TOTAL=10;
 const completedSteps=new Set();
 
 const fd={
-  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,customChecklist:[],masteringType:'stemmaster',masterStems:[],masterStemNotes:[],masterExportNotes:[],masterRef:[],masterRefFull:[],masterTutorialEnabled:false,stepOrder:[1,2,3,4,5,6,7,8,9],
+  format:'',sr:'',bd:'',formatOther:'',wetPhilEnabled:false,customChecklist:[],masteringType:'stemmaster',masterStems:[],masterStemNotes:[],masterExportNotes:[],masterRef:[],masterRefFull:[],masterTutorialEnabled:false,stepOrder:[1,2,3,4,5,6,7,8,9],removedClItems:[],
   serviceType:'mix',trackType:'stems',
   glossaryEnabled:false,glossary:[],glossaryOthers:[],
   drums:[],bass:[],instr:[],vocals:[],premix:[],vocalsTB:[],premixTB:[],beatTB:[],
@@ -1357,8 +1416,6 @@ function updateMasteringSections(){
   // Step 8 DAW mastering note
   const dawMNote=document.getElementById('dawMasterNote');
   if(dawMNote)dawMNote.style.display=isFullMaster?'block':'none';
-  const tutSec=document.getElementById('masterTutorialSection');
-  if(tutSec)tutSec.style.display=isFullMaster?'block':'none';
   buildDAWGrid();
   buildStupidChecks();
   buildChecklist();
@@ -1644,7 +1701,8 @@ function buildChecklist(){
   const base=typeBase.length>0?typeBase:tArr('checklistBase');
   const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
   const fmtItem=fmtVal?`${t('pdf_format_label')}: ${fmtVal}${fd.sr?' - '+fd.sr:''}${fd.bd?' - '+fd.bd:''}`:null;
-  const baseItems=(fmtItem?[fmtItem,...base]:base).map(t=>({text:t,custom:false}));
+  const removed=fd.removedClItems||[];
+  const baseItems=(fmtItem?[fmtItem,...base]:base).filter(t=>!removed.includes(t)).map(t=>({text:t,custom:false}));
   // Merge: keep base items, append custom ones
   clItems=[...baseItems,...(fd.customChecklist||[]).map(t=>({text:t,custom:true}))];
   renderChecklist();
@@ -1765,13 +1823,6 @@ function onClTouchEnd(e){
   }
   _touchSrcIdx=null;
   _touchPlaceholder=null;
-}
-
-function toggleMasterTutorial(){
-  fd.masterTutorialEnabled=!fd.masterTutorialEnabled;
-  document.getElementById('masterTutorialToggle').classList.toggle('on',fd.masterTutorialEnabled);
-  document.getElementById('masterTutorialField').style.display=fd.masterTutorialEnabled?'block':'none';
-  autoSave();
 }
 
 function toggleTC(){
@@ -2138,6 +2189,12 @@ function buildPDFDoc(){
     y+=bh+6;
   }
 
+  // ── HOISTED SHARED VARS ──
+  const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
+  const svcKeyPDF=getServiceKey();
+
+  // ── SECTION RENDERERS (respect step order) ──
+  function pdfSecGlossary(){
   // ── GLOSSARY ──
   if(fd.glossaryEnabled&&(fd.glossary.length||fd.glossaryOthers.length)){
     secH(tl.pdf_glossary,[60,60,60]);
@@ -2157,9 +2214,10 @@ function buildPDFDoc(){
     });
   }
 
+  }
+  function pdfSecFormat(){
   // ── FORMAT ──
   secH(tl.pdf_sec_format);
-  const fmtVal=fd.format==='other'?(document.getElementById('formatOtherText')?.value||'Custom'):fd.format;
   if(fmtVal)infoBox(tl.pdf_format_label,fmtVal);
   if(fd.sr)infoBox(tl.pdf_sr_label,fd.sr);
   if(fd.bd)infoBox(tl.pdf_bd_label,fd.bd);
@@ -2176,6 +2234,8 @@ function buildPDFDoc(){
     }
   }
 
+  }
+  function pdfSecStems(){
   // ── STEMS / MASTERING SECTION ──
   if(isMastering){
     // ── STEM MASTERING ──
@@ -2297,6 +2357,8 @@ function buildPDFDoc(){
     });
   }
 
+  }
+  function pdfSecNaming(){
   // ── NAMING ──
   const namOpts=tArr('namingOptions');
   const selNam=fd.naming.filter(i=>!namOpts[i]?.isOther).map(i=>namOpts[i]).filter(Boolean);
@@ -2321,6 +2383,8 @@ function buildPDFDoc(){
     y+=2;
   }
 
+  }
+  function pdfSecDelivery(){
   // ── DELIVERY ──
   const delOpts=tArr('deliveryOptions');
   const selDel=fd.delivery.filter(i=>!delOpts[i]?.isOther).map(i=>delOpts[i]).filter(Boolean);
@@ -2351,6 +2415,8 @@ function buildPDFDoc(){
     if(sessOther)bullet(sessOther);y+=2;
   }
 
+  }
+  function pdfSecDAW(){
   // ── DAW GUIDES ──
   const selDAWs=DAWS.filter(d=>fd.daws.includes(d.id));
   selDAWs.forEach(daw=>{
@@ -2375,8 +2441,9 @@ function buildPDFDoc(){
     y+=3;
   });
 
+  }
+  function pdfSecChecklist(){
   // ── STUPIDITY CHECK ──
-  const svcKeyPDF=getServiceKey();
   const typeStupidItems=(STUPID_BY_TYPE[svcKeyPDF]||{})[lang]||(STUPID_BY_TYPE[svcKeyPDF]||{}).en||[];
   const stupidItems=typeStupidItems.length>0?typeStupidItems:tArr('stupidItems');
   const allStupid=[...fd.stupid.map(i=>stupidItems[i]).filter(Boolean),...fd.stupidOthers.filter(s=>s.label)];
@@ -2423,6 +2490,14 @@ function buildPDFDoc(){
   const refYT=document.getElementById('refYT')?.value||'';
   if(notes){secH(tl.pdf_sec_notes);bodyTxt(notes);y+=3;}
   if(refYT&&!isFullMaster){secH(tl.pdf_sec_yt);ck(11);doc.setFillColor(...DARK);doc.rect(M,y,CW,9,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(AR,AG,AB);doc.text(refYT,M+4,y+6);y+=13;}
+
+  }
+
+  // Render sections in the user-defined step order
+  // Map: 3=Stems, 4=Naming, 5=Format, 6=Delivery, 7=Glossary, 8=DAW, 9=Checklist
+  const pdfSectionMap={3:pdfSecStems,4:pdfSecNaming,5:pdfSecFormat,6:pdfSecDelivery,7:pdfSecGlossary,8:pdfSecDAW,9:pdfSecChecklist};
+  const order=(fd.stepOrder&&fd.stepOrder.length===9)?fd.stepOrder:[1,2,3,4,5,6,7,8,9];
+  order.filter(n=>n>=3).forEach(n=>{if(pdfSectionMap[n])pdfSectionMap[n]();});
 
   // ── CONTACT BOX ──
   const contactNote=document.getElementById('contactNote')?.value||'';
@@ -2659,6 +2734,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     .catch(()=>{});
 });
 </script>
+
+<!-- SEO CONTENT -->
+<section style="padding:40px 32px;border-top:0.5px solid var(--border);background:var(--bg)" aria-label="About BounceGuide">
+  <div style="max-width:760px;margin:0 auto">
+    <h2 style="font-size:16px;font-weight:800;color:var(--t1);margin-bottom:10px">The stem export guide generator for mix and mastering engineers</h2>
+    <p style="font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:14px">BounceGuide helps mix engineers and mastering engineers stop receiving wrong files from clients. Configure your file submission requirements once — file format (WAV, AIFF, sample rate, bit depth), stem export options, WET/DRY guidelines, file naming conventions and delivery platforms — and generate a professional PDF guide your clients can actually follow. The guide includes step-by-step stem export instructions for Ableton Live, Logic Pro, FL Studio, Pro Tools, Cubase, Studio One, REAPER, Bitwig Studio and GarageBand.</p>
+    <p style="font-size:12px;color:var(--t2);line-height:1.8">It supports full stem mixing, type beat plus vocals, stem mastering and standard mastering, each with dedicated instructions. Available in English, Italian, Spanish, French, German and Portuguese. Free, no signup, and the PDF is generated entirely in your browser — nothing is uploaded.</p>
+  </div>
+</section>
+
 <footer style="padding:20px 32px;border-top:0.5px solid var(--border);background:var(--bg)">
   <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
     <div style="font-size:12px;color:var(--t2)">BounceGuide &mdash; Free tool for mix engineers &mdash; Made by <a href="/about" style="color:var(--acc);font-weight:600;text-decoration:none;transition:color 0.15s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Brik in Canottiera</a></div>
