@@ -79,7 +79,6 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
 }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <header>
@@ -122,6 +121,7 @@ footer{padding:14px 32px;border-top:0.5px solid var(--border);text-align:center;
   <div id="formWrap">
     <div class="form-group">
       <label class="form-label" for="inp-feature"><span id="labelFeature"></span><span id="requiredLabel"></span></label>
+      <input type="text" name="website" id="hpWebsite" style="position:absolute;left:-9999px;opacity:0" tabindex="-1" autocomplete="off">
       <input type="text" id="inp-feature" maxlength="200">
     </div>
     <div class="form-group">
@@ -255,7 +255,7 @@ async function submitForm() {
     const res = await fetch('/api/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ feature, descrizione, email, lingua: lang.toUpperCase() })
+      body: JSON.stringify({ feature, descrizione, email, lingua, website: document.getElementById('hpWebsite')?.value || '': lang.toUpperCase() })
     });
 
     if (res.ok) {
