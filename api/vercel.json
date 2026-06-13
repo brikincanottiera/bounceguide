@@ -1,11 +1,3 @@
 {
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/data.json", "destination": "/api/getdata" },
-    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
-  ],
-  "functions": {
-    "api/save.js": { "memory": 256 },
-    "api/getdata.js": { "includeFiles": "data.json" }
-  }
+  "cleanUrls": true
 }
