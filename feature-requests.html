@@ -255,7 +255,7 @@ async function submitForm() {
     const res = await fetch('/api/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ feature, descrizione, email, lingua, website: document.getElementById('hpWebsite')?.value || '': lang.toUpperCase() })
+      body: JSON.stringify({ feature, descrizione, email, lingua: lang.toUpperCase(), website: document.getElementById('hpWebsite')?.value || '' })
     });
 
     if (res.ok) {
